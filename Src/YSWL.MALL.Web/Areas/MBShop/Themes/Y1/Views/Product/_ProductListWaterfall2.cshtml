@@ -1,0 +1,60 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model YSWL.MALL.ViewModel.Shop.ProductListModel
+  @if (Model != null && Model.ProductList.Count > 0)
+  {
+      for (int i = 0; i < Model.ProductList.Count; i++)
+      {
+        
+
+        <div class="list_box2">
+            <div class="home_prod">
+                <div class="list_thumb">
+                    <a href="@(ViewBag.BasePath)p/d/@Model.ProductList[i].ProductId" class="">
+                        <img class="" src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(Model.ProductList[i].ThumbnailUrl1, "T115X115_")">
+                    </a>
+                    @switch (Model.ProductList[i].ruleType)
+                    {
+                        case 0:
+                            <div class="prod_tip bg_red">
+                                打折
+                            </div>
+                            break;
+                        case 1:
+                            <div class="prod_tip bg_blue">
+                                减价
+                            </div>
+                            break;
+                        case 2:
+                            <div class="prod_tip bg_green">
+                                直降
+                            </div>
+                            break;
+                        default:
+                            break;
+                    }
+                </div>
+                <div class="list_descriptions">
+                    <div class="product_name">@Model.ProductList[i].ProductName</div>
+
+                    <span class="price_red">￥@Model.ProductList[i].LowestSalePrice.ToString("f")</span>
+                </div>
+                @{
+                    if (Model.ProductList[i].SalesType == 1 && Model.ProductList[i].SaleStatus == 1 && ViewBag.IsMultiDepot)
+                    {
+
+                        <div class="cart icon" onclick="dialogShow(@Model.ProductList[i], @Model.ProductList[i].SupplierId, '@Model.ProductList[i].ThumbnailUrl1',@Model.ProductList[i].SupplierId,@Model.ProductList[i].ProductId)">
+                            <span></span>
+                        </div>
+
+                    }
+                    else
+                    {
+                        <div class="cart icon" onclick="dialogShow(@Model.ProductList[i].ProductId, @Model.ProductList[i].SupplierId, '@Model.ProductList[i].ThumbnailUrl1')">
+                            <span></span>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+      }
+  }

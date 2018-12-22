@@ -1,0 +1,245 @@
+﻿@{
+    Layout = "~/Areas/MShop/Themes/YX/Views/Shared/_BaseLayout.cshtml";
+}
+@using YSWL.MALL.Model.Shop.Products
+@model YSWL.MALL.ViewModel.Shop.ProductModel
+<script type="text/javascript">    var Shop_BuyMode = '@YSWL.MALL.BLL.SysManage.ConfigSystem.GetValueByCache("Shop_BuyMode")';</script>
+<link type="text/css" rel="stylesheet" href="/Areas/MShop/Themes/YX/Content/css/item.css" />
+<link type="text/css" rel="stylesheet" href="/Areas/MShop/Themes/YX/Content/css/list.css" />
+<link href="/Scripts/PhotoSwipe/photoswipe.css" rel="stylesheet" type="text/css" />
+<link href="/Scripts/PhotoSwipe/styles.css" rel="stylesheet" type="text/css" />
+<script src="/Scripts/PhotoSwipe/klass.min.js" type="text/javascript"></script>
+<script src="/Scripts/jquery/maticsoft.img.min.js" type="text/javascript"></script>
+<script src="/Scripts/PhotoSwipe/photoswipe.jquery.min.js" type="text/javascript"></script>
+<link href="/Scripts/jqueryui/base/jquery-ui-1.9.2.min.css" rel="stylesheet" type="text/css" />
+<script src="/Scripts/jqueryui/jquery-ui-1.9.2.custom.js" type="text/javascript"></script>
+<script src="/Areas/MShop/Themes/YX/Content/Scripts/productdetail.js" type="text/javascript"></script>
+<script src="/Areas/MShop/Themes/YX/Content/Scripts/SKU.js" type="text/javascript"></script>
+<script src="/Scripts/jquery.cookie.js" type="text/javascript"></script>
+<script type="text/javascript">
+pagename = "product_detail";
+       $(function () {
+           GetPvCount(@Model.ProductInfo.ProductId);
+           if ("@ViewBag.Spread"== "True") {
+               $(".guid-share").show();
+           }
+           $(".guid-share").click(function() {
+               $(this).hide();
+           })
+	 
+	  if(@Model.ProductInfo.SalesType==3){
+          $('#btnAddToCart').attr('disabled', 'disabled').addClass('addCart-gray').text('赠品不出售!').attr('itemid','');
+          $('#iteminfo #divBuyInfo').hide();
+          $('#iteminfo #divSelectInfo').empty();
+        }
+        if (@Model.ProductInfo.SaleStatus !== 1) {
+          $('#btnAddToCart').attr('disabled', 'disabled').addClass('addCart-gray').text('非常抱歉, 此商品已下架!').attr('itemid','');
+          $('#iteminfo #divBuyInfo').hide();
+          $('#iteminfo #divSelectInfo').empty();
+        }
+       });
+    var GetPvCount = function (pid) {
+        $.ajax({
+            url: "@(ViewBag.BasePath)Product/GetPvCount",
+            type: 'post',
+            dataType: 'json',
+            timeout: 10000,
+            data: {
+                pid: pid
+            },
+            success: function (jsondata) {
+                if (jsondata.STATUS == "SUCCESS") {
+                    //jsondata.DATA; 将访问数展示到页面上  预留 
+                }
+            },
+            error: function (messsage) {
+                alert(messsage);
+            }
+        });
+
+    };
+    (function (window, Util, PhotoSwipe) {
+        Util.Events.domReady(function (e) {
+            var instance, indicators;
+            instance = $(".Touch_mer_smallImg").photoSwipe(
+                {
+                    target: window.document.querySelectorAll('#slideimg')[0],
+                    preventHide: true,
+                    autoStartSlideshow: true,
+                    captionAndToolbarHide: true,
+                    fadeInSpeed: 1000,
+                    faseOutSpeed: 1000,
+                    getImageSource: function (obj) {
+                        return $(obj).attr("src");
+                    },
+                    getImageCaption: function (obj) {
+                        return $(obj).attr("alt");
+                    },
+                    getImageMetaData: function (obj) {
+                        return {
+                            longDescription: obj.getAttribute(obj, 'alt')
+                        };
+                    }
+                }
+            );
+            indicators = window.document.querySelectorAll('.mod_index li');
+
+            // onDisplayImage - set the current indicator
+            instance.addEventHandler(PhotoSwipe.EventTypes.onDisplayImage, function (e) {
+                var i, len;
+                for (i = 0, len = indicators.length; i < len; i++) {
+                    indicators[i].setAttribute('class', '');
+                }
+                indicators[e.index].setAttribute('class', 'current');
+                var src = $("#PhotoSwipeTarget").find(".ps-carousel").find(".ps-carousel-content").find("img").attr("src");
+            });
+            instance.show(0);
+        });
+    } (window, window.Code.Util, window.Code.PhotoSwipe));
+</script>
+<div class="guid-share" style="display: none">
+    <img style="width: 100%; padding-top: 10px"  src="/Areas/MShop/Themes/YX/Content/images/guidShare.png" alt="@Model.ProductInfo.ProductName" />
+</div>
+<div id="J_detailWrapper" class="J_pageBox">
+    <div class="J_detailIndexWrapper">
+        <!--商品详情页-->
+        @if (null != Model)
+        {
+ <input id="hdProductId" type="hidden"  value="@Model.ProductInfo.ProductId"/>
+    <input id="hdsuppId"   type="hidden" value="@Model.ProductInfo.SupplierId"/>
+
+            <div class="page_item" style="">
+                <!--顶部导航-->
+                <header class="y_hd" style="">
+                    <a href="javascript:;" onclick="history.go(-1);" class="y_hd_back J_ytag" ytag="10000"
+                        data-type="1"></a><a href="javascript:;" class="jump_next jump_prev"></a><span id="J_header_title"
+                            style="font-weight: bold">商品详情</span> <a href="@(ViewBag.BasePath)sc/ci" class="y_hdb J_ytag" data-type="1" id="J_minicart" style="">
+                            </a>
+                </header>
+                <!--/顶部导航-->
+                <!--商品图切换-->
+                <div class="goods_img" id="J_goods_img" style="margin-top: 45px;">
+                    <div class="mod_img" id="slideimg">
+                        @if (Model != null && Model.ProductImages != null)
+                        {
+                            for (var i = 0; i < Model.ProductImages.Count; i++)
+                            {
+                            <li><a class="J_goodspic J_ytag">
+                                <img src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(Model.ProductImages[i].ThumbnailUrl1, "T158X158_")"
+                                             width="190" height="190" alt="@Model.ProductInfo.ProductName" class="Touch_mer_smallImg active"
+                                             style="display: none;">
+                            </a></li>
+                            }
+                        }
+                    </div>
+                    <ul class="mod_index">
+                        @if (null != Model.ProductImages)
+                        {
+                            for (int i = 0; i < Model.ProductImages.Count; i++)
+                            {
+                            <li></li>
+                            }
+                        }
+                    </ul>
+                </div>
+                <!--/商品图切换-->
+                <!--商品配置-->
+                <div class="goods_info">
+                    <!-- 商品名 -->
+                    <div id="goods_name" class="goods_name">
+                        @Model.ProductInfo.ProductName</div>
+                    <!-- /商品名 -->
+                    <!-- 描述 -->
+                    <div id="goods_desc" class="goods_desc">
+                        @Model.ProductInfo.ShortDescription</div>
+                    <!-- /描述 -->
+                    <!--价格-->
+                    @Html.Action("StoreLayer", "Partial", new { suppId = Model.ProductInfo.SupplierId })
+                    <div class="goods_price" id="J_goods_price_area">
+                        <div class="price_now">
+                            <p class="price_wrap">
+                                <span class="rmb">¥</span><span class="price" id="stylePrice">@Model.ProductSkus[0].SalePrice.ToString("F")</span>
+                            </p>
+
+                        </div>
+                                
+                            @if (Model.ProductSkus[0].RankPrice > 0)
+                            {
+                                <div class="price_now" style="">
+                                    <p class="price_wrap">
+                                        会员价：<span class="rmb">¥</span><span class="price" id="rankPrice">@Model.ProductSkus[0].RankPrice.ToString("F")</span>
+                                    </p>
+                                        </div>
+                            }
+ 
+                        <div class="price_promo" style="">
+                            <p class="price_wrap">
+                                <span class="title" id="J_promo_name">市场价</span><span class="rmb">¥</span><span class="price"
+                                    id="J_promo_price" style="text-decoration: line-through;">@(Model.ProductInfo.MarketPrice.HasValue ? Model.ProductInfo.MarketPrice.Value.ToString("F") : "")</span></p>
+                        </div>
+
+                           @if (Model.ProductInfo.SaleStatus == 1 && Model.ProductInfo.SalesType == 1 && ViewBag.IsMultiDepot)
+               {
+                   //已开启了分仓
+                    
+                   @Html.Partial("/Areas/MShop/Themes/YX/Views/Partial/_RegoinLayer.cshtml")
+               }
+                    </div>
+
+                     
+                    <!--/价格-->
+                    @*SKU*@
+                    <div id="SKUOptions">
+                        @Html.Action("OptionSKU", "Product", new { ProductId = Model.ProductInfo.ProductId, SuppId = Model.ProductInfo.SupplierId, viewName = "_OptionSKU" })
+                    </div>
+                    @*SKU*@
+                    <!-- 数量 -->
+                    <div class="goods_item goods_quantity" id="J_goods_quantity">
+                        <p class="title">
+                            数量</p>
+                        <div class="quantity" style="width: 130px;display: inline;">
+                            <div class="act_wrap">
+                                <a href="javascript:;" ytag="90101" class="add y_hover J_ytag btn_disabled" data-type="2"
+                                    id="J_goods_quantity_sub"></a>
+                                <input class="num" placeholder="0" id="productCount" readonly="" value="1">
+                                <a href="javascript:;" ytag="90102" class="add reduce y_hover J_ytag" data-type="2"
+                                    id="J_goods_quantity_add"></a>
+                            </div>
+                            <div class="result_list" id="J_result_list">
+                                <p class="result_single">
+                                </p>
+                            </div>
+                        </div>
+ <div   id="div_stock" style="display:none;line-height: 35px;">（库存<span id="stock_num"></span>件）</div>
+                    </div>
+                    <div class="goods_item goods_quantity" id="J_wxsg_goods_quantity" style="font-size: 0px;
+                        height: 1px; overflow: hidden; width: 100%; clear: both; margin: 0">
+                    </div>
+                    <!-- /数量 -->
+                </div>
+                <!--/商品配置-->
+                <!--商品购买-->
+                <div class="goods_buy" id="J_touchBuyBtnsArea">
+                    <p class="buy">
+                        <a href="javascript:;" class="btn_buy y_hover J_ytag" id="btnAddToCart" DefaultText='@(YSWL.MALL.BLL.SysManage.ConfigSystem.GetValueByCache("Shop_BuyMode") == "BuyNow" ? "立刻购买" : "放入购物车")'  itemid=""  productid="@Model.ProductInfo.ProductId">
+                            @(YSWL.MALL.BLL.SysManage.ConfigSystem.GetValueByCache("Shop_BuyMode") == "BuyNow" ? "立刻购买" : "放入购物车")</a>
+                        <a href="javascript:;" class="btn_fav y_hover J_ytag" data-type="1" ytag="12004" id="btnProductFav" productId="@Model.ProductInfo.ProductId">
+                        </a>
+                    </p>
+                </div>
+                @Html.Action("ActivityList", "Partial", new { pId = Model.ProductInfo.ProductId, suppId = Model.ProductInfo.SupplierId })
+                @Html.Action("WholeSale", new { pId = Model.ProductInfo.ProductId, suppId = Model.ProductInfo.SupplierId })
+                <!--商品资料-->
+                <div class="goods_data">
+                    <a href="@(ViewBag.BasePath)product/productdesc/@Model.ProductInfo.ProductId" id="J_product_detail" class="J_ytag" 
+                       ytag="12007"><span class="num">建议wifi下使用</span>图文详情</a>
+                </div>
+                <!--/商品资料-->
+                <!--相关商品-->
+                @Html.Action("ProductRelation", "Product", new { id = Model.ProductInfo.ProductId, Top = 3, viewName = "_ProductRelation" })
+                <!--/相关商品-->
+            </div>
+        }
+        <!--/商品详情页-->
+    </div>
+</div>

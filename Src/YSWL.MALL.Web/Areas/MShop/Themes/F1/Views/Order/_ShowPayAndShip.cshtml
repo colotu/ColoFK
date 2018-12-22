@@ -1,0 +1,35 @@
+﻿@model YSWL.MALL.ViewModel.Shop.PayAndShip
+<a name="payAndShipFocus" rel="external"   href="@(ViewBag.BasePath)Order/PayAndShipInfo?payId=@Model.CurrentPaymentMode.ModeId&shipId=@Model.CurrentShippingType.ModeId">
+ 
+ <table style="padding: 0; margin: 0; width: 100%;" class="step-content">
+        <tbody id="payment-ship">
+            <tr>
+                <td>  
+                    <input type="hidden" id="PaymentModeId" value="@Model.CurrentPaymentMode.ModeId" />
+                    <label  class="ui-input-text">  @if (Model.CurrentPaymentMode != null)
+                      {
+                           @Model.CurrentPaymentMode.Name 
+                      }</label>
+                     
+                </td> 
+            </tr>
+             <tr>
+                <td>  
+                        <input type="hidden" id="ShippingTypeId" value="@Model.CurrentShippingType.ModeId" />
+                    <label  class="ui-input-text">   @if (Model.CurrentShippingType != null)
+                     {
+                         @Model.CurrentShippingType.Name  
+                     } </label>
+                     
+                </td> 
+            </tr>
+        </tbody></table> 
+</a>
+<script type="text/javascript">
+    $(function () {
+       $('#freightPriceId').attr('freightPrice','@(ViewBag.Freight.ToString("F"))').text('￥@(ViewBag.Freight.ToString("F"))');
+              var totalprice = (parseFloat($('#payPriceId').attr('BasePrice')) + @(ViewBag.Freight)).toFixed(2);
+              $('#payPriceId').text('￥' + totalprice);
+             // GetActivList(parseFloat($("#couponPriceId").attr('couponPrice'))); //优惠券优惠金额
+    });
+</script>

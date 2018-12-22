@@ -1,0 +1,23 @@
+﻿<div class="search-innerbox clearfix">
+    <input type="text" class="search-txt" placeholder="请输入关键字" value=""  id="search_key">
+    <input type="submit" class="search-btn" value="搜新闻" id="NavBtnSearch">
+</div>
+<script type="text/javascript">
+    $('#search_key').val($.getUrlParam('ky'));
+    $(function () {
+        $('#search_key').keyup(function (event) {
+            if (event.keyCode == '13') {
+                event.preventDefault();
+                $('#NavBtnSearch').click();
+            }
+        });
+        $("#NavBtnSearch").click(function () {
+            var keyword = $("#search_key").val();
+            //if (keyword == "") {
+            //    ShowFailTip('请输入关键字！');
+            //    return;
+            //}
+            location.href = $YSWL.BasePath + "Article/List?cid=" + $('#hidCid').val() +'&ky='+ keyword;
+        }); 
+    });
+</script>

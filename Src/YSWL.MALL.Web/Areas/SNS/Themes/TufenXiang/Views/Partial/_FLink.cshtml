@@ -1,0 +1,17 @@
+﻿@model List<YSWL.MALL.Model.Settings.FriendlyLink>
+           <div  style="padding-top: 18px">
+    <h3 style="padding-bottom: 8px" >
+        友情链接</h3>
+    <ul>
+    <li>
+        @if (Model != null)
+        {
+            foreach (var item in Model)
+            {
+                 <a href="@item.LinkUrl" target="_blank" style="color:  #666">@item.Name</a> 
+            }
+        }
+    </li>
+        </ul>
+</div>
+

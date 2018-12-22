@@ -1,0 +1,104 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model PagedList<YSWL.MALL.Model.Shop.PromoteSales.GroupBuy>
+<script type="text/javascript">
+    $(function () {
+        $(".txtenddate").each(function () {
+            var endDate = $(this).attr("endDate");
+            var productId = $(this).attr("Product");
+            var myclass = new CountDown();
+            myclass.init({
+                id: 'txtenddate_' + productId,
+                //天数
+                day_Dom: $("#dayEnd_" + productId),
+                //小时 
+                hour_Dom: $("#hourEnd_" + productId),
+                //分钟
+                min_Dom: $("#minEnd_" + productId),
+                //秒
+                sec_Dom: $("#secEnd_" + productId),
+                endTime: endDate
+            });
+        })
+    })
+    </script>
+
+	
+              @if (Model != null && Model.Count > 0)
+              {
+                <ul class="sub_glist clearfix">
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
+                    <li @if ((i + 1) % 4 == 0) { @: class="lingshi"
+                                                                              }>
+
+                        <span class="li">
+                            <a href="@(ViewBag.BasePath)Product/GroupBuyDetail/@Model[i].GroupBuyId" class="aidse">
+                                <img src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(Model[i].GroupBuyImage, "T350X350_")" />
+                            </a>
+                            <a href="@(ViewBag.BasePath)Product/GroupBuyDetail/@Model[i].GroupBuyId" title="@Model[i].ProductName" class="ades">
+                                @Model[i].ProductName
+                                <b></b>
+                            </a>
+                            <span class="aprices">
+                                <a href="javascript:;">
+                                    已有@(Model[i].BuyCount)人团购
+                                </a>
+                                <i class="aprice">¥@(Model[i].Price.ToString("F"))</i>
+                            </span>
+                            <p class="item-brand txtenddate" endDate="@((Model[i].EndDate.ToUniversalTime() - Convert.ToDateTime("1970-01-01")).TotalMilliseconds.ToString("0"))" Product="@Model[i].ProductId" id="txtenddate_@(Model[i].ProductId)">
+                                剩余：<span id="dayEnd_@(Model[i].ProductId)">0</span>天<span id="hourEnd_@(Model[i].ProductId)">0</span>时
+                                <span id="minEnd_@(Model[i].ProductId)">0</span>分 <span id="secEnd_@(Model[i].ProductId)">0</span>秒
+                            </p>
+                            <span class="lcar clearfix item-addcart" style="display:none;">
+                                <i class="lja Reduction"></i>
+                                <input type="text" class="stxt Quantity" />
+                                <i class="lji Addition"></i>
+                                <a href="javascript:;" class="lcars AddCart" productId="@(Model[i].ProductId)">加入购物车</a>
+                            </span>
+                        </span>
+                    </li>
+                    }
+
+                </ul>
+                @Ajax.Pager(Model, new PagerOptions
+            {
+                ShowDisabledPagerItems = false,
+                AlwaysShowFirstLastPageNumber = true,
+                PageIndexParameterName = "pageIndex",
+                NumericPagerItemCount = 10,
+                CurrentPagerItemTemplate = "<a class=\"shoye\">{0}</a>",
+                CssClass = "page",
+                FirstPageText = "首页",
+                PrevPageText = "上一页",
+                NextPageText = "下一页",
+                LastPageText = "尾页"
+            }).AjaxOptions(a => a.SetUpdateTargetId("ProductListDiv"))
+              }
+              else
+              {
+                    <div style="text-align:center;height: 80px;padding-top: 60px">
+                        <i class="no_propt" style="font-size: 15px;">未搜索到相符合的商品</i>
+                    </div>
+                    }
+
+
+      
+  
+ 
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        

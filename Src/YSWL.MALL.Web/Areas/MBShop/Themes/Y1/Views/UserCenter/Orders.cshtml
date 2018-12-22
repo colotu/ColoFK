@@ -1,0 +1,153 @@
+﻿@{
+    Layout = "/Areas/MBShop/Themes/Y1/Views/Shared/_BaseLayout.cshtml";
+    ViewBag.Title = "我的订单";
+    ViewBag.Keywords = "我的订单";
+    ViewBag.Description = "我的订单";
+}
+<script type="text/javascript" src="/Scripts/jquery.unobtrusive-ajax-1.9.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        orderState(@ViewBag.OrderState);
+
+       
+        $(document).on("click", ".btnPayOrder", function () {
+            var id = $(this).attr("itemid");
+            if (id) {
+                window.location = '/pay/certification' + id + '/' + $YSWL.CurrentArea;
+            }
+        });
+      
+        $(document).on("click", ".btnOrderCancel", function(){
+            var _self = $(this);
+            var orderId = _self.attr("itemid");
+            var r = confirm("您确认取消订单吗？");
+            if (r == true) {
+                $.ajax({
+                    type: "POST",
+                    dataType: "text",
+                    timeout: 0,
+                    url: $YSWL.BasePath+"UserCenter/CancelOrder",
+                    data: { OrderId: orderId },
+                    success: function (data) {
+                        if (data == "True") {
+                            _self.parent().prev().find('strong').text("取消订单");
+                            _self.parent().find('.btnPayOrder').remove();
+                            _self.remove();
+                        } else {
+                            AlertWarning("取消失败，请您刷新一下再试！");
+                        }
+                    }
+                });
+            }
+        });
+         
+        $(document).on("click", ".btnOrderComplete", function () {
+            var _self = $(this);
+            var orderId = _self.attr("itemid");
+            if (confirm("您确认完成订单吗？")) {
+                $.ajax({
+                    type: "POST",
+                    dataType: "text",
+                    timeout: 0,
+                    url: "@(ViewBag.BasePath)UserCenter/CompleteOrder",
+                    data: { OrderId: orderId },
+                    success: function (data) {
+                        if (data == "True") {
+                            _self.parent().prev().find('strong').text("已完成");
+                            _self.remove();
+                        } else {
+                            AlertWarning("操作失败，请您刷新一下再试！");
+                        }
+                    }
+                });
+            }
+        });
+        
+ 
+    })
+    $(document).ready(function () {
+        $('head').append('<style>body{padding:0;margin:0;}.msg {color: #FFF;width: 100%;height: 3rem;text-align: center;font-size: 1.2rem;line-height: 3rem;position: fixed;top: -3rem;z-index: 99999;} .msg_success {background-color: #1fcc6c;} .msg_warning {background-color: #e94b35;} .msg_primary {background-color: #337ab7;} .msg_info {background-color: #5bc0de;}</style>');
+        $('body').prepend('<div class="msg msg_success"></div><div class="msg msg_warning"></div><div class="msg msg_info"></div><div class="msg msg_primary"></div>');
+    });
+   
+    //再次购买
+    function buy_again(orderid) {
+        if (!orderid) {
+            AlertWarning("订单有误，请稍候再试！");
+            return;
+        }
+        //加入购物车
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            async: false,
+            url: $YSWL.BasePath + "ShoppingCart/OrderAddCart?s=" + new Date().format('yyyyMMddhhmmssS'),
+            data: { orderId: orderid },
+            success: function (resultData) {
+                switch (resultData.STATUS) {
+                    case "SUCCESS":
+                        //跳转到购物车页面
+                        location.href = $YSWL.BasePath + "sc/ci";
+                        return;
+                    case "FAILED":
+                        switch (resultData.DATA) {
+                            case "OrderNO":
+                                AlertWarning("该订单不存在，请稍候再试！");
+                                return;
+                            case "NOTCANBUY":
+                                //AlertWarning("没有可以购买的商品！");
+                                AlertWarning("库存不足，暂无可以购买的商品！");
+                                return;
+                            default:
+                                AlertWarning("服务器繁忙，请稍候再试！");
+                                return;
+                        }
+                    default:
+                        AlertWarning("服务器繁忙，请稍候再试！");
+                        return;
+                }
+            }
+        });
+    }
+</script>
+<div class="top"> 
+    <div class="">
+        <div class="m_header_bar">
+            <div class="m_icon_goback icon" onclick="javascript:history.go(-1);">
+                <span></span>
+            </div>
+            <p class="m_header_title">我的订单</p>
+        </div>
+    </div>
+</div>
+
+<div class="order_cont">
+    <!-- Nav tabs -->
+    <ul class="order_tab" role="tablist">
+        <li role="presentation" class="tab_active">
+            <a href="javascript:void(0)" id="1" aria-controls="waitpay" role="tab" data-toggle="tab" class="color_grey" onclick="orderState(1);" >待付款</a>
+        </li>
+        <li role="presentation">
+            <a href="javascript:void(0)" id="2" aria-controls="waitsend" role="tab" data-toggle="tab" class="color_grey" onclick="orderState(2);">待发货</a>
+        </li>
+        <li role="presentation">
+            <a href="javascript:void(0)" id="3" aria-controls="waitconfirm" role="tab" data-toggle="tab" class="color_grey" onclick="orderState(3);">待收货</a>
+        </li>
+        <li role="presentation">
+            <a href="javascript:void(0)" id="4" aria-controls="completed" role="tab" data-toggle="tab" class="color_grey" onclick="orderState(4);">全部订单</a>
+        </li>
+    </ul>
+    <!-- Tab panes -->
+    <div id="LoadOrderList" style="margin-bottom: 65px;">
+
+    </div>
+</div>
+<input type="hidden" value="s_order" id="hidPage" />
+<script>
+    function orderState(state) {
+        $("#LoadOrderList").load($YSWL.BasePath + "UserCenter/OrderList/_OrderList/?state=" + state);
+        $(".tab_active").removeClass("tab_active");
+        $("#" + state).addClass("tab_active");
+
+    }
+</script>

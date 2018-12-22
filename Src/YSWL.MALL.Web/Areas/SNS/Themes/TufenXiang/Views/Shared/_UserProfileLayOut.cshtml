@@ -1,0 +1,27 @@
+﻿@{
+    Layout = "~/Areas/SNS/Themes/TufenXiang/Views/Shared/_SiteLayout.cshtml";
+}
+@section head{
+    @RenderSection("head", false)
+}
+<div class="header" id="headers">
+@*@Html.Partial("~/Areas/SNS/Themes/TufenXiang/Views/Partial/_Header.cshtml")*@
+@Html.Action("Header", "Partial")
+</div>
+@Html.Action("Navigation", "Partial", new { navType = YSWL.MALL.Model.SNS.EnumHelper.NavigationType.TufenXiang })@*导航*@
+
+@Html.Action("UserInfo", "Partial") 
+<div class="main">
+<div class="clear">
+</div>
+<div class="user_cont" >
+    <div class="user_cont_con" style="padding:5px 10px 20px 10px;">
+        @RenderBody()
+        <div class="clear">
+        </div>
+    </div>
+    <div class="clear">
+    </div>
+</div>
+@Html.Action("Footer", "Partial")
+</div>

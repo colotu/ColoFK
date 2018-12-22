@@ -1,0 +1,15 @@
+﻿@model List<YSWL.MALL.Model.Shop.Products.AttributeInfo>
+@if (Model == null) { return; }
+@foreach (YSWL.MALL.Model.Shop.Products.AttributeInfo item in Model)
+{
+    if (item.AttributeValues != null && item.AttributeValues.Count > 0)
+    {
+        {
+            string xx = string.Join(" ", item.ValueStr);
+    <p>
+        <span class="fontdark" title="@xx">@item.AttributeName：</span>@YSWL.Common.StringPlus.SubString(xx, 20, "..")</p>
+                       
+     
+        }
+    }
+}

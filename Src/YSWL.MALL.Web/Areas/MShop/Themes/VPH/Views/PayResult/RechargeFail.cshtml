@@ -1,0 +1,42 @@
+﻿@{
+    Layout = "/Areas/MShop/Themes/VPH/Views/Shared/_BaseLayout.cshtml";
+}
+<link href="/Areas/MShop/Themes/VPH/Content/Css/shopc2.css" rel="stylesheet" type="text/css" />
+<header id="header" class="header clearfix">
+	    <div class="head_left fl"><a href="@(ViewBag.BasePath)"><span class="h_back"></span></a></div>
+	     <span class="headtit">支付失败</span>
+	    <div class="head_right fr"><a href="@(ViewBag.BasePath)"><span class="h_home"></span></a></div>
+	</header>
+<div class="w main">
+    <div class="m m3" id="qpay">
+        <div class="mc">
+            <s class="icon-wrong02"></s>
+            <div class="fore">
+                <h3 class="ftx-01">
+                    您的充值存在风险，请查看充值状态或稍后重试。</h3>
+                <ul class="list-h">
+                    <li class="fore2">充值号：@(ViewBag.RechargeId)</li>
+                </ul>
+                <p id="p_show_info" style="margin-bottom: 30px; display: none;">
+                    <strong>点击下面按钮可重新支付</strong></p>
+                <input type="button" border="none" name="" class="btn-conti" style="display: none;" value="继续支付">
+            </div>
+        </div>
+    </div>
+</div>
+<input type="hidden" value="@ViewBag.RechargeId" id="RechargeId"/>
+<input type="hidden" value="@ViewBag.PayStatus" id="Status"/>
+<script type="text/javascript">
+    (function () {
+        var id = $('#RechargeId').val();
+        var url;
+        if (id) {
+            url = '/pay/account' + id;
+        } else {
+            url = $YSWL.BasePath + 'UserCenter/Balance';
+        }
+        $('.btn-conti').unbind('click').bind('click', function () {
+            window.location.replace(url);
+        });
+    })();
+</script>

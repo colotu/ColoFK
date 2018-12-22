@@ -1,0 +1,43 @@
+﻿@{
+    Layout = "/Areas/MShop/Themes/VPH/Views/Shared/_ShopBaseLayout.cshtml";
+    ViewBag.Title = "电子商务解决方案-店铺介绍";
+}
+@model YSWL.MALL.Model.Shop.Supplier.SupplierInfo
+@section head{
+ <link href="/Areas/MShop/Themes/VPH/Content/Css/style-20131107.css" rel="stylesheet" type="text/css" />
+ <link href="/Areas/MShop/Themes/VPH/Content/Css/searchlist.css" rel="stylesheet" type="text/css" /> 
+}
+ 
+        <div class="top">
+    <span><a href="javascript:;" onclick="history.go(-1);">&lt;返回</a></span>
+   <div class="header-btn fr"> <a href="@(ViewBag.BasePath)u" style="margin:8px 8px 8px 0;padding-top:5px;height:25px">
+                                           <img width="22" height="21" src="/Areas/MShop/Themes/VPH/Content/Images/avatar.png">
+                                       </a>
+               <a href="@(ViewBag.BasePath)sc/ci" style="margin:8px 8px 8px 0;padding-top:5px;height:25px">
+                   <img src="/Areas/MShop/Themes/VPH/Content/Images/cart.png" width="22" height="21" > 
+               </a>
+          </div>
+  
+</div>
+         @if (Model != null)
+         {
+              
+              <dl class="connerbox">
+    <div style="padding: 10px;font-size: 14px;">
+             @Html.Raw(Model.Introduction)
+        </div>
+    </dl>
+ 
+         }
+        
+    <div class="ding"  id="divding"><a href="javascript:;">回顶部</a></div>
+ 
+ 
+<script>
+    $(function () {
+        $("#divding").click(function (e) {
+            //以1秒的间隔返回顶部
+            $('body,html').animate({ scrollTop: 0 }, 1000);
+        });
+    });
+</script>

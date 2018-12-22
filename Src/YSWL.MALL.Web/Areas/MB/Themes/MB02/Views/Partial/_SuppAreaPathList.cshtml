@@ -1,0 +1,9 @@
+﻿@model List<YSWL.MALL.Model.Shop.Supplier.SuppAreas>
+    <a href="javascript:;" class="navigation"  AreaId="0">全部</a>
+    @if (Model != null && Model.Count > 0)
+    {
+        foreach (var item in Model)
+        {
+          <a href="javascript:;" class="navigation" AreaId="@item.AreaId">@item.Name</a>
+        }
+    }

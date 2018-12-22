@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{48665C3A-4AC6-42D5-8FA3-7E43CCEFB0E7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>YSWL.YonyouU8</RootNamespace>
+    <AssemblyName>YSWL.YonyouU8</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Api.cs" />
+    <Compile Include="Exception\ApiException.cs" />
+    <Compile Include="Http\HttpClient.cs" />
+    <Compile Include="Http\Response.cs" />
+    <Compile Include="Http\WebUtils.cs" />
+    <Compile Include="Model\ApiDictionary.cs" />
+    <Compile Include="Model\ApiList.cs" />
+    <Compile Include="Model\ApiResponse.cs" />
+    <Compile Include="Model\BusinessObject.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\AcceptApi.cs" />
+    <Compile Include="Service\AccountApi.cs" />
+    <Compile Include="Service\AttendanceApi.cs" />
+    <Compile Include="Service\BasicApi.cs" />
+    <Compile Include="Service\BillApi.cs" />
+    <Compile Include="Service\BusinesstravelorderApi.cs" />
+    <Compile Include="Service\CodeApi.cs" />
+    <Compile Include="Service\ConsignmentApi.cs" />
+    <Compile Include="Service\CurrentstockApi.cs" />
+    <Compile Include="Service\CustomerApi.cs" />
+    <Compile Include="Service\CustomerclassApi.cs" />
+    <Compile Include="Service\DepartmentApi.cs" />
+    <Compile Include="Service\DigestApi.cs" />
+    <Compile Include="Service\DsignApi.cs" />
+    <Compile Include="Service\FitemApi.cs" />
+    <Compile Include="Service\FreearchApi.cs" />
+    <Compile Include="Service\InventoryApi.cs" />
+    <Compile Include="Service\InventoryclassApi.cs" />
+    <Compile Include="Service\OtheroutApi.cs" />
+    <Compile Include="Service\OughtreceiveApi.cs" />
+    <Compile Include="Service\PayunitApi.cs" />
+    <Compile Include="Service\PayunitclassApi.cs" />
+    <Compile Include="Service\PersonApi.cs" />
+    <Compile Include="Service\ProductprofitabilityApi.cs" />
+    <Compile Include="Service\PurchaseorderApi.cs" />
+    <Compile Include="Service\SalaryApi.cs" />
+    <Compile Include="Service\SalaryitemApi.cs" />
+    <Compile Include="Service\SaleorderApi.cs" />
+    <Compile Include="Service\UnitApi.cs" />
+    <Compile Include="Service\UserApi.cs" />
+    <Compile Include="Service\VendorApi.cs" />
+    <Compile Include="Service\VendorclassApi.cs" />
+    <Compile Include="Service\VoucherApi.cs" />
+    <Compile Include="Token.cs" />
+    <Compile Include="Trade.cs" />
+    <Compile Include="Util\Config.cs" />
+    <Compile Include="Util\ConfigPath.cs" />
+    <Compile Include="Util\Log.cs" />
+    <Compile Include="Util\TokenManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Config\Globals.xml" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /Y $(TargetPath) $(SolutionDir)Lib
+copy /Y $(TargetPath) $(SolutionDir)..\</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

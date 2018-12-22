@@ -1,0 +1,296 @@
+﻿@{
+    Layout = "/Areas/MShop/Themes/YX/Views/Shared/_BaseLayout.cshtml";
+}
+@using YSWL.MALL.Model.Shop.Products
+@model YSWL.MALL.ViewModel.Shop.ProductModel
+<link type="text/css" rel="stylesheet" href="/Areas/MShop/Themes/YX/Content/css/item.css" />
+<link type="text/css" rel="stylesheet" href="/Areas/MShop/Themes/YX/Content/css/list.css" />
+<link href="/Scripts/PhotoSwipe/photoswipe.css" rel="stylesheet" type="text/css" />
+<link href="/Scripts/PhotoSwipe/styles.css" rel="stylesheet" type="text/css" />
+<script src="/Scripts/PhotoSwipe/klass.min.js" type="text/javascript"></script>
+<script src="/Scripts/jquery/maticsoft.img.min.js" type="text/javascript"></script>
+<script src="/Scripts/PhotoSwipe/photoswipe.jquery.min.js" type="text/javascript"></script>
+<link href="/Scripts/jqueryui/base/jquery-ui-1.9.2.min.css" rel="stylesheet" type="text/css" />
+<script src="/Scripts/jqueryui/jquery-ui-1.9.2.custom.js" type="text/javascript"></script>
+<script src="/Areas/MShop/Themes/YX/Content/Scripts/timeCountDown.js" type="text/javascript"></script>
+<script src="/Areas/MShop/Themes/YX/Content/Scripts/productdetail.js" type="text/javascript"></script>
+<script src="/Areas/MShop/Themes/YX/Content/Scripts/SKU.js" type="text/javascript"></script>
+<script src="/Scripts/jquery.cookie.js" type="text/javascript"></script>
+<script type="text/javascript">
+ pagename = "groupbuy_detail";
+
+    (function (window, Util, PhotoSwipe) {
+        Util.Events.domReady(function (e) {
+            var instance, indicators;
+            instance = $(".Touch_mer_smallImg").photoSwipe(
+                {
+                    target: window.document.querySelectorAll('#slideimg')[0],
+                    preventHide: true,
+                    autoStartSlideshow: true,
+                    captionAndToolbarHide: true,
+                    fadeInSpeed: 1000,
+                    faseOutSpeed: 1000,
+                    getImageSource: function (obj) {
+                        return $(obj).attr("src");
+                    },
+                    getImageCaption: function (obj) {
+                        return $(obj).attr("alt");
+                    },
+                    getImageMetaData: function (obj) {
+                        return {
+                            longDescription: obj.getAttribute(obj, 'alt')
+                        };
+                    }
+                }
+            );
+            indicators = window.document.querySelectorAll('.mod_index li');
+
+            // onDisplayImage - set the current indicator
+            instance.addEventHandler(PhotoSwipe.EventTypes.onDisplayImage, function (e) {
+                var i, len;
+                for (i = 0, len = indicators.length; i < len; i++) {
+                    indicators[i].setAttribute('class', '');
+                }
+                indicators[e.index].setAttribute('class', 'current');
+                var src = $("#PhotoSwipeTarget").find(".ps-carousel").find(".ps-carousel-content").find("img").attr("src");
+            });
+            instance.show(0);
+        });
+
+    } (window, window.Code.Util, window.Code.PhotoSwipe));
+</script>
+ 
+<div id="J_detailWrapper" class="J_pageBox">
+    <div class="J_detailIndexWrapper">
+        <!--商品详情页-->
+        @if (null != Model)
+        {       
+	 <input id="hdProductId" type="hidden"  value="@Model.ProductInfo.ProductId"/>
+    <input id="hdsuppId"   type="hidden" value="@Model.ProductInfo.SupplierId"/>
+	 <input id="hfGroupBuyId" type="hidden" value="@Model.ProductInfo.GroupBuy.GroupBuyId" />
+            <div class="page_item" style="">
+                <!--顶部导航-->
+                <header class="y_hd" style="">
+                    <a href="javascript:;" onclick="history.go(-1);" class="y_hd_back J_ytag" ytag="10000"
+                        data-type="1"></a><a href="javascript:;" class="jump_next jump_prev"></a><span id="J_header_title"
+                            style="font-weight: bold">团购商品详情</span> <a href="@(ViewBag.BasePath)sc/ci" class="y_hdb J_ytag" data-type="1" id="J_minicart" style="">
+                            </a>
+                </header>
+                <!--/顶部导航-->
+                <!--商品图切换-->
+                <div class="goods_img" id="J_goods_img" style="margin-top: 45px;">
+                    <div class="mod_img" id="slideimg">
+                        @if (Model != null && Model.ProductImages != null)
+                        {
+                            for (var i = 0; i < Model.ProductImages.Count; i++)
+                            {
+                                <li><a class="J_goodspic J_ytag">
+                                        <img src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(Model.ProductImages[i].ThumbnailUrl1, "T158X158_")"
+                                             width="190" height="190" alt="@Model.ProductInfo.ProductName" class="Touch_mer_smallImg active"
+                                             style="display: none;">
+                                    </a></li>
+                            }
+                        }
+                    </div>
+                    <ul class="mod_index">
+                        @if (null != Model.ProductImages)
+                        {
+                            for (int i = 0; i < Model.ProductImages.Count; i++)
+                            {
+                                <li></li>
+                            }
+                        }
+                    </ul>
+                </div>
+                <!--/商品图切换-->
+                <!--商品配置-->
+                <div class="goods_info">
+                    <!-- 商品名 -->
+                    <div id="goods_name" class="goods_name">
+                        @Model.ProductInfo.ProductName</div>
+                    <!-- /商品名 -->
+                    <!-- 描述 -->
+                    <div id="goods_desc" class="goods_desc">
+                        @Model.ProductInfo.ShortDescription</div>
+                    <!-- /描述 -->
+                    <!--价格-->
+                    @Html.Action("StoreLayer", "Partial", new { suppId = Model.ProductInfo.SupplierId })
+                    <div class="goods_price" id="J_goods_price_area">
+                        <div class="price_now">
+                            <p class="price_wrap">
+                             团购价：<span class="rmb">¥</span><span class="price" id="J_show_price">@Model.ProductInfo.GroupBuy.Price.ToString("F")</span>
+                            </p>
+			
+			    
+                        </div>
+                        <div class="price_promo" style="">
+                            <p class="price_wrap">
+                                <span class="title" id="J_promo_name">市场价</span><span class="rmb">¥</span><span class="price"
+                                    id="J_promo_price" style="text-decoration: line-through;">@(Model.ProductInfo.MarketPrice.HasValue ? Model.ProductInfo.MarketPrice.Value.ToString("F") : "")</span></p>
+                        </div>
+			
+			
+			  <p > 团购地：<span >@ViewBag.GroupBuyRegoinFull</span> </p>
+              
+              @if (Model.ProductInfo.GroupBuy.EndDate > DateTime.Now &&
+                    Model.ProductInfo.SaleStatus == 1 &&
+                    Model.ProductInfo.GroupBuy.BuyCount < Model.ProductInfo.GroupBuy.MaxCount && 
+                    ViewBag.IsMultiDepot)
+               {
+                   //已开启了分仓
+                    
+                   @Html.Partial("/Areas/MShop/Themes/YX/Views/Partial/_RegoinLayer.cshtml")
+               }
+                    </div>
+		    
+		      
+                     <div id="divBuyInfo" class="proshow_pl" style="background:none;">
+            <label id="productDate" date="@((Model.ProductInfo.GroupBuy.EndDate.ToUniversalTime() - Convert.ToDateTime("1970-01-01")).TotalMilliseconds.ToString("0"))" style="float: left">
+                <span class="fl">剩余时间：</span></label>
+            <div class="txtenddate"><span><span id="dayEnd">0</span>天<span id="hourEnd">0</span>时 
+                                        <span id="minEnd">0</span>分 <span id="secEnd">0</span>秒
+                                    </span></div>
+                                     团购上限数量<span>@(Model.ProductInfo.GroupBuy.MaxCount)</span>,满足<span>@(Model.ProductInfo.GroupBuy.GroupCount)</span> 团购成立！<br/>
+            已有<span>@(Model.ProductInfo.GroupBuy.BuyCount)</span>参团 数量有限 请尽快购买！
+        </div>
+                    <div class="proshow_pl" id="closeActivity" style="color: red;background:none;margin-right: 10px;display: none;">
+                        <p class="tipsOrg loud dib">
+                            非常抱歉, 该活动已过期!</p>
+                    </div>
+                    <div class="proshow_pl" id="closeArrivingNotifyMess" style="color: red;background:none;margin-right: 10px;display: none;">
+                        <p class="tipsOrg loud dib">
+                            非常抱歉, 此商品已售罄!</p>
+                    </div>
+
+
+                    <!--/价格-->
+                    @*SKU*@
+                    <div id="SKUOptions">
+                        @Html.Action("OptionSKU", "Product", new { ProductId = Model.ProductInfo.ProductId, SuppId = Model.ProductInfo.SupplierId, viewName = "_OptionSKU" })
+                    </div>
+
+                      <div class="sku-selected-title mt15 c9" style="min-height: 18px; clear: left; padding-left: 8px;"    id="divSelectInfo">
+        </div>
+                    @*SKU*@
+                    <!-- 数量 -->
+                    <div class="goods_item goods_quantity" id="J_goods_quantity" style="display:none;">
+                        <p class="title">
+                            数量</p>
+                        <div class="quantity">
+                            <div class="act_wrap">
+                                <a href="javascript:;" ytag="90101" class="add y_hover J_ytag btn_disabled" data-type="2"
+                                    id="J_goods_quantity_sub"></a>
+                                <input class="num" placeholder="0" id="productCount" readonly="" value="1">
+                                <a href="javascript:;" ytag="90102" class="add reduce y_hover J_ytag" data-type="2"
+                                    id="J_goods_quantity_add"></a>
+                            </div>
+                            <div class="result_list" id="J_result_list">
+                                <p class="result_single">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="goods_item goods_quantity" id="J_wxsg_goods_quantity" style="font-size: 0px;  height: 1px; overflow: hidden; width: 100%; clear: both; margin: 0">
+                    </div>
+                    <!-- /数量 -->
+ 
+                </div>
+                <!--/商品配置-->
+                <!--商品购买-->
+
+                <div class="goods_buy" id="J_touchBuyBtnsArea" >
+                    <p class="buy">
+
+                        <a href="javascript:;" class="btn_buy y_hover J_ytag" id="btnAddToCart" DefaultText="立刻购买"  itemid=""  groupbuyid="@Model.ProductInfo.GroupBuy.GroupBuyId">
+                             立刻购买</a> <a href="javascript:;" class="btn_fav y_hover J_ytag" data-type="1" ytag="12004" id="btnProductFav" productId="@Model.ProductInfo.ProductId">
+                            </a>
+                    </p>
+                </div>
+                <!--商品资料-->
+                <div class="goods_data">
+                    <a href="@(ViewBag.BasePath)product/productdesc/@Model.ProductInfo.ProductId" id="J_product_detail" class="J_ytag" 
+                       ytag="12007"><span class="num">建议wifi下使用</span>图文详情</a>
+                </div>
+                <!--/商品资料-->
+                <!--相关商品-->
+                @Html.Action("ProductRelation", "Product", new { id = Model.ProductInfo.ProductId, Top = 3, viewName = "_ProductRelation" })
+                <!--/相关商品-->
+            </div>
+        }
+        <!--/商品详情页-->
+    </div>
+</div>
+ 
+<script type="text/javascript">
+    $(function() {
+        var myclass = new CountDown();
+        var endDate = $("#productDate").attr("date");
+         var dateEnd =new Date(parseInt(endDate));
+        var dateNow = new Date();
+        var dateCount = dateEnd.getTime() - dateNow.getTime();
+        if (dateCount > 0) {
+            myclass.init({
+                id: 'txtenddate',
+                //天数
+                day_Dom: $("#dayEnd"),
+                //小时
+                hour_Dom: $("#hourEnd"),
+                //分钟
+                min_Dom: $("#minEnd"),
+                //秒
+                sec_Dom: $("#secEnd"),
+                endTime: endDate
+            });
+        } else {
+            $("#closeActivity").show();
+            $('#iteminfo').parent().find('#btnAddToCart').removeClass('addCart').addClass('addCart-gray');
+            $('#iteminfo #divBuyInfo').hide();
+            $('#iteminfo #divSelectInfo').empty();
+        }
+        if (@Model.ProductInfo.SaleStatus !== 1) {
+            $('#iteminfo').parent().find('#btnAddToCart').removeClass('addCart').addClass('addCart-gray');
+            $('#iteminfo #divBuyInfo').hide();
+            $('#iteminfo #divSelectInfo').empty();
+            $('#iteminfo #closeArrivingNotifyMess').text("非常抱歉, 此商品已下架!");
+            $('#iteminfo #closeArrivingNotifyMess').show();
+        }
+
+        var maxCount = parseInt('@Model.ProductInfo.GroupBuy.MaxCount');
+        var buyCount = parseInt('@Model.ProductInfo.GroupBuy.BuyCount');
+        if (buyCount >= maxCount) {
+            $("#closeArrivingNotifyMess").show();
+            $('#iteminfo').parent().find('#btnAddToCart').removeClass('addCart').addClass('addCart-gray');
+            $('#iteminfo #divBuyInfo').hide();
+            $('#iteminfo #divSelectInfo').empty();
+        }
+
+        $("#btnAddToCart").unbind('click').bind('click',function () {
+            if ($(this).hasClass('addCart-gray')) return false;
+            var sku = $(this).attr('itemid');
+            if (!sku) {
+                $('#iteminfo,#iteminfo a').effect('highlight', 500);
+                 ShowFailTip('请选择商品规格属性！');
+                return false;
+            }
+            var groupbuyid = $("#hfGroupBuyId").val();
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                url: "@(ViewBag.BasePath)Product/CkeckCount",
+                async: false,
+                data: { GroupBuyId: groupbuyid },
+                success: function (data) {
+                    if (data == "Ok") {
+                        location.href = " @(ViewBag.BasePath)Order/SubmitOrder?sku=" + sku + "&g=" + groupbuyid;
+                    }
+                    else {
+                        $("#closeArrivingNotifyMess").show();
+                        $('#iteminfo').parent().find('#btnAddToCart').removeClass('addCart').addClass('addCart-gray');
+                        $('#iteminfo #divBuyInfo').hide();
+                        $('#iteminfo #divSelectInfo').empty();
+                    }
+                }
+            });
+        });
+    })
+</script>

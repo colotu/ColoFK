@@ -1,0 +1,15 @@
+﻿@using System.Web.Mvc.Html
+@{
+    Layout = "~/Areas/MShop/Themes/VPH/Views/Shared/_SiteLayout.cshtml";
+    @*网站前台模版*@
+}
+ <link href="/Areas/MShop/Themes/VPH/Content/Css/style.css" rel="stylesheet" type="text/css" /> 
+@section head{
+    @RenderSection("head", false)
+}
+@RenderBody()
+@Html.Action("Footer", "Partial", new { area = "MShop", ViewName = "_Footer" })
+@section foot{
+    @RenderSection("foot", false)
+}
+

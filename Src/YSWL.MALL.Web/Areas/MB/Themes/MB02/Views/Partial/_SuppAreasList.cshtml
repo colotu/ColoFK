@@ -1,0 +1,32 @@
+﻿@model List<YSWL.MALL.Model.Shop.Supplier.SuppAreas>
+@if (Model != null && Model.Count > 0)
+{
+
+        <div class="search_head pd">
+            @{
+                switch (Model[0].Depth)
+                {
+                    case 1:
+                        @:楼宇
+                break;
+                    case 2:
+                        @:楼层
+                break;
+                    case 3:
+                        @:区域
+                break;
+                }
+            }@*<span class="green" id="filter_area_tip">全部</span>*@
+        </div>
+        <div class="filter_tag" id="arealist">
+            @*<a href="javascript:;" areaId="@Model[0].ParentAreaId" class="AreaIdValues"><span class="tag tag_a">全部</span> </a>*@
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                @*<a href="@(ViewBag.BasePath)search/storelist/@Model[i].AreaId/@mod/@keyword" >@Model[i].Name</a>*@
+                <a href="javascript:;" areaId="@Model[i].AreaId" class="AreaIdValues">
+                    <span class="tag">@Model[i].Name</span>
+                </a>
+            }
+        </div>
+
+                    }

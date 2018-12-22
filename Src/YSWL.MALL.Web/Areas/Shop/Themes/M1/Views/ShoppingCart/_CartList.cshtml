@@ -1,0 +1,243 @@
+﻿@model YSWL.MALL.ViewModel.Shop.ShoppingCartModel
+<script type="text/javascript">
+    $(function () {
+        var selectItem = new Array();
+        $(".SalePrice").each(function () {
+            var sellprice = $(this).attr("toalSellPrice");
+            var adjustedprice = $(this).attr('toalAdjustedPrice');
+            var p = parseFloat(sellprice) - parseFloat(adjustedprice);
+            if (p > 0) {
+                $(this).text(p.toFixed(2));
+                $(this).parent().show();
+            }
+        });
+        //填充数组
+        $(".btnCheck:checked").each(function () {
+            var itemId = $(this).attr("ItemId");
+            //判断选中数组中是否已存在该项
+            var index = $.inArray(itemId, selectItem);
+            if (index > -1) {
+                selectItem.splice(index, 1);
+            } else {
+                selectItem.push(itemId);
+            }
+        });
+        $("#btnRemoveSelect").die("click").live("click", function () {
+            if (selectItem == '') {
+                ShowFailTip("请选择要删除的商品！");
+                return;
+            }
+
+            if (!confirm("您确定要删除选中的商品吗？")) {
+                return;
+            }
+            var itemIds = selectItem.join(",");
+
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                url: "@(ViewBag.BasePath)ShoppingCart/RemoveItem",
+                data: { ItemIds: itemIds },
+                success: function (data) {
+                    switch (data) {
+                        case "Yes":
+                            $("#LoadCartList").load("@(ViewBag.BasePath)ShoppingCart/CartList?s=" + new Date().format('yyyyMMddhhmmssS'), function () {
+                                shopc_h();
+                            });
+                            break;
+                        case "No":
+                            ShowFailTip("请选择要删除的商品！");
+                            break;
+                        default:
+                            ShowFailTip("服务器繁忙，请稍候再试！");
+                            setTimeout(function () { $("#LoadCartList").load("@(ViewBag.BasePath)ShoppingCart/CartList?s=" + new Date().format('yyyyMMddhhmmssS')); }, 3000);
+                            break;
+
+                    }
+                }
+            });
+        });
+        if (parseInt($('#SelectedQuantity').attr('Quantity')) < 1) {
+            $('#toSettlement').css('cursor', ' not-allowed');
+            $('#toSettlement').click(function () {
+                return false;
+            });
+        }
+
+    })
+</script>
+
+@if (Model != null && Model.AllCartInfo.Quantity > 0)
+{
+   <div class="m18_body">
+        
+        <div class="list_big_body">
+            <div id="shopc_list_title">
+                <ul>
+                    <li class="title_width1">商品/商品规格</li>
+                    <li class="title_width2">单价</li>
+                    <li class="title_width2">数量</li>
+                    <li class="title_width2">小计</li>
+                    <li class="title_width2">操作</li>
+                </ul>
+            </div>
+        </div>
+ @if (Model.AllCartInfo!=null &&  Model.AllCartInfo.DicSuppCartItems != null)
+ {
+     foreach (var dicSuppCartItem in Model.AllCartInfo.DicSuppCartItems)
+     {
+       <div  style="margin-bottom: 20px;"  id="div_supp_@(dicSuppCartItem.Key)" supp="@(dicSuppCartItem.Key)">
+      
+       <div class="shop" style="text-align:left;height: 30px;
+line-height: 30px;
+padding-left: 11px;
+font-weight: 700;" >
+          @if (dicSuppCartItem.Key <= 0)
+          { 
+        @* <input type="checkbox" checked="checked"    />*@
+		<span class="shop-txt">自营</span>
+                <span></span>
+          }
+          else
+          {
+     @*    <input type="checkbox" checked="checked"    />*@
+		<span class="shop-txt"><a class="shop-name" href="@(ViewBag.BasePath)store/@(dicSuppCartItem.Key)" target="_blank" >@(dicSuppCartItem.Value.Count > 0 ? dicSuppCartItem.Value[0].ShopName : "")</a>
+		</span>
+          }
+	</div>
+          <div class="gouwuchelist_head"></div>  
+             @foreach (YSWL.MALL.Model.Shop.Products.ShoppingCartItem item in dicSuppCartItem.Value)
+             { 
+            <div class="gouwuchelist gouwuchelist_2 @if (item.Stock < item.Quantity || item.SaleStatus != 1)
+                                                    { @: set_grey
+                                                                                   } "  style="position: relative;">
+                                                                                       @if (item.SaleStatus != 1)
+                                                                                       {
+                        @:<div class="gl_invalid">失效</div>
+                    }
+                <div class="danxuan" style="float: left; height: 100%;">
+                    <input style="margin-top: 25px;margin-right: 20px;" type="checkbox" @(item.Selected ? "checked='checked'" : "") class="btnCheck" ItemId="@item.ItemId"/>
+                    </div>
+                <div class="wupin">
+                    <a href="@(ViewBag.BasePath)Product/Detail/@item.ProductId" target="_blank">
+                        <img src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.ThumbnailsUrl, "T128X130_")" width="61" height="61" /></a>
+                    <h2 style="overflow: hidden;text-overflow: ellipsis;white-space: nowrap;width: 300px;">
+                        <a href="@(ViewBag.BasePath)Product/Detail/@item.ProductId" target="_blank">@item.Name</a></h2>
+                    @if (item.SkuValues != null && item.SkuValues.Length > 0)
+                    {
+                        <div class="sizeOptions mt10 cf sku-size-div">
+                            <ul class="sku-size-select AttrItems">
+                                @foreach (string val in item.SkuValues)
+                                {
+                                    <li class="SkuItems"><a href="javascript:;">@val</a> </li>
+                                }
+                            </ul>
+                        </div>
+                    }
+                    @if (!string.IsNullOrWhiteSpace(item.SaleDes))
+                    {
+                        <h2>
+                            优惠: @item.SaleDes</h2>
+                    }
+                </div>
+                <div class="jiage">
+                    <p class="p12_1" >
+                        ￥@item.MarketPrice.ToString("F")</p>
+                    <p class="p12_2">
+                        ￥@item.AdjustedPrice.ToString("F")    </p>
+                </div>
+                <div class="shuliang"  ItemId="@item.ItemId"  stock="@item.Stock"  >
+                <span class="jiaoshao"><a></a></span>
+                    <input name="" maxlength="3" type="text" class="txtQuantity" style="width: 30px; float: left;" value="@item.Quantity" />
+                    <span class="zhengjia"><a></a></span><br />
+              @if (item.SaleStatus == 1)
+              {
+                  if (item.Stock <= 0)
+                  {
+                         <p style="position: absolute; text-align: left; padding-left: 23px;" class="red">
+                             无货
+                         </p>
+                  }
+                  else if (item.Stock < item.Quantity)
+                  {
+                         <p style="position: absolute; text-align: left; padding-left: 13px;" class="red">
+                             库存不足
+                         </p>
+                  }
+                  else
+                  {
+                         <p style="position: absolute; text-align: left; padding-left: 23px;">
+                             有货
+                         </p>
+                  }
+              }
+                </div>
+                <div class="xiaoji">
+                    ￥@((item.AdjustedPrice * item.Quantity).ToString("F"))
+                    <p class="p12_3" style="display: none; color: #333333; font-weight: normal">
+                        已优惠:￥<span class="SalePrice" toalSellPrice="@((item.SellPrice * item.Quantity).ToString("F"))"
+                     toalAdjustedPrice="@((item.AdjustedPrice * item.Quantity).ToString("F"))">0.00</span></p>
+                </div>
+                <div class="caozuo">
+                    <a href="javascript:;" class="btnDelete"  ItemId="@item.ItemId">删除</a></div>
+            </div>
+          @*  <div class="hengxian">
+            </div>*@
+             }
+
+        </div>
+     }
+
+ }
+        @if (Model.SelectedCartInfo.TotalRate > 0)
+        { 
+         <div class="cart-total clearfix">
+            <div class="total fr"  >
+              总价优惠：<span id="finalPrice" data-bind="@Model.SelectedCartInfo.TotalRate.ToString("F")">¥@Model.SelectedCartInfo.TotalRate.ToString("F")</span>
+            </div>
+        </div>
+        }
+       
+        <div class="cart-total clearfix">
+              
+            <div class="control fl clearfix">
+                <input type="checkbox"  id="btnCheckAll"   @(Model.SelectedCartInfo.Quantity == Model.AllCartInfo.Quantity ? "checked='checked'" : "")   /><label for="btnCheckAll">全选</label>&#12288;
+                <a href="javascript:;" id="btnRemoveAll">清空购物车</a>&#12288;
+                <a href="javascript:;" id="btnRemoveSelect">删除选中的商品</a>
+            </div>
+            <div class="total fr" id="SelectedQuantity" Quantity="@Model.SelectedCartInfo.Quantity">
+                <span id="finalPrice" data-bind="@Model.SelectedCartInfo.TotalAdjustedPrice.ToString("F")">¥@Model.SelectedCartInfo.TotalAdjustedPrice.ToString("F")</span>总计（不含运费）：
+            </div>
+        </div>
+        <div class="cart-button clearfix">
+            <a class="btn continue" href="@(ViewBag.BasePath)Product" id="continue"><span class="btn-text">继续购物</span></a> 
+            <a class="checkout" href="@(ViewBag.BasePath)Order/SubmitOrder" id="toSettlement" >去结算</a>
+        </div>
+
+         <div id="goon_buy">
+    </div>
+             
+     
+     
+     </div>
+   
+  
+}
+else
+{
+    <div class="cart-inner cart-empty">
+        <div class="message">
+            <ul>
+                <li>购物车内暂时没有商品。</li>
+                <li>去<a href="@(ViewBag.BasePath)Product" >商品频道</a>挑选喜欢的商品</li>
+            </ul>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $('#shopc_msg').hide();
+    </script>
+}
+
+
+
+

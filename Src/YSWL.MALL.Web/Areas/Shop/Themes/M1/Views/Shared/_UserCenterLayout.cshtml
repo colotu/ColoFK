@@ -1,0 +1,25 @@
+﻿@{
+    Layout = "~/Areas/Shop/Themes/M1/Views/Shared/_SiteLayout.cshtml";
+@*会员中心模版*@
+}
+@section head{
+    <link href="/Areas/Shop/Themes/M1/Content/css/mem.css" type="text/css" rel="stylesheet" />
+    <link href="/Areas/Shop/Themes/M1/Content/css/user-v1-a.css" rel="stylesheet" type="text/css" />
+    <link href="/Areas/Shop/Themes/M1/Content/css/center-v2.css" rel="stylesheet" type="text/css" />
+    @RenderSection("head", false)
+}
+<div id="hd">
+@Html.Action("Header", "Partial", new { area = "Shop" })
+@Html.Action("Search", "Partial", new { area = "Shop" })
+@Html.Action("Navigation", "Partial", new { area = "Shop" })
+</div>
+<!------usercenter-------->
+<div class="w980 user-center">
+    @RenderBody()
+    @Html.Action("LeftMenu", "UserCenter", new { area = "Shop" })
+</div>
+<!------usercenter end----->
+@Html.Action("Footer", "Partial", new { area = "Shop" })
+@section foot{
+    @RenderSection("foot", false)
+}

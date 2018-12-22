@@ -1,0 +1,83 @@
+﻿  @model List<YSWL.MALL.ViewModel.Shop.ProductAccessorie>
+               @if (Model != null && Model.Count > 0)
+               {
+ 
+ <div class="goods-tj pos_r1 " id="parts_div">
+        	
+            <ul class="goodus2 goodusxq1">
+            	<li class="hover">推荐搭配</li>
+            </ul>
+                  <ul class="ul_detail-list" id="parts_suit">
+                      @for (int i = 0; i < Model.Count; i++)
+                      {
+                          if (Model[i].ProductAccessorieInfo == null)
+                          {
+                              continue;
+                          }
+                          if (i == 0)
+                          {
+                                     <li  class="scurr" item="acces_@(Model[i].ProductAccessorieInfo.AccessoriesId)">@Model[i].ProductAccessorieInfo.Name</li>
+                          }
+                          else
+                          {
+                                     <li class="sborder" item="acces_@(Model[i].ProductAccessorieInfo.AccessoriesId)">@Model[i].ProductAccessorieInfo.Name</li>
+                          }
+
+                      }
+                      </ul>   
+                        @for (int i = 0; i < Model.Count; i++)
+                        {
+                            if (Model[i].ProductAccessorieInfo == null)
+                            {
+                                continue;
+                            }
+                                <div class="div_access_item"   id="acces_@(Model[i].ProductAccessorieInfo.AccessoriesId)" @if (i != 0)
+                                                                                                                          {
+                                                                                                                                    @:style="display:none;"
+                                                                                                                               } > 
+ 
+               <div class="tjscr" style="width:780px;margin-left: 15px;">
+
+            <ul class="tuj" style="margin-left: 0px;margin-bottom: 0px;">
+ 
+                @for (int k = 0; k < Model[i].SkuInfo.Count; k++)
+                {
+                     
+                  <li style="margin-bottom: 6px;">
+                            <a href="@Model[i].SkuInfo[k].SeoUrl" target="_blank"  >
+                            <img   src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(Model[i].SkuInfo[k].ProductThumbnailUrl, "T115X115_")"  onerror="this.onerror='';this.src='/Areas/Shop/Themes/PC05/Content/Images/404.jpg'"/></a>
+				                <a href="@Model[i].SkuInfo[k].SeoUrl" target="_blank"  title="@Model[i].SkuInfo[k].ProductName">@YSWL.Common.StringPlus.SubString(Model[i].SkuInfo[k].ProductName, 18, "...")</a>
+                            <div   style="height:25px">
+                                           @if (Model[i].SkuInfo[k].SkuItems != null && Model[i].SkuInfo[k].SkuItems.Count > 0)
+                                           {
+                                               foreach (var valueItems in Model[i].SkuInfo[k].SkuItems)
+                                               {
+                       <span class="product_s_k">@valueItems.ValueStr</span> 
+                                               }
+                                           }                
+                            </div>   
+                            <span>¥<em>@Model[i].SkuInfo[k].SalePrice.ToString("F")</em></span>
+                           <span style="margin: 2px 0 0 13px;">
+                                            <a class="but_y acce_cart_btn" href="javascript:;" itemid="@Model[i].SkuInfo[k].SKU" target="_blank" >加入购物车</a>    
+                                        </span>    
+			                </li>
+                                           if ((k + 1) < Model[i].SkuInfo.Count && (k+1)%5!=0)
+                                           {
+                  <li class="li-ja"></li>
+                
+                                           }
+
+
+                }
+ 
+            </ul>
+            </div>
+                                  </div>
+
+                        }
+                     
+            <div class="clear"></div>
+        </div>
+
+
+               } 

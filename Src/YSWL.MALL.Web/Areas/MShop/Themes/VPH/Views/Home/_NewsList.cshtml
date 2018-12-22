@@ -1,0 +1,12 @@
+﻿@model List<YSWL.MALL.Model.CMS.Content>
+  @if (Model != null && Model.Count > 0)
+  {
+              foreach (var item in Model)
+              { 
+                  <a href="@(ViewBag.BasePath)Article/Details/@item.ContentID" target="_blank">
+                      <em class="s_sev"></em>@YSWL.Common.StringPlus.SubString(item.Title, 10, "...")<span></span>
+                  </a>
+              }
+         <a href="@(ViewBag.BasePath)Article/ArticleList?classid=9" target="_blank">更多>></a>
+       
+  } 

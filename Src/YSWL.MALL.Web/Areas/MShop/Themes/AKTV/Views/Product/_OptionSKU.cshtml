@@ -1,0 +1,82 @@
+﻿@model YSWL.MALL.ViewModel.Shop.ProductSKUModel
+@if (Model == null) { return; }
+@if (!ViewBag.HasSKU && Model.ListSKUInfos != null && Model.ListSKUInfos.Count == 1)
+{
+    <script type="text/javascript">
+        $(function () {
+         var stock=parseInt('@Model.ListSKUInfos[0].Stock');
+         $('#btnAddToCart').attr('itemid', '@Model.ListSKUInfos[0].SKU');
+         if (stock == 0)
+         {
+             var skuItem = $('#btnAddToCart').attr('disabled', 'disabled').addClass('addCart-gray');
+             $('#btnAddToCart').text('该商品已售罄');
+         }else{
+             $('#div_stock').show().find('#stock_num').text(stock);
+         }
+        }); 
+    </script>
+}
+<input type="hidden"  value="@ViewBag.HasSKU" id="hdHasSKU" />
+@if (Model.ListAttrSKUItems == null || Model.ListAttrSKUItems.Count < 1)
+{
+    <input type="hidden"  value="@Model.ListSKUInfos[0].SKU"   stock="@Model.ListSKUInfos[0].Stock"   id="hdprodSku" />
+    return;
+}
+<input type="hidden" id="SKUDATA" value="@ViewBag.SKUJson"/>
+@foreach (KeyValuePair<YSWL.MALL.Model.Shop.Products.AttributeInfo, SortedSet<YSWL.MALL.Model.Shop.Products.SKUItem>>
+    attrSKUItem in Model.ListAttrSKUItems)
+{
+    //if (attrSKUItem.Key.UseAttributeImage)
+    if (!string.IsNullOrWhiteSpace(attrSKUItem.Value.Min.ImageUrl))
+    {
+    <div class="colorOptions cf sku-color-div">
+        <span class="fl sku-color-title">
+            @if (attrSKUItem.Key.AttributeName.Length == 2)
+            {
+                @Html.Raw(attrSKUItem.Key.AttributeName.Insert(1, "<em class=\"s2em\"></em>") + "：")
+            }
+            else
+            {
+                @(attrSKUItem.Key.AttributeName + "：")
+            }
+        </span>
+        <ul class="sku-color-select AttrItems" style="width: 100%;">
+            @foreach (YSWL.MALL.Model.Shop.Products.SKUItem skuItem in attrSKUItem.Value)
+            {
+                <li AttrId="@skuItem.ValueId" class="SkuItems" ><a  href="javascript:;" title="@skuItem.ValueStr" alt="@skuItem.ValueStr">
+                    @if (!string.IsNullOrWhiteSpace(skuItem.ImageUrl))
+                    {
+                        <img width="25" height="25" class="vm" src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(skuItem.ImageUrl, "T32x32_")" largeurl="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(skuItem.ImageUrl, "T300X390_")" alt="@skuItem.ValueStr" title="@skuItem.ValueStr" />
+                    }
+@*@if (!string.IsNullOrWhiteSpace(skuItem.ValueStr))
+                              {
+                                  <span class="mr5 vm">@skuItem.ValueStr</span>
+                              }*@
+                </a><span class="selected">1</span></li>
+            }
+        </ul>
+    </div>
+    }
+    else
+    {
+    <div class="colorOptions sizeOptions mt10 cf sku-size-div">
+        <span class="fl sku-size-title">
+            @if (attrSKUItem.Key.AttributeName.Length == 2)
+            {
+                @Html.Raw(attrSKUItem.Key.AttributeName.Insert(1, "<em class=\"s2em\"></em>") + "：")
+            }
+            else
+            {
+                @(attrSKUItem.Key.AttributeName + "：")
+            }
+        </span>
+        <ul class="sku-size-select AttrItems" style="width: 200px;">
+            @foreach (YSWL.MALL.Model.Shop.Products.SKUItem skuItem in attrSKUItem.Value)
+            {
+                <li attrId="@skuItem.ValueId" class="SkuItems"><a href="javascript:;" title="@skuItem.ValueStr" alt="@skuItem.ValueStr">@skuItem.ValueStr</a>
+                    <span class="selected">1</span></li>
+            }
+        </ul>
+    </div>
+    }
+}

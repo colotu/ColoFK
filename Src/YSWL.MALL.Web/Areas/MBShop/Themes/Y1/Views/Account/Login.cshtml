@@ -1,0 +1,100 @@
+﻿ @{
+     Layout = "/Areas/MBShop/Themes/Y1/Views/Shared/_NoFootLayout.cshtml";
+     ViewBag.Title = "登录";
+ }
+<script type="text/javascript">
+    var selfurl = window.location.pathname + window.location.search;
+    if (selfurl.indexOf( 'a/l') == -1 &&
+        selfurl.indexOf('a/login') == -1 &&
+        selfurl.indexOf( 'account/login') == -1) {
+        window.location = $YSWL.BasePath + "a/l?returnUrl=" + selfurl;
+    }
+</script>
+<script src="/Areas/MBShop/Themes/Y1/Content/Scripts/UserCenter/DefaultLogin.js" type="text/javascript"></script>
+@model YSWL.MALL.ViewModel.Shop.LogOnModel
+@if (ViewData.ModelState != null &&
+                                 ViewData.ModelState.Count > 0 &&
+                                 ViewData.ModelState["Message"] != null &&
+                                 ViewData.ModelState["Message"].Errors.Count > 0)
+{
+<script src = "/Scripts/msgbox/js/msgbox.js" ></script >
+    <script type="text/javascript">
+        function errab() {
+            $('head').append('<style>body{padding:0;margin:0;}.msg {color: #FFF;width: 100%;height: 3rem;text-align: center;font-size: 1.2rem;line-height: 3rem;position: fixed;top: -3rem;z-index: 20;} .msg_success {background-color: #1fcc6c;} .msg_warning {background-color: #e94b35;} .msg_primary {background-color: #337ab7;} .msg_info {background-color: #5bc0de;}</style>');
+            $('body').prepend('<div class="msg msg_success"></div><div class="msg msg_warning"></div><div class="msg msg_info"></div><div class="msg msg_primary"></div>');
+        }
+
+        $(window).load(errab());
+          
+        $(function () {
+            $('#diverror').html('@ViewData.ModelState["Message"].Errors[0].ErrorMessage');
+        })
+        AlertWarning('@ViewData.ModelState["Message"].Errors[0].ErrorMessage');
+    </script>
+}
+
+
+ @*@model YSWL.MALL.ViewModel.Shop.LogOnModel 
+            @if (ViewData.ModelState != null &&
+         ViewData.ModelState.Count > 0 &&
+         ViewData.ModelState["Message"] != null &&
+         ViewData.ModelState["Message"].Errors.Count > 0)
+{
+    <script type="text/javascript">
+        $(function () {
+            $('#diverror').html('@ViewData.ModelState["Message"].Errors[0].ErrorMessage');
+            
+        })
+        AlertWarning('@ViewData.ModelState["Message"].Errors[0].ErrorMessage');
+    </script>
+}*@ 
+
+
+
+<div class="main-wrapper">
+    <!--START HEADER-->
+    <header class="m_header">
+        <div class="">
+            <div class="m_header_bar">
+                <p class="m_header_title">企业登录</p>
+            </div>
+        </div>
+    </header>
+    <!-- END HEADER -->
+
+    <div class="login_content container">
+        <div class="companylogo">
+            @if (String.IsNullOrWhiteSpace(ViewBag.MShopLogo))
+            {
+            <img src = "/Areas/MBShop/Themes/Y1/Content/images/logo.png" />
+            }
+            else
+            {
+            <img src="@ViewBag.MShopLogo" />
+            }
+        </div>
+        @using (Html.BeginForm("Login", "Account", FormMethod.Post, new { id = "formlogin", autocomplete = "off" }))
+        {
+            @*<input id="hfRegisterToggle" type="hidden" value="@ViewBag.RegisterToggle" />*@
+            <input name="returnUrl" type="hidden" value="@ViewBag.returnUrl" />
+
+                @Html.TextBoxFor(m => m.UserName, new { Class  = "form-control mt30 input-lg", id = "txtLogin", placeholder = "输入手机号", type = "number" })
+           
+                @Html.PasswordFor(m => m.Password, new { Class = "form-control mt30 input-lg", id = "password", placeholder = "输入密码" })
+     
+
+            <div id="loginsubmit"><input type="button" value="登录"  class="btn btn-lg btn-primary mt30 btn-block"></div>
+            <a href="@(ViewBag.BasePath)a/r"><span>快速注册</span></a>
+            @*<a href="@(ViewBag.BasePath)a/r"><span class="fr">忘记密码</span></a>*@
+        }
+
+
+    </div>
+    </div>
+
+
+
+
+
+
+

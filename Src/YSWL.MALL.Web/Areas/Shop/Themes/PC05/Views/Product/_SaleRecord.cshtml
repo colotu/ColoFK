@@ -1,0 +1,85 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model  PagedList<YSWL.MALL.ViewModel.Shop.SaleRecord>
+<ul class="goodus2 goodusxq1">
+            	<li class="hover">购买记录(@ViewBag.SaleRecordCount)</li>
+            </ul>
+ 
+<div class="bd gd-tab"  style="display:block;"  >
+   @if (Model != null && Model.Count > 0)
+   {
+    <table style="" cellspacing="0" summary="客户购买记录" class="buy-record">
+        <thead>
+            <tr class="thead">
+                <th class="t1" scope="col">
+                    购买人
+                </th>
+                <th class="t2" scope="col">
+                    购买价
+                </th>
+                <th class="t4" scope="col">
+                    数量
+                </th>
+                <th scope="col">
+                </th>
+                <th class="t3" scope="col">
+                    购买时间
+                </th>
+            </tr>
+        </thead>
+     
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="alt">
+                        <td class="td_buyname" style="display:none;">
+                            @item.BuyName
+                        </td>
+                        <td>
+                            @item.BuyPrice.ToString("F")
+                        </td>
+                        <td>
+                            @item.BuyCount
+                        </td>
+                        <td>
+                        </td>
+                        <td class="c9 tr">
+                            @item.BuyDate
+                        </td>
+                    </tr>
+                }
+            </tbody>
+      
+    </table>
+        <div class="page mtp12">
+               @Ajax.Pager(Model, new PagerOptions
+          {
+              ShowDisabledPagerItems = false,
+              AlwaysShowFirstLastPageNumber = true,
+              PageIndexParameterName = "pageIndex",
+              NumericPagerItemCount = 10,
+              CurrentPagerItemTemplate = "<a class=\"shoye\">{0}</a>",
+              CssClass = "page",
+              FirstPageText = "首页",
+              PrevPageText = "上一页",
+              NextPageText = "下一页",
+              LastPageText = "尾页"
+          }).AjaxOptions(a => a.SetUpdateTargetId("saleRecordList"))
+			  </div>
+   }
+   else { 
+         <div class="pijia"  >
+            	<div style="text-align:center"><i class="no_propt">暂无购买记录!</i></div>
+                </div>
+   }
+     
+ 
+</div>
+
+
+<input type="hidden" id="hidSaleRecordCount"  value="@ViewBag.SaleRecordCount " />
+ <script>
+     $(function () {
+         $('#buy_count').text($('#hidSaleRecordCount').val());
+         encryption($('.td_buyname'));
+     });
+</script>

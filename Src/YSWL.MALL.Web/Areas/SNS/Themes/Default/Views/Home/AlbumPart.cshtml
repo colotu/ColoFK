@@ -1,0 +1,57 @@
+﻿@model List<YSWL.MALL.ViewModel.SNS.AlbumIndex>
+<div class="main_album_al">
+    <p class="main_album_al_u">
+        人气<a href="@(ViewBag.BasePath)Album">专辑</a></p>
+    <div class="main_album_al_v">
+    </div>
+    <p class="main_album_al_w">
+        <a target="_blank" href="@(ViewBag.BasePath)Album">更多…</a></p>
+    <div class="clear">
+    </div>
+</div>
+<div class="main_album_bl">
+    @foreach (var item in Model)
+    {
+        <!--专辑-->   
+        <div class="main_album_bl_f">
+            <h1>
+                <a href="@(ViewBag.BasePath)Album/Details?AlbumID=@item.AlbumID">@YSWL.Common.StringPlus.SubString(item.AlbumName,11,"..")</a></h1>
+            <ul>
+                @{int n = 0;}
+                @for (n = 0; n < item.TopImages.Count; n++)
+                {  
+                    <li class="AlbumPart"><a class="pic_load" style="background: none;" href="@(ViewBag.BasePath)Album/Details?AlbumID=@item.AlbumID">
+                        <img ref="@(YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.TopImages[n], "T60x60_"))" /></a></li>
+                }
+                @if (n < 9)
+                {
+                    for (; n < 9; n++)
+                    {
+                    <li class="AlbumPart pic_load" style="background: none;">
+                        <img ref="/Areas/SNS/Themes/Default/Content/images/bgs.jpg" /></li>
+                    }
+                }
+                <div class="main_beij">
+                </div>
+                <div class="main_wz">
+                    宝贝&nbsp;@(item.PhotoCount)&nbsp;|收藏&nbsp;@(item.FavouriteCount)&nbsp;</div>
+            </ul>
+            <div class="clear">
+            </div>
+            <div class="inside">
+                <p class="inside_a">
+                    @(item.PVCount)次浏览</p>
+                <div class="inside_b">
+                    <a target="_blank" href="@(ViewBag.BasePath)Album/Details?AlbumID=@item.AlbumID">
+                        <img src="/Areas/SNS/Themes/Default/Content/images/album_2.jpg"></a></div>
+                <div class="clear">
+                </div>
+            </div>
+        </div>
+        <!--专辑end-->
+    }
+    <div class="clear">
+    </div>
+</div>
+<div class="clear">
+</div>

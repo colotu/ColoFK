@@ -1,0 +1,38 @@
+﻿@model List<YSWL.MALL.Model.Shop.Supplier.SuppAreas>
+@{
+    string mod = Request.RequestContext.RouteData.Values["mod"] != null ? Request.RequestContext.RouteData.Values["mod"].ToString() : "sales";
+    string keyword = Request.RequestContext.RouteData.Values["keyword"] != null ? Request.RequestContext.RouteData.Values["keyword"].ToString() : "";
+}
+@if (Model != null && Model.Count > 0)
+{
+    <div class="selector">
+        <div class="selector-line">
+            <div class="sl-key">
+                @{
+                    switch (Model[0].Depth)
+                    {
+                        case 1:
+                            @:楼宇
+                break;
+                        case 2:
+                            @:楼层
+                break;
+                        case 3:
+                            @:区域
+                break;
+                }
+                }
+            </div>
+            <div class="sl-value">
+                <div class="sl-list sl-area">
+                    <ul>
+                        @for (int i = 0; i < Model.Count; i++)
+                        {
+                            <li><a href="@(ViewBag.BasePath)search/storelist/@Model[i].AreaId/@mod/@keyword" @*class="selected"*@>@Model[i].Name</a></li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+                    }

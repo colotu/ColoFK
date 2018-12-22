@@ -1,0 +1,53 @@
+﻿@{
+    Layout = "/Areas/MShop/Themes/VPH/Views/Shared/_BaseLayout.cshtml";
+    ViewBag.Title = "个人中心-我的佣金";
+}
+@using Webdiyer.WebControls.Mvc
+@model PagedList<YSWL.MALL.Model.Shop.Commission.CommissionDetail>
+<link href="/Areas/MShop/Themes/VPH/Content/Css/UserCenter/userstyle.css" rel="stylesheet"   type="text/css" />
+<script type="text/javascript" src="/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<header id="header" class="header clearfix">
+    <div class="head_left fl"><a href="javascript:;" onclick="history.go(-1);"><span class="h_back"></span></a></div>
+    <span class="headtit">我的佣金</span>
+    <div class="head_right fr"><a href="@(ViewBag.BasePath)"><span class="h_home"></span></a></div>
+</header>
+<div class="userinfo clearfix">
+    <div class="fl">
+        <p>您当前的推广佣金：@ViewBag.AllFee.ToString("F")</p></div>
+   
+</div>
+
+@if (Model != null)
+{
+    <div class="s_links in_user_center">
+        @foreach (var item in Model)
+        {
+        <div class="home_piclist">
+            <div class="ddnum1" style="height: auto; padding: 8px">
+                <span>日期：</span> @item.TradeDate.ToString("yyyy-MM-dd HH:mm:ss")<br />
+                <span>规则：</span>@item.RuleName<br />
+                <span>佣金：</span>
+                @if (item.TradeType == 1)
+                {
+                    <strong style="color: #ff8a00;">+@item.Fee.ToString("F")</strong>
+                }
+                else
+                {
+                    <strong style="color: #33982e;">-@item.Fee.ToString("F")</strong>
+                }<br />
+                <span>说明：</span>@item.Remark 推广商品【<a style="display:inline; line-height: 24px;" href="@(ViewBag.BasePath)Product/Detail/@item.ProductId">@item.Name</a>】
+            </div>
+        </div>
+
+        }
+    </div>
+        @Html.Pager(Model, new PagerOptions
+{
+    PageIndexParameterName = "pageIndex",
+    NumericPagerItemCount = 3,
+    NumericPagerItemTemplate = "<p>{0}</p>",
+    NavigationPagerItemTemplate = "<p>{0}</p>",
+    CssClass = "in_pages_m"
+})
+        }
+

@@ -1,0 +1,36 @@
+﻿@{
+    Layout = "/Areas/MShop/Themes/AKTV/Views/Shared/_BaseLayout.cshtml";
+}
+@using Webdiyer.WebControls.Mvc
+@model  PagedList<YSWL.MALL.Model.Shop.Products.ProductReviews>
+ <link href="/Areas/MShop/Themes/AKTV/Content/Css/ProductStyle.css" rel="stylesheet"/>    
+ <div id="CommentListDiv">
+<div class="productshow_title">@ViewBag.ProductName</div>
+
+@if (Model != null)
+{
+    <div class="products_pl">
+        @foreach (var item in Model)
+        {
+            <ul>
+                <li><span>@item.UserName 评论说：</span><small>@item.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")</small></li>
+                <li>@Html.Raw(item.ReviewText)</li>
+            </ul>
+        }
+        <div>
+            @Ajax.Pager(Model, new PagerOptions
+       {
+           ShowDisabledPagerItems = false,
+           AlwaysShowFirstLastPageNumber = false,
+           PageIndexParameterName = "pageIndex",
+           NumericPagerItemCount = 3,
+           CurrentPagerItemTemplate = "<p class=\"in_s\">{0}</p>",
+           NumericPagerItemTemplate = "<p>{0}</p>",
+           NavigationPagerItemTemplate = "<p>{0}</p>",
+           CssClass = "in_pages",
+            
+       }).AjaxOptions(a => a.SetUpdateTargetId("CommentListDiv"))
+        </div>
+    </div>
+}
+</div>

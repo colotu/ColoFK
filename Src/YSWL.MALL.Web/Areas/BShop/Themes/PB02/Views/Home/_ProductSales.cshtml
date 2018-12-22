@@ -1,0 +1,18 @@
+﻿@model  List<YSWL.MALL.ViewModel.Order.ProductSaleInfo> 
+@if (Model != null)
+{
+    for (int i = 0; i < Model.Count; i++)
+    {
+        <a href="javascript:;" class="rank-line clearfix">
+            <span class="rank-num">@(i + 1)</span>
+            <div class="company-name">
+                @Model[i].ProName
+            </div>
+            <div class="number">@Model[i].Count</div>
+        </a>
+    }
+}
+else
+{  
+     <div class="home_right_list_empty">暂无数据</div>
+}

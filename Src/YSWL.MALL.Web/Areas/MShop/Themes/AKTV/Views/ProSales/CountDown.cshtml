@@ -1,0 +1,20 @@
+﻿@model YSWL.MALL.ViewModel.Shop.ProductListModel
+@{
+    Layout = "/Areas/MShop/Themes/AKTV/Views/Shared/_BaseLayout.cshtml";
+    ViewBag.Title = "限时抢购";
+}
+<script type="text/javascript" src="@Url.Content("/Scripts/jquery.unobtrusive-ajax.min.js")"></script>
+<script src="/Scripts/jquery/maticsoft.img.min.js" type="text/javascript"></script>
+<script src="/Areas/MShop/Themes/AKTV/Content/Scripts/timeCountDown.js" type="text/javascript"></script>
+<link href="/Areas/MShop/Themes/AKTV/Content/Css/products.css" rel="stylesheet"/>
+<link href="/Areas/MShop/Themes/AKTV/Content/Css/products_media.css" rel="stylesheet"/>
+<div id="products">
+<div class="station">
+       限时抢购
+    </div>
+    <div class="list-1" id="ProductListDiv">
+@{Html.RenderPartial("_CountDownList", Model);}
+</div>
+</div>
+
+

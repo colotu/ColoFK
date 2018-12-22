@@ -1,0 +1,20 @@
+﻿@model List<YSWL.MALL.Model.Shop.Products.ProductInfo>
+@if (Model != null && Model.Count > 0)
+{
+    foreach (var item in Model)
+    {
+        <div class="pro-list-item">
+            <div class="pro-item">
+                <a href="@item.SeoUrl">
+                    <div class="pro-pic">
+                        <img src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.ThumbnailUrl1, "T350X350_")" alt="@item.ProductName">
+                    </div>
+                    <p class="pro-name">@item.ProductName</p>
+                    <div class="pro-price">
+                        <span class="price-new"><i>¥</i>@item.LowestSalePrice.ToString("F")</span><span class="activity-tag tag-solid-btn">马上抢</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    }
+}

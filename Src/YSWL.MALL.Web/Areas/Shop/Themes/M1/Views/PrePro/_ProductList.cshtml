@@ -1,0 +1,113 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model  PagedList<YSWL.MALL.Model.Shop.PrePro.PreProduct>
+<div id="ProductListDiv">
+    <script type="text/javascript">
+        $(function () {
+            $.lazyFixedLoadImg('.list-n4', 175, 228);
+        });
+    </script>
+    @if (Model != null)
+    {
+        <div ajaxcontent="1" class="filterbox cf mb20" name="">
+            <div id="Sort">
+            </div>
+        </div>
+        <div ajaxcontent="1" class="itemmain mb20 relative" name="__FLLB002">
+            <ul class="list list-n4" id="J_lazyload">
+                @foreach (var item in Model)
+                {
+                    <li styleid="product_@(item.ProductId)" class="item item-sale"><a target="_blank" href="@(ViewBag.BasePath)PrePro/Detail/@item.ProductId"
+                                                            title="@item.ProductName" class="item-desc ForSkuLink">
+                        <img title="@item.ProductName" alt="@item.ProductName" width="175" height="228" ref="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.ThumbnailUrl, "T175X228_")">
+                        <span class="item-title" style="width: 180px; float: left">
+                            @item.ProductName </span></a><span style="float: left; color: grey">订购价：</span><span
+                                class="item-price" style="float: left"><em>@(item.SalePrice.ToString("F"))</em></span>
+                        <del style="padding-left: 128px; padding-top: 4px;">@(item.MarketPrice.ToString("F"))</del>
+                        <br />
+                        <div style="margin-top: -12px">
+                            <span style="float: left; color: grey">订金：</span><span style="float: left" class="item-price"><em>@(item.PreAmount.ToString("F"))</em></span></div>
+                        <br />
+                        @if (item.PreStartDate > DateTime.Now)
+                        {
+                           <div style="float: left">
+                                <span style="font-size: 14px; font-weight: bold; padding-top: 8px; color: #666;">
+                                敬请期待</span>  </div>
+                        }
+                        @if (item.PreEndDate > DateTime.Now && item.PreStartDate < DateTime.Now)
+                        {
+                            <div style="float: left">
+                                <span style="font-size: 14px; font-weight: bold; padding-top: 8px; color: #666;">正在预订</span>
+                                &nbsp;&nbsp;&nbsp;已订购：@item.BuyCount</div>   
+                        }
+                        @if (item.PreEndDate < DateTime.Now && item.BuyStartDate > DateTime.Now)
+                        {
+                            <div style="float: left">
+                                <span style="font-size: 14px; font-weight: bold; padding-top: 8px; color: #666;">
+                                预订已结束 </span> &nbsp;&nbsp;&nbsp;已订购：@item.BuyCount</div>    
+                        }
+                        @if (item.BuyStartDate < DateTime.Now && item.BuyEndDate > DateTime.Now)
+                        {
+                              <div style="float: left">
+                                <span style="font-size: 14px; font-weight: bold; padding-top: 8px; color: #666;">
+                                正在购买</span> &nbsp;&nbsp;&nbsp;已订购：@item.BuyCount</div>    
+                        }
+                        @if (item.BuyEndDate < DateTime.Now)
+                        {
+                              <div style="float: left">
+                                <span style="font-size: 14px; font-weight: bold; padding-top: 8px; color: #666;">
+                                购买已结束</span> &nbsp;&nbsp;&nbsp;已订购：@item.BuyCount</div>  
+                        }
+                           
+@*<p class="item-brand txtenddate" style="color: #666" endDate="@((item.PreEndDate.ToUniversalTime() - Convert.ToDateTime("1970-01-01")).TotalMilliseconds.ToString("0"))"  Product="@item.ProductId"  id="txtenddate_@(item.ProductId)">
+                            剩余：<span><span id="dayEnd_@(item.ProductId)">0</span>天<span id="hourEnd_@(item.ProductId)">0</span>时
+                                <span id="minEnd_@(item.ProductId)">0</span>分 <span id="secEnd_@(item.ProductId)">0</span>秒</span>
+                        </p>*@
+                    </li>
+                }
+            </ul>
+            <div class="loadingmask">
+                <div class="loadingmask-bg">
+                </div>
+                <div class="loadingmask-txt fixtop">
+                    <img src="/Areas/Shop/Themes/M1/Content/images/loading-pink.gif" class="mr10" style="vertical-align: middle"></div>
+            </div>
+        </div>
+        <div>
+            @Ajax.Pager(Model, new PagerOptions
+       {
+           ShowDisabledPagerItems = false,
+           AlwaysShowFirstLastPageNumber = true,
+           PageIndexParameterName = "pageIndex",
+           NumericPagerItemCount = 10,
+           CurrentPagerItemTemplate = "<p class=\"in_s\">{0}</p>",
+           NumericPagerItemTemplate = "<p>{0}</p>",
+           NavigationPagerItemTemplate = "<p>{0}</p>",
+           CssClass = "in_pages",
+            
+       }).AjaxOptions(a => a.SetUpdateTargetId("ProductListDiv"))
+            <input type="hidden" id="hfCurrentPageAjaxStartIndex" value="@ViewBag.CurrentPageAjaxStartIndex" />
+            <input type="hidden" id="hfCurrentPageAjaxEndIndex" value="@ViewBag.CurrentPageAjaxEndIndex" />
+        </div>
+    }
+</div>
+<script type="text/javascript">
+    $(function () {
+        $(".txtenddate").each(function () {
+            var endDate = $(this).attr("endDate");
+            var productId = $(this).attr("Product");
+            var myclass = new CountDown();
+            myclass.init({
+                id: 'txtenddate_' + productId,
+                //天数
+                day_Dom: $("#dayEnd_" + productId),
+                //小时
+                hour_Dom: $("#hourEnd_" + productId),
+                //分钟
+                min_Dom: $("#minEnd_" + productId),
+                //秒
+                sec_Dom: $("#secEnd_" + productId),
+                endTime: endDate
+            });
+        });
+    });
+</script>

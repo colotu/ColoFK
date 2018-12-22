@@ -1,0 +1,51 @@
+﻿<div class="help-center" id="help-center">
+    <div class="help-center-box">
+        <div class="w980">
+            <!--关于我们-->
+            @Html.Action("ContentList", "Partial", new { viewName = "_FooterContentList", ClassID = 12, Top = 6 })
+            <!--新手上路-->
+            @Html.Action("ContentList", "Partial", new { viewName = "_FooterContentList", ClassID = 13, Top = 6 })
+            <!--支付方式-->
+            @Html.Action("ContentList", "Partial", new { viewName = "_FooterContentList", ClassID = 14, Top = 6 })
+            <!--配送方式-->
+            @Html.Action("ContentList", "Partial", new { viewName = "_FooterContentList", ClassID = 15, Top = 6 })
+            <!--售后服务-->
+            @Html.Action("ContentList", "Partial", new { viewName = "_FooterContentList", ClassID = 16, Top = 6 })
+            <div class="help-center-acount">
+                <p>
+                    客服中心热线：021-95105225</p>
+                <p>
+                    客服中心信箱：service#maticsoft(发邮件时，请将#改为@@)</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- guarantee start -->
+<div class="guarantee">
+    <div class="w980">
+        <div class="guarantee-cont">
+            <ul>
+                <li>1000城市货到付款</li>
+                <li>10日无条件退换货</li>
+                <li>真实产品信息</li>
+                <li>专业服务团队</li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- guarantee end -->
+<script type="text/javascript">
+    //    var helpitemnamenum = $('[itemid=helpcenterabout]');    //document.getElementsByName($('[name=hidtopics]').val());
+    //    for (var i = 0; i < helpitemnamenum.length; i++) {
+    //        if (helpitemnamenum[i].attr('itemname') == "新手上路") {
+    //            helpitemnamenum[i].removeClass('help-center-about').addClass('help-center-novice');
+    //        }
+    //    }
+    //更改页脚显示样式
+    $('[itemid=helpcenterabout]').eq(1).removeClass('help-center-about').addClass('help-center-novice');
+    $('[itemid=helpcenterabout]').eq(2).removeClass('help-center-about').addClass('help-center-pay');
+    $('[itemid=helpcenterabout]').eq(3).removeClass('help-center-about').addClass('help-center-exp');
+    $('[itemid=helpcenterabout]').eq(4).removeClass('help-center-about').addClass('help-center-service');
+    $('.help-center-about').append("<dd><a href=\"" + $YSWL.BasePath + "store/apply\" target=\"_blank\">商家入驻</a></dd>");
+</script>
+

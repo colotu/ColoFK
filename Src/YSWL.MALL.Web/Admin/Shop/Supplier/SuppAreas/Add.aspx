@@ -1,0 +1,236 @@
+﻿<%@ Page Language="C#" MasterPageFile="~/Admin/Basic.Master" AutoEventWireup="true"
+    CodeBehind="Add.aspx.cs" Inherits="YSWL.MALL.Web.Admin.Shop.Supplier.SuppAreas.Add" Title="增加页" %>
+
+<%@ Register Src="~/Controls/SuppAreasDropList.ascx" TagPrefix="YSWL" TagName="SuppAreasDropList" %>
+<%@ Register Src="~/Controls/UCDroplistPermission.ascx" TagName="UCDroplistPermission" TagPrefix="uc2" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
+    <script src="/admin/js/tab.js" type="text/javascript"> </script>
+    <link href="/admin/css/tab.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript">
+        window.UEDITOR_HOME_URL = "/ueditor/";
+    </script>
+    <script src="/ueditor/ueditor.config.js" type="text/javascript"></script>
+    <script src="/ueditor/ueditor.all.min.js" type="text/javascript"></script>
+    <link href="/ueditor/themes/default/ueditor.css" rel="stylesheet" type="text/css" />
+    <link href="/admin/js/jquery.uploadify/uploadify-v2.1.0/uploadify.css" rel="stylesheet"  type="text/css" />
+    <script src="/admin/js/jquery.uploadify/uploadify-v2.1.0/swfobject.js" type="text/javascript"></script>
+    <script src="/admin/js/jquery.uploadify/uploadify-v2.1.0/jquery.uploadify.v2.1.0.min.js"  type="text/javascript"></script>
+    <script src="/Scripts/jquery/maticsoft.img.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#uploadify").uploadify({
+                'uploader': '/admin/js/jquery.uploadify/uploadify-v2.1.0/uploadify.swf',
+                'script': '/WebLogo.aspx',
+                'cancelImg': '/admin/js/jquery.uploadify/uploadify-v2.1.0/cancel.png',
+                'buttonImg': '/admin/images/uploadfile.jpg',
+                'queueID': 'fileQueue',
+                'width': 76,
+                'height': 25,
+                'auto': true,
+                'multi': true,
+                'fileExt': '*.jpg;*.gif;*.png;*.bmp',
+                'fileDesc': 'Image Files (.JPG, .GIF, .PNG)',
+                'queueSizeLimit': 1,
+                'sizeLimit': 1024 * 1024 * 10,
+                'onInit': function() {
+                },
+                'onSelect': function(e, queueID, fileObj) {
+                },
+                'onComplete': function(event, queueId, fileObj, response, data) {
+                    if (response.split('|')[0] == "1") {
+                        $("#imgUrl").attr("src", response.split('|')[1].format(''));
+                        $("[id$='HiddenField_ICOPath']").val(response.split('|')[1]);
+                    } else {
+                        ShowFailTip("图片上传失败！", 2000);
+                    }
+                },
+                'onError': function(event, ID, fileObj, errorObj) {
+                    ShowFailTip('上传文件发生错误, 状态码: [' + errorObj.info + ']', 2000);
+                }
+            });
+            resizeImg('.TabContent', 120, 120);
+        });
+    </script>
+    <style type="text/css">
+        /*890px*/
+        .results_pos { position: relative; overflow: hidden; background: red; float: left; width: 450px; background: #e5f0ff; border: 1px solid #c7deff; border-left: 0; height: 298px; }
+        .results_ol { position: absolute; display: block; overflow: hidden; clear: both; left: 0px; }
+    </style>
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <div class="newslistabout">
+        <div class="newslist_title">
+            <table width="100%" border="0" cellspacing="0" cellpadding="0" class="borderkuang">
+                <tr>
+                    <td bgcolor="#FFFFFF" class="newstitle">
+                        <asp:Literal ID="Literal2" runat="server" Text="新增店铺区域" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="nTab4">
+            <div class="TabTitle" style="display:none;">
+                <ul id="myTab1">
+                    <li class="active" onclick=" nTabs(this, 0); "><a href="javascript:;">基本信息</a></li>
+                    <li class="normal" onclick=" nTabs(this, 1); "><a href="javascript:;">查询优化</a></li>
+                </ul>
+            </div>
+      
+        <div class="TabContent">
+            <div id="myTab1_Content0">
+                <table cellpadding="2" cellspacing="1" class="TabMainborder">
+                    <tr>
+                        <td class="tdbg">
+                            <table cellspacing="0" cellpadding="0" width="100%" border="0">
+                                <tr>
+                                    <td class="td_class">
+                                        父级区域 ：
+                                    </td>
+                                    <td height="25">
+                                        <YSWL:SuppAreasDropList runat="server" ID="dllSuppAreasDropList"  IsNull="true" />
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td_class">
+                                        区域名称 ：
+                                    </td>
+                                    <td height="25">
+                                        <asp:TextBox ID="txtName" runat="server" Width="371px"></asp:TextBox>
+                                        <%--<asp:HiddenField runat="server" ID="Hidden_SelectName"/>--%>
+                                    </td>
+                                </tr>
+                                <tr style="display:none;">
+                                    <td class="td_class">
+                                        商品编号前缀 ：
+                                    </td>
+                                    <td height="25">
+                                        <asp:TextBox ID="txtSKUPrefix" runat="server" Width="371px"></asp:TextBox>
+                                    </td>
+                                </tr>
+                                <tr  style="display:none;">
+                                    <td class="td_class">
+                                        URL重写名称 ：
+                                    </td>
+                                    <td height="25">
+                                        <asp:TextBox ID="txtRewriteName" runat="server" Width="371px"></asp:TextBox>
+                                    </td>
+                                </tr>
+                                <tr >
+                                    <td class="td_class" style="vertical-align:top;">
+                                        图片 ：
+                                    </td>
+                                    <td height="25" class="pad-t10">
+                                            <asp:HiddenField ID="HiddenField_ICOPath" runat="server" />
+                                            <div id="fileQueue">
+                                            </div>
+                                            <input type="file" name="uploadify" id="uploadify" /><br />
+                                        <div id="pic_load" ><img id="imgUrl"  ref="/Content/themes/base/Shop/images/none.png" width="120" height="120" /></div>
+                                    </td>
+                                </tr>
+                                <tr  style="display:none;">
+                                    <td class="td_class">
+                                        区域描述 ：
+                                    </td>
+                                    <td height="25">
+                                        <asp:TextBox ID="txtDescription" runat="server" Width="700px" TextMode="MultiLine"></asp:TextBox>
+                                    </td>
+                                </tr>
+                                    <tr>
+                            <td class="td_class">
+                            </td>
+                            <td height="25">
+                                <asp:CheckBox ID="chkStatus" runat="server" Checked="True" />
+                                启用
+                            </td>
+                        </tr>
+                                <tr>
+                                    <td class="td_class">
+                                    </td>
+                                    <td height="25">
+                                        <asp:CheckBox ID="chkIsAdd" runat="server" Text="连续新增" />
+                                    </td>
+                                </tr>
+
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+               
+            </div>
+            <div id="myTab1_Content1" class="none4">
+                <table cellpadding="2" cellspacing="1" class="TabMainborder">
+                    <tr>
+                        <td class="tdbg">
+                            <table cellspacing="0" cellpadding="0" width="100%" border="0">
+                                <tr>
+                                    <td class="td_class">
+                                        页面标题 ：
+                                    </td>
+                                    <td height="25">
+                                        <asp:TextBox ID="txtMeta_Title" runat="server" Width="371px"></asp:TextBox>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td_class">
+                                        Meta描述标签 ：
+                                    </td>
+                                    <td height="25">
+                                        <asp:TextBox ID="txtMeta_Description" runat="server" Width="371px"></asp:TextBox>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td_class">
+                                        Meta关键字标签 ：
+                                    </td>
+                                    <td height="25">
+                                        <asp:TextBox ID="txtMeta_Keywords" runat="server" Width="371px"></asp:TextBox>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <table cellpadding="2" cellspacing="1" class="TabFotterBorder">
+                <tr>
+                    <td class="tdbg">
+                        <table cellspacing="0" cellpadding="0" width="100%" border="0">
+                            <tr>
+                                <td class="td_class">
+                                </td>
+                                <td height="25">
+                                    <asp:Button ID="btnCancle" runat="server" Text="<%$ Resources:Site, btnCancleText %>"
+                                        class="adminsubmit_short" OnClick="btnCancle_Click"></asp:Button>
+                                    <asp:Button ID="btnSave" runat="server" Text="<%$ Resources:Site, btnSaveText %>"
+                                        class="adminsubmit_short" OnClick="btnSave_Click"></asp:Button>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+              </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        var editor = new baidu.editor.ui.Editor({//实例化编辑器
+            iframeCssUrl: 'ueditor/themes/default/iframe.css', toolbars: [
+
+                ['fullscreen', 'source', '|',
+                'bold', 'italic', 'underline', 'strikethrough', '|', 'forecolor', 'backcolor', '|',
+                  'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', 'insertorderedlist', 'insertunorderedlist', '|', 'indent', '|',
+                 'fontfamily', 'fontsize', '|', 'imagenone', 'imageleft', 'imageright',
+                'imagecenter', '|', 'insertimage', '|', 'link', 'unlink']
+                 ],
+            initialContent: '',
+            initialFrameHeight: 220,
+            pasteplain: false
+            , wordCount: false
+            , elementPathEnabled: false
+            , autoClearinitialContent: true, imagePath: "/<%= YSWL.Components.MvcApplication.UploadFolder %>/RTF/", imageManagerPath: "/"
+        });
+        editor.render('<%=txtDescription.ClientID %>'); //将编译器渲染到容器
+    </script>
+</asp:Content>
+<asp:Content ID="Content3" ContentPlaceHolderID="ContentPlaceCheckright" runat="server">
+</asp:Content>

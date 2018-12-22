@@ -1,0 +1,175 @@
+﻿@{
+    Layout = "/Areas/MBShop/Themes/Y1/Views/Shared/_NoFootLayout.cshtml";
+
+}
+@using YSWL.MALL.Model.Shop.Products
+@model YSWL.MALL.ViewModel.Shop.ProductModel
+    <script src="/Scripts/jquery/maticsoft.jquery.min.js" type="text/javascript"></script>
+    <script src="/Scripts/jquery/maticsoft.img.min.js" type="text/javascript"></script>
+    <link href="/Scripts/jqueryui/base/jquery-ui-1.9.2.min.css" rel="stylesheet" type="text/css" />
+    <script src="/Scripts/jqueryui/jquery-ui-1.9.2.custom.js" type="text/javascript"></script>
+<script src="/Areas/MBShop/Themes/Y1/Content/Scripts/productdetail.js?v=20161118" type="text/javascript"></script>
+<script src="/Areas/MBShop/Themes/Y1/Content/Scripts/SKU.js?v=20161118" type="text/javascript"></script>
+<script src="/Scripts/jquery.cookie.js" type="text/javascript"></script>
+<script type="text/javascript">
+    pagename = "product_detail";
+    $(function() {
+        if (@Model.ProductInfo.SalesType == 3) {
+            $('#btnAddToCart').attr('disabled', 'disabled').addClass('btn_disabled').attr('itemid', '');
+            $('#btnBuyNow').attr('disabled', 'disabled').addClass('btn_disabled').attr('itemid', '');
+            $('#btnAddToCart_text').text('赠品不出售!');
+            $('#btnBuyNow_text').text('赠品不出售!');
+            $('#iteminfo #divBuyInfo').hide();
+            //$('#iteminfo #divSelectInfo').empty();
+        }
+        if (@Model.ProductInfo.SaleStatus !== 1) {
+            $('#btnAddToCart').attr('disabled', 'disabled').addClass('btn_disabled').attr('itemid', '');
+            $('#btnAddToCart_text').text('已下架!');
+            $('#btnBuyNow').attr('disabled', 'disabled').addClass('btn_disabled').attr('itemid', '');
+            $('#btnBuyNow_text').text('已下架!');
+            $('#iteminfo #divBuyInfo').hide();
+           // $('#iteminfo #divSelectInfo').empty();
+        }
+        @*if ("@ViewBag.Spread"== "True") {
+            $(".guid-share").show();
+        }
+        $(".guid-share").click(function() {
+            $(this).hide();
+        });*@
+
+        GetPvCount($("#hdProductId").val());
+        IsAddedFav($("#hdProductId").val());
+        //开启分仓
+        if ($('#hdIsMultiDepot').length > 0 && $('#hdIsMultiDepot').val().toLocaleLowerCase() == "true") {
+            //获取分仓商品库存
+            getDepotProdSkus(@(Model.ProductInfo.ProductId),parseInt($('#hdsuppId').val()));
+        }
+ 
+    });
+</script>
+@*<div class="guid-share" style="display: none">
+    <img style="width: 100%; " src="/Areas/MBShop/Themes/Y1/Content/images/guidShare.png" alt="@Model.ProductInfo.ProductName" />
+</div>*@
+<!--START HEADER-->
+<header class="m_header">
+    <div class="navbar-fixed-top">
+        <div class="m_header_bar">
+            <div class="m_icon_goback icon" onclick="history.go(-1);">
+                <span></span>
+            </div>
+            <p class="m_header_title">商品详情</p>
+            @*<div class="m_icon_share icon">
+                <span></span>
+            </div>*@
+        </div>
+    </div>
+</header>
+<!-- END HEADER -->
+<div class="prod_content mt44 mb50"  id="iteminfo">
+    <input type="hidden" id="hdIsMultiDepot" value ="@ViewBag.IsMultiDepot"/>
+@if (Model != null)
+{
+    <input id="hdProductId" type="hidden" value="@Model.ProductInfo.ProductId" />
+    <input id="hdsuppId" type="hidden" value="@Model.ProductInfo.SupplierId" />
+    <div class="scroll_imgs">
+        <!--图片轮播-->
+        <div id="myCarousel" class="carousel slide item_img">
+            <!-- 轮播（Carousel）项目 -->
+            <div class="carousel-inner">
+                
+                @if (Model != null && Model.ProductImages != null)
+                {
+                    int i = 0;
+                    foreach (ProductImage productImage in Model.ProductImages)
+                    {
+                 <div class="item item_img_wrap @(i == 0 ? "active" : "") ">
+                   <img class="item_img" src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(productImage.ThumbnailUrl1, "T350X350_")" alt="slide" style="height:320px;">
+                </div>
+                        i++;
+                    }
+                }
+            </div>
+            <!-- 轮播（Carousel）导航 -->
+            <a class="carousel-control left" href="#myCarousel"
+               data-slide="prev"></a>
+            <a class="carousel-control right" href="#myCarousel" data-slide="next"></a>
+           
+        </div>
+    </div>
+    <!-- 名称、价格 -->
+    <div class="goods_info">
+        <div class="goods_title">
+            @Model.ProductInfo.ProductName
+        </div>
+        <div class="goods_price">
+            <span class="price_red">¥<span id="stylePrice">
+    @if (Model.ProductSkus != null && Model.ProductSkus.Count > 0)
+    {
+        @Model.ProductSkus[0].SalePrice.ToString("F")
+    }
+</span>
+                @if (Model.ProductSkus != null && Model.ProductSkus.Count > 0 && Model.ProductSkus[0].RankPrice > 0)
+                {
+                    <br />@:会员价：¥<span id="rankPrice"> @Model.ProductSkus[0].RankPrice.ToString("F")</span>
+                }
+            </span>
+        </div>
+        <div>
+            @if (Model.ProductInfo.SaleStatus == 1 && Model.ProductInfo.SalesType == 1 && ViewBag.IsMultiDepot)
+            {
+                //已开启了分仓
+                @Html.Partial("/Areas/MBShop/Themes/Y1/Views/Partial/_RegoinLayer.cshtml")
+            }
+        </div>
+    </div>
+    <div class="goods_part part_btp wrap">
+        <div class="prod_spec"  id="SKUOptions">
+            @Html.Action("OptionSKU", "Product", new { ProductId = Model.ProductInfo.ProductId, SuppId = Model.ProductInfo.SupplierId, viewName = "_OptionSKU" })
+        </div>
+        @*<div id="divSelectInfo"></div>*@
+        <div class="prod_count" id="divBuyInfo">
+            <span class="part_spec_text">数量</span>
+            <div class="quantity_wrap">
+                <a class="quantity_decrease redu" href="javascript:;"  id="subtract">-</a>
+                <input type="text" size="4" value="1" name="num" id="productCount" class="common-input quantity"  />
+                <a class="quantity_increase add" id="plus" href="javascript:;">+</a>
+                <span id="div_stock" style="display:none; vertical-align: top;">（库存<span id="stock_num"></span>件）</span>
+            </div>
+        </div>
+    </div>
+
+    @Html.Action("WholeSale", new { pId = Model.ProductInfo.ProductId, suppId = Model.ProductInfo.SupplierId })
+  
+            <div class="goods_part part_btp wrap">
+                <a href="@(ViewBag.BasePath)product/productdesc/@Model.ProductInfo.ProductId">
+                    <p class="part_spec_text">商品详情</p>
+                    <div class="into icon">
+                        <span></span>
+                    </div>
+                </a>
+            </div>
+}
+</div>
+
+
+<!--底部悬浮导航-->
+<nav class="navbar-fixed-bottom navbar_bottom_wrap">
+    <div class="focus_icon"  productId="@Model.ProductInfo.ProductId" id="btnProductFav">
+        <a href="javascript:;" class="navbar_bottom_shp navbar_bottom bg_transparent" >
+            <img src="/Areas/MBShop/Themes/Y1/Content/images/love.png" id="img_love">
+            <img src="/Areas/MBShop/Themes/Y1/Content/images/love2.png" id="img_love2" style="display:none;">
+            <span class="font_white">收藏</span>
+        </a>
+    </div>
+                <div class="shp_btn" >
+                <a href="javascript:;" class="navbar_bottom_shp navbar_bottom bg_yellow"   id="btnAddToCart"  onclick="goto(this,0); ">
+                    <span class="font_white" id="btnAddToCart_text">加入购物车</span>
+                </a>
+                </div>
+              
+                <div class="buy_btn" >
+                    <a href="javascript:;" class="navbar_bottom_shp navbar_bottom bg_red"  id="btnBuyNow" onclick="goto(this,1);">
+                        <span class="font_white"  id="btnBuyNow_text">立即购买</span>
+                    </a>
+                </div>        
+</nav> 

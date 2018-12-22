@@ -1,0 +1,13 @@
+﻿@using System.Web.Mvc.Html
+@{
+    Layout = "~/Areas/MBShop/Themes/Y1/Views/Shared/_SiteLayout.cshtml";
+    @*网站前台模版*@
+}
+@section head{
+    @RenderSection("head", false)
+}
+@RenderBody()
+ @Html.Action("Footer", "Partial", new { area = "MBShop", ViewName = "_Footer" }) 
+@section foot{
+    @RenderSection("foot", false)
+}

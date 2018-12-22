@@ -1,0 +1,130 @@
+﻿ 
+<div id="dialog" class="dialog_wrap" currpid="">
+    <div class="dialog_head">
+        <a class="dialog_close" href="javascript:;" onclick="dialoghide();"><img src="/Areas/MBShop/Themes/Y1/Content/images/close.png" alt="close"></a>
+    </div>
+    <div class="mb50">
+        <div class="dialog_con mb50" style="height: auto;" id="dialog_con_">
+            <div class="shp_dialog_img">
+                <img class="shp_dialog_prodimg" id="dialog_prod_img">
+                <div class="shp_dialog_text">
+                    <h2 class="price_red">￥ <span id="stylePrice">0.00</span></h2>
+
+                    @*<p>会员价：¥<span id="rankPrice">0</span></p>*@
+
+                    <p class="shp_dialog_text_span">&nbsp;</p>
+                </div>
+            </div>
+            <!--属性容器-->
+            <div class="shp_dialog_spec">
+                <div class="prod_spec">
+                    <div id="SKUOptions">
+                        <!---skuOption--->
+                    </div>
+                    <!--数量-->
+                    <div class="prod_count">
+                        <div style="display: none;">
+                            <input type="radio" class="more_choice">
+                            <label class="part_spec_text more_choice_text">启用多选</label>
+                            <span class="shp_dialog_text_span">订购数量（件）</span>
+                        </div>
+                        <div class="quantity_wrap">
+                            <a class="quantity_decrease redu" href="javascript:;" id="subtract">-</a>
+                            <input type="text" size="4" value="1" class="quantity quantity" id="productCount">
+                            <a class="quantity_increase add" href="javascript:;" id="plus">+</a>
+                            <span id="div_stock" style="display: none; vertical-align: top;">（库存<span id="stock_num"></span>件）</span>
+                        </div>
+
+                    </div>
+                    @*分仓*@
+                    @if ((YSWL.MALL.Web.Areas.MBShop.Controllers.PartialController.IsOpenMultiDepot()) == true)
+                    {
+                        <div style="margin-top: 20px" class=".miltiDepot">
+                            <script src="/Scripts/jquery/jquery.cookie.js"></script>
+                            @Html.Partial("/Areas/MBShop/Themes/Y1/Views/Partial/_RegoinLayer.cshtml")
+                        </div>
+                    }
+                    
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="shp_cart_bottom">
+        <nav class="navbar-fixed-bottom navbar_bottom_wrap">
+            <div class="focus_icon" >
+                <a href="javascript:;" class="navbar_bottom bg_transparent shp_focus"  id="btnProductFav">
+                    <img src="/Areas/MBShop/Themes/Y1/Content/images/love.png" id="img_love">
+                    <img src="/Areas/MBShop/Themes/Y1/Content/images/love2.png" id="img_love2" style="display:none;">
+                    <span class="font_white">收藏</span>
+                </a>
+            </div>
+            <div class="btn_right">
+                <a href="javascript:;" class="navbar_bottom_settlement navbar_bottom bg_red" id="btnAddToCart" onclick="addCart(this);">
+                    <span class="font_white" id="btnAddToCart_text">加入购物车</span>
+                </a>
+            </div>
+        </nav>
+    </div>
+</div>
+<input type="hidden" id="hdIsMultiDepot" value="@(YSWL.MALL.Web.Areas.MBShop.Controllers.PartialController.IsOpenMultiDepot())"/>
+<div id="fade" class="black_overlay" style="z-index: 1099;"></div>
+<script type="text/javascript">
+
+    pagename = "groupbuy_detail";
+    //控制内容的最大高度
+    $('#dialog_con_').css('max-height', $(window).height() - 100);
+
+    //显示窗体
+    function dialogShow(productId, suppId, imgF, suppid, pid) {
+
+        if (undefined != suppid) {
+            $('body').append('<input id="hdsuppId" type="hidden" value="' + suppid + '"/>');
+        }
+        if (undefined != pid) {
+            $('body').append('<input id="hdProductId" type="hidden" value="' + pid + '"/>');
+        }
+        //保持上次点击的值
+        if (parseInt($('#dialog').attr('currpid')) != productId) {
+            $('#dialog_prod_img').attr('src',imgF.format('T81X81_'));
+            resetData(productId, suppId);//重置数据
+        }
+        $('html').css('overflow-y','hidden');//隐藏页面滚动条
+        $('#dialog').show(600);
+        $('#fade').css('height', document.body.scrollHeight).show();
+        if ($('#footer').length > 0) {
+            $('#footer').hide();
+        }
+
+    }
+    //隐藏窗体
+    function dialoghide() {
+        $('html').css('overflow-y', 'auto');//恢复页面滚动条
+        $('#dialog').hide(300);
+        $('#fade').hide();
+        if ($('#footer').length > 0) {
+            $('#footer').show();
+        }
+    }
+    //重置数据
+    function resetData(productId, suppId) {
+        IsAddedFav(productId);
+        $('#SKUOptions').html('');
+        $('#btnAddToCart').attr('itemid', '').removeAttr('disabled', 'disabled').removeClass('btn_disabled').find('#btnAddToCart_text').text('加入购物车');
+        $('#div_stock').hide();
+        $('#stock_num').text('0');
+        $('#productCount').val('1');
+        $('#dialog').attr('currpid', productId);
+        $('#btnProductFav').attr('productId', productId);
+        //加载新的sku数据
+        $('#SKUOptions').load($YSWL.BasePath + "Partial/OptionSKU?productId=" + productId, function () {
+            //开启分仓
+            if ($('#hdIsMultiDepot').length > 0 && $('#hdIsMultiDepot').val().toLocaleLowerCase() == "true") {
+                //获取分仓商品库存
+                getDepotProdSkus(productId, suppId);
+                getDepotProdSkus();
+            }
+        });
+    }
+</script>

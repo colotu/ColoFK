@@ -1,0 +1,150 @@
+﻿@model YSWL.MALL.ViewModel.Shop.ProductListModel
+@{
+    Layout = "/Areas/Shop/Themes/M1/Views/Shared/_BaseLayout.cshtml";
+    string cid = Request.RequestContext.RouteData.Values["cid"] != null ? Request.RequestContext.RouteData.Values["cid"].ToString() : "0";
+    string brandid = Request.RequestContext.RouteData.Values["brandid"] != null ? Request.RequestContext.RouteData.Values["brandid"].ToString() : "0";
+    string keyword = Request.RequestContext.RouteData.Values["keyword"] != null ? Request.RequestContext.RouteData.Values["keyword"].ToString() : "";
+    string mod = Request.RequestContext.RouteData.Values["mod"] != null ? Request.RequestContext.RouteData.Values["mod"].ToString() : "default";
+    string price = Request.RequestContext.RouteData.Values["price"] != null ? Request.RequestContext.RouteData.Values["price"].ToString() : "0-0";
+}
+<link rel="stylesheet" href="/Areas/Shop/Themes/M1/Content/css/dialog,item,item-s,paging,scroeAndlist-v1.css"
+    type="text/css" />
+<script src="/Areas/Shop/Themes/M1/Content/Scripts/jquery.history.js" type="text/javascript"></script>
+<script src="/Areas/Shop/Themes/M1/Content/Scripts/jquery.cookie.js" type="text/javascript"></script>
+<script src="/Areas/Shop/Themes/M1/Content/Scripts/jquery.scrollto.js" type="text/javascript"></script>
+<script src="/Areas/Shop/Themes/M1/Content/Scripts/dialog.js" type="text/javascript"></script>
+<script src="/Areas/Shop/Themes/M1/Content/Scripts/ListBase.js" type="text/javascript"></script>
+<script src="/Areas/Shop/Themes/M1/Content/Scripts/List.js" type="text/javascript"></script>
+<script type="text/javascript" src="/Areas/Shop/Themes/M1/Content/Scripts/lazyLoad.js"></script>
+<script src="/Scripts/jquery/maticsoft.waterfall.min.js" type="text/javascript"></script>
+<script src="/Scripts/jquery/maticsoft.img.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="@Url.Content("/Scripts/jquery.unobtrusive-ajax.min.js")"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#btnSearch").click(function () {
+            var keyword = $("#txtKeyWord").val();
+            if (keyword == "") {
+                ShowFailTip('请输入关键字！');
+                return;
+            }
+            location.href = $YSWL.BasePath+"search/0/0/default/0-0/" + keyword;
+        });
+    })
+</script>
+ 
+<link media="screen" type="text/css" rel="stylesheet" href="/Areas/Shop/Themes/M1/Content/css/msg,list,item,item-s,paging,scroe,autocomplete,search-list.css">
+<div class="w980">
+    <ul class="crumb">
+        <li class="crumb-hp"><a href="@(ViewBag.BasePath)">首页 </a></li>
+        <li class=""><a href="@(ViewBag.BasePath)search/0/@brandid/@mod/@price/@keyword">所有商品 </a></li>
+        @if (Model.CategoryPathList != null && Model.CategoryPathList.Count > 0)
+        {
+            foreach (var item in Model.CategoryPathList)
+            {
+            <li class=""><a href="@(ViewBag.BasePath)search/@item.CategoryId/@brandid/@mod/@price/@keyword">@item.Name</a>
+            </li>
+            }
+        }
+        <li>
+            <h1 class="">
+                关键词：@keyword (共找到 <span id="spPCount">@ViewBag.TotalCount </span>个商品)
+            </h1>
+        </li>
+    </ul>
+</div>
+<div class="w980">
+    <div class="col-main" id="mainDiv">
+        <!--搜索店铺-->
+       @Html.Action("Store", "Search", new { keyword = keyword })
+        <div style="display: none;" id="ajaxContentPosition">
+        </div>
+        <div name="__XGSS0011" class="rel-search-key cf tsearch-key" style="display: ;">
+            <span class="rel-search-key-title">相关搜索： </span>
+            @Html.Action("HotKeyword", "Partial", new { Cid = cid, Top = 8, ViewName = "_RelateKeyword" })
+        </div>
+        <a ajaxcontent="1"></a>
+        <div ajaxcontent="1" class="proditembox mb20" id="Filter" name="__SXSX0011">
+            <div class="termlist bor1">
+                <!--品牌-->
+                @Html.Action("BrandList", new { cid = Model.CurrentCid, ViewName = "_Brands", top = -1 })
+            </div>
+            <div ajaxcontent="1" style="display: none;" class="act-scroll proTypeChoose" id="proTypeChoose">
+                <a href="javascript:void(0);" class="exscroll db" id="toggleTypes">更多选项 </a>
+            </div>
+        </div>
+        @{Html.RenderPartial("_ProductList", Model);}
+        <div ajaxcontent="1" class="search-cont-bar" name="__CXSS0011">
+            <div class="search-cont-in">
+                <div class="text-shadow-l">
+                    <div class="text-shadow-r">
+                        <div class="text-bor-l">
+                            <input name="KeyWord" id="txtKeyWord" type="text" value="" placeholder="请输入你要找的商品"
+                                   class="intext fl c9 f14 w1 KeyWordButton" >
+                            <input type="submit" id="btnSearch" class="search-btn fr">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div name="__XGSS0011" class="rel-search-key cf tsearch-key" style="display: ;">
+            <span class="rel-search-key-title">相关搜索： </span>
+            @Html.Action("HotKeyword", "Partial",new { Cid = cid, Top = 8,ViewName="_RelateKeyword" })
+        </div>
+        <div class="myfitbox mt15 cf">
+            <div class="fl" id="areaRecommend" style="" name="__CNXH0011">
+                <p class="fit-title fb">
+                    也许你会喜欢
+                </p>
+                @Html.Action("ProductRec", "Partial", new { Type = YSWL.MALL.Model.Shop.Products.ProductRecType.Recommend, Top = 6, Cid = Model.CurrentCid, viewName = "_ProductListRec" })
+            </div>
+        </div>
+    </div>
+    <div class="col-sub">
+        <!--分类-->
+        <div class="box-sub" name="__NZLB001">
+            @Html.Action("ProductCategory", new { Cid = Model.CurrentCid, ViewName = "_ProductCategory" })
+        </div>
+        <!--热销新品-->
+        <div class="box-sub" id="areaHotNew" name="__RXSP004">
+            <div class="hd">
+                <h2>
+                    热销新品</h2>
+            </div>
+            @Html.Action("ProductRec", "Partial", new { Type = YSWL.MALL.Model.Shop.Products.ProductRecType.Latest, Top = 10, Cid = Model.CurrentCid })
+        </div>
+        <!--品牌旗舰店-->
+        @*     @Html.Action("BrandList", "Product", new { productType=Model.ProductInfo.TypeId,Top=10})*@
+        <script type="text/javascript">
+            var MbarndBtn = $('<div class="moreBrand"><a href="#">显示更多品牌</a></div>');
+            if ($("#J_brand>li").size() > 10) {
+                $("#J_brand>li").slice(10).hide();
+                $("#J_brand").after(MbarndBtn);
+            }
+            $(".moreBrand").click(function () {
+                $("#J_brand>li").slice(10).show();
+                $(".moreBrand").remove();
+                return false;
+            })
+        </script>
+        <!--广告-->
+        <!--热门评论-->
+        <div class="box-sub" id="areaHotComment" style="" name="__NZPL001">
+            <div class="hd">
+                <h2>
+                    特价商品</h2>
+            </div>
+            @Html.Action("ProductRec", "Partial", new { Type = YSWL.MALL.Model.Shop.Products.ProductRecType.Cheap, Top = 10, Cid = Model.CurrentCid })
+        </div>
+        <!--最近浏览的商品-->
+        <div class="box-sub" id="areaLastView" style="display: none;" name="__NZLL001">
+            @Html.Action("ProductLastView", "Product")
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    new LazyLoad('#J_lazyload');
+
+//    $(BindSearchResultEvent);
+</script>
+<!--add for autocomplete-->
+

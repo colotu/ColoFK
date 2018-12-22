@@ -1,0 +1,90 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model YSWL.MALL.ViewModel.Shop.ProductListModel
+<div class="list-1" id="ProductListDiv">
+    @if (Model.ProductPagedList != null)
+    {
+        for (int i = 0; i < Model.ProductPagedList.Count; i++)
+        {
+            <div class="item">
+                <ul>
+                    <li class="img"><a href="@(ViewBag.BasePath)p/d/@Model.ProductPagedList[i].ProductId">
+                                        <img src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(Model.ProductPagedList[i].ThumbnailUrl1, "T158X158_")"></a></li>
+                    <li class="name"><a href="@(ViewBag.BasePath)p/d/@Model.ProductPagedList[i].ProductId">
+                                         @Model.ProductPagedList[i].ProductName</a><span>￥@Model.ProductPagedList[i].LowestSalePrice.ToString("F")</span>
+                    
+                    </li>
+                    <li class="item-addcart" style="display: none;text-align: center; margin-bottom: 10px;">
+                        <span id="AddCart" productId="@(Model.ProductPagedList[i].ProductId)" style="
+padding-left: 15px;margin: 0 auto;width: 100px;
+display: block;
+background: url(/Areas/MShop/Themes/AKTV/Content/images/list-v1-1.gif) no-repeat 0 -446px;">
+                            <a href="javascript:;" style="color: #C62E3A;
+white-space: nowrap;
+padding-right: 15px;
+line-height: 22px;
+cursor: pointer;
+_position: relative;
+overflow: hidden;
+height: 22px;
+_line-height: 24px;display: block;
+background: url(/Areas/MShop/Themes/AKTV/Content/images/list-v1-1.gif) no-repeat 0 -446px;
+background-position: 100% -446px;">加入购物车</a>
+                        </span>
+                    </li>
+                </ul>
+            </div>
+            if ((i + 1)%2 == 0)
+            {
+                <div class="clear">
+                </div>
+            }
+        }
+
+    }
+            <div>
+            @Ajax.Pager(Model.ProductPagedList, new PagerOptions
+       {
+           ShowDisabledPagerItems = false,
+           AlwaysShowFirstLastPageNumber = false,
+           PageIndexParameterName = "pageIndex",
+           NumericPagerItemCount = 5,
+           CurrentPagerItemTemplate = "<p class=\"in_s\">{0}</p>",
+           NumericPagerItemTemplate = "<p>{0}</p>",
+           NavigationPagerItemTemplate = "<p>{0}</p>",
+           CssClass = "in_pages",
+            
+       }).AjaxOptions(a => a.SetUpdateTargetId("ProductListDiv"))
+        </div>
+</div>
+
+<script type="text/javascript">
+    $(".item-addcart #AddCart").die('click').live('click', function () {
+        var sender = this;
+        $.ajax({
+            type: "POST",
+            dataType: "json",
+            async: false,
+            url: $YSWL.BasePath + "ShoppingCart/AddCart?s=" + new Date().format('yyyyMMddhhmmssS'),
+            data: { ProductId: $(sender).attr('productId'), Count: 1 },
+            success: function (resultData) {
+                switch (resultData.STATUS) {
+                    case "SUCCESS":
+                        ShowSuccessTip("加入购物车成功！");
+                        break;
+                    default:
+                        switch (resultData.DATA) {
+                            case "NOSTOCK":
+                                ShowServerBusyTip("非常抱歉, 商品库存不足！");
+                                break;
+                            case "NOSKU":
+                            case "NO":
+                            default:
+                                ShowFailTip("服务器繁忙，请稍候再试！");
+                                break;
+                        }
+                        break;
+                }
+            }
+        });
+    });
+</script>

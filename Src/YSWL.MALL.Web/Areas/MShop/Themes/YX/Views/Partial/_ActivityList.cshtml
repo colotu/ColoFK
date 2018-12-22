@@ -1,0 +1,48 @@
+﻿@model  YSWL.MALL.ViewModel.Shop.ActivityModel 
+ @if (Model != null  )
+ {    
+   <div  class="margin_10" >
+    <div class="margin_bottom_5">促销活动</div>
+   
+      @if (Model.First != null && Model.First.Count > 0)
+      {
+          <ul  >
+       @foreach (YSWL.MALL.Model.Shop.Activity.ActivityInfo item in Model.First)
+          {
+                @Html.Partial("_ActivityListSub", item)
+          }
+
+             </ul>
+      }
+        @if (Model.Full != null && Model.Full.Count > 0)
+    {
+         <ul  >
+        @foreach (YSWL.MALL.Model.Shop.Activity.ActivityInfo item in Model.Full)
+        {
+            @Html.Partial("_ActivityListSub", item)
+        }
+            </ul>
+    }
+      
+   
+      @if (Model.Coupon != null && Model.Coupon.Count > 0)
+      {
+             <ul >
+            @foreach (YSWL.MALL.Model.Shop.Activity.ActivityInfo item in Model.Coupon)
+          {
+             @Html.Partial("_ActivityListSub", item)
+          }
+             </ul>
+      }
+      
+        @if (Model.FreeShipping != null && Model.FreeShipping.Count > 0)
+     {
+            <ul >
+         @foreach (YSWL.MALL.Model.Shop.Activity.ActivityInfo item in Model.FreeShipping)
+         {
+             @Html.Partial("_ActivityListSub", item)
+         }
+       </ul>
+     }
+   </div>
+ }

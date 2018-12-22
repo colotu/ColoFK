@@ -1,0 +1,28 @@
+﻿<div class="footer clearfix">
+    <div class="footnav">
+         @if (ViewBag.usernickname != null)
+    {
+        <a href="@(ViewBag.BasePath)u" style="margin-left:45px;">@ViewBag.usernickname </a><a href="@(ViewBag.BasePath)account/Logout"> 退出登录 </a>
+    }
+    else if (!ViewBag.IsAutoLogin)
+    {
+        <a href="@(ViewBag.BasePath)a/l">登录 </a> @:│<a href="@(ViewBag.BasePath)a/r"> 注册 </a> 
+    }
+        <a href="#" class="backtop" mars_sead="home_foot_top_btn"></a>
+    </div>
+        <div class="tabnav clearfix">
+            <a href="@ViewBag.BasePath" >云商未来</a>|  <a href="@ViewBag.BasePath" >微商城</a>
+        </div>
+    </div>
+
+<script type="text/javascript">
+document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+WeixinJSBridge.call('hideOptionMenu');
+});
+</script>
+
+<script type="text/javascript">
+document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+WeixinJSBridge.call('hideToolbar');
+});
+</script>

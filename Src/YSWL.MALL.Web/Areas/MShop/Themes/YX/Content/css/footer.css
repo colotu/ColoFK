@@ -1,0 +1,91 @@
+﻿.footer {display: none; background:#B0B8BF;; border-top:solid 1px #FFF; padding-bottom:15px ; text-align:center; font-size:12px; line-height:20px; color:#686e7c; }
+.footer .footer{padding-top: 0; border-top: none;padding: 0; }
+.copyright p span{ display: block;margin: 0 auto;}
+.copyright p .mr15{width: 200px;}
+.footer .footer{padding-top: 0; border-top: none;padding: 0; }
+.footer .copyright{line-height:13px}
+
+
+
+.sku-size-select 
+{
+list-style: none outside;
+white-space: nowrap;
+}
+           .sizeOptions dt {
+margin: 0 4px 4px 0px;
+_display: inline;
+}
+.sizeOptions dt {
+float: left;
+}
+.sizeOptions dt a {
+color: #666;
+text-decoration: none;
+cursor: default;
+font: 12px/1.5 "宋体b8b\4f53", tahoma, arial;
+}
+.sizeOptions dt a {
+border: 1px solid #999;
+padding: 2px 4px;
+display: block;
+_float: left;
+background: #fff;
+}
+/*分仓筛选地区样式开始*/
+#store-selector .text {
+position: relative;
+top: 0;
+height: 18px;
+background: #fff;
+border: 1px solid #CECBCE;
+padding: 1px 4px 2px 4px;
+line-height: 18px;
+}
+.delivery_areas_r select
+{
+line-height: 16px;
+padding: 4px 5px;
+border: 1px solid;
+border-color: #848484 #C1C1C1 #e1e1e1;
+vertical-align: middle;
+color: #999;
+box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+margin-right: 3px;
+margin-bottom: 10px;
+margin-left: 20px;
+display: block;
+}
+ 
+.ceng_kuang .close_a {
+position: absolute;
+z-index: 2;
+top: 0;
+right: 0;
+}
+.ceng_kuang .close_a img 
+{
+width: 20px;
+height: 20px; 
+}
+
+ 
+ .z_z_ceng
+    {
+            /*display:none;*/
+            background:#000;filter:alpha(opacity=10);opacity:.6;top:0px;position:fixed;height:100%;width:100%;overflow:hidden;z-index: 9999;right:-100%;
+        }
+ .ceng_kuang{/*display:none;*/position: fixed;width:70%;height:100%; border: 1px solid rgb(228, 228, 228); background-color: rgb(255, 255, 255);z-index:10000;top:0;right:-100%;}
+                    .a_yangshi{width:49%;display: inline-block;color: #333 !important;text-decoration: none !important;}
+
+.delivery_areas_r select{
+        
+    }
+/*分仓筛选地区样式结束*/ 
+
+ 
+ .set_grey{background: #f1f1f1;}
+ 
+ .so_f_left{float: left;margin: 1px 3px 2px;height: 50px;}
+
+ 

@@ -1,0 +1,35 @@
+﻿@{
+    Layout = "/Areas/MB/Themes/MB02/Views/Shared/_BaseLayout.cshtml";
+}
+@section head{
+    <link href="/Areas/MB/Themes/MB02/Content/Css/main.css?v=1.2" rel="stylesheet" />
+<link href="~/Areas/MB/Themes/MB02/Content/Css/gopc.css" rel="stylesheet" />
+}
+<div class="main_wrapper">
+    <header>
+        <div class="top_navbar fixed_header">
+            @Html.Partial("/Areas/MB/Themes/MB02/Views/Partial/_Back.cshtml")
+            <p class="header_title">在电脑上管理</p>
+        </div>
+    </header>
+    <div class="top"></div>
+    <!--START 头部导航栏-->
+    <div class="content">
+        <div class="pc-img ta-ct "><img src="~/Areas/MB/Themes/MB02/Content/images/pc.png"></div>
+        <div class="pc-content">
+            <div class="pc-gl ta-ct ">电脑后台管理<br> 更加方便、快捷、安全！</div>
+            <div class="ta-ct cl-b2 mt3 ">电脑访问 <br/>
+                <span class="color_blue">dh.ys56.com/sp/account/login?tag=@(ViewBag.EnterpriseTag)</span>
+              </div>
+            <div class="pc-line"></div>
+            <div class="pc-jslist pc-icon">
+                <ul>
+                    <li><i class="ic1"></i><span>编辑和管理商品资料  </span></li>
+                    <li><i class="ic2"></i><span>店铺的后台配置和管理   </span></li>
+                    <li><i class="ic5"></i><span>客户订单监测及管理    </span></li>
+                    <li class="mt10">更多内容登录电脑后台......</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

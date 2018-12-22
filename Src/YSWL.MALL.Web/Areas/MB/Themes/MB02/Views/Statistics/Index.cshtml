@@ -1,0 +1,60 @@
+﻿@{
+    Layout = "~/Areas/MB/Themes/MB02/Views/Shared/_BaseLayout.cshtml";
+}
+@section head{
+    <link href="/Areas/MB/Themes/MB02/Content/Css/main.css?v=1.2" rel="stylesheet" />
+}
+<div class="main_wrapper mb55">
+    <div class="ranking_wrap">
+        <header>
+            <div class="top_navbar fixed_header">
+                @Html.Partial("/Areas/MB/Themes/MB02/Views/Partial/_Back.cshtml")
+                <p class="header_title">销量排行</p>
+            </div>
+        </header>
+        <div class="top"></div>
+        <div class="ranking_container">
+          
+            <div class="rank_item">
+                <div class="rk_title">
+                    <div class="text">今日商户销量排行</div>（<span class="m_color">TOP10</span>）
+                    @*<a href="javascript:;" class="more">更多<span class="def_arrow">&gt;</span></a>*@
+                </div>
+                <div class="rk_content">
+                    @Html.Action("MerchantSales", "Home", new { Top = 10, Type = "day", viewName = "/Areas/MB/Themes/MB02/Views/Statistics/_MerchantSales.cshtml" })
+                </div>
+            </div>
+
+            <div class="rank_item">
+                <div class="rk_title">
+                    <div class="text">本月商户销量排行</div>（<span class="m_color">TOP10</span>）
+                    @*<a href="javascript:;" class="more">更多<span class="def_arrow">&gt;</span></a>*@
+                </div>
+                <div class="rk_content">
+                    @Html.Action("MerchantSales", "Home", new { Top = 10, Type = "mouth", viewName = "/Areas/MB/Themes/MB02/Views/Statistics/_MerchantSales.cshtml" })
+                </div>
+            </div>
+
+            <div class="rank_item">
+                <div class="rk_title">
+                    <div class="text">今日商品销量排行</div>（<span class="m_color">TOP10</span>）
+                    @*<a href="javascript:;" class="more">更多<span class="def_arrow">&gt;</span></a>*@
+                </div>
+                <div class="rk_content">
+                    @Html.Action("ProductSales", "Home", new { Top = 10, Type = "day", viewName = "/Areas/MB/Themes/MB02/Views/Statistics/_ProductSales.cshtml" })
+                </div>
+            </div>
+
+            <div class="rank_item">
+                <div class="rk_title">
+                    <div class="text">本月商品销量排行</div>（<span class="m_color">TOP10</span>）
+                    @*<a href="javascript:;" class="more">更多<span class="def_arrow">&gt;</span></a>*@
+                </div>
+                <div class="rk_content">
+                                        @Html.Action("ProductSales", "Home", new { Top = 10, Type = "mouth", viewName = "/Areas/MB/Themes/MB02/Views/Statistics/_ProductSales.cshtml" })
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

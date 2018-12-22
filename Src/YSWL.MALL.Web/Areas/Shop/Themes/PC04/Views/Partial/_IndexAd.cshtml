@@ -1,0 +1,30 @@
+﻿@model List<YSWL.MALL.Model.Settings.Advertisement>
+<div class="promo">
+    <div class="promo-bd">
+        @if (Model != null)
+        {
+                <div class="swiper-wrapper">
+                    @foreach (var item in Model)
+                    {
+                        <div class="swiper-slide">
+                            <a href="@item.NavigateUrl" title="@item.AdvertisementName" target="_blank">
+                                <div class="banner-con" style="background: url(@item.FileUrl) center no-repeat;"></div>
+                            </a>
+                        </div>
+                    }
+                </div>
+                <div class="swiper-pagination">
+                    @*<span class="swiper-pagination-switch"></span>*@
+                </div>
+            <script type="text/javascript">
+                var banner = new Swiper('.promo-bd', {
+                    autoplay: 3000,//可选选项，自动滑动
+                    loop: true,//可选选项，开启循环
+                    pagination: '.swiper-pagination',
+                    paginationClickable: true,
+                    createPagination: true
+                })
+            </script>
+        }
+    </div>
+</div>

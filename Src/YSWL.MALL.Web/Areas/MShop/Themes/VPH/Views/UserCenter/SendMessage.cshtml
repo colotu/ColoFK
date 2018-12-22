@@ -1,0 +1,42 @@
+﻿ @{
+     Layout = "/Areas/MShop/Themes/VPH/Views/Shared/_BaseLayout.cshtml";
+     ViewBag.Title = "个人中心";
+ }
+ <script src="/Areas/MShop/Themes/VPH/Content/Scripts/UserCenter/sendmessage.js" type="text/javascript"></script>
+ <style type="text/css">
+  .displayblock {
+         display: block;
+     }
+</style>
+<header id="header" class="header clearfix">
+    <div class="head_left fl"><a href="javascript:;" onclick="history.go(-1);"><span class="h_back"></span></a></div>
+    <span class="headtit">发送消息</span>
+    <div class="head_right fr"><a href="@(ViewBag.BasePath)"><span class="h_home"></span></a></div>
+</header>
+
+<div class="connerdiv">
+    <dl class="connerbox">
+     <dd>
+                      <span>昵称：</span>
+                      <input name="txtuserName" id="txtNickName" placeholder="昵称" type="text"   class="text_input" />
+                  </dd>
+                  <dd><span>主题：</span>
+                    <input type="text"   id="txtTitle" placeholder = "主题" name="txtNickName" class="text_input"> <br /> 
+                  </dd>
+                  <dd>
+                      <span>内容：</span>
+                         <textarea id="txtContent" name="txtSingature" class="text_input" placeholder = "内容"
+                                                  rows="5" cols="20" style="height:80px;"></textarea>
+                  </dd>
+    </dl> 
+
+
+ <div class="space15"></div>
+        <input type="submit" id="registerSubmit" value="" style="display: none;" />
+        <input type="button" class="btn_red largerbtn longbtn" id="btnSendMsg" value="发送" >
+        <div class="space15"></div>
+</div>
+
+ <div class="modal hide ui-error "  style="width: 100%; top: 0px;  left: 0px;">
+<div class="modal-body ">
+<div class="modal-message"><a href="javascript:void(0)" class="closeBtn">×</a><div id="errorMsg"></div></div></div></div>

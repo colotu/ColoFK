@@ -1,0 +1,18 @@
+﻿@model List<YSWL.MALL.Model.CMS.Content>
+               <ul>
+                   @if (Model != null && Model.Count > 0)
+                   {
+                       foreach (var item in Model)
+                       {
+                           <li class="ohwnte">
+                               <a href="@(ViewBag.BasePath)Article/ArticleDetail?id=@item.ContentID" target="_blank" class="c_666" title="@item.Title ">
+                                   @item.Title
+                               </a>
+                           </li>
+                       }
+                   }
+                   else
+                   {
+                       <li><p>暂无内容</p></li>
+                   }
+               </ul>

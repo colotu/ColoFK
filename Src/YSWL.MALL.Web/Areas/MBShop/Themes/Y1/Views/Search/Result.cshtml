@@ -1,0 +1,43 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model YSWL.ViewModel.Shop.ProductListModel
+@{
+    Layout = "/Areas/MBShop/Themes/Y1/Views/Shared/_BaseLayout.cshtml";
+    ViewBag.Title = "搜索结果";
+    ViewBag.Keywords = "搜索结果";
+    ViewBag.Description = "搜索结果";
+}
+
+    @*<!DOCTYPE html>
+
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title></title>
+    </head>
+    <body>
+        <div>
+
+        </div>
+    </body>
+    </html>*@
+<div class="main-wrapper">
+    <!--START HEADER-->
+    <header class="m_header">
+        <div class="navbar-fixed-top">
+            <div class="m_header_bar">
+                <div class="m_icon_goback icon" onclick="javascript:history.go(-1);">
+                    <span></span>
+                </div>
+                <p class="m_header_title">搜索结果</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="mt44 mb50">
+        @*@Html.Action("FavorList", "UserCenter", "")*@
+        @{Html.RenderPartial("_Result", Model);}
+
+    </div>
+    @Html.Partial("/Areas/MBShop/Themes/Y1/Views/Partial/_AddCart.cshtml")
+
+    </div>

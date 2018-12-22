@@ -1,0 +1,82 @@
+﻿@{
+    Layout = "~/Areas/MShop/Themes/AKTV/Views/Shared/_BaseLayout.cshtml";
+    ViewBag.Title = "注册";
+    string regStr = ViewBag.RegisterToggle;
+}
+@model YSWL.MALL.ViewModel.Shop.RegisterModel
+<link href="/Areas/MShop/Themes/AKTV/Content/Css/user.css" rel="stylesheet" />
+<script type="text/javascript" src="/Areas/MShop/Themes/AKTV/Content/Scripts/UserCenter/user.js"></script>
+<script type="text/javascript" src="/Areas/MShop/Themes/AKTV/Content/Scripts/UserCenter/EmailRegister.js"></script>
+<style>
+    .errorInfo
+    {
+        border: 1px solid red!important;
+    }
+</style>
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { id = "user_form" }))
+{ 
+           <input type="hidden" id="hfPhoneNumber"/>
+      
+    <input id="hfRegisterToggle" type="hidden" value="@regStr" /> 
+    <h1>
+        会员注册</h1>
+    if (regStr == "Email")
+    {
+    <div class="input">
+        @Html.TextBoxFor(m => m.UserName, new { id = "email", Class = "registerinput", placeholder = "请输入邮箱" })
+    </div>
+    }
+    else if (regStr == "Phone")
+    {
+        if (ViewBag.SMSIsOpen)
+        {
+    <div class="input">
+        @Html.TextBoxFor(m => m.UserName, new { id = "phone", Class = "registerinput", placeholder = "请输入手机号码" })
+    </div>
+    <div class="input">
+        <input type="text" name="xlInput" maxlength="4" id="imageCode" class="registerinput"  placeholder="验证码" style="width: 50%;"    />
+         <img id="ImageCheck" onclick="ChangeImageCode()" src="/ValidateCode.aspx" tooltip="验证码"   style="vertical-align: bottom;width: 80px;height: 40px;"/>
+    </div>
+    <div class="input">
+    <input id="btnSendSMS" type="button" value="发送校验码短信" style="width: 175px;" />
+     </div>
+    <div class="input">
+    @Html.TextBoxFor(m => m.SMSCode, new { id = "checkCode", maxlength = "6", name = "xlInput", Class = "registerinput", placeholder = "请输入效验码" })
+    </div>
+        }
+        else
+        {
+    <div class="input">
+        @Html.TextBoxFor(m => m.UserName, new { id = "phone", Class = "registerinput", placeholder = "请输入手机号码" })
+    </div>
+        }
+
+    }
+    else
+    {
+    <div class="input">
+        @Html.TextBoxFor(m => m.UserName, new { id = "email", Class = "registerinput", placeholder = "请输入邮箱" })
+    </div>
+    }
+    <div class="input">
+        @Html.TextBoxFor(m => m.NickName, new { id = "nickname", Class = "registerinput", placeholder = "请输入昵称" })
+    </div>
+    <div class="input">
+        @Html.PasswordFor(m => m.Password, new { id = "pwd", Class = "registerinput", placeholder = "请输入密码" })
+    </div>
+    <div class="input">
+        @Html.PasswordFor(m => m.ConfirmPassword, new { Class = "registerinput", id = "vpwd", placeholder = "确认密码" })
+    </div>
+    <div class="input">
+        <input type="checkbox" id="chkAgreement" style="float: left; width: auto;margin-top: 10px;height: auto;">
+        <div style="padding-top: 5px; margin-left: 20px; font-size: 16px;">
+            同意 <a href="@(ViewBag.BasePath)Account/UserAgreement" target="_blank" style="font-size: 16px;margin-left: -3px;">
+                注册协议</a>
+        </div>
+    </div>
+           
+    <div class="submit">
+         
+        <input type="button" value="立即注册" id="btnEmailRegister" class="btn_red largerbtn longbtn">
+    </div>
+}

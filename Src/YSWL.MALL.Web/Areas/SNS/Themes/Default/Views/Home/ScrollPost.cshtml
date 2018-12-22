@@ -1,0 +1,38 @@
+﻿@model  List<YSWL.MALL.Model.SNS.Posts>
+<script type="text/javascript">
+    myFocus.set({
+        id: 'tqq',
+        pattern: 'mF_sd_tqq',
+        time: 4
+    });
+    $(function () {
+        $('body').timeago();
+        $("#tqq").show();
+    });
+</script>
+<script src="/Scripts/timeCount/js/timeago.js" type="text/javascript"></script>
+<script src="/Scripts/timeCount/js/locales/timeago.zh-cn.js" type="text/javascript"></script>
+<div class="gund">
+    <p class="gund_s">
+        最新动态</p>
+    <div id="tqq" class="mF_sd_tqq mF_sd_tqq mF_sd_tqq-tqq" style="display: none">
+        <ul class="msgs" style="margin-top: 0px;">
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <li style="opacity: 0.72;" data-id="@i">
+                    <div class="img">
+                        <a target="_blank" href="@(ViewBag.BasePath)User/Posts/@(Model[i].CreatedUserID)">
+                            <img style=" width:40px; height:40px" src="/@(YSWL.Components.MvcApplication.UploadFolder)/User/Gravatar/@(Model[i].CreatedUserID).jpg"  alt="@Model[i].CreatedNickName" /></a>
+                    </div>
+                    <div class="msg">
+                        <a target="_blank" href="@(ViewBag.BasePath)User/Posts/@(Model[i].CreatedUserID)">@Model[i].CreatedNickName
+                            &nbsp;</a><span>:分享了宝贝：<a href="@(ViewBag.BasePath)Product/Detail/@Model[i].TargetId">@Model[i].ProductName</a>
+                            </span>
+                        <br />
+                        <span>@YSWL.MALL.ViewModel.ViewModelBase.DateDiff(Model[i].CreatedDate)</span>
+                    </div>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

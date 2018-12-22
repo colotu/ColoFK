@@ -1,0 +1,31 @@
+﻿@{
+    Layout = "/Areas/MShop/Themes/VPH/Views/Shared/_ShopBaseLayout.cshtml";
+}
+@using YSWL.MALL.Model.Shop.Products
+@model YSWL.MALL.Model.Shop.Products.ProductInfo
+<script type="text/javascript" src="/Scripts/jquery/maticsoft.img.min.js"></script> 
+<script type="text/javascript">
+    $(function () {
+        var width = $(window).width();
+        $.scaleLoad('#imgdetail', width, 1280);
+    });
+</script>         
+<div class="top">
+    <a href="javascript:;" onclick="history.go(-1)"> <span>&lt;返回</span></a>
+    @Html.Partial("/Areas/MShop/Themes/VPH/Views/Partial/_HeadRight.cshtml")
+</div>
+@if (Model != null)
+{
+    <div class="productshow_title">@Model.ProductName</div>
+    
+<div class="sift-tab">
+  <ul class="tab-lst">
+    <li><a href="javascript:void(0)" value="wareInfo" class="on">商品介绍</a></li>
+  </ul>
+</div>
+<div class="detail" id="imgdetail">
+  @Html.Raw(Model.Description) 
+</div>
+
+}
+

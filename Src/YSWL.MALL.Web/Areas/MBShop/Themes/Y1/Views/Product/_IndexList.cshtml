@@ -1,0 +1,96 @@
+﻿
+@model YSWL.MALL.ViewModel.Shop.ProductListModel
+    @using Webdiyer.WebControls.Mvc
+        <script type="text/javascript">
+            $(function () {
+                           waterFall.init({
+                               //Ajax请求参数
+                               AjaxOptions: {
+                                   //Ajax请求参数
+                                   Params: { ajaxViewName: "_ProductListWaterfall" },
+                                   //Params:@Html.Raw(ViewBag.DataParam),
+                                   //Ajax请求URL
+                                   DataURL: "@(ViewBag.BasePath)Product/Index"
+                               },
+                               //瀑布流起始索引记录器 - 用于累计
+                               CurrentAjaxStartIndexHF: $('#hfCurrentPageAjaxStartIndex'),
+                               //瀑布流起始索引
+                               StartIndex:$('#hfCurrentPageAjaxStartIndex').val() ? parseInt($('#hfCurrentPageAjaxStartIndex').val()) : 0,
+                               //瀑布流结束索引
+                               EndIndex: $('#hfCurrentPageAjaxEndIndex').val() ? parseInt($('#hfCurrentPageAjaxEndIndex').val()) : 0,
+
+                               //分页容器
+                               PagedContainer: $('.in_pages'),
+                               //列容器ID前缀
+                               ColumnFirstId: "J_lazyload",
+                               //列数
+                               ColumnNumber: 0,RowNumber: 3
+                           });
+                           $.lazyFixedLoadImg('.prod_img', 158, 158);
+                       });
+        </script>
+        <div class="index_title">
+            @*@ViewBag.CategoryName*@
+        </div>
+        @if (Model != null  && Model.ProductList != null && Model.ProductList.Count > 0)
+        {
+
+            for (int i = 0; i < Model.ProductList.Count; i++)
+            {
+                <div class="prod col-xs-6 col-sm-3 product">
+                    <a class="prod_img" href="@(ViewBag.BasePath)p/d/@Model.ProductList[i].ProductId" >
+                        <img src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(Model.ProductList[i].ThumbnailUrl1, "T158X158_")" alt="" style="height: 158px">
+                        @switch ((int)Model.ProductList[i].ruleType)
+                    {
+                        case 0:
+                                <div class="prod_tip bg_red">
+                                    打折
+                                </div>
+                                break;
+                            case 1:
+                                <div class="prod_tip bg_blue">
+                                    减价
+                                </div>
+                                break;
+                            case 2:
+                                <div class="prod_tip bg_green">
+                                    直降
+                                </div>
+                                break;
+                            default:
+                                break;
+                        }
+                    </a>
+                   
+                    <div class="prod_item">
+                        <span>@(Model.ProductList[i].ProductName.Length>18?Model.ProductList[i].ProductName.Substring(0,17)+"..":Model.ProductList[i].ProductName)</span>
+                        <span class="price_red">￥@Model.ProductList[i].LowestSalePrice.ToString("f")</span>
+                    </div>
+                    @{
+                        if (Model.ProductList[i].SalesType == 1 && Model.ProductList[i].SaleStatus == 1 && ViewBag.IsMultiDepot)
+                        {
+
+
+                            <div class="cart2 icon" onclick="dialogShow(@Model.ProductList[i].ProductId,@Model.ProductList[i].SupplierId,'@Model.ProductList[i].ThumbnailUrl1',@Model.ProductList[i].SupplierId,@Model.ProductList[i].ProductId);">
+                               <span></span>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="cart2 icon" onclick="dialogShow(@Model.ProductList[i].ProductId,@Model.ProductList[i].SupplierId,'@Model.ProductList[i].ThumbnailUrl1')">
+                                <span></span>
+                            </div>
+                        }
+                    }
+                </div>
+            }
+                <input type="hidden" id="hfCurrentPageAjaxStartIndex" value="@ViewBag.CurrentPageAjaxStartIndex" />
+                <input type="hidden" id="hfCurrentPageAjaxEndIndex" value="@ViewBag.CurrentPageAjaxEndIndex" />
+            <input type="hidden" id="hfCurrentPageAjaxSize" value="@ViewBag.CurrentPageAjaxSize"/>
+
+                        }
+
+
+
+
+

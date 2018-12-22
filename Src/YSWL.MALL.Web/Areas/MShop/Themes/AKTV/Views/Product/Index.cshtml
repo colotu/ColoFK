@@ -1,0 +1,24 @@
+﻿@{
+    Layout = "~/Areas/MShop/Themes/AKTV/Views/Shared/_BaseLayout.cshtml";
+    int parentId = YSWL.Common.Globals.SafeInt(ViewBag.ParentId,0);
+}
+
+@model YSWL.MALL.ViewModel.Shop.ProductListModel
+<link href="/Areas/MShop/Themes/AKTV/Content/Css/products.css" rel="stylesheet"/>
+<link href="/Areas/MShop/Themes/AKTV/Content/Css/products_media.css" rel="stylesheet"/>
+<script type="text/javascript" src="@Url.Content("/Scripts/jquery.unobtrusive-ajax.min.js")"></script>
+<div id="products">
+    <div class="station">
+        <a href="@(ViewBag.BasePath)p?pageSize=16">
+            产品展示</a> &gt; 
+        @if (parentId!=0)
+        {
+            <a href="@(ViewBag.BasePath)p/@parentId">@ViewBag.parentCateName  </a> @:>
+            
+        }
+        <a href="@(ViewBag.BasePath)p/@Model.CurrentCid">@Model.CurrentCateName</a>
+    </div>
+
+    @{Html.RenderPartial("_ProductList", Model);}
+            
+</div>

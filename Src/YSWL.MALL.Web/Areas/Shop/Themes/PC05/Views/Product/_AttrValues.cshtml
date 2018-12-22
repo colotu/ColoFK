@@ -1,0 +1,15 @@
+﻿@model List<YSWL.MALL.Model.Shop.Products.AttributeValue>
+
+@if (Model != null && Model.Count > 0)
+{    
+    foreach (var item in Model)
+            {
+  
+				                	 	 	<span class="dsib">
+				                	 	 	@*<input type="checkbox" name="aa@(item.AttributeId)" class="ce" value="@(item.ValueId)">*@
+				                	 	 	<a class="item attrvalue"  title="@item.ValueStr"  href="javascript:;" attrId="@item.AttributeId"   valueid="@item.ValueId"  >               	 	 	
+				                	 	 	@item.ValueStr</a></span>              	 	 	                  	                      	 	 	                  	                   
+				                     
+}
+
+}

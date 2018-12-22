@@ -1,0 +1,24 @@
+﻿@{
+    ViewBag.Title = "发件箱";
+    Layout = "~/Areas/SNS/Themes/TufenXiang/Views/Shared/_UserCenterLayOut.cshtml";
+}
+@using Webdiyer.WebControls.Mvc;
+@model PagedList<YSWL.MALL.Model.Members.SiteMessage>
+ <script type="text/javascript" src="@Url.Content("/Scripts/jquery.unobtrusive-ajax.min.js")"></script>
+<input type="hidden" id="currentpage" value="span_9"/>
+<div class="material_con">
+    <h1>
+        <p class="material_con_a">
+            我的发件箱</p>
+    </h1>
+    <div class="letters">
+     
+        <div class="letters_b" id="OutBoxList">
+                @{Html.RenderPartial("~/Areas/SNS/Themes/TufenXiang/Views/UserCenter/OutboxList.cshtml", Model);}
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+</div>
+<div class="clear">
+</div>

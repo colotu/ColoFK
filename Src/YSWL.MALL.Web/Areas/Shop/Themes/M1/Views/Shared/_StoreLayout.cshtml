@@ -1,0 +1,23 @@
+﻿ @{
+    Layout = "~/Areas/Shop/Themes/M1/Views/Shared/_SiteLayout.cshtml";
+@*店铺模版*@
+ }
+ @section head{
+   <link rel="stylesheet" href="/Areas/Shop/Themes/M1/Content/css/storestyle.css" type="text/css" />
+    @RenderSection("head", false)
+ }
+<div id="hd">
+    
+    @Html.Action("Header", "Partial", new { area = "Shop" })
+
+    @Html.Action("Search", "Partial", new { area = "Shop" })
+   
+    @Html.Action("Navigation", "Partial", new { area = "Shop" })
+
+</div>
+@Html.Action("Header", "Store", new { area = "Shop" })
+@RenderBody()
+@Html.Action("Footer", "Partial", new { area = "Shop" })
+@section foot{
+    @RenderSection("foot", false)
+}

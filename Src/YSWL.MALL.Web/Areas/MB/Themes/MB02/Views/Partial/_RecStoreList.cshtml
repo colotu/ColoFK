@@ -1,0 +1,36 @@
+﻿@model  List<YSWL.MALL.Model.Shop.Supplier.SupplierInfo>
+@if (Model != null && Model.Count > 0)
+{
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            @foreach (var item in Model)
+            {
+                <div class="swiper-slide">
+                    <a href="@(ViewBag.BasePath)Store/@item.SupplierId" title="@item.ShopName">
+                        <div class="shop_item">
+                            <div class="shop_info">
+                                <div class="shop_name">
+                                    <span class="word_shop">铺</span>
+                                    @item.ShopName
+                                </div>
+                                <div class="pro-quantity">商品总数：<span class="quantity-num">@item.ProductCount</span>件</div>
+                                <div class="shop_address">
+                                    @item.Address
+                                </div>
+                            </div>
+                            <div class="shop_pic">
+                                <img src="@(ViewBag.BasePath)Partial/SuppLogo?id=@(item.SupplierId)&size=T200X200" alt="@item.ShopName" onerror="this.onerror = null; this.src = '/Images/Shop/store-default.jpg'">
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            }
+        </div>
+    </div>
+    <script type="text/javascript">
+        var shopRecSwiper = new Swiper('.shop-recommend .swiper-container', {
+            slidesPerView: 1.7,
+            loop: false
+        })
+    </script>
+}

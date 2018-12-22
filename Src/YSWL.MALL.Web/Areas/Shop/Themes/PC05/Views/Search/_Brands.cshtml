@@ -1,0 +1,53 @@
+﻿@model List<YSWL.MALL.Model.Shop.Products.BrandInfo>
+@{
+    string cid = Request.RequestContext.RouteData.Values["cid"] != null ? Request.RequestContext.RouteData.Values["cid"].ToString() : "0";
+    string brandid = Request.RequestContext.RouteData.Values["brandid"] != null ? Request.RequestContext.RouteData.Values["brandid"].ToString() : "0";
+    string keyword = Request.RequestContext.RouteData.Values["keyword"] != null ? Request.RequestContext.RouteData.Values["keyword"].ToString() : "";
+    string mod = Request.RequestContext.RouteData.Values["mod"] != null ? Request.RequestContext.RouteData.Values["mod"].ToString() : "default";
+    string price = Request.RequestContext.RouteData.Values["price"] != null ? Request.RequestContext.RouteData.Values["price"].ToString() : "0-0";
+
+}
+<script type="text/javascript">
+    $(function () {
+          
+        $(".brandlist").each(function () {
+            var value = $(this).attr("brandId");
+       
+            if (value == @brandid) {
+                  $(this).addClass("hover");
+            }
+        });
+    })
+</script>
+                 @if (Model != null && Model.Count > 0)
+                 {
+   <ul class="sub-sul clearfix" >
+   	<li class="clearfix"><span class="slil">品牌：</span>
+				            	
+				              
+				                	<span class="slir">
+				                	<div class="divldss"><span class="dsib"><a class="item brandlist" title="不限" href="@(ViewBag.BasePath)search/@cid/0/@mod/@price/@keyword" brandid="0" >不限</a></span></div>
+				         <div class="divr">
+                          @foreach (var item in Model)
+                          { 
+				                	 	 	<span class="dsib"  > 
+				                	 	 	@*<input type="checkbox" name="aabrand" class="ce" value="@(item.BrandId)"/>*@
+                                            <a href="@(ViewBag.BasePath)search/@cid/@item.BrandId/@mod/@price/@keyword"  style="width: 113px;height: 48px;"   class="item brandlist"  title="@item.BrandName" brandid="@(item.BrandId)">  
+                                            <img alt="@item.BrandName" src="@item.Logo"/></a>
+				                	 	 	 </span>              	 	 	                  	                         	 	 	                  	                       
+                          }  
+                           </div>
+				                   	@*<input type="hidden" id="brandId" value="" />*@	   
+					                @*<span class="sear-but">
+						                <input type="button" value=" " class="sb-bt1"  />
+						                <input type="button" value=" " class="sb-bt2" />
+					                 </span>	 *@    
+				                     </span>                    
+					                <span class="smore" style="display: none;"></span>
+					                <span class="gmore" style="display: none;"></span>
+					                <div class="clear"></div>   
+				           
+                       
+                     </li>
+				            </ul>	
+                 }

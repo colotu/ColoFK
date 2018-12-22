@@ -1,0 +1,25 @@
+﻿<div class="footer">
+     @if (ViewBag.usernickname != null)
+    {
+        <a href="@(ViewBag.BasePath)u">@ViewBag.usernickname </a> @:│ <a href="@(ViewBag.BasePath)account/Logout"> 退出 </a>
+    }
+    else if (!ViewBag.IsAutoLogin)
+    { 
+        <a href="@(ViewBag.BasePath)a/l">登录 </a>@:│<a href="@(ViewBag.BasePath)a/r"> 注册 </a> 
+    } 
+
+</div>
+@if (ViewBag.IsHideMenu)
+{
+     <script type="text/javascript">
+         document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+             WeixinJSBridge.call('hideOptionMenu');
+         });
+</script>
+}
+
+<script type="text/javascript">
+document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+WeixinJSBridge.call('hideToolbar');
+});
+</script>

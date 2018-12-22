@@ -1,0 +1,23 @@
+﻿@model List<YSWL.MALL.Model.Settings.MainMenus>
+		      <ul class="nav-ul" e_cms="navic" e_cdata="navlist">
+		        	<li><a  href="@(ViewBag.BasePath)" >首页 </a></li>
+                     @if (Model != null && Model.Count > 0)
+            {
+                foreach (var item in Model)
+                {
+                    if (item.URLType == 4)
+                    {
+                        <li><a  @(item.Target == 1 ? "target='_blank'" : "")  href="@(ViewBag.BasePath)product/@item.NavURL">@item.MenuName</a></li>
+                    }
+                    else
+                    {
+                        <li><a  @(item.Target == 1 ? "target='_blank'" : "")   href="@item.NavURL">@item.MenuName</a></li>
+                    }
+                }
+            }
+		        </ul>
+		        <div class="toplast-nav" style="display:none;">
+		        	<a target="_blank"   class="aclosr">介绍</a>
+		            <a target="_blank" >会员晒单</a>
+					<a target="_blank"  >店铺</a>
+		        </div>

@@ -1,0 +1,49 @@
+﻿<script type="text/javascript">
+    $(function () {
+        $("#NavBtnSearch").click(function () {
+            var keyword = $("#NavTxtKeyWord").val();
+            if (keyword == "") {
+                ShowFailTip('请输入关键字！');
+                return;
+            }
+            location.href = "@(ViewBag.BasePath)Search/0/0/default/0-0/" + keyword;
+        });
+        $('#NavTxtKeyWord').keyup(function (event) {
+            if (event.keyCode == '13') {
+                event.preventDefault();
+                $('#NavBtnSearch').click();
+            }
+        });
+    });
+</script>
+<div class="w980 cf">
+    <div class="hd-main">
+        
+        <div class="hd-main-logo">
+            <a href="/" title="@ViewBag.WebName">
+                <img src="@ViewBag.Logo" alt="@ViewBag.WebName" width="270" height="62">
+            </a>
+        </div>
+
+        <div class="hd-main-search" id="hd-search">
+            <fieldset>
+                <legend>搜索</legend>
+                <label class="search-bg">
+                    <input type="text" name="keyword" id="NavTxtKeyWord" placeholder="请输入你要找的商品" class="hd-text c9"
+                           autocomplete="off" />
+                </label>
+                <input type="submit" id="NavBtnSearch" value="搜索" class="hd-sbt" />
+            </fieldset>
+            <div class="hd-search-kw" id="hdsearch-box">
+                <dl id="sKeywords" style="visibility: visible;">
+                    <dt>热门关键词：</dt>
+                    @Html.Action("HotKeyword", new { Cid = 0, Top = 6 })
+                </dl>
+            </div>
+        </div>
+        <div id="headSlide-box" class="hd-tSlide">
+            @Html.Action("AD", "Partial", new { AdvPositionId = 31 })
+        </div>
+    </div>
+</div>
+<!--搜索关键词维护-->

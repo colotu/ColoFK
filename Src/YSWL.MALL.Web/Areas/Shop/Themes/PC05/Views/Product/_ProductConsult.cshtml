@@ -1,0 +1,73 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model  PagedList<YSWL.MALL.Model.Shop.Products.ProductConsults>
+              <ul class="goodus2 goodusxq1">
+            	<li class="hover">商品咨询</li>
+            	<li class="zixu"><a href="javascript:;" class="btnAddConsult" >[我要咨询]</a></li>
+            </ul>
+            <div class="gd-tab bd" style="display:block;">
+ 
+       
+        @if (Model != null && Model.Count > 0)
+        {
+            <ul class="discusslist mb10 c6">
+                @foreach (var item in Model)
+                {
+                    <li class="discusslist-item cf">
+                        <div class="cf">
+                            <a class="fl discusslist-Item-avatar" target="_blank" href="javascript:;">
+                                <img src="/@(YSWL.Components.MvcApplication.UploadFolder)/User/Gravatar/@(item.UserId).jpg" ></a>
+                            <div class="discusslist-item-con" style="height:56px;">
+                                <div class="tr c9">
+                                    <span class="fl"><a href="javascript:;" target="_blank"  class="td_buyname" style="display:none;">@item.UserName</a>提问：</span>
+                                    @item.CreatedDate
+                                </div>
+                                <p class="mt5">
+                                    @item.ConsultationText</p>
+                            </div>
+                        </div>
+                        @if (!String.IsNullOrWhiteSpace(item.ReplyText))
+                        {
+                             <div class="discusslist-back">
+                            <div class="cf mb5">
+                                <span class="fr c9">@item.ReplyDate</span><span class="h">@item.ReplyUserName：</span></div>
+                            <p>
+                                @item.ReplyText</p>
+                         </div>
+                        }
+                       
+                    </li>
+                }
+            </ul>
+             
+              <div class="page mtp12">
+               @Ajax.Pager(Model, new PagerOptions
+          {
+              ShowDisabledPagerItems = false,
+              AlwaysShowFirstLastPageNumber = true,
+              PageIndexParameterName = "pageIndex",
+              NumericPagerItemCount = 10,
+              CurrentPagerItemTemplate = "<a class=\"shoye\">{0}</a>",
+              CssClass = "page",
+              FirstPageText = "首页",
+              PrevPageText = "上一页",
+              NextPageText = "下一页",
+              LastPageText = "尾页"
+          }).AjaxOptions(a => a.SetUpdateTargetId("qaList"))
+			  </div>
+        }
+        else { 
+        <div class="pijia"  >
+            	<div style="text-align:center"><i class="no_propt">暂无商品咨询!</i></div>
+                </div>
+        }
+ 
+            	
+            </div>
+         
+ 
+<div id="divAjaxConsults" style="display: none">
+    <div style='margin-left: 10px; margin-top: 10px; font-size: 14px; font-weight: bold;'>
+        咨询内容：
+        <textarea id="txtConsult" cols="20" rows="2" style='height: 80px; width: 260px;'></textarea>
+    </div>
+</div>

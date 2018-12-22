@@ -1,0 +1,87 @@
+﻿@Html.YSWLSEO(PoweredBy: true)
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="format-detection" content="telephone=no">
+<link href="/Scripts/msgbox/css/msgbox.css" rel="stylesheet" />
+<link href="/Scripts/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+<link href="/Areas/MBShop/Themes/Y1/Content/Css/main.css" rel="stylesheet" type="text/css">
+<link href="/Areas/MBShop/Themes/Y1/Content/Css/reset.css" rel="stylesheet" type="text/css">
+@*<script src="/Scripts/jquery-1.8.3.min.js" type="text/javascript"></script>*@
+<script src="/Scripts/jquery-1.9.1.js"></script>
+<script src="/Scripts/jquery/maticsoft.jquery.min.js" type="text/javascript"></script>
+<script src="/Scripts/msgbox/js/msgbox.js" type="text/javascript"></script>
+<script type="text/javascript" language="javascript">    var $YSWL = { BasePath: '@(ViewBag.BasePath)', CurrentArea: '@(ViewBag.CurrentArea)' } </script>
+<div class="main-wrapper">
+    <!--START HEADER-->
+    <header class="m_header">
+        <div class="navbar-fixed-top">
+            <div class="m_header_bar">
+                <p class="m_header_title">微信支付订单</p>
+            </div>
+        </div>
+    </header>
+    <!-- END HEADER -->
+    <div class="mt44 mb50">
+        <div class="wrap" style="display:block">
+            <div class="empty_warning_text">
+                订单号：@(ViewBag.OrderCode)
+            </div>
+            <div class="prompt_text">
+                支付金额：@(ViewBag.OrderAmount.ToString("F"))元
+            </div>
+        </div>
+    </div>
+
+    <a href="javascript:;">
+        <nav class="navbar-fixed-bottom nav_bottom_focus bg_red"  id="pay" >
+            <span class="font_white">确认支付</span>
+        </nav>
+    </a>
+</div>
+ <input type="hidden" value="@ViewBag.OrderId" id="OrderId" />
+<script type="text/javascript">
+    if (!navigator.userAgent.toLowerCase().match(/MicroMessenger/i)) {
+        alert('检测到非微信环境, 请使用微信内置浏览器进行支付!');
+    }
+
+    // 当微信内置浏览器完成内部初始化后会触发WeixinJSBridgeReady事件。
+    document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+
+        $('#pay').click(function () {
+            var sender = this;
+            $(sender).fadeOut();
+            var result = $.parseJSON($.getUrlParam('json'));
+            //            alert('json:' + $.getUrlParam('json'));
+            WeixinJSBridge.invoke('getBrandWCPayRequest', result.DATA, function (res) {
+                if (res.err_msg == "get_brand_wcpay_request:ok") {
+                    AlertSuccess('微信支付成功!');
+                    setTimeout(
+                        function () {
+                            window.location.replace('@(ViewBag.BasePath)u/Orders/');
+                        }, 3000);
+                } else {
+                    $(sender).show();
+                }
+
+                //  返回 res.err_msg,取值
+
+                // get_brand_wcpay_request:cancel   用户取消
+
+                // get_brand_wcpay_request:fail 发送失败
+
+                // get_brand_wcpay_request:ok  发送成功
+                //                    alert(res.err_msg);
+
+                WeixinJSBridge.log(res.err_msg);
+                //                    alert(res.err_code + res.err_desc);
+            });
+        });
+
+        WeixinJSBridge.log('yo~ ready.');
+    }, false);
+
+</script>
+
+

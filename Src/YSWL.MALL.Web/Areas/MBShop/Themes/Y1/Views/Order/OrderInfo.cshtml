@@ -1,0 +1,156 @@
+﻿@{
+    Layout = "~/Areas/MBShop/Themes/Y1/Views/Shared/_BaseLayout.cshtml";
+
+}
+@model YSWL.MALL.Model.Shop.Order.OrderInfo
+<body class="bg">
+    <div class="main-wrapper">
+        <!--START HEADER-->
+        <header class="m_header">
+            <div class="">
+                <div class="m_header_bar">
+                    <div class="m_icon_goback icon" onclick="javascript:history.go(-1);">
+                        <span></span>
+                    </div>
+                    <p class="m_header_title">订单详情</p>
+                </div>
+            </div>
+        </header>
+        <!-- END HEADER -->
+
+        <div class="common_wrap">
+            <div class="menu_list">
+                <a href="javascript:void(0);">
+                    <div class="item_addr">
+                        <div class="menu_item pl10">
+                            <span>订单状态</span>
+                        </div>
+                        <div class="address_info">
+                            <p>@YSWL.MALL.Web.Areas.MBShop.Controllers.UserCenterController.GetOrderType(Model.PaymentGateway, Model.OrderStatus, Model.PaymentStatus, Model.ShippingStatus)</p>
+                            <p>订单单号：<span>@Model.OrderCode</span></p>
+                            <p>下单时间：<span class="order_date">@Model.CreatedDate</span></p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="menu_list">
+                <a href="javascript:void(0);">
+                    <div class="menu_item pl10">
+                        <span>订单总额</span>
+                        <span>￥@Model.Amount.ToString("F")</span>
+                    </div>
+                </a>
+            </div>
+            <div class="menu_list">
+                <a href="javascript:void(0);">
+                    <div class="item_addr">
+                        <div class="menu_item pl10">
+                            <span>收货信息</span>
+
+                        </div>
+                        <div class="address_info">
+                            <p>收货人:@Model.ShipName</p>
+                            <p>@Model.ShipAddress</p>
+                            <p>@Model.ShipCellPhone</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="menu_list">
+                <a href="javascript:void(0);">
+                    <div class="item_addr">
+                        <div class="menu_item pl10">
+                            <span>配送信息</span>
+                        </div>
+                    </div>
+                    <div class="address_info">
+                        <p>配送方式：@Model.RealShippingModeName</p>
+                        <p >物流单号：@(string.IsNullOrWhiteSpace(Model.ShipOrderNumber) ? "无" : Model.ShipOrderNumber)</p>
+                    </div>
+            </a>
+        </div>
+        <div class="menu_list_bottom">
+            <a href="javascript:void(0);" onclick="showing();">
+                <div class="menu_item pl10">
+                    <span>商品清单</span>
+                    <div id="a" class="into_open icon">
+                        <span></span>
+                    </div>
+                </div>
+            </a>
+            <div id="address">
+                @if (Model.OrderItems.Count > 0)
+                {
+                    foreach (var ite in Model.OrderItems)
+                    {
+                        @*图片/单价/名称/数量*@
+                        @*ite.ThumbnailsUrl/ SellPrice/ Name / Quantity*@
+                        @*<div class="order_open">
+                                <div class="order_open_prod recent_prod">
+                                    <div class="cart_photo_wrap">
+                                        <a href="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(ite.ThumbnailUrl1, "T81X81_")" class="cart_photo_cell">
+                                            <img class="shp_cart_img" src="images/6.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="recent_text">
+                                        <p class="order_open_p">@ite.Name</p>
+                                        <span class="text_span">x @ite.Quantity</span>
+                                    </div>
+                                </div>
+                            </div>*@
+                        <div class="order_open_prod recent_prod">
+                            <div class="sitem_l">
+                                <a href="@(ViewBag.BasePath)p/d/@ite.ProductId" class="cart_photo_cell">
+                                    <img class="shp_cart_img" src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(ite.ThumbnailsUrl, "T81X81_")" alt="">
+                                </a>
+                            </div>
+                            <div class="sitem_m">
+                                <p class="order_open_p">
+                                    @ite.Name       &#12288; @if (!string.IsNullOrWhiteSpace(ite.Attribute))
+                    {
+                        string[] tmpAttr = ite.Attribute.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                        foreach (string val in tmpAttr)
+                        {
+                                            @(val + " ")
+                                        }
+                                    }
+                                </p>
+                                <span class="text_span">x @ite.Quantity </span>
+                            </div>
+                            <div class="sitem_r">
+                                ¥@ite.SellPrice.ToString("F")
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+
+
+
+        </div>
+    </div>
+
+    </div>
+</body>
+<script>
+    function showing() {
+        if ($('#a').hasClass('into')) {
+            $("#a").removeClass("into");
+            $("#a").addClass("into_open");
+            //$("#address").slideToggle("slow");
+            $("#address").show();
+        }
+        else {
+            $("#a").removeClass("into_open");
+            $("#a").addClass("into");
+            //$("#address").slideToggle("slow");
+            $("#address").hide();
+        }
+    }
+
+</script>
+
+
+
+
+

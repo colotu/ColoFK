@@ -1,0 +1,151 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model YSWL.MALL.ViewModel.Shop.ProductListModel
+@{
+    Layout = "~/Areas/MShop/Themes/VPH/Views/Shared/_ShopBaseLayout.cshtml";
+    string cid = Request.RequestContext.RouteData.Values["cid"] != null ? Request.RequestContext.RouteData.Values["cid"].ToString() : "0";
+    string brandid = Request.RequestContext.RouteData.Values["brandid"] != null ? Request.RequestContext.RouteData.Values["brandid"].ToString() : "0";
+    string attrvalues = Request.RequestContext.RouteData.Values["attrvalues"] != null ? Request.RequestContext.RouteData.Values["attrvalues"].ToString() : "0";
+    string mod = Request.RequestContext.RouteData.Values["mod"] != null ? Request.RequestContext.RouteData.Values["mod"].ToString() : "hot";
+    ViewBag.Title = "商品列表";
+}
+<script type="text/javascript">
+    $(function () {
+        $("#body").css("padding-top", "44px");
+    });
+</script>
+<header id="header" class="header clearfix">
+    <div class="head_left fl">
+        <a href="javascript:;" onclick="history.go(-1)"><span class="h_back"></span></a>
+    </div>
+    <span class="headtit">@(Model.CurrentCateName!=null?Model.CurrentCateName:"商品列表")</span>
+    <div class="head_right fr">
+        <a href="@(ViewBag.BasePath)"><span class="h_home"></span></a>
+    </div>
+</header>
+
+<div id="w_container" style="overflow: inherit; position: relative">
+    <ul class="thumb-mode clearfix" data-thumbcate="list">
+        <li  id="orderli" style="width:50%;cursor: pointer;"><a href="javascript:;">排序</a>
+            <div class="drop_sort hide" style="display:none;">
+                <em></em>
+                <a href="javascript:;" class="cur" mod="hot"><span>销量</span></a> 
+                <a href="javascript:;" mod="price"><span>价格</span></a>
+                <a href="javascript:;" mod="new"><span>新品</span></a>
+            </div>
+        </li>
+        <li style="width:50%;cursor: pointer;" type="filter" class="none">
+            <a href="javascript:;" data-dropmen="left" id="filter">筛选</a>
+            <div class="trasp hide" id="filterLayer">
+                <div class="traspinner">
+                    @Html.Action("AttrList", new { cid = cid, ViewName = "_AttrList", top = -1 })
+                </div>
+            </div>
+        </li>
+    </ul>
+    
+    <div class="brandtips clearfix" style="display: none;">
+        <div class="inner">
+            <div class="fl">
+                <div class="ptb2">
+                    <p class="suppliers_send">
+                        <span></span>移动端新会员首单专享满68元免邮</p>
+                </div>
+            </div>
+            <p class="fr re_time">
+                <span></span>2天7时51分</p>
+        </div>
+    </div>
+    
+    
+    @{Html.RenderPartial("_ProductList", Model);}
+    
+    <div class="space15">
+    </div>
+</div>
+<div class="clearfix"></div>
+
+<script type="text/javascript">
+    $(function () {
+        var initCate;
+        $("#orderli").click(function () {
+            $(this).addClass("active");
+            $(".drop_sort").toggle();
+        });
+        $(".drop_sort a[mod='@(mod)']").addClass("cur").siblings().removeClass("cur");
+        $(".drop_sort a").die("click").live("click", function () {
+            var mod = $(this).attr("mod");
+            location.href = $YSWL.BasePath + "p/@(cid)/@(brandid)/@(attrvalues)/" + mod + "?pageSize=16";
+        });
+        $("#filter").die("click").live("click", function () {
+            var liClass = $(".thumb-mode li[type='filter']'").attr("class");
+
+
+            if (liClass.indexOf("active") < 0) { //不包含active  筛选层没有显示出来
+                $(".thumb-mode li[type='filter']'").addClass("active");
+                $(".trasp").css("display", "block").animate({ right: "0px" }, 200);
+
+                var initCateHeight = $("#B_cateWrap").height();
+                initCate = $("#B_cateWrap").height();
+                var initValueHeight = $("#B_listWrap").height();
+                var bigHeight = GetBigValue(initCateHeight, initValueHeight) + "px";
+                $(".c_wrapper").height(bigHeight);
+                var minDiv = GetBigValue(initCateHeight, initValueHeight) + $("#orderli").height() + "px";
+                $("#w_container").height(minDiv);
+            } else {
+                $(".thumb-mode li[type='filter']'").removeClass("active");
+                $(".trasp").attr("display", "none").animate({ right: "-1920px" }, 200);
+            }
+        });
+
+        $("#B_cateWrap h2").first().addClass("active");
+        $(".display:eq(0)").css("display", "block");
+        $("#B_cateWrap li").die("click").live("click", function () {
+            $(this).children().addClass("active");
+            $(this).siblings().children().removeClass("active");
+            var dataId = $(this).attr("data-cateid");
+            $(".display[id='Attr_" + dataId + "']").css("display", "block").siblings().css("display", "none");
+            //var cateWidth = $("#B_cateWrap").height();
+            var valueWidth = $(".display[id='Attr_" + $(this).attr("data-cateid") + "']").height();
+            var bigValue = GetBigValue(initCate, valueWidth) + "px";
+            $(".c_wrapper").height(bigValue);
+           // $("#w_container").height(bigValue + $("#orderli").height());
+        });
+
+        $(".display a").click(function () {
+            var _self = $(this);
+            var attrId = _self.attr("AttrId");
+            $("#Attr_" + attrId).find("a").removeAttr("select");
+            // _self.addClass("curr");
+            _self.attr("select", "true");
+            //重新形成属性值字符串
+            var value_arr = new Array();
+            $(".display").each(function () {
+                var valueId = $(this).find("a[select='true']").attr("valueId");
+                if (valueId != undefined && valueId != "") {
+                    value_arr.push(valueId);
+                }
+            });
+            $("#hfAttrValue").val(value_arr.join("-"));
+        });
+        $("#btn-go").die("click").live("click", function () {
+            var attrValue = $("#hfAttrValue").val();
+            location.href = $YSWL.BasePath + "p/@(cid)/@(brandid)/" + attrValue + "?pageSize=16";
+        });
+        $("#btn-reset").die("click").live("click", function () {
+            $(".display a").removeAttr("select");
+            $(".display").find("a[valueId='0']").attr("select", "true").css("background", "ghostwhite").siblings().css("background", "none"); ;
+            $("#hfAttrValue").val("");
+
+        });
+
+    });
+
+    function GetBigValue(obj1, obj2) {
+        if (obj1 > obj2) {
+            return obj1;
+        } else {
+            return obj2;
+        }
+    }
+</script>
+

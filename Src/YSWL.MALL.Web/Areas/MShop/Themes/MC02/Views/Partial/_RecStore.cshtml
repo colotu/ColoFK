@@ -1,0 +1,36 @@
+﻿@model  List<YSWL.MALL.Model.Shop.Supplier.SupplierInfo>
+@if (Model != null && Model.Count > 0)
+            {
+<div class="floor brand-list">
+    <div class="floor_container mt">
+        <div class="floor_item">
+               @for (int i=0;i<Model.Count;i++)
+                {     
+                        <div class="container_col3">
+                            <a href="@(ViewBag.BasePath)Store/@Model[i].SupplierId" title="@Model[i].ShopName" >
+                                <div class="brand-name">@Model[i].ShopName</div>
+                                <img  alt="@Model[i].ShopName" src="@(ViewBag.BasePath)Partial/SuppLogo?id=@(Model[i].SupplierId)&size=T200X200" onerror="this.onerror = null; this.src = '/Areas/MShop/Themes/mc02/Content/images/store-pic.jpg'" >
+                            </a>
+                        </div>
+                   if (i == 2) { break;}
+               }
+        </div>
+        <div class="floor_item">
+            @for (int i = 3; i < Model.Count; i++)
+            {
+                <div class="container_col3">
+                    <a href="@(ViewBag.BasePath)Store/@Model[i].SupplierId" title="@Model[i].ShopName">
+                        <div class="brand-name">@Model[i].ShopName</div>
+                        <img alt="@Model[i].ShopName" src="@(ViewBag.BasePath)Partial/SuppLogo?id=@(Model[i].SupplierId)&size=T200X200" onerror="this.onerror = null; this.src = '/Areas/MShop/Themes/mc02/Content/images/store-pic.jpg'">
+                    </a>
+                </div>
+                if (i == 5) { break; }
+            }
+        </div>
+    </div>
+</div>
+}
+
+
+
+

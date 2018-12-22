@@ -1,0 +1,14 @@
+﻿@using System.Web.Mvc.Html
+@{
+    Layout = "~/Areas/MShop/Themes/YX/Views/Shared/_SiteLayout.cshtml";
+    @*网站前台模版*@
+}
+   <link href="/Areas/MShop/Themes/YX/Content/css/gb.css" type="text/css" rel="stylesheet"/>
+@section head{
+    @RenderSection("head", false)
+}
+@RenderBody()
+@Html.Action("Footer", "Partial", new { area = "MShop", ViewName = "_NullFooter" })
+@section foot{
+    @RenderSection("foot", false)
+}

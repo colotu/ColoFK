@@ -1,0 +1,29 @@
+﻿@model List<YSWL.MALL.Model.Shop.Products.ProductInfo>
+<div id="products">
+    <div class="list-1">
+        @if (null != Model && Model.Count > 0)
+        {
+            for (int i = 0; i < Model.Count; i++)
+            {
+                <div class="item">
+                    <ul> 
+                        <li class="img">
+                        <a href="@(ViewBag.BasePath)p/d/@Model[i].ProductId">
+                                      <img src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(Model[i].ThumbnailUrl1, "T128X130_")"></a>
+                        </li>
+                        <li class="name">
+                        <a href="@(ViewBag.BasePath)p/d/@Model[i].ProductId">
+                                      @Model[i].ProductName</a><span>￥@Model[i].LowestSalePrice.ToString("F")</span>
+                        </li>
+                    </ul>
+                </div>
+                if ((i + 1) % 2 == 0 || ( i +1)== Model.Count)
+                {
+                 <div class="clear">
+               </div>
+            }
+            }
+        }
+      
+    </div>
+            </div>

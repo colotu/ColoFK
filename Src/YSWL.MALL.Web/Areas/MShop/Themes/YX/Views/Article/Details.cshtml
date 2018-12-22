@@ -1,0 +1,10 @@
+﻿@model   YSWL.MALL.Model.CMS.Content
+@if (null != Model)
+{
+    @Html.Raw(Model.Description)
+    ;
+}
+else
+{
+    @:暂无内容
+}

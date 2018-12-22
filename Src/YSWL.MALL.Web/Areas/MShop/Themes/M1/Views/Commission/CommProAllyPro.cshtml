@@ -1,0 +1,89 @@
+﻿@{
+    Layout = "/Areas/MShop/Themes/M1/Views/Shared/_BaseLayout.cshtml";
+}
+@using Webdiyer.WebControls.Mvc
+@model PagedList<YSWL.MALL.ViewModel.Shop.CommissionProStat>
+
+    <link href="/Areas/MShop/Themes/M1/Content/Css/UserCenter/userstyle.css" rel="stylesheet" type="text/css" />
+    <!--日期控件开始-->
+    <link href="/Scripts/mobiscroll-2.6.2/css/mobiscroll.custom-2.6.2.min.css" rel="stylesheet" type="text/css" />
+        <script src="/Scripts/mobiscroll-2.6.2/js/mobiscroll.custom-2.6.2.min.js" type="text/javascript"></script>
+    <!--日期控件结束-->
+          
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            //初始化日期控件
+            var opt = {
+                preset: 'date', //日期
+                theme: 'mobiscroll', //皮肤样式   mobiscroll  android-ics light
+                display: 'modal', //显示方式 
+                mode: 'scroller', //日期选择模式  clickpick     scroller
+                dateFormat: 'yy-mm-dd', // 日期格式
+                setText: '确定', //确认按钮名称
+                cancelText: '取消', //取消按钮名籍我
+                dateOrder: 'yymmdd', //面板中日期排列格式
+                dayText: '日', monthText: '月', yearText: '年', //面板中年月日文字
+                endYear: new Date().getFullYear()//结束年份
+            };
+            $("#txtFrom").mobiscroll(opt);
+            $("#txtTo").mobiscroll(opt);
+        });
+    </script>
+    <div class="top">
+        <span><a href="@(ViewBag.BasePath)co">&lt;返回</a></span>
+        @Html.Partial("/Areas/MShop/Themes/M1/Views/Partial/_HeadRight.cshtml")
+    </div>
+    <div class="yy">
+    </div>
+    <div class="index_h1">
+        盟友贡献佣金   <span style=" float: right;">总额：<span  style="color:red;" >@ViewBag.TotalFee.ToString("F")</span></span>   
+    </div>
+    <div style="height: 29px; line-height: 29px;      padding: 8px 10px;">
+        时间： 
+        <input type="text"  id="txtFrom"   class="logininput"  value="@ViewBag.StartDate" style="width:71px;    vertical-align: initial;"  />--<input value="@ViewBag.EndDate"  type="text"  id="txtTo" style="width:71px;    vertical-align: initial;" class="logininput" />
+        <a href="javascript:;" id="btnReStatistic" style="float: right;display: inline-block;" class="u-btn">统计</a>
+    </div>
+    @if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            <div class="home_piclist">
+                <div class="ddnum1" style="height: auto;">
+                    <div><span>商品：</span><a href="@(ViewBag.BasePath)Product/Detail/@item.ProductId">@item.ProName</a></div>
+                    <span>佣金：</span><strong>￥@item.TotalFee.ToString("F")</strong><br />
+                    <span>数量：</span>
+                    @item.TotalProduct
+                </div>
+            </div>
+
+        }
+        @Html.Pager(Model, new PagerOptions
+                   {
+                       PageIndexParameterName = "pageIndex",
+                       NumericPagerItemCount = 3,
+                       NumericPagerItemTemplate = "<p>{0}</p>",
+                       NavigationPagerItemTemplate = "<p>{0}</p>",
+                       CssClass = "in_pages_m"
+                   })
+    }
+
+    <script type="text/javascript">
+        $(function () {
+            //统计
+            $('#btnReStatistic').click(function () {
+                var start = $('#txtFrom').val();
+                var end = $('#txtTo').val();
+                if (txtFrom == "") {
+                    ShowFailTip("请选择开始时间");
+                    return;
+                }
+                if (txtTo == "") {
+                    ShowFailTip("请选择结束时间");
+                    return;
+                }
+                location.href = $YSWL.BasePath + "Commission/CommPro?sd=" + start + "&ed=" + end + "&rl=2";
+            });
+        });
+
+    </script>

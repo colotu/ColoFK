@@ -1,0 +1,58 @@
+﻿@using YSWL.Common;
+@using Webdiyer.WebControls.Mvc
+@model PagedList<YSWL.MALL.Model.Members.SiteMessage>
+@if (null != Model)
+{
+    foreach (var item in Model)
+    {
+      <ul data-role="listview" data-inset="true" data-theme="d" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+        <li style="padding:5px 10px 5px 10px" class="ui-li ui-li-static ui-btn-up-d ui-first-child ui-last-child" >
+            <table style="padding: 0; margin: 0; width: 100%;">
+                <tbody><tr>
+                           <td class="align_right align_top" width="80px"><label class="ui-input-text">发给：</label></td>
+                           <td>
+                               <label class="ui-input-text"> @(item.ReceiverUserName) </label>  
+                           </td>
+                       </tr>
+                          
+                    <tr>
+                        <td class="align_right align_top" width="80px"><label class="ui-input-text">发送时间：</label></td>
+                        <td>
+                            <label class="ui-input-text" >@(item.SendTime.HasValue ? item.SendTime.Value.ToString("yyyy-MM-dd HH:mm:ss") : "")</label>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="align_right align_top" width="80px"><label class="ui-input-text">内容：</label></td>
+                        <td  >
+                        <label class="ui-input-text">@(string.IsNullOrEmpty(item.Title) ? "" : item.Title + "：")@item.Content  </label>
+                        </td>
+                    </tr> 
+                    
+                </tbody></table>
+
+        </li>
+    </ul>
+    }
+
+}
+<!-- FansList BEGIN -->
+ 
+<!--jQuery Ajax Paging Start-->
+  @Html.Pager(Model, new PagerOptions
+{
+    ShowFirstLast = false,
+    ShowPrevNext = false,
+    ShowDisabledPagerItems = false,
+    AlwaysShowFirstLastPageNumber = false,
+    PageIndexParameterName = "page",
+    NumericPagerItemCount = 3,
+    CurrentPagerItemTemplate = "<p class=\"in_s\">{0}</p>",
+    NumericPagerItemTemplate = "<p>{0}</p>",
+    NavigationPagerItemTemplate = "<p>{0}</p>",
+    CssClass = "in_pages"
+} )
+ 
+    <!--jQuery Ajax Paging End-->
+ 
+

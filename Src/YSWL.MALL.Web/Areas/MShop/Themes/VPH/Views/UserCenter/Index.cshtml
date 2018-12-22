@@ -1,0 +1,54 @@
+﻿@{
+    Layout = "~/Areas/MShop/Themes/VPH/Views/Shared/_BaseLayout.cshtml";
+    ViewBag.Title = "个人中心";
+    ViewBag.Keywords = "个人中心";
+    ViewBag.Description = "个人中心";
+}
+ @model YSWL.MALL.Model.Members.UsersExpModel
+            
+<header id="header" class="header clearfix">
+    <div class="head_left fl"><a href="javascript:;" onclick="history.go(-1);"><span class="h_back"></span></a></div>
+    <span class="headtit">个人中心</span>
+    <div class="head_right fr"><a href="@(ViewBag.BasePath)"><span class="h_home"></span></a></div>
+</header>
+
+<div class="userinfo clearfix">
+    <div class="fl"><p class="username">账户：@Model.NickName      
+    @if (ViewBag.RankScoreIsEnable)
+                    {
+                        if (Model.UserRank != null)
+                        {
+                            @:&nbsp; &nbsp;@(Model.UserRank.Name)会员
+                        }  
+                    }</p>
+                              <p>积分：@Model.Points</p>
+   </div>
+    <a href="@(ViewBag.BasePath)account/Logout" class="btn_out fr">退出</a>
+</div>
+<div class="userdiv">
+  <ul class="orderList clearfix">
+    <li><a href="@(ViewBag.BasePath)u/Orders?type=wpay " class=""><span class="wait_pay"></span><p>待支付</p></a></li>
+    <li><a href="@(ViewBag.BasePath)u/Orders?type=wre" class=""><span class="wait_delivery"></span><p>待收货</p></a></li>
+    <li><a href="@(ViewBag.BasePath)u/Orders?type=all" class=""><span class="all_orders"></span><p>更多订单</p></a></li>
+      <li><a href="@(ViewBag.BasePath)co" ><span  class="hm_make">￥</span><p>我要赚钱</p></a></li>
+  </ul>
+ </div> 
+
+<div class="s_links in_user_center">
+    <a href="@(ViewBag.BasePath)u/Personal"><em class="s_back"></em>个人资料<span></span></a>
+    <a href="@(ViewBag.BasePath)u/ChangePassword"><em class="s_wallet"></em>修改密码<span></span></a>
+    <a href="@(ViewBag.BasePath)u/PointsDetail"><em class="s_card"></em>我的积分<span></span></a>
+     <a href="@(ViewBag.BasePath)u/Exchanges"><em class="s_bouus"></em>积分兑换<span></span></a> 
+     <a href="@(ViewBag.BasePath)u/MyCoupon"><em class="s_count"></em>我的优惠券<span></span></a> 
+</div>
+
+<div class="s_links in_user_center">
+    <a href="@(ViewBag.BasePath)u/Orders"><em class="s_addr"></em>我的订单<span></span></a>
+    <a href="@(ViewBag.BasePath)u/MyFavor"><em class="s_addr"></em>我的收藏<span></span></a>
+    <a href="@(ViewBag.BasePath)u/UserCard"><em class="s_addr"></em>我的会员卡<span></span></a>
+</div>
+ 
+<div class="s_links in_user_center">
+      <a href="@(ViewBag.BasePath)u/Inbox"><em class="s_addr"></em>收件箱<span></span></a>
+    <a href="@(ViewBag.BasePath)u/Outbox"><em class="s_addr"></em>发件箱<span></span></a>
+</div>

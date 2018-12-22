@@ -1,0 +1,29 @@
+﻿@{
+    Layout = "/Areas/MShop/Themes/AKTV/Views/Shared/_BaseLayout.cshtml";
+}
+@using YSWL.MALL.Model.Shop.Products
+@model YSWL.MALL.Model.Shop.Products.ProductInfo
+           <script type="text/javascript" src="/Scripts/jquery/maticsoft.img.min.js"></script> 
+           <script type="text/javascript">
+               $(function () {
+                   var width = $(window).width()-10;
+                   $.scaleLoad('.detail', width, 1280);
+               });
+</script> 
+<link href="/Areas/MShop/Themes/AKTV/Content/Css/ProductStyle.css" rel="stylesheet"/>
+@if (Model != null)
+{
+    <div class="productshow_title">@Model.ProductName</div>
+
+<div class="sift-tab">
+  <ul class="tab-lst">
+    <li><a href="javascript:;" value="wareInfo" class="on">商品介绍</a></li>
+  </ul>
+</div>
+
+<div class="detail">
+  @Html.Raw(Model.Description) 
+</div>
+
+}
+ 

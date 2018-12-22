@@ -1,0 +1,33 @@
+﻿
+ @{
+     Layout = "/Areas/Shop/Themes/PC05/Views/Shared/_BaseLayout.cshtml";
+ }
+ <link href="/Areas/Shop/Themes/PC05/Content/Css/mber.css" rel="stylesheet" type="text/css" />
+ @model YSWL.MALL.Model.CMS.Content
+ @if (Model != null)
+ {
+  	<div class="mberconter clearfix">
+		  @Html.Action("LeftMenu", "Article", new { classid = Model.ClassID })
+		  <div class="m-right jshcon">
+		  	<div class="oohelp">
+		  		<div class="h-rt">
+		            @Model.Title
+		        </div>
+		        <div class="h-conte">
+
+	 @Html.Raw(YSWL.MALL.BLL.Settings.SEORelationManage.FilterStr(Model.Description, true, true, false, false, false, Model.ContentID, "CMSDescription"))
+		<div class="clear">
+			&nbsp;</div>
+		        </div>
+		    </div>
+		  </div>  
+		</div>
+ }
+ @section foot{
+ <script  type="text/javascript">
+     $('#div_header_top').addClass('top-logo1');
+     $('#search_div').addClass('top-logo1');
+     $('#div_top_nav').addClass('top-logo1');
+     $('.foot').addClass('foot1');
+</script>
+}

@@ -1,0 +1,30 @@
+﻿@model List<YSWL.MALL.ViewModel.Shop.Express>
+ 
+@if (ViewBag.ApiType == "html")
+{ 
+    <div style="width:100%; overflow:auto;">
+    <iframe id="expressiframe" name="expressiframe" src="@ViewBag.ExpressUrl"  width="550"  height="340" marginwidth="0" marginheight="0" hspace="0" vspace="0" frameborder="0" scrolling="no">
+    </iframe>
+    </div>
+}
+else
+{   
+        if (Model != null)
+         {
+             <div class="home_piclist">
+             @foreach (var item in Model)
+             {
+                 <div class="ddnum">
+                     <span  style="display: initial;">处理时间：</span>@item.Date.ToString("yyyy-MM-dd HH:mm:ss")<br/>
+                     <span  style="display: initial;">处理信息：</span><strong>@item.Content</strong>
+                 </div>
+             }
+              </div> 
+}
+        else
+        {
+           <div style="margin-left: 10px;">暂无物流信息</div>
+        }
+}
+ 
+     

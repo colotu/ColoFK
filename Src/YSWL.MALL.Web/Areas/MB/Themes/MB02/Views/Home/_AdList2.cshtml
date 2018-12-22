@@ -1,0 +1,36 @@
+﻿@model List<YSWL.MALL.Model.Settings.Advertisement>
+@if (Model != null && Model.Count > 0)
+{
+    <div class="floor brand-recommend">
+        <div class="floor_container">
+            <div class="title-def">-&nbsp;推荐品牌&nbsp;-</div>
+            <div class="floor_item">
+                <div class="brand-layout">
+                    <div class="item-wrap dis-flex">
+                        <div class="big-item">
+                            <a href="@Model[0].NavigateUrl" target="_blank">
+                                <img src="@Model[0].FileUrl" alt="@Model[0].AdvertisementName">
+                            </a>
+                        </div>
+                        @if (Model.Count > 1)
+                        {
+                            <div class="big-item">
+                                <a href="@Model[1].NavigateUrl" target="_blank">
+                                    <img src="@Model[1].FileUrl" alt="@Model[1].AdvertisementName">
+                                </a>
+                            </div>
+                        }
+@for (int i = 2; i < Model.Count; i++)
+{
+    <div class="small-item">
+      <a href="@Model[i].NavigateUrl" title="@Model[i].AdvertisementName" >
+         <img src="@Model[i].FileUrl" alt="@Model[i].AdvertisementName">
+       </a>
+    </div>
+}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

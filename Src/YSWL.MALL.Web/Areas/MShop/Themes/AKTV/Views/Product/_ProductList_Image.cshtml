@@ -1,0 +1,32 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model YSWL.MALL.ViewModel.Shop.ProductListModel
+<div id="ProductListDiv">
+@if (Model.ProductPagedList != null)
+{
+    <div class="products_list_image">
+     <ul>
+        @foreach (var item in Model.ProductPagedList)
+        {
+           
+            <Li><a href="@(ViewBag.BasePath)p/d/@item.ProductId"><img src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.ThumbnailUrl1, "T158X158_")" title="@item.ProductName"  width="158"/></a>
+            <small>￥@item.LowestSalePrice.ToString("F")</small></Li>
+        }
+         </ul>
+        <div>
+            @Ajax.Pager(Model.ProductPagedList, new PagerOptions
+       {
+           ShowDisabledPagerItems = false,
+           AlwaysShowFirstLastPageNumber = false,
+           PageIndexParameterName = "pageIndex",
+           NumericPagerItemCount = 3,
+           CurrentPagerItemTemplate = "<p class=\"in_s\">{0}</p>",
+           NumericPagerItemTemplate = "<p>{0}</p>",
+           NavigationPagerItemTemplate = "<p>{0}</p>",
+           CssClass = "in_pages",
+            
+       }).AjaxOptions(a => a.SetUpdateTargetId("ProductListDiv"))
+        </div>
+    </div>
+}
+</div>
+

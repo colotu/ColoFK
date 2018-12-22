@@ -1,0 +1,43 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model YSWL.ViewModel.Shop.ProductListModel
+
+@if (Model != null)
+{
+    foreach (var item in Model.ProductPagedList)
+    {
+        <div class="recentorder wrap">
+            <div class="recent_prod">
+                <div class="cart_photo_wrap">
+                    <a href="@(ViewBag.BasePath)p/d/@item.ProductId" class="cart_photo_cell">
+                        <img class="shp_cart_img" src="@YSWL.Web.Components.FileHelper.GeThumbImage(item.ImageUrl, "T115X115_")" alt="">
+                    </a>
+                </div>
+                <div class="recent_text">
+                    @*<span class="text_span">PS2123152704</span>*@
+                    <p>@item.ProductName</p>
+                    @*<span class="text_span">规格 6.18L</span>*@
+                </div>
+            </div>
+            <div class="order_price">
+                <p class="price_red">￥@item.LowestSalePrice.ToString("f")</p>
+                @*<div class="cart icon" onclick="dialogShow(@item.ProductId,@item.SupplierId,'@item.ImageUrl')">
+                    <span></span>
+                </div>*@
+                @{
+                    if (item.SalesType == 1 && item.SaleStatus == 1 && ViewBag.IsMultiDepot)
+                    {
+                        <div class="cart icon" onclick="dialogShow(@item.ProductId, @item.SupplierId, '@item.ThumbnailUrl1',@item.SupplierId,@item.ProductId)">
+                            <span></span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="cart icon" onclick="dialogShow(@item.ProductId,@item.SupplierId,@item.ThumbnailsUrl)">
+                            <span></span>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    }
+}

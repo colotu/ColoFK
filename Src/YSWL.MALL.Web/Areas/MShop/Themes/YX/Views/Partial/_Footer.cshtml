@@ -1,0 +1,29 @@
+﻿<footer class="J_commonFooter">
+    <p style="border-bottom: 1px #C3C9CE solid;">
+      @if (ViewBag.usernickname != null)
+    {
+        <a href="@(ViewBag.BasePath)u">@ViewBag.usernickname </a> @:│ <a href="@(ViewBag.BasePath)account/Logout"> 退出 </a>
+    }
+    else if (!ViewBag.IsAutoLogin)
+    { 
+         <a href="@(ViewBag.BasePath)a/l" class="J_login J_ytag">登录</a>  @:│ 
+        <a href="@(ViewBag.BasePath)a/r" class="J_ytag">注册</a>
+
+    } 
+      
+        <a  class="J_download J_ytag" >下载app</a></p>
+</footer>
+@if (ViewBag.IsHideMenu)
+{
+     <script type="text/javascript">
+         document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+             WeixinJSBridge.call('hideOptionMenu');
+         });
+</script>
+}
+
+<script type="text/javascript">
+    document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+        WeixinJSBridge.call('hideToolbar');
+    });
+</script>

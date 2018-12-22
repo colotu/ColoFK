@@ -1,0 +1,97 @@
+﻿ @model  YSWL.MALL.ViewModel.Shop.ActicityGiveList 
+<script type="text/javascript">
+    $(function () {
+        var freightPrice = parseFloat($('#freightPriceId').attr('freightPrice')); //运费
+        var couponPrice = parseFloat($("#couponPriceId").attr('couponPrice')); //优惠券优惠金额
+        if (IsFullFreeShipping()) { //免邮
+            $('#freightPriceId').text('￥0.00');
+            var totalprice = parseFloat($('#payPriceId').attr('BasePrice')).toFixed(2);
+            var payprice = (totalprice - couponPrice) > 0 ? (totalprice - couponPrice) : 0;
+            $('#payPriceId').text('￥' + payprice.toFixed(2));
+        } else {//不免邮
+            $('#freightPriceId').text('￥' + freightPrice.toFixed(2));
+            var totalprice = (parseFloat($('#payPriceId').attr('BasePrice')) + freightPrice).toFixed(2);
+            var payprice = (totalprice - couponPrice) > 0 ? (totalprice - couponPrice) : 0;
+            $('#payPriceId').text('￥' + payprice.toFixed(2));
+        }
+    });
+ 
+   
+</script>
+<input  type="hidden" id="hidFullFreeShipping" value="@ViewBag.FreeShippingActiv"/>
+ @if (Model != null)
+ {
+
+<!--赠品-->   
+     if (Model.ActProdList != null && Model.ActProdList.Count > 0)
+     { 
+         <div class="gou_list" style="padding: 4px;">
+           <span>赠品：</span>
+         @foreach (var item in Model.ActProdList)
+         {
+                      <ul>
+               <em><a href="@(ViewBag.BasePath)p/d/@item.ProductId" target="_blank">
+                       <img src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.ThumbnailUrl1, "T50X65_")" width="50" height="50" /></a></em>
+               <div class="goulist_x">
+                   <p class="p-name">
+                       <a href='@(ViewBag.BasePath)p/d/@item.ProductId' target="_blank">@item.ProductName</a></p>
+                   @* <p class="p-num">
+                        编号：@ActivProduct.SkuInfos[0].SKU</p>*@
+                   <p class="p-price">
+                       小计：<span class="red">￥@((item.SalePrice).ToString("F"))</span></p>
+                   <p class="p-amount gouwuchelist">
+                       数量：
+                       @item.Count
+                   </p>
+               </div>
+           </ul>
+         }
+          </div>
+ 
+     }
+
+     if (Model.ActCouponList != null && Model.ActCouponList.Count > 0)
+     { 
+         <div class="gou_list" style="padding: 4px;">
+            <span>优惠券：</span>
+            @if (ViewBag.IsMerge)
+            {
+                foreach (var item in Model.ActCouponList)
+                {
+                                                    <div>@(item.Name)
+                                                        面值为： @((item.CouponPrice * item.SendCount).ToString("F")) &nbsp&nbsp&nbsp&nbsp 1张</div> 
+                }
+            }
+            else
+            {
+                foreach (var item in Model.ActCouponList)
+                {
+                                                    <div>@(item.Name)
+                                                        面值为： @item.CouponPrice.ToString("F") &nbsp&nbsp&nbsp&nbsp @(item.SendCount)
+                                                        张</div> 
+                }
+            }
+        </div>
+                                                
+        
+
+     }
+
+     if (Model.NotStockActProdList != null && Model.NotStockActProdList.Count > 0)
+     {<div style="border: 1px solid #f60;margin-top: 5px;padding: 5px;">
+                                                       <div   style="color: #f60;">
+                                                      非常抱歉，您来晚了，以下赠品今天已经被抢光了，您可以明天再试。</div>
+                                                        @foreach (var item in Model.NotStockActProdList)
+                                                        {
+                                                        <div  style="color: #999;" >
+                                                                                  @item.ProductName        x @item.Count  
+                                                                                </div>
+                                                        }
+                                                    </div>
+     }
+
+ }
+                                                <!--赠品-->
+ 
+ 
+ 

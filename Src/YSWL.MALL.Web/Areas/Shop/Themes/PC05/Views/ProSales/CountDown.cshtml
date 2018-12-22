@@ -1,0 +1,99 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model YSWL.MALL.ViewModel.Shop.ProductListModel
+@{
+    Layout = "/Areas/Shop/Themes/PC05/Views/Shared/_BaseLayout.cshtml";
+}
+ @section head{
+         <link href="/Areas/Shop/Themes/PC05/Content/Css/groupBuy.css" rel="stylesheet"/>
+         <link href="/Areas/Shop/Themes/PC05/Content/Css/goods.css" rel="stylesheet"/> 
+}  
+<script src="/Areas/Shop/Themes/PC05/Content/Scripts/timeCountDown.js" type="text/javascript"></script>
+@*<script src="/Scripts/jquery/maticsoft.img.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.scaleLoad('.p_img', 535, 360);
+    });
+</script>*@
+ <div style="width:100%;background-color: #fbf7f4; height:auto; margin:0 auto 20px auto; padding-bottom:10px; float:left">
+       @if (Model.ProductPagedList != null)
+       {
+           foreach (var item in Model.ProductPagedList)
+           { 
+           	<div class="tg_box" styleid="product_@(item.ProductId)" >
+			<div class="tg_l">
+            <a href="@(ViewBag.BasePath)Product/ProSaleDetail/@item.CountDownId" target="_blank" class="p_img"  >
+            <img src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.ThumbnailUrl1, "T535X360_")"   style="height:360px;"    onerror="this.onerror='';this.src='/Content/themes/base/images/404/224.jpg'"   title="@item.ProductName" />
+            </a>
+			<p class="tg_end txtenddate"    endDate="@((item.ProSalesEndDate.ToUniversalTime() - Convert.ToDateTime("1970-01-01")).TotalMilliseconds.ToString("0"))"  Product="@item.ProductId"  id="txtenddate_@(item.ProductId)">
+            <img src="/Areas/Shop/Themes/PC05/Content/images/tg_end.jpg" />
+            <span groupbuy="groupBuy" >
+               剩余： <span id="dayEnd_@(item.ProductId)">0</span>天<span id="hourEnd_@(item.ProductId)">0</span>时 
+                            <span id="minEnd_@(item.ProductId)">0</span>分 <span id="secEnd_@(item.ProductId)">0</span>秒
+              </span>
+              </p>
+			</div>
+			<div class="tg_r">
+			<dl class="tg_r_b">
+			 <dt><a style="color:#FFF"   href="@(ViewBag.BasePath)Product/ProSaleDetail/@item.CountDownId">@item.ProductName</a></dt> 
+			 <dd class="tg_d_w">@item.ProSalesDescription</dd> 
+			<dd class="tg_d_s">
+			<ul>
+			<li class="tg_d_f">￥</li><li class="tg_d_j">@(item.ProSalesPrice.ToString("F"))</li><li class="tg_d_y">原价:￥@(item.LowestSalePrice.ToString("F"))</li>
+            <li class="tg_d_b">
+                <a href="@(ViewBag.BasePath)Product/ProSaleDetail/@item.CountDownId"   class="but_sss_aa"  style="width: 100px;background:#df3033;">
+			    立即抢购
+                </a>
+            </li>
+			</ul>
+			
+			</dd>
+			</dl>
+			</div>
+			</div>
+           }
+
+
+        @Html.Pager(Model.ProductPagedList, new PagerOptions
+   {
+       ShowDisabledPagerItems = false,
+       AlwaysShowFirstLastPageNumber = true,
+       PageIndexParameterName = "pageIndex",
+       NumericPagerItemCount = 10,
+       CurrentPagerItemTemplate = "<a class=\"shoye\">{0}</a>",
+       CssClass = "page",
+       FirstPageText = "首页",
+       PrevPageText = "上一页",
+       NextPageText = "下一页",
+       LastPageText = "尾页"
+   })
+       }
+
+    <style type="text/css">
+    .page{
+        margin: 0 auto 20px auto;
+        width: 990px;text-align: left;
+        }
+</style>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $(".txtenddate").each(function () {
+            var endDate = $(this).attr("endDate");
+            var productId = $(this).attr("Product");
+            var myclass = new CountDown();
+            myclass.init({
+                id: 'txtenddate_' + productId,
+                //天数
+                day_Dom: $("#dayEnd_" + productId),
+                //小时
+                hour_Dom: $("#hourEnd_" + productId),
+                //分钟
+                min_Dom: $("#minEnd_" + productId),
+                //秒
+                sec_Dom: $("#secEnd_" + productId),
+                endTime: endDate
+            });
+        });
+    });
+ </script>

@@ -1,0 +1,47 @@
+﻿<div class="footer" id="footer">
+    <!--底部悬浮导航-->
+    <nav class="navbar-fixed-bottom nav_bottom_wrap">
+        <a href="@(ViewBag.BasePath)" class="nav_bottom navbar_bottom s_home"  active="/Areas/MBShop/Themes/Y1/Content/images/home.png"  >
+            <img src="/Areas/MBShop/Themes/Y1/Content/images/home2.png" >
+            <span class="color_grey">首页</span>
+        </a>
+        <a href="@(ViewBag.BasePath)p/c" class="nav_bottom navbar_bottom s_cate"   active="/Areas/MBShop/Themes/Y1/Content/images/fenlei.png"  >
+            <img src="/Areas/MBShop/Themes/Y1/Content/images/fenlei2.png" >
+            <span class="color_grey">分类</span>
+        </a>
+        <a href="@(ViewBag.BasePath)sc/ci" class="nav_bottom navbar_bottom s_cart"   active="/Areas/MBShop/Themes/Y1/Content/images/home.png"   >
+            <img src="/Areas/MBShop/Themes/Y1/Content/images/shopcart2.png">
+            <span class="color_grey">购物车</span>
+        </a>
+        <a href="@(ViewBag.BasePath)u/Orders" class="nav_bottom navbar_bottom s_order"    active="/Areas/MBShop/Themes/Y1/Content/images/dingdan.png">
+            <img src="/Areas/MBShop/Themes/Y1/Content/images/dingdan2.png">
+            <span class="color_grey">订单</span>
+        </a>
+        <a href="@(ViewBag.BasePath)u" class="nav_bottom navbar_bottom s_userCenter"   active="/Areas/MBShop/Themes/Y1/Content/images/aboutme.png" >
+            <img src="/Areas/MBShop/Themes/Y1/Content/images/ahoutme2.png">
+            <span class="color_grey">我的</span>
+        </a>
+    </nav>
+    <script type="text/javascript">
+        //选中当前页的图标
+        if ($('#hidPage').length > 0) {
+            var _self = $('#footer .' + $('#hidPage').val());
+            _self.find('img').attr('src', _self.attr('active'));
+            _self.find('span').addClass('color_active');
+        }
+    </script>
+</div>
+@*@if (ViewBag.IsHideMenu)
+    {
+         <script type="text/javascript">
+             document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+                 WeixinJSBridge.call('hideOptionMenu');
+             });
+    </script>
+    }
+
+    <script type="text/javascript">
+    document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+    WeixinJSBridge.call('hideToolbar');
+    });
+    </script>*@

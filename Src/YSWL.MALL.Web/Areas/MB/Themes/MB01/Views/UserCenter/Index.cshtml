@@ -1,0 +1,96 @@
+﻿@{
+    Layout = "/Areas/MB/Themes/MB01/Views/Shared/_BaseLayout.cshtml";   
+}
+@section head{
+    <link href="/Areas/MB/Themes/MB01/Content/Css/main.css" rel="stylesheet"/>
+    <link href="/Areas/MB/Themes/MB01/Content/Css/user.css" rel="stylesheet" />
+}
+@model YSWL.MALL.Model.Members.UsersExpModel 
+
+
+<div class="personWrapper main_wrapper">
+
+    <div class="integralWrapper integralWrapper1">
+        @Html.Partial("/Areas/MB/Themes/MB01/Views/Partial/_HeaderMsgRed.cshtml")
+        <div class="personLogo">
+            <span class="logo">
+                <img  alt="头像" src="/@(YSWL.Components.MvcApplication.UploadFolder)/User/Gravatar/@(Model.UserID).jpg?id=@DateTime.Now" onerror="this.onerror='';this.src='/@(YSWL.Components.MvcApplication.UploadFolder)/User/Gravatar/nophoto.png'">
+            </span>
+            <span class="tit">@Model.NickName</span>
+@if (ViewBag.RankScoreIsEnable)
+{
+    if (Model.UserRank != null)
+     {
+         <span class="txt">@Model.UserRank.Name</span>
+     }
+}
+@if (Model.UserInvite != null)
+            {
+    <span class="recom_person">推荐人：@Model.UserInvite.InviteNick</span>
+}
+       
+            <span class="edi" onclick="window.location.href = $YSWL.BasePath + 'u/Personal'">点击编辑</span>
+        </div>
+    </div>
+    <div class="integralBox clearfix">
+        <ul class="integralContent1">
+            <li><em>@(Model.Balance != null ? Model.Balance.Value.ToString("C") : "￥ 0:00")</em><i>余额</i></li>
+            <li onclick="window.location.href='@(ViewBag.BasePath)u/mycoupon'"><em>@ViewBag.Exchanges</em><i>优惠券</i></li>
+            <li onclick="window.location.href='@(ViewBag.BasePath)u/PointsDetail'"> <em>@Model.Points</em><i>积分</i></li>
+        </ul>
+    </div>
+    <div class="myOrder clearfix clear-fix">
+        <span class="fl my_icon"></span>
+        <span class="fl">我的订单</span>
+        <a class="fr" href="@(ViewBag.BasePath)u/Orders">查看更多订单<i class="preMore si"></i></a>
+    </div>
+    <div class="processWrapper">
+        @if (ViewBag.Unpay < 1)
+        {
+            <a href="@(ViewBag.BasePath)u/Orders?state=1"><i class="my_icon"></i><span>待付款</span></a>
+        }
+        else
+        {
+            <a href="@(ViewBag.BasePath)u/Orders?state=1"><i class="my_icon clearfix clear-fix"><b class="proc_num">@ViewBag.Unpay</b></i><span>待付款</span></a>
+        }
+
+        @if (ViewBag.UnShip == 0)
+        {
+            <a href="@(ViewBag.BasePath)u/Orders?state=2"><i class="my_icon clearfix clear-fix"></i><span>待发货</span></a>
+        }
+        else
+        {
+            <a href="@(ViewBag.BasePath)u/Orders?state=2"><i class="my_icon clearfix clear-fix"><b class="proc_num">@ViewBag.UnShip</b></i><span>待发货</span></a>
+        }
+
+        @if (ViewBag.Unconsigneed == 0)
+        {
+            <a href="@(ViewBag.BasePath)u/Orders?state=3"><i class="my_icon clearfix clear-fix"></i><span>待收货</span></a>
+        }
+        else
+        {
+            <a href="@(ViewBag.BasePath)u/Orders?state=3"><i class="my_icon clearfix clear-fix"><b class="proc_num">@ViewBag.Unconsigneed</b></i><span>待收货</span></a>
+        }
+
+        <a href="@(ViewBag.BasePath)u/Orders?state=4"><i class="my_icon"></i><span>已完成</span></a>
+    </div>
+    <div class="integralShow processShow">
+        <a href="@(ViewBag.BasePath)u/MyFavor"><i class="my_icon icon-collect"></i><span>我的收藏</span><em class="preMore si"></em></a>
+        <a href="@(ViewBag.BasePath)u/MyPreview"><i class="my_icon icon-evaluate"></i><span>我的评价</span><em class="preMore si"></em></a>
+        <a href="@(ViewBag.BasePath)u/MyQrCode"><i class="my_icon icon-generalize"></i><span>我要推广</span><em class="preMore si"></em></a>
+        <a href="@(ViewBag.BasePath)co"><i class="my_icon icon-money"></i><span>我要赚钱</span><em class="preMore si"></em></a>
+        @if (ViewBag.SuppStatus == null || ViewBag.SuppStatus==0)
+        {
+            <a href="@(ViewBag.BasePath)Store/Apply"><i class="my_icon icon-stop"></i><span>我要开店</span><em class="preMore si"></em></a>
+        }
+        else if(ViewBag.SuppStatus==1)
+        {
+            <a href="javascript:;"><i class="my_icon icon-stop"></i><span>我要开店</span><em class="openedShop">已开店</em></a>
+        }
+        <a href="@(ViewBag.BasePath)u/Setting"><i class="my_icon icon-set"></i><span>设置</span><em class="preMore si"></em></a>
+    </div>
+</div>
+
+@Html.Partial("/Areas/MB/Themes/MB01/Views/Partial/_FooterNav.cshtml")
+
+

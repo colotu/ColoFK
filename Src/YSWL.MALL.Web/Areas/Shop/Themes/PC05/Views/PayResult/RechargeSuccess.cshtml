@@ -1,0 +1,25 @@
+﻿@{
+    Layout = "~/Areas/Shop/Themes/PC05/Views/Shared/_ShoppingLayout.cshtml";
+}
+@section head{
+  <link href="/Areas/Shop/Themes/PC05/Content/Css/goods.css" rel="stylesheet"/>
+   }
+   <div class="os">您已成功支付，请注意查看您的账户余额。</div>
+    
+    <table class="otab" style="width: auto;">
+    	<tbody><tr class="tr1">
+        	<td width="149">充值号</td>
+            <td width="149">充值金额</td>
+        </tr>
+        <tr>
+        	<td>@(ViewBag.RechargeId)</td>
+            <td><b style="color:red">@(ViewBag.RechargeBlance.ToString("F"))</b>元</td>
+        </tr>
+
+      
+    </tbody></table>
+    <div class="o-ok">
+        <a   class="but_sss_aa" href="@(ViewBag.BasePath)UserCenter/Balance">查看您的余额</a>
+    </div>     
+ 
+<input type="hidden" value="@ViewBag.RechargeId" id="RechargeId"/>

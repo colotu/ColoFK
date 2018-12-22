@@ -1,0 +1,83 @@
+﻿ @{
+     Layout = "/Areas/MShop/Themes/F1/Views/Shared/_BaseLayout.cshtml";
+     ViewBag.Title = "登录";
+ }
+<script type="text/javascript">
+    var selfurl = window.location.pathname + window.location.search;
+    if (selfurl.indexOf( 'a/l') == -1 &&
+        selfurl.indexOf('a/login') == -1 &&
+        selfurl.indexOf( 'account/login') == -1) {
+        window.location = $YSWL.BasePath + "a/l?returnUrl=" + selfurl;
+    }
+</script>
+<script src="/Areas/MShop/Themes/F1/Content/Scripts/UserCenter/DefaultLogin.js" type="text/javascript"></script>
+<link href="/Areas/MShop/Themes/M1/Content/Css/UserCenter/userstyle.css" rel="stylesheet" type="text/css" /> 
+@* @model YSWL.MALL.ViewModel.Shop.LogOnModel 
+            @if (ViewData.ModelState != null &&
+         ViewData.ModelState.Count > 0 &&
+         ViewData.ModelState["Message"] != null &&
+         ViewData.ModelState["Message"].Errors.Count > 0)
+{
+    <script type="text/javascript">
+        $(function () {
+            $('#diverror').html('@ViewData.ModelState["Message"].Errors[0].ErrorMessage');
+        })
+    </script>
+}    *@
+	<div data-role="content" class="ui-content" role="main">
+<div class="yy"><span id="diverror" style="margin-left:10px;margin-top:10px;" class="txterror"></span></div>
+<input id="hfSMSIsOpen" type="hidden" value="@ViewBag.SMSIsOpen" /> 
+ 
+             <input id="hfRegisterToggle" type="hidden" value="@ViewBag.RegisterToggle" /> 
+             <input name="returnUrl" type="hidden"  id="returnUrl" value="@ViewBag.returnUrl"/>
+
+       <div class="contact-info">												
+           <ul data-role="listview" data-inset="true" data-theme="d" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+               <li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-b ui-first-child">用户登录</li>
+               <li style="padding: 5px 10px 5px 10px" class="ui-li ui-li-static ui-btn-up-d ui-last-child">
+ 			
+                   <table style="padding: 0; margin: 0; width: 100%;">
+                       <tbody><tr>
+                                  <td width="80px"><label for="txtLogin" class="ui-input-text">@if (ViewBag.RegisterToggle == "Phone")
+                                           {
+                                   @:手机号码：
+                               }
+                                           else
+                                           {
+                                   @:邮箱地址：
+                               }</label></td>
+                                  <td>
+                                      <input type="text" class="ui-input-text ui-body-c" id = "txtLogin" /> 
+                                  </td>
+                              </tr>
+                           <tr    >
+                               <td width="80px"></td>
+                               <td colspan="2" id="divLoginTip" class="cart-editalertinfo"> </td>
+                           </tr>
+								
+                           <tr>
+                               <td width="80px"><label for="password" class="ui-input-text">密&#12288;&#12288;码：</label></td>
+                               <td>
+                                    <input type="password" class="ui-input-text ui-body-c" id = "password" /> 
+                                 
+                               </td>
+                           </tr>
+                           <tr    >
+                               <td width="80px"></td>
+                               <td colspan="2" id="divPasswordTip" class="cart-editalertinfo" > </td>
+                           </tr>	
+                           
+                       </tbody></table>
+               </li>
+           </ul>
+
+			 <p  style="text-align:center;">
+                   <a href="@(ViewBag.BasePath)a/r" style="color: #666;padding: 0 10px 0 10px;text-decoration: none;"  rel="external" >新用户注册</a> 
+             </p>
+					
+           <a data-role="button" href="javascript:;" rel="external"  id="loginsubmit"  data-theme="b" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-btn-up-b ui-shadow ui-btn-corner-all">
+               <span class="ui-btn-inner"><span class="ui-btn-text">登录</span></span>
+           </a>
+       </div>
+ 
+  </div>

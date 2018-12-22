@@ -1,0 +1,25 @@
+﻿  @{
+     Layout = "/Areas/MShop/Themes/F1/Views/Shared/_BaseLayout.cshtml";
+     ViewBag.Title = "个人中心-收件箱";
+      int page = ViewBag.PageIndex > 0 ? ViewBag.PageIndex : 1;
+  }
+ 
+    <script src="/Areas/MShop/Themes/F1/Content/Scripts/UserCenter/SendSiteMsg.js" type="text/javascript"></script>
+<div data-role="content"   class="ui-content " role="main" >
+  
+         <a href="@(ViewBag.BasePath)u/SendMessage" rel="external"  data-role="button" data-inline="true" data-mini="true" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-btn-up-c ui-shadow ui-btn-corner-all ui-mini ui-btn-inline ">
+												                   <span class="ui-btn-inner"><span class="ui-btn-text">发信息</span></span>
+												               </a>
+      
+    <div id="InBoxList"> 
+          @Html.Action("InboxList", "UserCenter", new { page = page }) 
+    </div>
+</div>
+<script type="text/javascript">
+    $('#InBoxList .in_pages a[href]').attr('href', function (e, v) {
+        return v.replace('InboxList', 'Inbox');
+    });
+    //$('#InBoxList .in_pages a[href]').attr("rel", "external");
+</script>
+
+

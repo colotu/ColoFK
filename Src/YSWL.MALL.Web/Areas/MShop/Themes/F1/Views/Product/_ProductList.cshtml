@@ -1,0 +1,65 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model YSWL.MALL.ViewModel.Shop.ProductListModel
+           @if (Model.ProductPagedList != null)
+           {
+
+                   foreach (var item in Model.ProductPagedList)
+                   {
+                       <div class="fooditem" id="divfooditem_@(item.ProductId)">
+                           															
+                           <div id="foodtitle_@(item.ProductId)"  class="foodtitle"  onclick="foodtitleClick(@(item.ProductId))">
+                          
+                               <table width="100%">
+                                   <tbody><tr><td height="44px">
+                                                  <table width="100%">
+                                                      <tbody><tr><td class="foodname">@item.ProductName</td>
+															
+                                                             </tr></tbody></table>	
+                                              </td>
+                                              <td class="foodprice-nounit">￥@item.LowestSalePrice.ToString("F") </td>
+                                              <td id="foodattention_@(item.ProductId)" class="foodattention">
+                                              </td>								
+													
+                                          </tr></tbody></table>		 					
+                           </div>
+										
+                           <div id="fooddetail_@(item.ProductId)" class="fooddetail" style="display: none;">
+                               <table>
+                                   <tbody><tr><td>
+                                                  <a href="javascript:;" rel="external"  onclick="showfoodinfo(@(item.ProductId))"   data-role="button" data-inline="true" data-mini="true" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-btn-up-c ui-shadow ui-btn-corner-all ui-mini ui-btn-inline">
+                                                      <span class="ui-btn-inner"><span class="ui-btn-text">详情</span></span>
+                                                  </a>                                            
+                                              </td>
+                                              <td class="food-op" id="td_product_@(item.ProductId)" cartItemid="">
+                                                  <span class="reduce-btn">
+                                                      <button data-inline="true" onclick="order_dec_onclick(@(item.ProductId))" class="ui-btn-hidden" data-disabled="false">-</button>
+                                                  </span>
+                                                  <div id="order_num_@(item.ProductId)" class="foodnum">
+                                                      0						</div>
+                                                  <span class="add-btn">
+                                                      <button data-inline="true" onclick="order_plus_onclick(@(item.ProductId))" class="ui-btn-hidden" data-disabled="false">+</button>
+                                                  </span>
+                                              </td>
+                                          </tr></tbody></table>							
+                           </div>
+                       </div>		
+                   }
+              
+           }
+
+<div style="height: 10px;"></div>
+
+     <div id="foodListPage">
+            @Html.Pager(Model.ProductPagedList, new PagerOptions
+       {
+           ShowDisabledPagerItems = false,
+           AlwaysShowFirstLastPageNumber = false,
+           PageIndexParameterName = "pageIndex",
+           NumericPagerItemCount = 4,
+           CurrentPagerItemTemplate = "<p class=\"in_s\">{0}</p>",
+           NumericPagerItemTemplate = "<p>{0}</p>",
+           NavigationPagerItemTemplate = "<p>{0}</p>",
+           ShowFirstLast=false,
+           ShowPrevNext=false,
+           CssClass = "in_pages"
+       }).AjaxOptions(a => a.SetUpdateTargetId("foodListDiv"))</div><div style="height: 10px;"></div>

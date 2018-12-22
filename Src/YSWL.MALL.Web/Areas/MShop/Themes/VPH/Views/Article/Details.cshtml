@@ -1,0 +1,20 @@
+﻿@{
+    Layout = "/Areas/MShop/Themes/VPH/Views/Shared/_BaseLayout.cshtml";
+    ViewBag.Title = "文章详细";
+}
+@model   YSWL.MALL.Model.CMS.Content
+@if (Model != null)
+{
+    
+    <header id="header" class="header clearfix">
+        <div class="head_left fl"><a href="@(ViewBag.BasePath)"><span class="h_back"></span></a></div>
+        <span class="headtit">@Model.Title</span>
+    </header>
+    
+    <dl class="connerbox">
+    <div style="padding: 10px;font-size: 14px;">
+            @Html.Raw(Model.Description)
+        </div>
+    </dl>
+    <div><span style="padding-left: 36px"><a href="@ViewBag.PreUrl">上一篇</a></span><span style="float: right;padding-right: 42px"><a href="@ViewBag.NextUrl">下一篇</a></span></div>
+}

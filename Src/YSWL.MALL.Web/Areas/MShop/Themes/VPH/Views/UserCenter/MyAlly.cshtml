@@ -1,0 +1,36 @@
+﻿ @{
+     Layout = "~/Areas/MShop/Themes/VPH/Views/Shared/_BaseLayout.cshtml";
+ }
+ @using Webdiyer.WebControls.Mvc
+@model PagedList<YSWL.MALL.Model.Members.UserInvite>
+                    <link href="/Areas/MShop/Themes/VPH/Content/Css/UserCenter/userstyle.css" rel="stylesheet"      type="text/css" />
+                    <header id="header" class="header clearfix">
+                        <div class="head_left fl"><a href="javascript:;" onclick="history.go(-1);"><span class="h_back"></span></a></div>
+                        <span class="headtit">我的盟友</span>
+                        <div class="head_right fr"><a href="@(ViewBag.BasePath)"><span class="h_home"></span></a></div>
+                    </header>
+                    <div class="s_links in_user_center" style="margin-top: 10px;">
+                        @if (Model != null)
+                        {
+                            foreach (var item in Model)
+                            {
+                                <div class="home_piclist">
+                                    <div class="ddnum" style="height:auto;padding: 8px">
+                                        <span>日期：</span>@item.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")<br />
+                                        <span>盟友：</span>@item.UserNick<br />
+                                        <span>返利情况：</span>@item.RebateDesc
+
+                                    </div>
+                                </div>
+
+                            }
+                            @Html.Pager(Model, new PagerOptions
+                       {
+                           PageIndexParameterName = "pageIndex",
+                           NumericPagerItemCount = 3,
+                           NumericPagerItemTemplate = "<p>{0}</p>",
+                           NavigationPagerItemTemplate = "<p>{0}</p>",
+                           CssClass = "in_pages_m"
+                       })
+                        }
+                    </div>

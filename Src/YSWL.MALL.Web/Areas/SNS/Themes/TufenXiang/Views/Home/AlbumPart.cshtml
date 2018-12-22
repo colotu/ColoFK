@@ -1,0 +1,62 @@
+﻿@model List<YSWL.MALL.ViewModel.SNS.AlbumIndex>
+<div class="main_top_a">
+    <p class="thead">
+        图友们的专辑<span>/POPULAR ALBUMS</span></p>
+    <p class="more">
+        <a href="@(ViewBag.BasePath)Album">更多</a></p>
+    <div class="clear">
+    </div>
+</div>
+@if (Model != null && Model.Count > 0)
+{
+    <div class="main_con_al">
+        @foreach (var item in Model)
+        {
+            <div class="tbox">
+                <h2>
+                    <p class="tbox_a">
+                        <a href="@(ViewBag.BasePath)Album/Details?AlbumID=@item.AlbumID">@YSWL.Common.StringPlus.SubString(item.AlbumName, 11, "..")</a></p>
+                    <p class="tbox_b">
+                        (@item.PhotoCount)</p>
+                    <div class="clear">
+                    </div>
+                </h2>
+                <ul>
+                    @{int n = 0;}
+                    @for (n = 0; n < item.TopImages.Count; n++)
+                    {  
+                        <li class="AlbumPart"><a class="pic_load" style="background: none;" href="@(ViewBag.BasePath)Album/Details?AlbumID=@item.AlbumID">
+                            <img ref="@(YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.TopImages[n], "T60x60_"))" /></a></li>
+                    }
+                    @if (n < 9)
+                    {
+                        for (; n < 9; n++)
+                        {
+                        <li class="AlbumPart pic_load" style="background: none;">
+                            <img ref="/Areas/SNS/Themes/TufenXiang/Content/images/bgs.jpg" /></li>
+                        }
+                    }
+                    <div class="clear">
+                    </div>
+                </ul>
+                <div class="tbox_com">
+                    <div class="tbox_com_left">
+                        <p>
+                            <img src="/Areas/SNS/Themes/TufenXiang/Content/images/main9.jpg" />@(item.FavouriteCount)</p>
+                    </div>
+                    <div class="tbox_com_right">
+                        <a href="javascript:;"  class="FellowAlbum"  albumid="@item.AlbumID">
+                            <img src="/Areas/SNS/Themes/TufenXiang/Content/images/album_2.jpg" /></a> <a href="javascript:;" class="UnFellowAlbum"  style="display:none" AlbumId="@item.AlbumID"  >
+                                <img src="/Areas/SNS/Themes/TufenXiang/Content/images/zhuanjiquxiao.jpg" /></a>
+                    </div>
+                    <div class="clear">
+                    </div>
+                </div>
+                <div class="clear">
+                </div>
+            </div>
+        }
+        <div class="clear">
+        </div>
+    </div>
+}

@@ -1,0 +1,169 @@
+﻿@using YSWL.Common;
+@using Webdiyer.WebControls.Mvc
+@model PagedList<YSWL.MALL.Model.Members.SiteMessage>
+@if (null != Model)
+{   
+        <input type="hidden" id="hidpage" value="@ViewBag.inboxpage"/>         
+    foreach (var item in Model)
+    {
+        if (item.ReceiverIsRead == false)
+        {
+            <ul data-role="listview" data-inset="true" data-theme="d" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+        <li style="padding:5px 10px 5px 10px" class="ui-li ui-li-static ui-btn-up-d ui-first-child ui-last-child"  >
+            <table style="padding: 0; margin: 0; width: 100%;">
+                <tbody><tr>
+                           <td class="align_right align_top" width="80px"><label class="ui-input-text">发送者：</label></td>
+                           <td>
+                               <label class="ui-input-text"> @(item.SenderID == -1 ? "管理员" : item.SenderUserName) </label>  
+                           </td>
+                       </tr>
+                          
+                    <tr>
+                        <td class="align_right align_top" width="80px"><label class="ui-input-text">发送时间：</label></td>
+                        <td>
+                            <label class="ui-input-text" >@(item.SendTime.HasValue ? item.SendTime.Value.ToString("yyyy-MM-dd HH:mm:ss") : "")</label>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="align_right align_top" width="80px"><label class="ui-input-text">内容：</label></td>
+                        <td title="未读消息,点击">
+                          <a  href="@(ViewBag.BasePath)UserCenter/ReadMsg?MsgID=@item.ID" rel="external" class="readMsgContent none_decoration " style="font-weight:bold;color: #333333;"  > @(string.IsNullOrEmpty(item.Title) ? "" : item.Title + ":")@item.Content   </a>
+                        </td>
+                    </tr> 
+                    <tr>
+                        <td class="align_right align_top" width="80px"><label class="ui-input-text">操作：</label></td>
+                        <td>
+                            <p>
+                                <a href="javascript:;" rel="external" itemid="@item.ID"  data-role="button" data-inline="true" data-mini="true" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-btn-up-c ui-shadow ui-btn-corner-all ui-mini ui-btn-inline DelReceiveMsg">
+                                    <span class="ui-btn-inner"><span class="ui-btn-text">删除</span></span>
+                                </a>
+                              
+                                <a   href="#popupParis"  data-rel="popup" data-position-to="window" data-transition="fade" nickname="@item.SenderUserName" asendid="@item.SenderID" data-inline="true" data-mini="true" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-btn-up-c ui-shadow ui-btn-corner-all ui-mini ui-btn-inline SendMsg">
+												                   <span class="ui-btn-inner"><span class="ui-btn-text">回复</span></span>
+												               </a>
+ 
+
+                               
+                            </p>
+                        </td>
+                    </tr>	
+                  
+                </tbody></table>
+
+        </li>
+    </ul>
+      
+        }
+        else
+        {
+             <ul data-role="listview" data-inset="true" data-theme="d" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+        <li style="padding: 5px 10px 5px 10px" class="ui-li ui-li-static ui-btn-up-d ui-first-child ui-last-child" >
+            <table style="padding: 0; margin: 0; width: 100%;">
+                <tbody><tr>
+                           <td class="align_right align_top" width="80px"><label class="ui-input-text">发送者：</label></td>
+                           <td>
+                               <label class="ui-input-text"> @(item.SenderID == -1 ? "管理员" : item.SenderUserName) </label>  
+                           </td>
+                       </tr>
+                          
+                    <tr>
+                        <td class="align_right align_top" width="80px"><label class="ui-input-text">发送时间：</label></td>
+                        <td>
+                            <label class="price ui-input-text" >@(item.SendTime.HasValue ? item.SendTime.Value.ToString("yyyy-MM-dd HH:mm:ss") : "")</label>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="align_right align_top" width="80px"><label class="ui-input-text">内容：</label></td>
+                        <td  >
+                          <label class="ui-input-text" id="promotionsPriceId"> @(string.IsNullOrEmpty(item.Title) ? "" : item.Title + ":")@item.Content </label>  
+                        </td>
+                    </tr> 
+                    <tr>
+                        <td class="align_right align_top" width="80px"><label class="ui-input-text">操作：</label></td>
+                        <td>
+                            <p>
+                                 <a href="javascript:;" rel="external" itemid="@item.ID"  data-role="button" data-inline="true" data-mini="true" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-btn-up-c ui-shadow ui-btn-corner-all ui-mini ui-btn-inline DelReceiveMsg">
+												                   <span class="ui-btn-inner"><span class="ui-btn-text">删除</span></span>
+												               </a>
+ <a   href="#popupParis"  data-rel="popup" data-position-to="window" data-transition="fade" nickname="@item.SenderUserName" asendid="@item.SenderID" data-inline="true" data-mini="true" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-btn-up-c ui-shadow ui-btn-corner-all ui-mini ui-btn-inline SendMsg">
+												                   <span class="ui-btn-inner"><span class="ui-btn-text">回复</span></span>
+												               </a>
+                                
+                            </p>
+                        </td>
+                    </tr>	
+                  
+                </tbody></table>
+
+        </li>
+    </ul>
+            
+        
+        }
+    }
+
+}
+
+<script type="text/javascript">
+    $(function() {
+          $('[asendid="-1"]').css('display', 'none'); //如果是管理员发送的信息 就隐藏回复按钮
+    })
+</script>   
+ 
+    
+    <!-- FansList BEGIN -->
+ 
+    <!--jQuery Ajax Paging Start-->
+ @Ajax.Pager(Model, new PagerOptions
+                   {
+                       ShowFirstLast = false,
+                       ShowPrevNext = false,
+                       ShowDisabledPagerItems = false,
+                       AlwaysShowFirstLastPageNumber = false,
+                       PageIndexParameterName = "page",
+                       NumericPagerItemCount = 3,
+                       CurrentPagerItemTemplate = "<p class=\"in_s\">{0}</p>",
+                       NumericPagerItemTemplate = "<p>{0}</p>",
+                       NavigationPagerItemTemplate = "<p>{0}</p>",
+                       CssClass = "in_pages",
+                        
+                   }).AjaxOptions(a => a.SetUpdateTargetId("InBoxList"))
+<!--jQuery Ajax Paging End-->
+ 
+ 
+ 
+<div data-role="popup" id="popupParis" data-overlay-theme="a" data-theme="d" data-corners="false" style="width: 300px; height:240px;"  >
+    <a href="#" data-rel="back" id="cancelclick" data-role="button" data-theme="a" data-icon="delete" data-iconpos="notext" class="ui-btn-right">Close</a>
+<div style="margin:10px 5px;">	 <table style="padding: 0; margin: 0; width: 100%;">
+	          <tbody><tr>
+	                   
+	                     <td>
+	                         <input type='hidden' name='NickName' id="nickname" value='' />
+	                         <input type='text' style="width:80%" placeholder = "标题" maxlength="50"  id='title' name='Title' class="ui-input-text ui-body-c" />
+	                     </td>
+	                 </tr>
+                       
+	              <tr>
+	                
+	                  <td>
+                                
+	                      <textarea rows="8" cols="20" style="height:80px;resize:none;" maxlength="500" placeholder = "内容" class="ui-input-text  ui-body-c"   id='content' name='Content'></textarea> 
+ 
+	                  </td>
+	              </tr>
+                        
+                           
+	          </tbody></table>
+              </div>							
+   
+    <p style="float:right;">
+        <a href="javascript:;" rel="external" onclick="submitSendMsg();"  data-role="button" data-inline="true" data-mini="true" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-btn-up-c ui-shadow ui-btn-corner-all ui-mini ui-btn-inline">
+            <span class="ui-btn-inner"><span class="ui-btn-text">发送</span></span>
+        </a>
+        <a href="javascript:;" rel="external" onclick="CanCelSendMsg();"  data-role="button" data-inline="true" data-mini="true" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-btn-up-c ui-shadow ui-btn-corner-all ui-mini ui-btn-inline">
+            <span class="ui-btn-inner"><span class="ui-btn-text">取消</span></span>
+        </a></p>
+    
+</div>

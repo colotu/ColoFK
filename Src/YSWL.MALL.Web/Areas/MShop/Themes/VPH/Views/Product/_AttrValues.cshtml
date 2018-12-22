@@ -1,0 +1,21 @@
+﻿@model List<YSWL.MALL.Model.Shop.Products.AttributeValue>
+
+@if (Model != null && Model.Count > 0)
+{
+    <div data-listid="0" class="category hide display"  style="display: none;"  id="Attr_@(Model[0].AttributeId)">
+        <a href="javascript:;"  AttrId="@Model[0].AttributeId" valueId="0">全部 </a>
+        @foreach (var item in Model)
+        {
+            <a href="javascript:void(0)" valueId="@item.ValueId" AttrId="@item.AttributeId">@item.ValueStr</a>
+        }
+       
+            </div>
+    
+}
+<script type="text/javascript">
+    $(function () {
+        $(".display:visible a").die("click").live("click",function () {
+            $(this).css("background", "ghostwhite").siblings().css("background", "none");
+        });
+    });
+</script>

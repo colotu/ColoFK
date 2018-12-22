@@ -1,0 +1,61 @@
+﻿@model List<YSWL.MALL.Model.Settings.Advertisement>
+<script src="/Scripts/PhotoSwipe/klass.min.js" type="text/javascript"></script>
+<script src="/Scripts/PhotoSwipe/photoswipe.jquery.min.js" type="text/javascript"></script>
+<link href="/Scripts/PhotoSwipe/photoswipe.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript">
+    (function (window, Util, PhotoSwipe) {
+        Util.Events.domReady(function (e) {
+            var instance, indicators;
+            instance = $(".BarLoad").photoSwipe(
+                {
+                    target: window.document.querySelectorAll('#scroller_lBer')[0],
+                    preventHide: true,
+                    autoStartSlideshow: true,
+                    captionAndToolbarHide: true,
+                    getImageSource: function (obj) {
+                        return $(obj).attr("src");
+                    },
+                    getImageCaption: function (obj) {
+                        return $(obj).attr("alt");
+                    },
+                    getImageMetaData: function (obj) {
+                        // return $(obj).attr("alt");
+                        return {
+                            longDescription: obj.getAttribute(obj, 'alt')
+                        }
+                    }
+                }
+            );
+                indicators = window.document.querySelectorAll('#scroller_lBer li');
+            instance.show(0);
+        });
+
+    } (window, window.Code.Util, window.Code.PhotoSwipe));
+    $(function () {
+        $("#wrapper_banner").die("click").live("click", function () {
+            var src = $("#wrapper_banner").find(".ps-carousel").find(".ps-carousel-content").find("img").eq(1).attr("src");
+            var href = $("#scroller_lBer").find("[src='" + src + "']").attr("href");
+            window.open(href);
+        });
+    });
+</script>
+<div id="wrapper_banner">
+    <div id="scroller_lBer" class="img-loading img-bg" style="overflow: hidden; visibility: visible;">
+        <ul >
+            @foreach (var item in Model)
+            {
+            <li >
+                    <a href="@item.NavigateUrl">
+                              <img src="@item.FileUrl" class="BarLoad active" style="display: inline;"  alt="@item.AdvertisementName">
+                          </a>
+                </li>
+            }
+        </ul>
+    </div>
+    <div id="wb_position">
+        @foreach (var item in Model)
+        {
+            <em class=""></em>
+        }
+    </div>
+</div>

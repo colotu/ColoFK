@@ -1,0 +1,87 @@
+﻿@{
+    Layout = "/Areas/MBShop/Themes/Y1/Views/Shared/_NoFootLayout.cshtml";
+    ViewBag.Title = "收藏商品";
+}
+<script type="text/javascript" src="/Scripts/jquery.unobtrusive-ajax-1.9.min.js"></script>
+<!--START MAIN-WRAPPER-->
+<div class="main-wrapper">
+    <!--START HEADER-->
+    <header class="m_header">
+        <div class="navbar-fixed-top">
+            <div class="m_header_bar">
+                <div class="m_icon_goback icon" onclick="javascript:history.go(-1);">
+                    <span></span>
+                </div>
+                <p class="m_header_title">收藏商品</p>
+            </div>
+        </div>
+    </header>
+    <!-- END HEADER -->
+    <div id="divmyfavorlist" class="mt44 mb50">
+        @Html.Action("FavorList", "UserCenter", "")
+        
+
+    </div>
+
+    <!--底部悬浮导航-->
+    <nav id="normalState" class="navbar-fixed-bottom nav_bottom_focus bg_blue" onclick="editFavor()">
+        <a href="javascript:void(0);" >
+            <span class="font_white">管理收藏夹</span>
+        </a>
+    </nav>
+
+    <nav id="editState" class="navbar-fixed-bottom nav_bottom_focus bg_yellow" style="display:none">
+        <div class="" style="display:none">
+            <a href="javascript:;" class="navbar_bottom_shp navbar_bottom bg_transparent">
+                <input type="radio" class="more_choice">
+                <label class="more_choice_text font_white select_all">全选</label>
+            </a>
+        </div>
+        <div class="shp_btn" onclick="editCancel()"  >
+            <a href="javascript:void(0);" class="navbar_bottom_shp_two navbar_bottom bg_yellow">
+                <span class="font_white">取消</span>
+            </a>
+        </div>
+        <div class="buy_btn">
+            <a href="javascript:;" class="navbar_bottom_shp_two navbar_bottom bg_red" style="display:none">
+                <span class="font_white">删除</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- ################-->
+    <!-- END TOP MENU -->
+    <!-- ################-->
+</div>
+<!-- END MAIN WRAPPER-->
+<!--加入购物车弹窗-->
+@Html.Partial("/Areas/MBShop/Themes/Y1/Views/Partial/_AddCart.cshtml")
+@section foot{
+    <script src="/Scripts/jqueryui/jquery-ui-1.9.2.custom.js" type="text/javascript"></script>
+    <script src="/Areas/MBShop/Themes/Y1/Content/Scripts/productdetail.js?v=1.0"></script>
+<script>
+
+        function editFavor() {
+            $("#normalState").hide();
+            $("#editState").show();
+            $(".delete_favor").show();
+            $(".cart").hide();
+        }
+        function editCancel() {
+            $("#editState").hide();
+            $("#normalState").show();
+            $(".delete_favor").hide();
+            $(".cart").show();
+
+
+        }
+
+
+
+</script>
+
+}
+
+   
+   
+ 

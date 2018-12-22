@@ -1,0 +1,19 @@
+﻿@model List<YSWL.MALL.Model.Shop.Supplier.SuppAreas>
+<ul class="tab-content">
+        @if (Model != null)
+        {
+            for (int i = 0; i < Model.Count; i++)
+            {
+                <li class="tab-box @(i>0?"hidden":"")">
+                    <div class="left-box">
+                        <div class="img-box">
+                            <img src="@Model[i].ImageUrl" />
+                        </div>
+                    </div>
+                    <div class="right-box">
+                        @Html.Action("SuppAreasList", "Partial", new { AreaId = Model[i].AreaId, Top = 0, viewName = "/Areas/BShop/Themes/PB02/Views/Home/_SuppAreasSecondList.cshtml" })
+                    </div>
+                </li>
+            }
+        }
+</ul>

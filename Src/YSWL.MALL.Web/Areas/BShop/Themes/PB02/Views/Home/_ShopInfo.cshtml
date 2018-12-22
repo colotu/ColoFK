@@ -1,0 +1,11 @@
+﻿@model YSWL.MALL.Model.Shop.Supplier.SupplierInfo
+<div class="disappear-info">
+    @if (Model != null)
+    {
+
+        <p class="shop-name">@Model.Name</p>
+        <p class="info">收藏数：@Model.FavoritesCount</p>
+        <p class="pro-quantity">商品总数：<span class="number">@Model.ProductCount</span>件</p>
+    }
+</div>
+

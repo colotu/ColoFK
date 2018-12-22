@@ -1,0 +1,54 @@
+﻿ @{
+     Layout = "/Areas/MShop/Themes/VPH/Views/Shared/_BaseLayout.cshtml";
+     ViewBag.Title = "个人中心-积分明细";
+ }
+ @using Webdiyer.WebControls.Mvc
+@model PagedList<YSWL.MALL.Model.Members.PointsDetail>
+<link href="/Areas/MShop/Themes/VPH/Content/Css/UserCenter/userstyle.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+<header id="header" class="header clearfix">
+    <div class="head_left fl"><a href="javascript:;" onclick="history.go(-1);"><span class="h_back"></span></a></div>
+    <span class="headtit">积分明细</span>
+    <div class="head_right fr"><a href="@(ViewBag.BasePath)"><span class="h_home"></span></a></div>
+</header>
+
+<div class="userinfo clearfix">
+    <div class="fl"><p class="username">账户：@(ViewBag.NickName)</p>
+        <p>当前积分：@(ViewBag.UserInfo)</p></div>
+    <a href="@(ViewBag.BasePath)account/Logout" class="btn_out fr">退出</a>
+</div>
+@if (Model != null)
+{
+<div class="s_links in_user_center">
+
+       @foreach (var item in Model)
+        {
+            <div class="home_piclist">
+                <div class="ddnum" style="height:80px;">
+                    <span>日期：</span>@item.CreatedDate.ToString("yyyy-MM-dd")<br />
+                    <span>类型：</span>@item.RuleName<br />
+                    <span>积分：</span>@if (item.Type == 0)
+                                    {
+                                        <strong style="color: #ff8a00;">+@item.Score</strong>
+                 
+                                    }
+                                    else
+                                    {
+                                        <strong style="color: #33982e;">-@item.Score</strong>
+                                    }<br />
+                    <span>说明：</span>@item.Description
+               
+                </div>
+            </div>
+    
+        }
+</div>
+    @Html.Pager(Model, new PagerOptions
+{
+    PageIndexParameterName = "pageIndex",
+    NumericPagerItemCount = 3,
+    NumericPagerItemTemplate = "<p>{0}</p>",
+    NavigationPagerItemTemplate = "<p>{0}</p>",
+    CssClass = "in_pages_m"
+})
+        }

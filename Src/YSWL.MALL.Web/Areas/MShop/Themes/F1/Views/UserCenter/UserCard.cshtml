@@ -1,0 +1,135 @@
+﻿@{
+    Layout = "/Areas/MShop/Themes/F1/Views/Shared/_BaseLayout.cshtml";
+    ViewBag.Title = "个人中心-用户会员卡";
+    YSWL.MALL.Model.Members.UsersExpModel UserInfo = ViewBag.UserInfo;
+   
+}
+@using Webdiyer.WebControls.Mvc
+@model PagedList<YSWL.MALL.Model.Pay.BalanceDetails>
+ @section foot{
+     <script type="text/javascript">
+         $('#divPage a[href]').attr("rel", "external");
+
+         $(function() {
+             $("#btnGetUserCard").click(function() {
+                 $.ajax({
+                     type: "POST",
+                     dataType: "text",
+                     url: "@(ViewBag.BasePath)UserCenter/GetUserCard",
+                     success: function(data) {
+                         if (data == "True") {
+                             ShowSuccessTip("获取会员卡成功！");
+                             setTimeout(function() {
+                                 window.location.reload();
+                             }, 1000);
+                         } else {
+                             ShowFailTip("服务器繁忙，请稍候再试！");
+                         }
+                     }
+                 });
+             });
+         });
+ 
+     </script>
+ }
+
+<div data-role="content"   class="ui-content " role="main">
+   
+
+    @if (String.IsNullOrWhiteSpace(UserInfo.UserCardCode))
+    {
+       <div class="cardcenter">
+        <div id="applyAttention" >
+            <p class="explain" style="text-align: center;">
+                您尚未开通会员卡 			</p>
+            <div style="text-align: center;">
+               
+                <button id="btnGetUserCard"  data-inline="true" data-theme="e" class="ui-btn-hidden" data-disabled="false">领取您的会员卡</button>
+             
+            </div>
+        </div>
+    </div>
+
+    }
+    else
+    {
+        <div class="cardcenter">
+            <div class="explain" style="text-align: left;margin-left:10px;">
+                <p  style="width:200px;">
+                   <span>会员卡卡号：</span><span style="color: #ff8a00;">
+                              @UserInfo.UserCardCode </span>		</p>
+                <p  style="width:200px;">
+                     <span style="width:100px;">&#12288;当前余额：</span><span style="color: #ff8a00;">
+                             @(UserInfo.Balance.HasValue ? UserInfo.Balance.Value.ToString("F") : "0") </span>		</p>
+                <p class="explain" style="width:200px;">
+                     <span style="width:100px;">卡&#12288;状&#12288;态：</span><span style="color: #ff8a00;">
+                            @(ViewBag.Status == 1 ? "正常" : "已冻结") </span>		</p>
+           
+            </div>
+        </div>
+ 
+        <div>
+
+            @if (Model != null)
+            {
+                foreach (var item in Model)
+                {
+                    <ul data-role="listview" data-inset="true" data-theme="d" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+                        <li style="padding:5px 10px 5px 10px" class="ui-li ui-li-static ui-btn-up-d ui-first-child ui-last-child"  >
+                            <table style="padding: 0; margin: 0; width: 100%;">
+                                <tbody><tr>
+                                           <td class="align_right align_top" width="80px"><label class="ui-input-text">日期：</label></td>
+                                           <td>
+                                               <label class="ui-input-text"> @item.TradeDate.ToString("yyyy-MM-dd HH:mm:ss") </label>  
+                                           </td>
+                                       </tr>
+                          
+                                    <tr>
+                                        <td class="align_right align_top" width="80px"><label class="ui-input-text">收入：</label></td>
+                                        <td>
+                                            <label class="ui-input-text" >@(item.Income.HasValue ? item.Income.Value.ToString("F") : "")</label>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="align_right align_top" width="80px"><label class="ui-input-text">支出：</label></td>
+                                        <td >
+                                            <label class="ui-input-text" > @(item.Expenses.HasValue ? item.Expenses.Value.ToString("F") : "")</label>
+                                        </td>
+                                    </tr> 
+                                    <tr>
+                                        <td class="align_right align_top" width="80px"><label class="ui-input-text">余额：</label></td>
+                                        <td>
+                                            <label class="ui-input-text" > @item.Balance.ToString("F")</label>
+                                        </td>
+                                    </tr>	
+                                    <tr>
+                                        <td class="align_right align_top" width="80px"><label class="ui-input-text">备注：</label></td>
+                                        <td>
+                                            <label class="ui-input-text" > @item.Remark</label>
+                                        </td>
+                                    </tr>	
+                                </tbody></table>
+
+                        </li>
+                    </ul>
+                }
+        
+                <div id="divPage">
+                    @Html.Pager(Model, new PagerOptions
+               {
+                   ShowFirstLast = false,
+                   ShowPrevNext = false,
+                            PageIndexParameterName = "pageIndex",
+                            NumericPagerItemCount = 3,
+                            NumericPagerItemTemplate = "<p>{0}</p>",
+                            NavigationPagerItemTemplate = "<p>{0}</p>",
+                            CssClass = "in_pages"
+                        })
+                </div>
+     
+            }
+        </div>
+       
+            }
+</div>

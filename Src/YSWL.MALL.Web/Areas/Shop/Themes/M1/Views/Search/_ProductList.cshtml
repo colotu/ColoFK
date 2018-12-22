@@ -1,0 +1,210 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model YSWL.MALL.ViewModel.Shop.ProductListModel
+@{
+    string cid = Request.RequestContext.RouteData.Values["cid"] != null ? Request.RequestContext.RouteData.Values["cid"].ToString() : "0";
+    string brandid = Request.RequestContext.RouteData.Values["brandid"] != null ? Request.RequestContext.RouteData.Values["brandid"].ToString() : "0";
+    string keyword = Request.RequestContext.RouteData.Values["keyword"] != null ? Request.RequestContext.RouteData.Values["keyword"].ToString() : "0";
+    string mod = Request.RequestContext.RouteData.Values["mod"] != null ? Request.RequestContext.RouteData.Values["mod"].ToString() : "default";
+    string price = Request.RequestContext.RouteData.Values["price"] != null ? Request.RequestContext.RouteData.Values["price"].ToString() : "0-0";
+
+}
+<div id="ProductListDiv">
+    <script type="text/javascript">
+        $(function () {
+            //保存显示价格
+            var priceStr = '@price';
+            var price1 = priceStr.split("-")[0];
+            var price2= priceStr.split("-")[1];
+            if (!isNaN(price1)&&parseInt(price1) > 0) {
+                $("#txtPrice1").val(price1);
+            }
+               if (!isNaN(price2)&&parseInt(price2) > 0) {
+                $("#txtPrice2").val(price2);
+            }
+                var mod = '@mod';
+            $(".Sort").find("li").each(function() {
+                var mode = $(this).find("a").attr("mod");
+                if (mode == mod) {
+                    $(".Sort").find("li a").removeClass('cur');
+                    $(this).find("a").addClass("cur");
+                     return false;
+                }
+            });
+            $("#SubPrice").click(function() {
+                var price1 = parseInt($("#txtPrice1").val());
+                var price2=parseInt($("#txtPrice2").val());
+                if (isNaN(price1)) {
+                    price1 = 0;
+                }
+                if (isNaN(price2)) {
+                    price2 = 0;
+                }
+                 if (price1 > price2 && price1>0 && price2>0  ) {
+                        var sw = price1;
+                        price1 = price2;
+                        price2 = sw;
+                        $("#txtPrice1").val(price1);
+                        $("#txtPrice2").val(price2);
+                  }
+                location.href = "@(ViewBag.BasePath)Search/@cid/@brandid/@mod/"+price1+"-"+price2+"/@keyword";
+            });
+            
+            
+            $('.OnlyNum').OnlyNum();
+            $(".item-addcart #Reduction").die('click').live('click',function() {
+                var quantity = $(this).parent().find('#Quantity');
+                var num = parseInt(quantity.val()) -1;
+                if (!num||num < 1) num = 1;
+                quantity.val(num);
+            });
+            $(".item-addcart #Addition").die('click').live('click',function() {
+                var quantity = $(this).parent().find('#Quantity');
+                var num = parseInt(quantity.val()) +1;
+                if (!num) num = 1;
+                if (num > 99) num = 99;
+                quantity.val(num);
+            });
+            $(".item-addcart #AddCart").die('click').live('click',function() {
+                var sender = this;
+                var quantity = $(sender).parent().find('#Quantity');
+                var num = parseInt(quantity.val());
+                if (!num||num < 1) num = 1;
+                if (num > 99) num = 99;
+                quantity.val(num);
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    async: false,
+                    url: $YSWL.BasePath + "ShoppingCart/AddCart?s=" + new Date().format('yyyyMMddhhmmssS'),
+                    data: { ProductId: $(sender).attr('productId'), Count: num },
+                    success: function(resultData) {
+                        switch (resultData.STATUS) {
+                        case "SUCCESS":
+                            ShowSuccessTip("加入购物车成功！");
+                            var quantity = $('#hd-cart-amount');
+                            quantity.text(parseInt(quantity.text()) + num);
+                            $(sender).parent().find('#Quantity').val(1);
+                            break;
+                        default:
+                            switch (resultData.DATA) {
+                            case "NOSTOCK":
+                                ShowServerBusyTip("非常抱歉, 商品库存不足！");
+                                break;
+                            case "NOSKU":
+                            case "NO":
+                            default:
+                                ShowFailTip("服务器繁忙，请稍候再试！");
+                                break;
+                            }
+                            break;
+                        }
+                    }
+                });
+            });
+
+
+            waterFall.init({
+                //Ajax请求参数
+                AjaxOptions: {
+                    //Ajax请求参数
+                    Params:@Html.Raw(ViewBag.DataParam),
+                    //Ajax请求URL
+                    DataURL: "@(ViewBag.BasePath)Search/ListWaterfall"
+                },
+                //瀑布流起始索引记录器 - 用于累计
+                CurrentAjaxStartIndexHF: $('#hfCurrentPageAjaxStartIndex'),
+                //瀑布流起始索引
+                StartIndex:$('#hfCurrentPageAjaxStartIndex').val() ? parseInt($('#hfCurrentPageAjaxStartIndex').val()) : 0,
+                //瀑布流结束索引
+                EndIndex: $('#hfCurrentPageAjaxEndIndex').val() ? parseInt($('#hfCurrentPageAjaxEndIndex').val()) : 0,
+
+                //分页容器
+                PagedContainer: $('.in_pages'),
+                //列容器ID前缀
+                ColumnFirstId: "J_lazyload",
+                //列数
+                ColumnNumber: 0,RowNumber: 4
+            });
+            $.lazyFixedLoadImg('.item', 175, 228);
+        });
+    </script>
+    @if (Model.ProductPagedList != null)
+    {
+        <div class="filterbox cf mb20">
+            <div class="cf list-mode" id="Sort">
+                <div class="fl et">
+                    <div class="filter-title">
+                        排序：
+                    </div>
+                    <ul class="fl mr10 Sort">
+                        <li class="listauto"><a id="MRPX0011" canajax="1"  class="cur"  mod="default"    href="@(ViewBag.BasePath)Search/@cid/@brandid/default/@price/@keyword">
+                            <span>默认 </span></a></li>
+                        <li class="listsale des"><a id="XLPX0011" canajax="1" mod="hot" href="@(ViewBag.BasePath)Search/@cid/@brandid/hot/@price/@keyword"
+                            class="" title="销量由高到低"><span>销量 </span></a></li>
+                        <li class="listdate des"><a id="SJPX0011" canajax="1" mod="new" href="@(ViewBag.BasePath)Search/@cid/@brandid/new/@price/@keyword"
+                            class="" title="上架时间由近到远"><span>上架时间 </span></a></li>
+                 
+                        <li class="listprice des" title="点击按价格由低到高排序">
+                            <a id="JGPX0011" mod="price"  canajax="1" href="@(ViewBag.BasePath)Search/@cid/@brandid/price/@price/@keyword"
+                                     class=""><span>价格 </span></a>
+                        </li>
+                    </ul>
+                    <div class="fl mr5" name="__JGQJ0011">
+                        <input name="" type="text" class="mtext priceTxt" id="txtPrice1" value="" />
+                        <span class="lower">- </span>
+                        <input name="" type="text" class="mtext priceTxt" id="txtPrice2" value="">
+                    </div>
+                    <a canajax="1" overrideclick="1" class="mbtn" id="SubPrice" href="javascript:void(0)"><span>确定 </span>
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+        <div ajaxcontent="1" class="itemmain mb20">
+            <ul class="list list-n4" id="J_lazyload">
+                @foreach (var item in Model.ProductPagedList)
+                {
+                    <li styleid="UW280019" class="item item-sale"><a target="_blank" href="@(ViewBag.BasePath)Product/Detail/@item.ProductId" title="@item.ProductName"
+                         class="item-desc ForSkuLink">
+                        <img title="@item.ProductName" alt="@item.ProductName" width="175" height="228"
+                              ref="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.ThumbnailUrl1, "T175X228_")">
+                        <span class="item-price"><em>@(item.LowestSalePrice.ToString("F"))</em></span>
+                        @if (item.MarketPrice.HasValue)
+                        {
+                            <del>@(item.MarketPrice.Value.ToString("F"))</del>
+                        }
+                        <span class="item-title">@item.ProductName </span></a>
+                        <p class="item-brand" style="display: none">
+                            Mind&amp;Style
+                        </p>
+                        <p class="item-addcart" style="display: none;">
+                            <span class="item-title">
+                                <span id="Reduction" style="float: left;margin-left: 1px;"><a style="background:url(/Areas/Shop/Themes/M1/Content/images/jjj.jpg) no-repeat; height:13px; width:13px; display:block;  margin-right:5px; margin-top:3px;"></a></span>
+                                <input id="Quantity" type="text" class="OnlyNum" value="1" maxlength="2" style="text-align: center;float: left;width: 15px;">
+                                <span id="Addition" style="float: left;"><a style="background:url(/Areas/Shop/Themes/M1/Content/images/jiahao.jpg) no-repeat; height:13px; width:13px; display:block; margin-left:5px; margin-top:3px;"></a></span>
+                                <span id="AddCart" productId="@(item.ProductId)" style="margin-right: 5px;padding-left: 15px;float: right;background: url(/Areas/Shop/Themes/M1/Content/images/list-v1-1.gif) no-repeat 0 -331px;"><a  style="white-space: nowrap;padding-right: 15px;line-height: 22px;cursor: pointer;_position: relative;overflow: hidden;float: left;height: 22px;_line-height: 24px;background: url(/Areas/Shop/Themes/M1/Content/images/list-v1-1.gif) no-repeat 0 -331px;background-position: 100% -331px;">加入购物车</a></span>
+                            </span>
+                        </p>
+                    </li>
+                }
+            </ul>
+        </div>
+
+        <div class="cf mt10 mb20">
+            @Ajax.Pager(Model.ProductPagedList, new PagerOptions
+       {
+           ShowDisabledPagerItems = false,
+           AlwaysShowFirstLastPageNumber = true,
+           PageIndexParameterName = "pageIndex",
+           NumericPagerItemCount = 10,
+           CurrentPagerItemTemplate = "<p class=\"in_s\">{0}</p>",
+           NumericPagerItemTemplate = "<p>{0}</p>",
+           NavigationPagerItemTemplate = "<p>{0}</p>",
+           CssClass = "in_pages",
+            
+       }).AjaxOptions(a => a.SetUpdateTargetId("ProductListDiv"))
+            <input type="hidden" id="hfCurrentPageAjaxStartIndex" value="@ViewBag.CurrentPageAjaxStartIndex" />
+            <input type="hidden" id="hfCurrentPageAjaxEndIndex" value="@ViewBag.CurrentPageAjaxEndIndex" />
+        </div>
+    }
+</div>

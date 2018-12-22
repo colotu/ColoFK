@@ -1,0 +1,66 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model  List<YSWL.MALL.Model.Shop.Supplier.SupplierInfo>
+@if (Model != null && Model.Count > 0)
+{
+    <ul id="contlist">
+        @foreach (var item in Model)
+                {
+            <li>
+                <div class="list_item">
+                    <div class="shop_info">
+                        <a href="@(ViewBag.BasePath)store/@item.SupplierId">
+                            <div class="shop_name"><span class="word_shop">铺</span>@item.ShopName</div>
+                            <div class="shop_txt">收藏数：<span class="c_3">@item.FavoritesCount</span></div>
+                            <div class="pro-quantity">销量<span class="quantity-num">@(item.SalesCount)</span>件&nbsp;|&nbsp;共<span class="quantity-num">@item.ProductCount</span>件商品</div>
+                            <div class="shop_txt"><span class="interval">经营年限：@(item.EstablishedDate.HasValue ? (DateTime.Now.Year - item.EstablishedDate.Value.Year) + "年" : "")</span><span>@item.Address</span></div>
+                        </a>
+                    </div>
+                    <div class="shoppro_list" suppId="@(item.SupplierId)">
+                        @Html.Action("RecProd", "Store", new { suppid = item.SupplierId, top = 3, viewName = "_SeachStoreRecProd" })
+                    </div>
+                    <a href="@(ViewBag.BasePath)store/@item.SupplierId"><span class="gointo_btn btn_default">进店</span></a>
+                </div>
+            </li>
+        }
+    </ul>
+    <script type="text/javascript">
+    $(function () {
+        pullUp.init({
+            //Ajax请求参数
+            AjaxOptions: {
+                //Ajax请求参数
+                Params: $.extend(@Html.Raw(ViewBag.DataParam),{ ajaxVName:"_StoreListMore"}),
+                //Ajax请求URL
+                DataURL: "@(ViewBag.BasePath)s/sl"
+            },
+            //当前页码
+            CurrentPage: 2,
+            //页码参数名称
+            PageParamsName: "pageIndex",
+            //每页数量
+            PageSize: @(ViewBag.PageSize),
+            //每页数量参数名称
+            PageSizeParamsName: "pageSize",
+            //内容容器
+            ContentContainer: $("#contlist"),
+            //正在加载提示框
+            LoadingTipBox: $("#loadingMore"),
+            //无更多数据提示框
+            NoMoreTipBox: $("#noMoreProduct"),
+            LoadFinish:false
+        });
+        $("#noMoreProduct").hide();
+    });
+    </script>
+}
+else
+{
+    <div class="empty pro_list_empty">
+        <div class="img_wrap">
+            <img src="/Areas/MB/Themes/MB02/Content/images/nopro.png" alt="">
+        </div>
+        <div class="txt">
+            <p>没找到相关店铺，搜个其它词试试吧</p>
+        </div>
+    </div>
+}

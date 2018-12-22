@@ -1,0 +1,21 @@
+﻿@{
+    Layout = "~/Areas/SNS/Themes/Default/Views/Shared/_SiteLayout.cshtml";
+}
+@section head{
+    @RenderSection("head", false)
+}
+@Html.Action("Header", "Partial")
+@Html.Action("Navigation", "Partial")
+<div class="clear">
+</div>
+<div class="user_cont" >
+        @Html.Action("UserInfo", "Partial") 
+        <div class="user_cont_con" style="padding:5px 10px 20px 10px;">
+        @RenderBody()
+        <div class="clear">
+        </div>
+    </div>
+    <div class="clear">
+    </div>
+</div>
+@Html.Action("Footer", "Partial")

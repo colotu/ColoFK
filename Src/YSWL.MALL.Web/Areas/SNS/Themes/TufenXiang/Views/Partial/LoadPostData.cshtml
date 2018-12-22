@@ -1,0 +1,81 @@
+﻿@model  List<YSWL.MALL.ViewModel.SNS.Posts>
+@foreach (YSWL.MALL.ViewModel.SNS.Posts item in Model)
+{
+    <div id="wpostid@{@item.Post.PostID}">
+        <div class="dynamic_a" id=postid@{@item.Post.PostID} style="padding-top: 10px;">
+            <div class="dynamic_a1">
+                <a href="@(ViewBag.BasePath)User/Posts/@item.Post.CreatedUserID">
+                    <img style=" width:50px ; height:50px" alt="@item.Post.CreatedNickName" src="/@(YSWL.Components.MvcApplication.UploadFolder)/User/Gravatar/@{@item.Post.CreatedUserID}.jpg"/></a></div>
+            <div class="dynamic_a2">
+                <div class="dynamic_a2_a">
+                    <a href="@(ViewBag.BasePath)User/Posts/@item.Post.CreatedUserID">
+                        @{@item.Post.CreatedNickName}
+                    </a><span>
+                        @{@item.Post.CreatedDate.ToString("MM-dd HH:mm:ss")}
+                    </span>
+                </div>
+                <div class="dynamic_a2_b">
+                    @Html.Raw(item.Post.Description)</div>
+                @* 有图片的*@
+                @if (!string.IsNullOrEmpty(item.Post.ImageUrl))
+                {
+                    <div class="zhuanfa_b">
+                        <img class="Postimg" style="display:inline ; cursor: pointer; max-width: 128px;" onclick="$(this).hide().next().show();" alt="小图片" src="@(YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.Post.ImageUrl, "210X220_"))" />
+                        <img class="Postimg" style="display:none ; cursor: pointer; max-width: 400px;" onclick="$(this).hide().prev().show();" alt="大图片" src="@(YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.Post.ImageUrl, "800X800_"))"/>
+                        @* <img src="@item.Post.ImageUrl" style="display: block;max-height: 200px;" />*@
+                    </div>
+                }
+@* 有图片的*@
+@*   要转发的内容*@
+                @if (item.OrigPost != null)
+                {
+                    <div class="zhuanfa">
+                        <p class="zhuanfa_a">
+                            <span><a href="@(ViewBag.BasePath)User/Posts/@item.OrigPost.CreatedUserID">@@@item.OrigPost.CreatedNickName</a></span>:
+                            @Html.Raw(item.OrigPost.Description)</p>
+                        @if (!string.IsNullOrEmpty(item.OrigPost.ImageUrl))
+                        {
+                            <p class="zhuanfa_b">
+                                <img class="Postimg" style="display:inline ; cursor: pointer; max-width: 128px;" onclick="$(this).hide().next().show();" alt="小图片" src="@(YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.OrigPost.ImageUrl, "210X220_")) " />
+                                <img class="Postimg" style="display:none ; cursor: pointer; max-width: 400px;" onclick="$(this).hide().prev().show();" alt="大图片" src="@(YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.OrigPost.ImageUrl, "800X800_")) "/>
+                            </p>
+                            
+                        }
+                        <p class="zhuanfa_c">
+                            <a>转发(@item.OrigPost.ForwardCount)</a> <a>评论(@item.OrigPost.CommentCount)</a></p>
+                    </div>
+                }
+@*   要转发的内容*@
+@*下面的分享框*@
+                <div class="dynamic_a2_d">
+                    <div class="dynamic_a2_d2">
+                        @if (item.Post.CreatedUserID == ViewBag.CurrentUserID)
+                        {
+                            <a href="javascript:;" postid=@{@item.Post.PostID} class="DelPost" id="delPost@{@item.Post.PostID}">
+                                删除</a> <span>|</span> 
+                        }
+                        <a href="javascript:;">分享</a> | <a href="javascript:;" class="postforward" id="postforward@{@item.Post.PostID}" 
+                                           origuserid=@{@(item.Post.OriginalID > 0 ? item.OrigPost.CreatedUserID : item.Post.CreatedUserID)} 
+                                           orignickname=@{@(item.Post.OriginalID > 0 ? item.OrigPost.CreatedNickName : item.Post.CreatedNickName)}
+                                           postid=@item.Post.PostID
+                                           origid=@{@(item.Post.OriginalID > 0 ? item.Post.OriginalID : item.Post.PostID)}
+                                           forwardvalue="@{@(item.Post.OriginalID > 0 ? item.OrigPost.Description : item.Post.Description)}"
+                                           forwardcontent="@{@(item.Post.OriginalID > 0 ? "//@" + item.Post.CreatedNickName + " ：" + item.Post.Description : "")}"
+                            >转发(@{@item.Post.ForwardCount}
+                            )</a> | <a href="javascript:;" postid=@{@item.Post.PostID} class="postComment" type=@item.Post.Type>
+                                评论(@{@item.Post.CommentCount}
+                                )</a></div>
+                    <div class="clear">
+                    </div>
+                    <div id="Inputcomment@{@item.Post.PostID}" style="display:none">
+                    </div>
+                    <div class="pinglun" id="pinglun@{@item.Post.PostID}" style="padding:0">
+                    </div>
+                </div>
+                @* 下面的分享框*@
+            </div>
+            <div class="clear">
+            </div>
+        </div>
+    </div>
+}

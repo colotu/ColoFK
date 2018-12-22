@@ -1,0 +1,205 @@
+﻿@model YSWL.MALL.Model.Shop.Products.ShoppingCartInfo
+<script type="text/javascript">
+    $(function () {
+        var selectItem = new Array();
+        $(".SalePrice").each(function () {
+            var sellprice = $(this).attr("toalSellPrice");
+            var adjustedprice = $(this).attr('toalAdjustedPrice');
+            var p = parseFloat(sellprice) - parseFloat(adjustedprice);
+            if (p > 0) {
+                  $(this).text(p.toFixed(2));
+                $(this).parent().show();
+            }
+        });
+        //填充数组
+        $(".btnCheck").each(function () {
+            var itemId = $(this).attr("ItemId");
+            //判断选中数组中是否已存在该项
+            var index = $.inArray(itemId, selectItem);
+            if (index > -1) {
+                selectItem.splice(index, 1);
+            } else {
+                selectItem.push(itemId);
+            }
+        });
+        $("#btnRemoveAll").click(function () {
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                url: $YSWL.BasePath + "ShoppingCart/ClearShopCart",
+                data: {},
+                success: function (data) {
+                    if (data != "No") {
+                        $("#LoadCartList").load($YSWL.BasePath + "ShoppingCart/CartList?s=" + new Date().format('yyyyMMddhhmmssS'));
+                    } else {
+                        ShowFailTip("服务器繁忙，请稍候再试！");
+                    }
+                }
+            });
+        });
+        $("#btnCheckAll").click(function () {
+            if ($(this).attr("checked") == "checked") {
+                $(".btnCheck").each(function () {
+                    $(this).attr("checked", "checked");
+                });
+            } else {
+                $(".btnCheck").each(function () {
+                    $(this).removeAttr("checked");
+                });
+            }
+        });
+        $(".btnCheck").click(function () {
+            var itemId = $(this).attr("ItemId");
+            //判断选中数组中是否已存在该项
+            // jQuery.inArray
+            var index = $.inArray(itemId, selectItem);
+            if (index > -1) {
+                selectItem.splice(index, 1);
+            } else {
+                selectItem.push(itemId);
+            }
+        });
+        $("#btnRemoveSelect").click(function () {
+            alert(selectItem);
+            var itemIds = selectItem.join(",");
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                url: $YSWL.BasePath + "ShoppingCart/RemoveItem",
+                data: { ItemIds: itemIds },
+                success: function (data) {
+                    if (data != "No") {
+                        $("#LoadCartList").load($YSWL.BasePath + "ShoppingCart/CartList?s=" + new Date().format('yyyyMMddhhmmssS'));
+                    } else {
+                        ShowFailTip("服务器繁忙，请稍候再试！");
+                    }
+                }
+            });
+        });
+        $(".btnDelete").click(function () {
+            var itemId = $(this).attr("ItemId");
+            deleteItem(itemId);
+        });
+    });
+
+    //删除购物车中的商品
+    function deleteItem(itemId) {
+        $.ajax({
+            type: "POST",
+            dataType: "text",
+            url: $YSWL.BasePath + "ShoppingCart/RemoveItem",
+            data: { ItemIds: itemId },
+            success: function (data) {
+                if (data != "No") {
+                    $("#LoadCartList").load($YSWL.BasePath + "ShoppingCart/CartList?s=" + new Date().format('yyyyMMddhhmmssS'));
+                } else {
+                    ShowFailTip("服务器繁忙，请稍候再试！");
+                }
+            }
+        });
+    }
+</script>
+@if (Model != null && Model.Items.Count > 0)
+{
+    <div id="J_cartNormal">
+        <section class="section_1">
+            <div class="section_wrap y_pf">
+                <div id="J_wrapperCartTop">
+                    <p class="gd_count">
+                        共<span id="J_cartCount">@Model.Items.Count</span>件商品
+                    </p>
+                    
+                    <p class="price_count">
+                        ¥<span id="J_cartTotal">@Model.TotalAdjustedPrice.ToString("F")</span></p>
+                          <p  style="padding-left: 92px">
+                       优惠 ¥<span id="J_cartTotal">@((Model.TotalSellPrice - Model.TotalAdjustedPrice).ToString("F"))</span></p>
+                </div>
+            </div>
+            
+        </section>
+        <section class="cart_floor">
+            <ul id="J_itemList_ul">
+                @foreach (var item in Model.Items)
+                {
+                    <li class="J_item  @if (item.Stock < item.Quantity || item.SaleStatus != 1)
+                                                                                   { @: set_grey
+                                                                                   } "  style="height: auto;" >
+                        <div class="J_moveRight" style="-webkit-transform: translateX(0px);">
+                            <label>
+                                <div>
+				<em class="i_wrap_ss_">
+                                    <a class=" J_ytag cartlist" ytag="41001" data-type="1" href="@(ViewBag.BasePath)p/d/@item.ProductId">
+                                        <img width="84" height="84" src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.ThumbnailsUrl, "T115X115_")"></a>
+
+                                            @if (item.SaleStatus != 1)
+                 {
+                          <div class="wkc_ red">失效</div>
+                    }
+                 else  if (item.Stock <= 0)
+                  {
+                      <div class="wkc_ red">无货</div>
+                    }
+                  else if (item.Stock < item.Quantity)
+                  {
+                      <div class="wkc_ red">库存不足 </div>
+                    }
+                else { 
+		          <div class="wkc_ ">有货</div>
+                } 
+
+ 
+</em>
+                                    <div class="gd_info">
+                                        <p class="name">
+                                            @item.Name</p>
+                                                 @if (item.SkuValues != null && item.SkuValues.Length > 0)
+                                                 {
+                        <div class="sizeOptions mt10 cf sku-size-div">
+                            <dl class="sku-size-select AttrItems">
+                                @foreach (string val in item.SkuValues)
+                                {
+                                    <dt class="SkuItems"><a href="javascript:;">@val</a> </dt>
+                                }
+                            </dl>
+                        </div>
+                                                 }
+                                        <p class="promotion">
+                                            @if (!string.IsNullOrWhiteSpace(item.SaleDes))
+                                            {
+                                                <span>优惠: @item.SaleDes</span>
+                                            }
+                                        </p>
+                                        <p class="price">
+                                            ¥@(item.AdjustedPrice.ToString("F"))</p>
+                                    @*         <img  src="/Areas/MShop/Themes/YX/Content/images/delete.png"/ style="width: 20px;height: 20px;
+float: right;margin-top: 5px;">*@
+                                        <div class="act_wrap" ItemId="@item.ItemId" >
+                                            <a href="javascript:;" class="J_reduce add y_hover btn_disabled J_ytag"  ItemId="@item.ItemId"></a>
+                                            <p class="num txtQuantity" >@item.Quantity</p>
+                                            <a href="javascript:;"  class="J_add add y_hover reduce  J_ytag"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </section>
+        <section class="cart" id="J_bottomOrder" style="">
+			<div class="section_wrap">
+				<a href="@(ViewBag.BasePath)Order/SubmitOrder" id="toSettlement" class="btn_buy J_submitCart y_hover J_ytag" data-type="1" ytag="21003">去结算</a>
+			</div>
+		</section>
+    </div>
+}
+else
+{
+    <div id="J_cartEmpty">
+        <div class="cart_empty">
+            <p class="txt">
+                购物车里空空如也，不如去逛逛吧~</p>
+            <a href="@(ViewBag.BasePath)" class="btn_go J_ytag" data-type="1" ytag="21004">去首页逛逛</a>
+        </div>
+    </div>
+}

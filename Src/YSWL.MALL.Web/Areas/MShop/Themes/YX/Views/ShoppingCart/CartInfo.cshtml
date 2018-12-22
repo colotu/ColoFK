@@ -1,0 +1,99 @@
+﻿@{
+    Layout = "~/Areas/MShop/Themes/YX/Views/Shared/_BaseLayout.cshtml";
+}
+   <link href="/Areas/MShop/Themes/YX/Content/css/gb.css" type="text/css" rel="stylesheet"/>
+<link type="text/css" rel="stylesheet" href="/Areas/MShop/Themes/YX/Content/css/cart.css"/>
+<script type="text/javascript">
+    $(function () {
+        $(".J_reduce").die("click").live("click", function () {
+            var count = parseInt($(this).next().text());
+            var itemId = parseInt($(this).attr('ItemId'));
+            if (count == 1) {
+                if (confirm("您确定要删除该商品吗？")) {
+                    deleteItem(itemId);
+                }
+            } else {
+                $(this).next().text(count - 1);
+                var itemId = $(this).parent().attr("ItemId");
+                $.ajax({
+                    type: "POST",
+                    dataType: "text",
+                    async: false,
+                    url: $YSWL.BasePath + "ShoppingCart/UpdateItemCount?s=" + new Date().format('yyyyMMddhhmmssS'),
+                    data: { ItemId: itemId, Count: count - 1 },
+                    success: function (data) {
+                        if (data != "No") {
+                            $("#LoadCartList").load($YSWL.BasePath + "ShoppingCart/CartList?s=" + new Date().format('yyyyMMddhhmmssS'));
+                        } else {
+                            ShowFailTip("服务器繁忙，请稍候再试！");
+                        }
+                    }
+                });
+            }
+        });
+        $('.txtQuantity').die("blur").live("blur", function () {
+            var count = parseInt($(this).text());
+            if (count < 1) {
+                if (confirm("您确定要删除该商品吗？")) {
+                    $(this).parents('.gouwuchelist').find('.btnDelete').click();
+                    return;
+                }
+                $(this).val(1);
+                return;
+            }
+            var itemId = $(this).parent().attr("ItemId");
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                url: $YSWL.BasePath + "ShoppingCart/UpdateItemCount?s=" + new Date().format('yyyyMMddhhmmssS'),
+                data: { ItemId: itemId, Count: count },
+                success: function (data) {
+                    if (data != "No") {
+                        $("#LoadCartList").load($YSWL.BasePath + "ShoppingCart/CartList?s=" + new Date().format('yyyyMMddhhmmssS'));
+                    } else {
+                        ShowFailTip("服务器繁忙，请稍候再试！");
+                    }
+                }
+            });
+        });
+        $(".J_add").die("click").live("click", function () {
+            var count = parseInt($(this).prev().text());
+            $(this).prev().text(count + 1);
+            var itemId = $(this).parent().attr("ItemId");
+            var stock = $(this).parent().attr("stock");
+            if (stock <= 0) {
+                ShowFailTip("无货");
+                return;
+            }
+            if (stock < (count + 1)) {
+                ShowFailTip("库存不足！");
+                return;
+            }
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                async: false,
+                url: $YSWL.BasePath + "ShoppingCart/UpdateItemCount?s=" + new Date().format('yyyyMMddhhmmssS'),
+                data: { ItemId: itemId, Count: count + 1 },
+                success: function (data) {
+                    if (data != "No") {
+                        $("#LoadCartList").load($YSWL.BasePath + "ShoppingCart/CartList?s=" + new Date().format('yyyyMMddhhmmssS'));
+                    } else {
+                        ShowFailTip("服务器繁忙，请稍候再试！");
+                    }
+                }
+            });
+        });
+
+    })
+</script>
+<header class="y_hd">
+    <a href="javascript:;" onclick="history.go(-1);" class="y_hd_back J_ytag" ytag="10000"
+       data-type="1"></a>
+    购物车
+    <a href="@(ViewBag.BasePath)" class="y_hdb J_ytag" data-type="2" ytag="21002" id="J_btnFn" style="">
+        首页</a>
+</header>
+<div id="LoadCartList"    >
+@Html.Action("CartList", "ShoppingCart")
+</div>

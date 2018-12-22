@@ -1,0 +1,38 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model YSWL.ViewModel.Shop.ProductListModel
+@{
+    Layout = "/Areas/MBShop/Themes/Y1/Views/Shared/_BaseLayout.cshtml";
+    ViewBag.Title = "促销商品";
+    ViewBag.Keywords = "促销商品";
+    ViewBag.Description = "促销商品";
+}
+<!--START MAIN-WRAPPER-->
+<div class="main-wrapper">
+    <!--START HEADER-->
+    <header class="m_header">
+        <div class="navbar-fixed-top">
+            <div class="m_header_bar">
+                <div class="m_icon_goback icon">
+                    <span></span>
+                </div>
+                <p class="m_header_title">促销商品</p>
+                <div class="m_icon_share icon">
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- END HEADER -->
+    <div class="mt44 mb50">
+       @* @Html.Action("FavorList", "UserCenter", "")*@
+        @Html.Action("Index", "Product", new { Cid = 0, viewName = "_FavorIndex", mod = "hot" })
+    </div>
+
+    <!--底部悬浮导航-->
+
+
+    <!-- ################-->
+    <!-- END TOP MENU -->
+    <!-- ################-->
+</div>
+<!-- END MAIN WRAPPER-->

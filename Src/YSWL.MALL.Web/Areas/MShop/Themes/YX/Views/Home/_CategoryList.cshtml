@@ -1,0 +1,23 @@
+﻿@model List<YSWL.MALL.Model.Shop.Products.CategoryInfo>
+<div class="mod_cate">
+    <div class="item">
+        @if (null != Model && Model.Count > 0)
+        {
+            for (int i = 0; i < Model.Count; i++)
+            {
+                <dl class="cate">
+                    <i class="fakeElement background@(i%5)"></i>
+                    <dt style="max-width: 90px;text-overflow:ellipsis" ><a href="@(ViewBag.BasePath)p/@Model[i].CategoryId">@YSWL.Common.StringPlus.SubString(Model[i].Name, 4, null)</a></dt>
+                    <dd style="max-width: 90px;overflow: hidden" >
+                        @YSWL.Common.InjectionFilter.HtmlFilter(Model[i].Description)
+                    </dd>
+                </dl>
+                @Html.Action("CateList", "Partial", new { parentId = Model[i].CategoryId, viewName = "_CateListIndex" })
+            }
+        }
+    </div>
+</div>
+
+
+
+

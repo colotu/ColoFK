@@ -1,0 +1,13 @@
+﻿@model List<YSWL.MALL.Model.Shop.Supplier.SuppAreas>
+  @if (Model != null)
+  {
+      for (int i = 0; i < Model.Count; i++)
+      {
+<div class="building-floor">
+    <span class="floor-number">@Model[i].Name</span>
+    <div class="floor-name">
+        @Html.Action("SuppAreasList", "Partial", new { AreaId = Model[i].AreaId, Top = 0, viewName = "/Areas/BShop/Themes/PB02/Views/Home/_SuppAreasThreeList.cshtml" })
+    </div>
+</div>
+      }
+  }

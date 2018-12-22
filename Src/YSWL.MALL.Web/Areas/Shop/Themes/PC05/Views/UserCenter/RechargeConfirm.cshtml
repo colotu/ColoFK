@@ -1,0 +1,29 @@
+﻿@{
+    Layout = "~/Areas/Shop/Themes/PC05/Views/Shared/_ShoppingLayout.cshtml";
+}
+@section head{
+  <link href="/Areas/Shop/Themes/PC05/Content/Css/goods.css" rel="stylesheet"/>
+   }
+   <div class="os">您已申请账户余额充值，请您尽快支付！</div>
+    
+    <table class="otab" style="width: auto;">
+    	<tbody><tr class="tr1">
+        	<td width="149">充值单号</td>
+            <td width="149">应付金额</td>
+        </tr>
+        <tr>
+        	<td>@ViewBag.RechargeId</td>
+            <td><b style="color:red">@(ViewBag.RechargeBlance.ToString("F"))</b>元</td>
+        </tr>
+    </tbody></table>
+    <div class="o-ok">
+    	<a  class="oka btn-impay"  style="cursor: pointer;"></a>
+    </div>     
+
+ 
+<script type="text/javascript">
+    $('.btn-impay').unbind('click').bind('click', function () {
+        window.location.replace("/pay/account@(ViewBag.RechargeId)");
+        return;
+    });
+</script>

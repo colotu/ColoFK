@@ -1,0 +1,38 @@
+﻿@model List<YSWL.MALL.Model.Shop.Products.ProductInfo>
+<script type="text/javascript">
+    $(function () {
+        $.lazyFixedLoadImg('.J_scorll_inline', 80, 80);
+    })
+</script>
+<div class="goods_more" id="J_browse_products">
+    <p class="tit">
+        浏览过此商品的用户还看了</p>
+    @if (Model != null && Model.Count > 0)
+    {
+        <div class="list J_list">
+            <div class="J_scorll_box">
+                <div class="J_scorll_inline">
+                      @foreach (var item in Model)
+                      {
+       <a  class="J_anotherItem J_ytag" href="@(ViewBag.BasePath)p/d/@item.ProductId">
+                        <p class="pic">
+                            <img ref="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.ThumbnailUrl1, "T115X115_")"
+                                 alt="@item.ProductName" width="80" height="80">
+                                 </p>
+                        <p class="name">
+                            @YSWL.Common.StringPlus.SubString(item.ProductName,15,"...")</p>
+                        <p class="price">
+                            <span class="rmb">¥</span>@item.LowestSalePrice.ToString("F")</p>
+                    </a>
+                      }
+          
+
+                </div>
+            </div>
+        </div>
+    }
+                
+@*<div class="ctrl J_ctrl">
+                    <a href="./小米3 移动3G(GSM TD-SCDMA)16G版 黑色 手机_files/index.html" class="current"></a>
+                </div>*@
+</div>

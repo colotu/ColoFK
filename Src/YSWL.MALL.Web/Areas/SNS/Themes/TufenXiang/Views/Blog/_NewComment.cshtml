@@ -1,0 +1,16 @@
+﻿@model List<YSWL.MALL.Model.SNS.Comments>
+@if (Model != null)
+{
+    foreach (var item in Model)
+    {
+        <ul>
+            @if (item.UserBlog != null)
+            {
+                   <li><a href="@(ViewBag.BasePath)Blog/BlogDetail?id=@item.UserBlog.BlogID"  title="@Html.Raw(item.Description)">@Html.Raw(YSWL.Common.StringPlus.SubString(item.Description, 20, "..."))
+                </a></li>
+            <li>来自:<a href="@(ViewBag.BasePath)Blog/BlogDetail?id=@item.UserBlog.BlogID" style="font-weight: normal;" title="@item.UserBlog.Title">@YSWL.Common.StringPlus.SubString(item.UserBlog.Title, 8, "...")</a>
+                评论数:<span class="topic">@item.UserBlog.TotalComment</span></li>
+            }
+        </ul>
+    }
+}

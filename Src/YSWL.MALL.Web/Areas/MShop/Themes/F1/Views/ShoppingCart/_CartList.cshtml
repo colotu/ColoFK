@@ -1,0 +1,107 @@
+﻿@model YSWL.MALL.Model.Shop.Products.ShoppingCartInfo
+@if (Model != null && Model.Items.Count > 0)
+{
+
+    foreach (var item in Model.Items)
+    { 
+    <div class="cartitem"  @if (item.Stock < item.Quantity || item.SaleStatus != 1)
+                                                                                   { @: class="set_grey"
+                                                                                   } >
+        <table width="100%">
+            <tbody>
+                <tr>
+                    <td class="foodname">@item.Name
+
+                    </td>
+                    <td class="foodprice-nounit" style="width: 100px;">
+                        ￥@((item.AdjustedPrice * item.Quantity).ToString("F"))
+                    </td>
+                    <td class="food-op gouwuchelist"  ItemId="@item.ItemId" stock="@item.Stock" >
+                        <span class="reduce-btn redu">
+                            <button data-inline="true" class="ui-btn-hidden" data-disabled="false">
+                                -</button>
+                        </span>
+                        <div class="foodnum txtQuantity">
+                            @item.Quantity
+                        </div>
+                        <span class="add-btn add">
+                            <button data-inline="true" class="ui-btn-hidden" data-disabled="false">
+                                +</button></span>
+
+                    
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="padding-left: 5px;">
+                        编号：@item.SKU &nbsp;&nbsp;
+                        @if (item.SkuValues != null && item.SkuValues.Length > 0)
+                        {
+                            <div class="sizeOptions mt10 cf sku-size-div">
+                                <ul class="sku-size-select AttrItems">
+                                    @foreach (string val in item.SkuValues)
+                                    {
+                                        <li class="SkuItems"><a href="javascript:;">@val</a> </li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+                        @if (!string.IsNullOrWhiteSpace(item.SaleDes))
+                        {
+                            @:优惠:@item.SaleDes
+                                                                               }
+                    </td>
+                    <td  style="text-align: center;" id="items_@(item.SKU)">            <span style="font-style: normal;" class="stockTip red">
+                 @if (item.SaleStatus != 1)
+                 {
+                        @:失效
+                    }
+                 else { 
+                  if (item.Stock <= 0)
+                  {
+                        @:无货
+                    }
+                  else if (item.Stock < item.Quantity)
+                  {
+                        @:库存不足
+                    }
+               @* else { 
+                    @:有货
+                }*@
+                 }
+               
+               </span> </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    }
+ 
+    <table id="priceinfo" style="display: none;">
+        <tbody>
+            <tr>
+                <td style="width: 120px; padding-left: 5px;">
+                    总价：<span class="membernotactive">￥<span id="cart_totalprice">@Model.TotalAdjustedPrice.ToString("F")</span></span>
+                </td>
+                <td>
+                    <span id="cart_memberprice_show">商品总额：<span style="color: red;">￥</span><span id="cart_memberprice">@Model.TotalSellPrice.ToString("F")
+                                                                                            </span></span>
+                </td>
+                 <td>
+                    <span id="cart_memberprice_show">总价优惠：<span style="color: red;">￥</span><span id="cart_memberprice">@((Model.TotalSellPrice - Model.TotalAdjustedPrice).ToString("F"))
+                    </span></span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+ 
+}
+else
+{
+   
+    <div class="cart-empty">
+        <p>
+            您的购物车为空^_^</p>
+        <a href="@(ViewBag.BasePath)p"  rel="external" data-role="button" data-inline="true" data-theme="b" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-inline ui-btn-up-b">
+            <span class="ui-btn-inner"><span class="ui-btn-text">立即选购</span></span> </a>
+    </div>
+}

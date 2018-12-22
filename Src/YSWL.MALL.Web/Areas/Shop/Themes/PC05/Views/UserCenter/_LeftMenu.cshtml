@@ -1,0 +1,71 @@
+﻿
+
+  <h1 class="sub-h1nav">首页 <a href="@(ViewBag.BasePath)UserCenter">＞我的商城</a> </h1>
+   <div class="m-left js-mbera">
+<h2 class="m-t">
+    	用户中心
+    </h2>
+    <dl>
+    	<dt><span class="zhedie"></span>个人设置</dt>
+          <dd><a href="@(ViewBag.BasePath)UserCenter/Personal" title="我的资料">个人资料</a> </dd>
+                <dd><a href="@(ViewBag.BasePath)UserCenter/ChangePassword" title="修改密码">修改密码</a> </dd>
+                <dd><a href="@(ViewBag.BasePath)UserCenter/Gravatar" title="修改头像">修改头像</a> </dd>
+                <dd ><a href="@(ViewBag.BasePath)UserCenter/UserBind" title="微博帐号绑定">微博帐号绑定</a> </dd>
+    </dl>
+    <dl>
+    	<dt><span class="zhedie"> </span>订单中心</dt>
+        <dd ><a href="@(ViewBag.BasePath)UserCenter/Orders" title="我的订单">我的订单</a> </dd>
+                <dd><a href="@(ViewBag.BasePath)UserCenter/MyFavor" title="我的收藏">我的收藏</a> </dd>
+                @*<dd  style="display:none;"><a  href="javascript:;" title="我的团购">我的团购</a> </dd>
+                <dd style="display:none;"><a href="javascript:;" title="商品评论回复">商品评论回复</a> </dd>*@
+    </dl>
+       <dl >
+           <dt><span class="zhedie"></span>账户中心</dt>
+           <dd><a href="@(ViewBag.BasePath)UserCenter/Balance" title="账户余额">账户余额</a> </dd>
+           <dd><a href="@(ViewBag.BasePath)UserCenter/ShippAddressList" title="收货地址">收货地址</a> </dd>
+           <dd><a href="@(ViewBag.BasePath)UserCenter/PointsDetail" title="我的积分">我的积分</a> </dd>
+           <dd><a href="@(ViewBag.BasePath)UserCenter/Exchanges" title="积分兑换">积分兑换</a> </dd>
+      
+           <dd ><a href="@(ViewBag.BasePath)UserCenter/MyCoupon" title="我的优惠券">我的优惠券</a> </dd>
+       </dl>
+           <dl >
+               <dt><span class="zhedie"></span>推广中心</dt>
+               <dd><a href="@(ViewBag.BasePath)UserCenter/MyInvite" title="我的盟友">我的盟友</a> </dd>
+               <dd><a href="@(ViewBag.BasePath)UserCenter/CommissionPro" title="推广商品">推广商品</a> </dd>
+               <dd><a href="@(ViewBag.BasePath)UserCenter/MyPromo" title="我的佣金">我的佣金</a> </dd>
+               <dd><a href="@(ViewBag.BasePath)Commission/CommPro" title="佣金统计">佣金统计</a> </dd>
+               <dd><a href="@(ViewBag.BasePath)Commission/CommPro?r=2" title="盟友贡献佣金">盟友贡献佣金</a> </dd>
+               <dd><a href="@(ViewBag.BasePath)Commission/AllyRanking" title="盟友贡献排行">盟友贡献排行</a> </dd>
+</dl>
+
+<dl>
+    	<dt><span class="zhedie"></span>客服服务</dt>
+          <dd><a href="@(ViewBag.BasePath)ReturnOrder/Index" title="退换货">退货</a></dd>
+          @*      <dd  style="display:none;"><a href="javascript:;" title="投诉建议">投诉建议</a> </dd>
+                <dd  style="display:none;"><a href="javascript:;" title="退款申请">退款申请</a> </dd>*@
+    </dl>
+<dl class="last">
+    	<dt><span class="zhedie"></span>站内消息</dt>
+          <dd><a href="@(ViewBag.BasePath)UserCenter/SendMessage" title="发信息">发信息</a>  </dd>
+                <dd><a href="@(ViewBag.BasePath)UserCenter/Outbox" title="发件箱">发件箱</a>  </dd>
+                @if (ViewBag.privatecount > 0)
+                {
+                    <dd><a href="@(ViewBag.BasePath)UserCenter/Inbox" title="收件箱" style=" font-weight:bold;">收件箱(@ViewBag.privatecount)</a>  </dd>
+                }
+                else
+                {
+                    <dd><a href="@(ViewBag.BasePath)UserCenter/Inbox" title="收件箱">收件箱</a>  </dd>
+                }    
+                <dd><a href="@(ViewBag.BasePath)UserCenter/SysInfo" title="系统消息">系统消息</a>  </dd>
+               @* <dd style="display:none;"><a href="javascript:;" title="给管理员发消息">给管理员发消息</a>  </dd>*@
+    </dl>
+ </div>
+ <script  type="text/javascript">
+     //左侧折叠
+     $(function () {
+         $('.zhedie').click(function () {
+             $(this).parent('dt').siblings('dd').toggle();
+         });    
+     });
+     
+ </script>

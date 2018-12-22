@@ -1,0 +1,97 @@
+﻿@{
+    Layout = "/Areas/MShop/Themes/VPH/Views/Shared/_BaseLayout.cshtml";
+    ViewBag.Title = "登录";
+    string str;
+}<style>
+     .displayblock {
+         display: block;
+     }
+ </style>
+<script type="text/javascript">
+    var selfurl = window.location.pathname + window.location.search;
+    if (selfurl.indexOf('a/l') == -1 &&
+        selfurl.indexOf('a/login') == -1 &&
+        selfurl.indexOf('account/login') == -1) {
+        window.location = $YSWL.BasePath + "a/l?returnUrl=" + selfurl;
+    }
+    var ui = 'touch';
+</script>
+<script src="/Areas/MShop/Themes/VPH/Content/Scripts/UserCenter/DefaultLogin.js" type="text/javascript"></script>
+@model YSWL.MALL.ViewModel.Shop.LogOnModel 
+@if (ViewData.ModelState != null &&
+         ViewData.ModelState.Count > 0 &&
+         ViewData.ModelState["Message"] != null &&
+         ViewData.ModelState["Message"].Errors.Count > 0)
+{
+    <script type="text/javascript">
+        $(function () {
+            $(".closeBtn").click(function () {
+                $(".ui-error").hide();
+            });
+            $("#errorMsg").html('@ViewData.ModelState["Message"].Errors[0].ErrorMessage');
+            $(".ui-error").addClass("displayblock");
+            setTimeout(function () {
+                $(".ui-error").hide();
+            }, 2000);
+        })
+    </script>
+}
+<header id="header" class="header clearfix">
+    <div class="head_left fl">
+        <a href="javascript:;" onclick="history.go(-1)"><span class="h_back"></span></a>
+    </div>
+    <span class="headtit">用户登录</span>
+    <div class="head_right fr">
+        <a href="@(ViewBag.BasePath)" mars_sead="nav_home_btn" ><span class="h_home"></span>
+        </a>
+    </div>
+</header>
+  @using (Html.BeginForm("Login", "Account", FormMethod.Post ,new {id="formlogin"}))
+  {
+      <input id="hfRegisterToggle" type="hidden" value="@ViewBag.RegisterToggle" /> 
+      <input name="returnUrl" type="hidden"  value="@ViewBag.returnUrl"/>
+         
+            <div class="connerdiv">
+                <dl class="connerbox">
+                    <dd>
+                        <span>@if (ViewBag.RegisterToggle == "Phone")
+                              {
+                                  str = "手机号码";
+                                  @:手机号码：
+                              }
+                              else
+                              {
+                                  str = "邮箱地址";
+                                  @:邮箱地址：
+                              }</span>
+                              @Html.TextBoxFor(m => m.UserName, new { Class = "logininput text_input", id = "txtLogin", placeholder = "请输入" + str })
+                           <label id="userValidate" style="color: red;"></label>
+                    </dd>
+                    <dd>
+                        <span>密 &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;码：</span>
+                        @Html.PasswordFor(m => m.Password, new { Class = "logininput text_input", id = "password", placeholder = "请输入密码" }) 
+                           <label id="passValidate" style="color: red;"></label>
+                    </dd>
+                </dl>
+                <dl id="li_captcha" style="display: none;">
+                    <span>验证码：</span>
+                    <input type="text" name="captcha" size="5" maxlength="4" class="testcode">
+                </dl>
+                <dl><input name="remember" type="checkbox" value="1" checked="checked" class="fl">记住登录状态
+                <a style="display: none;" href="@(ViewBag.BasePath)a/fp" class="fr forgetkey" target="new">忘记密码?</a></dl>
+                <input type="hidden" name="data" value="">
+                <input type="hidden" name="act" value="login">
+                <input type="hidden" name="step" value="act_login">
+                <input type="hidden" name="back_act" value="">
+                <div class="space15"></div>
+                <input type="button" id="loginsubmit"  class="btn_red" value="登录">
+                <div class="space15"></div>
+                <a href="@(ViewBag.BasePath)a/r" class="forgetkey">立即注册&gt;&gt;</a>
+            </div>
+      }  
+      <div class="modal hide ui-error "  style="width: 100%; top: 0px;  left: 0px;">
+<div class="modal-body ">
+<div class="modal-message"><a href="javascript:void(0)" class="closeBtn">×</a><div id="errorMsg"></div></div></div></div>
+<div class="space10">
+</div>
+

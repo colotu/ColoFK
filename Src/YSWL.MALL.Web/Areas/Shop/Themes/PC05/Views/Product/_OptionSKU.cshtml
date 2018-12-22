@@ -1,0 +1,93 @@
+﻿@model YSWL.MALL.ViewModel.Shop.ProductSKUModel
+@if (Model == null) { return; }
+
+
+@if (!ViewBag.HasStock && !ViewBag.HasSKU && Model.ListSKUInfos != null && Model.ListSKUInfos.Count == 1)
+{
+    <script type="text/javascript">
+        $(function () {
+            $('#SKUOptions').parent().find('#btnAddToCart').removeClass('addCart').addClass('addCart-gray');
+            $('#iteminfo #divBuyInfo').hide();
+            $('#iteminfo #closeArrivingNotifyMess').text("非常抱歉, 此商品已售罄!");
+            $('#iteminfo #closeArrivingNotifyMess').show();
+        });
+    </script>
+}
+<input type="hidden"  value="@ViewBag.HasSKU" id="hdHasSKU" />
+@if (!ViewBag.HasSKU && Model.ListSKUInfos != null && Model.ListSKUInfos.Count == 1)
+{
+   <input type="hidden"  value="@Model.ListSKUInfos[0].SKU"   stock="@Model.ListSKUInfos[0].Stock"   id="hdprodSku" />
+    <script type="text/javascript">
+        $(function () {
+            $('#SKUOptions').parent().find('#btnAddToCart').attr('itemid', '@Model.ListSKUInfos[0].SKU');
+            $('#div_stock').show().find('#stock_num').text(@Model.ListSKUInfos[0].Stock);
+        });
+    </script>
+}
+@if (Model.ListAttrSKUItems == null || Model.ListAttrSKUItems.Count < 1)
+{
+    return;
+}
+<input type="hidden" id="SKUDATA" value="@ViewBag.SKUJson"/>
+@foreach (KeyValuePair<YSWL.MALL.Model.Shop.Products.AttributeInfo, SortedSet<YSWL.MALL.Model.Shop.Products.SKUItem>>
+    attrSKUItem in Model.ListAttrSKUItems)
+{
+    if (!string.IsNullOrWhiteSpace(attrSKUItem.Value.Min.ImageUrl))
+    {
+        <li class="clearfix">
+	         <span class="leftli"> 
+                                    @if (attrSKUItem.Key.AttributeName.Length == 2)
+                                    {
+                @Html.Raw(attrSKUItem.Key.AttributeName.Insert(1, "<em class=\"s2em\"></em>") + "：")
+                                    }
+                                    else
+                                    {
+                @(attrSKUItem.Key.AttributeName + "：")
+                                    }
+            </span>
+
+	              	 				<div   class="goodxml ml90 AttrItems" >
+		              	 						
+		              	 					 @foreach (YSWL.MALL.Model.Shop.Products.SKUItem skuItem in attrSKUItem.Value)
+                        {
+                            
+                            <a  href="javascript:;"   AttrId="@skuItem.ValueId"  class="m5  SkuItems"   title="@skuItem.ValueStr" alt="@skuItem.ValueStr" >
+                             @if (!string.IsNullOrWhiteSpace(skuItem.ImageUrl))
+                             {
+                                  <img width="25" height="25" class="vm" src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(skuItem.ImageUrl, "T32x32_")" largeurl="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(skuItem.ImageUrl, "T350X350_")" alt="@skuItem.ValueStr" title="@skuItem.ValueStr" style="vertical-align: middle;padding: 2px 0;" />
+                             }
+                             <i class="ie6"></i>
+                            </a>	
+                        }
+	              	 				 </div>
+              	 				</li>	
+ 
+    }
+    else
+    {
+         <li class="clearfix">
+	         <span class="leftli"> 
+                                @if (attrSKUItem.Key.AttributeName.Length == 2)
+            {
+                @Html.Raw(attrSKUItem.Key.AttributeName.Insert(1, "<em class=\"s2em\"></em>") + "：")
+            }
+            else
+            {
+                @(attrSKUItem.Key.AttributeName + "：")
+            }
+            </span>
+
+	              	 				<div  class="goodxml ml90 AttrItems" >
+		              	 						 @foreach (YSWL.MALL.Model.Shop.Products.SKUItem skuItem in attrSKUItem.Value)
+            {
+                             <a  href="javascript:;"   AttrId="@skuItem.ValueId"  class="m5  SkuItems"   title="@skuItem.ValueStr" alt="@skuItem.ValueStr" >
+                              @skuItem.ValueStr<i class="ie6"></i>
+                            
+                            </a>	
+            } 
+	              	 				 </div>
+              	 				</li>	
+    
+ 
+    }
+}

@@ -1,0 +1,20 @@
+﻿@model  List<YSWL.MALL.ViewModel.Order.ProductSaleInfo>
+<div class="rk_list">
+    @if (Model != null)
+    {
+        int num = 0;
+        for (int i = 0; i < Model.Count; i++)
+        {
+            num = i + 1;
+            <div class="rank_line">
+                <span class="num num@(num>=5?5:num)">@(num)</span>
+                <span class="name">@Model[i].ProName</span>
+                <span class="amount">@Model[i].Count</span>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="statistics_empty">暂无数据</div>
+    }
+    </div>

@@ -1,0 +1,92 @@
+﻿@{
+    Layout = "/Areas/MB/Themes/MB02/Views/Shared/_BaseLayout.cshtml";
+}
+@section head{
+    <link href="/Areas/MB/Themes/MB02/Content/Css/main.css?v=1.2" rel="stylesheet" />
+    <link href="/Areas/MB/Themes/MB02/Content/Css/user.css" rel="stylesheet" />
+}
+@model YSWL.MALL.Model.Members.UsersExpModel
+<div class="main_wrapper mb55">
+    <!--START banner轮播-->
+    <div class="user_center">
+        <div class="head_img">
+            <div class="userimg">
+                <img alt="头像" src="/Areas/MB/Themes/MB02/Content/images/default_header.png" >
+            </div>
+           <a href="@(ViewBag.BasePath)a/l"><div class="user_name">立即登录</div></a> 
+        </div>
+        <ul class="user_banner clearfix pd user_wallet">
+            <li class="part">
+                <div class="part_text">余额</div>
+                <div class="part_num">0</div>
+            </li>
+            <li class="part" onclick="window.location.href='@(ViewBag.BasePath)u/mycoupon'">
+                <div class="part_text">优惠券</div>
+                <div class="part_num">0</div>
+            </li>
+            <li class="part" onclick="window.location.href='@(ViewBag.BasePath)u/PointsDetail'">
+                <div class="part_text">积分</div>
+                <div class="part_num">0</div>
+            </li>
+        </ul>
+        <ul class="user_banner clearfix border-interval user_order">
+            <li class="part">
+                <a href="@(ViewBag.BasePath)u/Orders?state=1">
+                    <div class="part_img">
+                        <span class="my_icon icon_order1">
+                        </span>
+                    </div>
+                    <div class="part_text">待付款</div>
+                </a>
+            </li>
+            <li class="part">
+                <a href="@(ViewBag.BasePath)u/Orders?state=2">
+                    <div class="part_img">
+                        <span class="my_icon icon_order2">
+                        </span>
+                    </div>
+                    <div class="part_text">待发货</div>
+                </a>
+            </li>
+            <li class="part">
+                <a href="@(ViewBag.BasePath)u/Orders?state=3">
+                    <div class="part_img">
+                        <span class="my_icon icon_order3">
+                        </span>
+                    </div>
+                    <div class="part_text">待收货</div>
+                </a>
+            </li>
+            <li class="part">
+                <a href="@(ViewBag.BasePath)u/Orders?state=4">
+                    <div class="part_img"><span class="my_icon icon_order4"></span></div>
+                    <div class="part_text">已收货</div>
+                </a>
+            </li>
+            <li class="part" onclick="window.location.href='@(ViewBag.BasePath)u/Orders'">
+                <div class="part_img"><span class="my_icon icon_order5"></span></div>
+                <div class="part_text">我的订单<span class="def_arrow">&gt;</span></div>
+            </li>
+        </ul>
+        <div class="ipt_wrap border-interval pd">
+            <a href="@(ViewBag.BasePath)u/MyFavor" class="b_item navigate-r">
+                <i class="my_icon my_collect"></i>我的收藏
+            </a>
+            <a href="@(ViewBag.BasePath)u/MyPreview" class="b_item navigate-r">
+                <i class="my_icon my_estimate"></i>我的评价
+            </a>
+            <a href="@(ViewBag.BasePath)co" class="b_item navigate-r">
+                <i class="my_icon my_mm"></i>我要赚钱
+            </a>
+
+            <a href="@(ViewBag.BasePath)u/Setting" class="b_item navigate-r">
+                <i class="my_icon my_set"></i>设置
+            </a>
+        </div>
+    </div>
+    <div class="bottom">
+    </div>
+    @Html.Partial("/Areas/MB/Themes/MB02/Views/Partial/_FooterNav.cshtml")
+</div>
+
+

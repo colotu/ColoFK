@@ -1,0 +1,64 @@
+﻿@model List<YSWL.MALL.Model.Shop.Products.CategoryInfo>
+@if (Model != null && Model.Count > 0)
+{
+    @*for (int i = 0; i < Model.Count; i++)
+    {
+        <div class="tab-content col-xs-9 col-sm-9 col-md-10 mb50">
+            <div role="tabpanel" class="tab-pane category_content active" id="home">
+                <h1 class="category_title">@YSWL.Common.StringPlus.SubString(Model[i].Name, 12, "...")</h1>
+                @Html.Action("CategoryList", "Product", new { parentId = Model[i].CategoryId, viewName = "_ThirdCateList" })
+                </div>
+            </div>
+    }*@
+foreach (var item in Model)
+{
+
+    <div role="tabpanel" class="tab-pane category_content active">
+        <a href="@(ViewBag.BasePath)p/@item.CategoryId">
+            <h1 class=" category_title">@item.Name</h1>
+            @Html.Action("CategoryList", "Product", new { parentId = item.CategoryId, viewName = "_ThirdCateList" })
+        </a>
+    </div>
+
+    }
+}
+
+
+
+
+
+
+
+        @*@if (Model != null && Model.Count > 0)
+{
+    <div class="opt-lst categoryList" id="expandSort1" style="-webkit-transform-origin: 0px 0px;
+        opacity: 1; display: none; -webkit-transform: scale(1, 1);">
+        @for (int i = 0; i < Model.Count; i++)
+          {
+              if (i % 2 == 0)
+              {
+            @: <ul class="lst-comm">
+                  <li class="wit33 tc cateValues" >
+                      <a href="@(Model[i].HasChildren ? (ViewBag.BasePath) + "p/c/" + Model[i].CategoryId : (ViewBag.BasePath)+"p/" + Model[i].CategoryId)" class="lnk ">
+                          @YSWL.Common.StringPlus.SubString(Model[i].Name, 12, "...")
+                      </a> 
+                  </li>
+            } if (i% 2 == 1) 
+            { 
+                <li class="wit33 tc cateValues" > <span class="bar"> </span> 
+                    <a href="@(Model[i].HasChildren ? (ViewBag.BasePath)+"p/c/" + Model[i].CategoryId : (ViewBag.BasePath)+"p/" + Model[i].CategoryId)" class="lnk ">
+                           @YSWL.Common.StringPlus.SubString(Model[i].Name, 12, "...")
+                    </a>
+                     </li> 
+                @: </ul>              
+                 }
+              if (i == Model.Count - 1 && i % 2 == 0)
+              {
+                  <li class="wit33 tc"><span class="bar"></span>
+                  <a href="javascript:void(0)" class="lnk ">&nbsp;</a> 
+                  </li>
+                      
+            }
+          }
+    </div>
+  }*@

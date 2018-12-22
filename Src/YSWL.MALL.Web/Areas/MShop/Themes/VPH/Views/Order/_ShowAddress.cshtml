@@ -1,0 +1,57 @@
+﻿@model List<YSWL.MALL.Model.Shop.Shipping.ShippingAddress>
+@if (Model != null && Model.Count > 0)
+{
+    var item = Model[0];
+    <div class="userdiv" id="receiveInfo">
+        <div class="checktit font14"><span class="receive_info"></span>收货信息</div>
+        <div class="checkcon clearfix" addressId="@item.ShippingId">
+            <a href="@(ViewBag.BasePath)Order/AddressInfo/@item.ShippingId">
+         <p><span id="GroupRegion_Tip"  style="font-weight: bold;color:Red;padding: 0;"></span></p>   
+                <p>
+		@item.ShipName
+                <span class="addr_tel"> @item.CelPhone</span>
+                </p>
+                <p class="space10"></p>
+                <p class="check_addr"> @item.Address</p>
+                <span class="check_arrow"></span>
+            </a>
+        </div>
+    </div>
+}
+else
+{
+       <div class="userdiv" id="receiveInfo">
+        <div class="checktit font14"><span class="receive_info"></span>收货信息</div>
+        <div class="checkcon clearfix">
+            <a href="@(ViewBag.BasePath)Order/AddressInfo">
+                <p>未设置收货信息
+                <span class="addr_tel"></span>
+                </p>
+                <p class="space10"></p>
+                <p class="check_addr"></p>
+                <p class="check_addr"> </p>
+                <span class="check_arrow"></span>
+            </a>
+        </div>
+    </div>
+}
+<input id="hidIsGroupRegionId" type="hidden" value="@ViewBag.IsGroupRegionId"/><script type="text/javascript">
+                                                                                   $(function () {
+
+                                                                                       //开启了分仓  切换地区时调取分仓库存
+                                                                                       if ($('#hdIsMultiDepot').val().toLocaleLowerCase() == 'true') {
+                                                                                           GetBuyProdStock();
+                                                                                       }
+
+
+                                                                                       if ($('#GroupRegion_Tip').length > 0) {
+                                                                                           //收货地区不是团购地区
+                                                                                           if ($('#hidIsGroupRegionId').val().toLocaleLowerCase() == 'false') {
+                                                                                               $('#GroupRegion_Tip').text('该地区不是团购地区,请修改收货地区');
+                                                                                           } else {
+                                                                                               $('#GroupRegion_Tip').text('');
+                                                                                           }
+                                                                                       }
+                                                                                   });
+    </script>
+

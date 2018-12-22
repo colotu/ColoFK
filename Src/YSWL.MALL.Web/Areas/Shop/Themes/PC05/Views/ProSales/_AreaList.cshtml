@@ -1,0 +1,44 @@
+﻿@model List<YSWL.MALL.Model.Ms.Regions>
+ @{
+     string cid = Request.RequestContext.RouteData.Values["cid"] != null ? Request.RequestContext.RouteData.Values["cid"].ToString() : "0";
+     string regionId = Request.RequestContext.RouteData.Values["regionId"] != null ? Request.RequestContext.RouteData.Values["regionId"].ToString() : "643";
+     string mod = Request.RequestContext.RouteData.Values["mod"] != null ? Request.RequestContext.RouteData.Values["mod"].ToString() : "default";
+     string parentId = Request.RequestContext.RouteData.Values["parentId"] != null ? Request.RequestContext.RouteData.Values["parentId"].ToString() : "643";
+ }
+  <span class="slil" title="区域">区域：</span>
+				                	<span class="slir">
+				                	<div class="divldss">
+                                    <span class="dsib">
+                                    <a class="item arealist"  title="全部" href="@(ViewBag.BasePath)ProSales/GroupBuy/@parentId/@cid/@mod" regionId="0">全部</a>
+                                    </span>
+                                    </div>
+				                	    <div class="divr">
+                                        	
+                                             @if (null != Model)
+    {
+        foreach (var item in Model)
+        {
+            <span class="dsib">
+               <a  class="item arealist"  href="@(ViewBag.BasePath)ProSales/GroupBuy/@item.RegionId/@cid/@mod" regionId="@item.RegionId"  >@item.RegionName</a>
+				    </span>    
+            
+        }
+
+    }
+				                	 	 	   
+
+
+                                             </div>
+				                   		
+				                     </span>                    
+					                <div class="clear"></div>   
+				                
+<script type="text/javascript">
+    $(function () {
+        $(".arealist[regionId='@regionId']").addClass("hover");
+        if ($(".arealist.hover").length == 0) {
+            $(".arealist").eq(0).addClass('hover');
+        }
+    });
+</script>
+

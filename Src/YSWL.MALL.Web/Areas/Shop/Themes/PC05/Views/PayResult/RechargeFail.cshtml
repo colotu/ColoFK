@@ -1,0 +1,41 @@
+﻿@{
+    Layout = "~/Areas/Shop/Themes/PC05/Views/Shared/_ShoppingLayout.cshtml";
+}
+@section head{
+  <link href="/Areas/Shop/Themes/PC05/Content/Css/goods.css" rel="stylesheet"/>
+   }
+<div class="os">您的充值存在风险，请查看充值状态或稍后重试。</div>
+    
+    <table class="otab"  style="width: auto;">
+    	<tbody><tr class="tr1">
+        	<td width="149">充值号</td>
+        </tr>
+        <tr>
+        	<td>@ViewBag.RechargeId</td>
+        </tr>
+
+      
+    </tbody></table>
+    <div class="o-ok">
+    <p id="p_show_info" style="display: none;margin-bottom: 10px;margin-left: 25px;">
+                       点击下面按钮可重新支付</p>
+        <a   class="but_sss_aa btn-conti" style="display: none;"  href="javascript:;">继续支付</a>
+    </div>    
+
+ 
+<input type="hidden" value="@ViewBag.RechargeId" id="RechargeId"/>
+<input type="hidden" value="@ViewBag.PayStatus" id="Status"/>
+<script type="text/javascript">
+    (function () {
+        var id = $('#RechargeId').val();
+        var url;
+        if (id) {
+            url = '/pay/account' + id;
+        } else {
+            url = $YSWL.BasePath + 'UserCenter/Balance';
+        }
+        $('.btn-conti').unbind('click').bind('click', function () {
+            window.location.replace(url);
+        });
+    })();
+</script>

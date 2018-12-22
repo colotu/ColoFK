@@ -1,0 +1,121 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model YSWL.MALL.ViewModel.Shop.ProductListModel
+@{
+    string cid = Request.RequestContext.RouteData.Values["cid"] != null ? Request.RequestContext.RouteData.Values["cid"].ToString() : "0";
+    string brandid = Request.RequestContext.RouteData.Values["brandid"] != null ? Request.RequestContext.RouteData.Values["brandid"].ToString() : "0";
+    string keyword = Request.RequestContext.RouteData.Values["keyword"] != null ? Request.RequestContext.RouteData.Values["keyword"].ToString() : "0";
+    string mod = Request.RequestContext.RouteData.Values["mod"] != null ? Request.RequestContext.RouteData.Values["mod"].ToString() : "default";
+    string price = Request.RequestContext.RouteData.Values["price"] != null ? Request.RequestContext.RouteData.Values["price"].ToString() : "0-0";
+
+}
+    @if (Model.ProductPagedList != null && Model.ProductPagedList.Count > 0)
+    {
+    <script type="text/javascript">
+        $(function () {
+            var mod = '@mod';
+            switch (mod) {
+                case '':
+                    $('.f-sort a')[0].addClass("selected");
+                    break;
+                case 'price':
+                    $('#price-sort').attr('href', $YSWL.BasePath + 'search/@cid/@brandid/pricedesc/@price/@keyword').addClass("selected");
+                    $('#price-sort .fs-icon').addClass('fs-up');
+                    break;
+                case 'pricedesc':
+                    $('#price-sort').attr('href', $YSWL.BasePath + 'search/@cid/@brandid/price/@price/@keyword').addClass("selected");
+                    $('#price-sort .fs-icon').addClass('fs-down');
+                    break;
+                default:
+                    $('#price-sort').attr('href', $YSWL.BasePath + 'search/@cid/@brandid/pricedesc/@price/@keyword');
+                    $(".f-sort").find("a").each(function () {
+                        var mode = $(this).attr("mod");
+                        if (mode == mod) {
+                            $(this).addClass("selected");
+                        }
+                    });
+                    break;
+            }
+        });
+    </script>
+        <div class="filter">
+            <div class="f-line">
+                <div class="f-sort">
+                    <a href="@(ViewBag.BasePath)search/@cid/@brandid/default/@price/@keyword" mod="default">默认<i class="icon-arrow-down"></i></a>
+                    <a href="@(ViewBag.BasePath)search/@cid/@brandid/hot/@price/@keyword" mod="hot">销量<i class="icon-arrow-down"></i></a>
+                    <a href="@(ViewBag.BasePath)search/@cid/@brandid/new/@price/@keyword" mod="new">上架时间<i class="icon-arrow-down"></i></a>
+                    <a href="javascript:;" mod="price" id="price-sort">
+                        @*pricedesc*@
+                    价格
+                    <span class="fs-icon clearfix">
+                        @* fs-up fs-down*@
+                        <i class="icon-arrow-top"></i>
+                        <i class="icon-arrow-bottom"></i>
+                    </span>
+                </a>
+                </div>
+                <div class="f-sum">
+                    共<span class="num">@ViewBag.TotalCount</span>件商品
+                </div>
+            </div>
+        </div>
+
+        <div class="pro-list-wrapper">
+            <ul class="pro-list clearfix allGoods">
+                @foreach (var item in Model.ProductPagedList)
+                {
+                    <li class="pro-list-item">
+                        <div class="pro-item">
+                            <a href="@item.SeoUrl">
+                                <div class="pro-pic">
+                                    <img ref="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.ThumbnailUrl1, "T350X350_")" title="@item.ProductName" alt="@item.ProductName">
+                                </div>
+                                <div class="pro-info">
+                                    <div class="pro-price">
+                                        <span class="price-new"><i>¥</i>@item.LowestSalePrice.ToString("F")</span>
+                                    </div>
+                                    <p class="pro-name">@item.ProductName</p>
+                                    <p class="shop-name">
+                                        @if (item.SupplierId > 0)
+                                        {
+                                            @:@YSWL.MALL.Web.Areas.BShop.Controllers.PartialController.GetSupplierShopName(item.SupplierId)
+                                            }
+                                    </p>
+                                    <p class="sales-volume">销量<span class="number">@item.SaleCounts</span></p>
+                                </div>
+                            </a>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+                <!-- 分页 -->
+                <div class="pagination">
+                    @Ajax.Pager(Model.ProductPagedList, new PagerOptions
+       {
+           ShowDisabledPagerItems = false,
+           AlwaysShowFirstLastPageNumber = true,
+           ShowFirstLast = false,
+           PageIndexParameterName = "pageIndex",
+           NumericPagerItemCount = 6,
+           CurrentPagerItemTemplate = "<span class=\"page-item curr\">{0}</span>",
+           PagerItemTemplate = "<span class=\"page-item\">{0}</span>",
+           MorePagerItemTemplate = "<span class=\"pn-break\">{0}</span>",
+           CssClass = "p-wrap",
+           PrevPageText = "<span class=\"pn-prev \"><i>&lt;</i>上一页</span>",
+           NextPageText = "<span class=\"pn-next \">下一页<i>&gt;</i></span>",
+       }).AjaxOptions(a => a.SetUpdateTargetId("ProductListDiv"))
+                </div>
+                <script type="text/javascript">
+                    $.scaleLoad('.allGoods', 226, 226);
+                </script>
+    }
+    else
+    {
+        <div class="no_propt">
+            <i>!</i>未找到相符合的商品
+        </div>
+    }
+
+
+
+

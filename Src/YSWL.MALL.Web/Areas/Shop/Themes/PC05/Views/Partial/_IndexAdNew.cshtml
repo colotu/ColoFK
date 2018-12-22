@@ -1,0 +1,59 @@
+﻿	@model List<YSWL.MALL.Model.Settings.Advertisement>
+    <div class="djxp_c e-cms" id="djxp_c" onmouseover="controlScroll(2)" onmouseout="controlScroll(1)" e_cms="slide" e_cdata="newLoorList" style="display: block;">
+							    @if (Model != null)
+           {
+               for (int i = 0; i < Model.Count; i++)
+               {
+                   if (i == 0)
+                   {
+                 	<a href="@Model[i].NavigateUrl" target="_blank">
+							  	<img src="@Model[i].FileUrl" width="190" height="375"></a>
+								
+                   }
+                   else if (i == 1)
+                   {
+                    <a href="@Model[i].NavigateUrl" target="_blank">
+						  	<img src="@Model[i].FileUrl" width="554" height="375" class="cimg"></a>
+						 
+								
+                   }
+                   else if (i == 2)
+                   {
+                    <a href="@Model[i].NavigateUrl" target="_blank">
+						  		<img src="@Model[i].FileUrl" width="252" height="183" class="cimg"></a>
+						 
+							
+                   }
+                   else if (i == 3)
+                   {
+                   	 <a href="@Model[i].NavigateUrl" target="_blank">
+						 		 <img src="@Model[i].FileUrl" width="252" height="187" class="cimg timg"></a>
+								
+                   }
+                   else if (i == 4)
+                   {
+                   <a href="@Model[i].NavigateUrl" target="_blank">
+						  		<img src="@Model[i].FileUrl" width="247" height="172" class="timg"/></a>
+								
+                   }
+                   else if (i == 5)
+                   {
+                    <a href="@Model[i].NavigateUrl" target="_blank">
+						 	 <img src="@Model[i].FileUrl" width="247" height="172" class="cimg timg"></a>
+								 
+                   }
+                   else if (i == 6)
+                   {
+                   <a href="@Model[i].NavigateUrl" target="_blank">
+						 		 <img src="@Model[i].FileUrl" width="246" height="172" class="cimg timg"></a>	
+                   }
+                   else if (i == 7)
+                   {
+                   <a href="@Model[i].NavigateUrl" target="_blank">
+						  		<img src="@Model[i].FileUrl" width="246" height="172" class="cimg timg"></a>
+                   }
+
+               }
+           }	
+                            
+					</div>

@@ -1,0 +1,252 @@
+﻿@{
+    Layout = "/Areas/Shop/Themes/M1/Views/Shared/_BaseLayout.cshtml";
+}
+@section head{
+    <link href="/Areas/Shop/Themes/M1/Content/css/index-v0-k.css" rel="stylesheet" type="text/css" />
+    <script src="/Areas/Shop/Themes/M1/Content/Scripts/ml-min.js" type="text/javascript"></script>
+}
+@if (YSWL.MALL.Web.MvcApplication.HasArea(YSWL.Web.AreaRoute.MShop))
+{
+    <script type="text/javascript" >
+        try {
+            if ((navigator.userAgent.match(/(iPhone|iPod|Android|ios|iPad)/i))) {
+                location.replace('/m');
+            }
+        } catch(e) { }
+    </script>
+}
+<script type="text/javascript">
+    $(function () {
+        $(".divOpenAct").click(function () {
+            var tip = $(this).children().text(); 
+            if (tip == "展开") {
+                $(this).children().text("收起");
+            } else {
+                $(this).children().text("展开");
+            }
+            $(".divContent").toggle();
+        });
+    })
+</script>
+<div class="w980 mb25" id="j-first">
+    
+    <div class="fl hp-slide-promotion" id="j-slide-promotion">
+        @Html.Action("AdDetail", "Partial", new { id = 36, ViewName = "_IndexAd" })
+    </div>
+
+    <div class="fr hp-tab-promotion" id="j-tab-promotion">
+        <ul class="j-sw-nav">
+            <li>今日热卖</li>
+            <li class="cur">今日赠品</li>
+            <li>新闻公告</li>
+        </ul>
+        <div class="j-sw-c">
+            <div class="panel-maimai" style="display: none;">
+                @Html.Action("AD", "Partial", new { AdvPositionId = 34 })
+            </div>
+            <div class="panel-gift none" style="display: none;">
+                @Html.Action("AD", "Partial", new { AdvPositionId = 35 })
+            </div>
+            <div class="panel-promotion">
+                @Html.Action("ContentList", "Partial", new { viewName = "/Areas/Shop/Themes/M1/Views/Home/_ContentList.cshtml", ClassID = 9, Top = 6 })
+            </div>
+        </div>
+    </div>
+
+    <div class="box fr hp-carousel-cata" id="j-carousel-cata">
+        @Html.Action("ProductRec", "Partial", new
+   {
+       Type = YSWL.MALL.Model.Shop.Products.ProductRecType.Recommend,
+       Top = 10,
+       ViewName = "_ProductIndexRec"
+   })
+    </div>
+
+    <div class="box box-prdsort fl" name="__RMFLE">
+        @Html.Action("CategoryList", "Partial", new { Cid = 0, Top = 10, ViewName = "_FirstCateAll" })
+    </div>
+
+    <div class="box box-hotbrand fr" name="__RMPPE">
+        @Html.Action("HotBrands", "Home",new{productTypeId = 3})
+    </div>
+
+    <div id="wk-2d-bar-code" style="display: block; position: fixed; top: 280px; right: 0px;z-index: 9999;">
+        <div class="float">
+            <span class="close-btn" title="关闭"></span>
+            <div style="width: 138px">
+                <span style="float: left; padding-bottom: 12px; padding-left: 20px; margin-top: -10px">
+                    扫描访问手机版</span>
+                <img class="wk-2d-bar-code-qrImg" width="120px" onerror="wk2dbarcodeqrImgErr(this)" />
+            </div>
+            <div style="width: 138px">
+                <span style="float: left; padding-bottom: 12px; padding-left: 20px; padding-top: 12px">
+                    扫描下载安卓客户端</span>
+                <img class="wk-2d-bar-code-qrImg" width="120px" onerror="wk2dbarcodeqrImgErr(this)" />
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        $('.wk-2d-bar-code-qrImg:eq(0)').attr('src', '/@(YSWL.Components.MvcApplication.UploadFolder)/QR/website.png?r=' + Math.random());
+        $('.wk-2d-bar-code-qrImg:eq(1)').attr('src', '/@(YSWL.Components.MvcApplication.UploadFolder)/QR/android.png?r=' + Math.random());
+
+        function wk2dbarcodeqrImgErr(sender) {
+            $(sender).attr('state', 'null').parent().hide();
+            if ($('.wk-2d-bar-code-qrImg[state]').length == 2) {
+                $('#wk-2d-bar-code').hide();
+            }
+        }
+    </script>
+</div>
+<div class="w980 mb25">
+    @Html.Action("ProductNewList")
+</div>
+<div class="w980">
+    <!-- 畅销精品 S -->
+    @Html.Action("ProductRec", "Partial", new { Type = YSWL.MALL.Model.Shop.Products.ProductRecType.Hot, Top = 8, ViewName = "_ProductIndexHot" })
+    <!-- 畅销精品 E -->
+    <!-- 潮流女装 S -->
+    <div class="hp-box fashion" name="__CLNZE">
+        <div class="hp-hd">
+            <h2>
+                <a href="javascript:;" title="潮流女装" target="_blank">潮流女装<span>FASHION</span></a>
+            </h2>
+            @Html.Action("CategoryList", "Partial", new { Cid = 2, Top = 10, ViewName = "_SecondCate" })
+        </div>
+        <div class="hp-bd">
+            <div class="pic-box bb mb10 cf">
+                @Html.Action("AdDetail", "Partial", new { id = 39, ViewName = "_IndexAd_1" })
+                @Html.Action("AdDetail", "Partial", new { id = 40, ViewName = "_IndexAd_2" })
+                @Html.Action("AdDetail", "Partial", new { id = 41, ViewName = "_IndexAd_3" })
+            </div>
+            @Html.Action("ProductList", new { Cid = 47, Top = 10 })
+        </div>
+    </div>
+    <!-- 潮流女装 E -->
+
+    <!-- 童装母婴 S -->
+    <div class="hp-box mother" name="__TZMYE">
+        <div class="hp-hd">
+            <h2>
+                <a href="javascript:;" title="童装母婴" target="_blank">童装母婴<span>KIDS&amp;MOTHER</span></a></h2>
+            @Html.Action("CategoryList", "Partial", new { Cid = 61, Top = 10, ViewName = "_SecondCate" })
+        </div>
+        <div class="hp-bd">
+            <div class="pic-box bb mb10 cf">
+                @Html.Action("AdDetail", "Partial", new { id = 42, ViewName = "_IndexAd_1" })
+                @Html.Action("AdDetail", "Partial", new { id = 43, ViewName = "_IndexAd_2" })
+                @Html.Action("AdDetail", "Partial", new { id = 44, ViewName = "_IndexAd_3" })
+            </div>
+            @Html.Action("ProductList", new { Cid = 61, Top = 5 })
+        </div>
+    </div>
+    <!-- 童装母婴 E -->
+    <!-- 潮流男装 S -->
+    <div class="hp-box men" name="__CLMZE">
+        <div class="hp-hd">
+            <h2>
+                <a href="javascript:;" title="潮流男装" target="_blank">潮流男装<span>MEN</span></a></h2>
+            @Html.Action("CategoryList", "Partial", new { Cid = 31, Top = 10, ViewName = "_SecondCate" })
+        </div>
+        <div class="hp-bd">
+            <div class="pic-box bb mb10 cf">
+                @Html.Action("AdDetail", "Partial", new { id = 45, ViewName = "_IndexAd_1" })
+                @Html.Action("AdDetail", "Partial", new { id = 47, ViewName = "_IndexAd_2" })
+                @Html.Action("AdDetail", "Partial", new { id = 48, ViewName = "_IndexAd_3" })
+            </div>
+            @Html.Action("ProductList", new { Cid = 31, Top = 5 })
+        </div>
+    </div>
+    <!-- 潮流男装 E -->
+
+    <!-- 潮流鞋包 S -->
+    <div class="hp-box shoes" name="__CLXBE">
+        <div class="hp-hd">
+            <h2>
+                <a href="javascript:;" title="潮流鞋包" target="_blank">潮流鞋包<span>SHOES&amp;BAG</span></a></h2>
+            @Html.Action("CategoryList", "Partial", new { Cid = 80, Top = 10, ViewName = "_SecondCate" })
+        </div>
+        @Html.Action("ProductList", new { Cid = 80, Top = 6, ViewName = "_ProductList3" })
+    </div>
+    <!-- 潮流鞋包 E -->
+
+    <div class="hp-box underwear" name="__MTNYE">
+        <div class="hp-hd">
+            <h2>
+                <a href="javascript:;" title="美体内衣" target="_blank">美体内衣<span>UNDERWEAR</span></a></h2>
+            @Html.Action("CategoryList", "Partial", new { Cid = 49, Top = 10, ViewName = "_SecondCate" })
+        </div>
+        @Html.Action("ProductList", new { Cid = 49, Top = 6, ViewName = "_ProductList3" })
+    </div>
+    <!-- 美体内衣 E -->
+    <!-- 美容保健 S -->
+    <div class="hp-box meibao" name="__MRHZE">
+        <div class="hp-hd">
+            <h2>
+                <a href="javascript:;" title="美容保健" target="_blank">美容保健<span>MAKEUP</span></a></h2>
+            @Html.Action("CategoryList", "Partial", new { Cid = 72, Top = 10, ViewName = "_SecondCate" })
+        </div>
+        @Html.Action("ProductList", new { Cid = 72, Top = 10, ViewName = "_ProductList2" })
+    </div>
+    <!-- 美容保健 E -->
+    <!-- 超值促销 S -->
+    @Html.Action("ProductRec", "Partial", new { Type = YSWL.MALL.Model.Shop.Products.ProductRecType.Cheap, Top = 3, ViewName = "_ProductIndexSale" })
+    <!-- 超值促销 E -->
+    <!-- 精品店铺 S -->
+    @Html.Action("RecStore", "Partial", new { top = 5 })
+    <!-- 精品店铺 E -->
+</div>
+<div class="w980">
+    <div class="hp-box info">
+        <div class="hp-hd" >
+            <h2>
+                <a title="潮流资讯" href="/SNS/Photo/Index/-1/0/all/hot">潮流资讯"<span>FASHION</span></a>
+                </h2>
+        </div>
+    </div>
+    <!-- 量体选衣&社区搭配秀 s -->
+    <div class="hp-box-sub choose fl">
+        @Html.Action("PhotoPart", "Partial", new { top = 5, area = "SNS" })
+    </div>
+    <!-- 量体选衣&社区搭配秀 E -->
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $(".close-btn").click(function () {
+            $("#wk-2d-bar-code").hide();
+        });
+
+        var switchCustom = {
+            banner: 1
+        };
+        ML.add("lazyload", { path: "/Areas/Shop/Themes/M1/Content/Scripts/lazyload-min.js" }).add("switchable", { path: "/Areas/Shop/Themes/M1/Content/Scripts/switchable-min.js", requires: ["lazyload", "/Areas/Shop/Themes/M1/Content/Scripts/hp-v1c-min.js"] });
+        ML("lazyload", "switchable", function () {
+            new LazyLoad("#j-first");
+            randomSlide.init("#j-slide-promotion .slidegroup");
+            new Slide("#j-slide-promotion", { switchTo: switchCustom.banner });
+            new Tab("#j-tab-promotion", { switchTo: 2 });
+            new Carousel("#j-carousel-cata", { hasTrigger: false, viewSize: [226], steps: 2, autoplay: true })
+        });
+        ML("lazyload", "switchable", function () {
+            new LazyLoad;
+            mmTuan.init("#J_tuan");
+            var b = new slideProduct("#j-tab-newprd");
+            new Slide("#j-tab-newprd", { switchTo: 4, delay: 0.25, duration: 0.8, effect: "scrollx" }, {
+                onSwitch: function (a, c) { b.startSlide(2, c.panels[a]) },
+                beforeSwitch: function () {
+                    b.mask.css({ opacity: 0 });
+                    b.reset();
+                }
+            });
+            hotComment.commentId = ["N1", "N4", "FY", "N5", "ME", "N3", "N2", "N6"];
+            new Tab("#j-tab-comment", {}, {
+                beforeSwitch: function (a, c) {
+                    if (hotComment.complete[a] !== 1) {
+                        hotComment.ajaxRequest(a, c.panels[a]);
+                        hotComment.complete[a] = 1;
+                    }
+                }
+            });
+        })
+    });
+</script>

@@ -1,0 +1,24 @@
+﻿@model List<YSWL.MALL.Model.Shop.Products.CategoryInfo>
+<div id="nav" class="indexnav clearfix" style="z-index: 9999;">
+    <ul class="clearfix">
+        @if (Model != null && Model.Count > 0)
+        {
+            <li><a href="@(ViewBag.BasePath)" ><span>首页</span></a></li>
+            foreach (var item in Model)
+            {
+                <li>
+                    <a href="@(ViewBag.BasePath)p/@item.CategoryId?pageSize=16"><span>@YSWL.Common.StringPlus.SubString(item.Name,2,null)</span></a>
+                </li>
+            }
+
+        }
+         <li><a href="@(ViewBag.BasePath)ProSales/CountDown" ><span>限时抢购</span></a></li>
+          <li><a href="@(ViewBag.BasePath)ProSales/GroupBuy" ><span>团购</span></a></li>
+    </ul>
+</div>
+<script type="text/javascript">
+    $(function () {
+        var href = window.top.location.href;
+        $(".clearfix a[href='" + href + "']").addClass("nav_current").siblings().removeClass("nav_current");
+    });
+</script>

@@ -1,0 +1,46 @@
+﻿@model List<YSWL.MALL.Model.Shop.Products.BrandInfo>
+@{
+    string cid = Request.RequestContext.RouteData.Values["cid"] != null ? Request.RequestContext.RouteData.Values["cid"].ToString() : "0";
+    string brandid = Request.RequestContext.RouteData.Values["brandid"] != null ? Request.RequestContext.RouteData.Values["brandid"].ToString() : "0";
+    string attrvalues = Request.RequestContext.RouteData.Values["attrvalues"] != null ? Request.RequestContext.RouteData.Values["attrvalues"].ToString() : "0";
+    string mod = Request.RequestContext.RouteData.Values["mod"] != null ? Request.RequestContext.RouteData.Values["mod"].ToString() : "default";
+    string price = Request.RequestContext.RouteData.Values["price"] != null ? Request.RequestContext.RouteData.Values["price"].ToString() : "";
+}
+<script type="text/javascript">
+    $(function () {
+          
+        $(".brandlist").each(function () {
+            var value = $(this).attr("brandId");
+       
+            if (value == @brandid) {
+                  if (value == 0) {
+                      $(this).addClass("cur");
+                  } else {
+                      $(this).css("background-color", "#ccc");
+                  } 
+            }
+        });
+    })
+</script>
+@if (Model != null && Model.Count > 0)
+{
+    <div class="prop-item branditem pr10" name="pro_brand">
+        <dl class="cf">
+            <dt title="品牌">品牌：</dt>
+            <dd class="cf">
+                <a canajax="1" brandId="0"  anchor="Filter" href="@(ViewBag.BasePath)product/@cid/0/@attrvalues/@mod/@price" title="全部" class="allbtn brandlist">
+                    全部</a>
+                <ul class="cf brandBox">
+                    @foreach (var item in Model)
+                    {
+                        <li class="brandlist" brandId="@item.BrandId"  ><a canajax="1"  title="@item.BrandName" anchor="Filter" href="@(ViewBag.BasePath)product/@cid/@item.BrandId/@attrvalues/@mod/@price">
+                            <img alt="@item.BrandName" src="@item.Logo" width="113" height="48" />
+                            @*  <span class="brandimg" style="background: url(@item.Logo)"></span>*@</a>
+                        </li>
+                    }
+                </ul>
+                <a class="icobtn ex" href="javascript:void(0);" style="display: none">展开</a>
+            </dd>
+        </dl>
+    </div>
+}

@@ -1,0 +1,39 @@
+﻿@{
+    Layout = "/Areas/MShop/Themes/AKTV/Views/Shared/_BaseLayout.cshtml";
+}
+@model YSWL.MALL.ViewModel.Shop.CommissionModel 
+<link href="/Areas/MShop/Themes/AKTV/Content/Css/UserCenter/style.css" rel="stylesheet" />
+<link href="/Areas/MShop/Themes/AKTV/Content/Css/UserCenter/userstyle.css" rel="stylesheet" type="text/css" />
+ 
+<div class="yy">
+</div>
+<div class="index_h1">
+    赚钱
+</div>
+<div class="comm_home">
+        <div  class="s_c"><span>分销产品</span><br/><span class="red">@Model.ProductCount</span> </div><div class="line"></div>
+        <div class="s_c"><span >我的盟友</span><br /><span class="red">@Model.AllyCount</span></div><div class="line"></div>
+        <div class="s_c"><span>分销订单</span><br /><span class="red">@Model.OrderCount</span></div><div class="line"></div>
+        <div class="s_c" ><span>我的佣金</span><br /><span class="red">@Model.AllFee.ToString("F")</span></div>
+</div> 
+<div class="home_menu home_menu_noicon" style="overflow: visible;">
+    
+    <ul>
+        <li class="hb1"><a href="@(ViewBag.BasePath)u/MyQrCode">我要推广</a></li>
+        <li class="hb2"><a href="@(ViewBag.BasePath)u/MyAlly">我的盟友</a></li>
+    </ul>
+
+    <ul>
+        <li class="hb1 hb2"><a href="@(ViewBag.BasePath)u/CommissionPro">推广商品</a></li>
+        <li class="hb1 hb2"><a href="@(ViewBag.BasePath)u/MyPromo">我的佣金</a></li>
+        <li class="hb2"><a href="@(ViewBag.BasePath)Commission/CommPro">佣金统计</a></li>
+    </ul>
+
+    <ul>
+        <li class="hb1 hb2"><a href="@(ViewBag.BasePath)Commission/CommPro?rl=2">盟友贡献佣金</a></li>
+        <li class="hb2"><a href="@(ViewBag.BasePath)Commission/AllyRanking">盟友贡献排行</a></li>
+    </ul>
+
+
+
+</div>

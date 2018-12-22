@@ -1,0 +1,131 @@
+﻿@model  YSWL.MALL.ViewModel.Shop.ActicityGiveList 
+ <input type="hidden" id="hidAdjustedFreight" value="@ViewBag.AdjustedFreight" />
+<script type="text/javascript">
+    $(function() {
+        var freightPrice = parseFloat($('#freightPriceId').attr('freightPrice')); //运费
+        var couponPrice = parseFloat($("#couponPriceId").attr('couponPrice')); //优惠券优惠金额
+               //支付运费
+        var adjustedFreight = parseFloat($('#hidAdjustedFreight').val());
+        if (!isNaN(adjustedFreight)) { //调整后运费
+            $('#freightPriceId').text('￥'+adjustedFreight.toFixed(2));
+            var totalprice = (parseFloat($('#payPriceId').attr('BasePrice')) + adjustedFreight).toFixed(2);
+            var payprice = (totalprice - couponPrice) > 0 ? (totalprice - couponPrice) : 0;
+            $('#payPriceId').text('￥' + payprice.toFixed(2));
+        } else {//实际运费
+            $('#freightPriceId').text('￥' + freightPrice.toFixed(2));
+            var totalprice = (parseFloat($('#payPriceId').attr('BasePrice')) + freightPrice).toFixed(2);
+            var payprice = (totalprice - couponPrice) > 0 ? (totalprice - couponPrice) : 0;
+            $('#payPriceId').text('￥' + payprice.toFixed(2));
+        }
+    });
+</script>
+@if (Model != null)
+{
+    <!--赠品-->   
+    if (Model.ActProdList != null && Model.ActProdList.Count > 0)
+    {
+        <table class="productss font_jq" style=" margin-top: 10px; ">
+        	<tbody>
+    <tr><td style="text-align: left;padding-left: 10px;" width="532">赠品</td><td width="105"  ></td><td   width="114"></td><td     ></td></tr>
+        @foreach (var item in Model.ActProdList)
+        { <tr> 
+            	<td class="td1" >
+            	<div class="imge">
+                    <a href="@(ViewBag.BasePath)Product/Detail/@item.ProductId" target="_blank">
+                                    <img alt="" width="50" height="50" src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.ThumbnailUrl1, "T81X81_")"></a> 
+                </div>
+                <div class="imgnam">
+                 <a href="@(ViewBag.BasePath)Product/Detail/@item.ProductId" target="_blank"   class="clor-blue1">@item.ProductName</a>
+                  @if (item.SkuValues != null && item.SkuValues.Length > 0)
+                  {
+                                                                                    <div>
+                                                                                        <div class="sizeOptions cf sku-size-div">
+                                                                                            <ul class="sku-size-select AttrItems">
+                                                                                                @foreach (string val in item.SkuValues)
+                                                                                                {
+                                                                                                    <li class="SkuItems"><a href="javascript:;">@val</a> </li>
+                                                                                                }
+                                                                                            </ul>
+                                                                                        </div>
+                                                                                    </div>
+                  }
+                                                                                   @if (item.SkuInfos != null && item.SkuInfos.Count > 0)
+                                                                                   { 
+                                    <div class="p-more">
+                                        商品编号：@item.SkuInfos[0].SKU</div>
+                                                                         
+                                                                                   }
+                 </div></td>
+                <td  ></td>
+                <td> x @item.Count</td>
+                
+                <td   >￥@item.SalePrice.ToString("F")</td></tr>
+ 
+        }
+        </tbody>
+            </table>
+        
+        
+        
+
+    }
+
+    if (Model.ActCouponList != null && Model.ActCouponList.Count > 0)
+    {
+         <table class="productss font_jq" style=" margin-top: 10px; ">
+        	<tbody>
+    <tr><td style="text-align: left;padding-left: 10px;">赠优惠券</td></tr>
+            @if (ViewBag.IsMerge)
+            {
+                foreach (var item in Model.ActCouponList)
+                {
+                <tr> 
+            	<td class="td1" >
+                @(item.Name)
+        面值为： @((item.CouponPrice * item.SendCount).ToString("F"))
+        &nbsp&nbsp&nbsp&nbsp 1张
+            	  </td>
+                 </tr>
+                }
+            }
+            else
+            {
+                foreach (var item in Model.ActCouponList)
+                {
+                <tr> 
+            	<td class="td1" >
+                @(item.Name)
+        面值为： @item.CouponPrice.ToString("F") &nbsp&nbsp&nbsp&nbsp @(item.SendCount)
+        张
+            	  </td>
+                 </tr>
+                }
+            }
+ 
+     
+        </tbody>
+        </table>
+
+    }
+
+    if (Model.NotStockActProdList != null && Model.NotStockActProdList.Count > 0)
+    {
+  
+       <table class="productss font_jq" style=" margin-top: 10px;border: 1px solid #f60; padding: 5px; ">
+        	<tbody>
+    <tr >
+    <td style="border-bottom: none;text-align: left;padding-left: 10px;color: #f60;" > 非常抱歉，您来晚了，以下赠品今天已经被抢光了，您可以明天再试。</td></tr>
+        @foreach (var item in Model.NotStockActProdList)
+        { 
+          <tr> 
+            	<td class="td1"  style="border-bottom: none;">
+                @item.ProductName x @item.Count
+            	 </td>
+         </tr>
+        }
+        </tbody>
+            </table>
+    }
+
+}
+<!--赠品-->

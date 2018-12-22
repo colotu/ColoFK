@@ -1,0 +1,45 @@
+﻿@{
+    Layout = "/Areas/MBShop/Themes/Y1/Views/Shared/_BaseLayout.cshtml";
+}
+<style>
+    .succindex{
+        background-color:#4cc042;
+        color:white;
+        border-radius:5px;
+        padding-top:5px;
+        padding-bottom:5px;
+        padding-left:10px;
+        padding-right:10px;
+    }
+</style>
+<!--START HEADER-->
+<header class="m_header">
+    <div class="navbar-fixed-top">
+        <div class="m_header_bar">
+            <p class="m_header_title">@(ViewBag.HasPay ? "支付成功" : "提交成功")</p>
+        </div>
+    </div>
+</header>
+<!-- END HEADER -->
+<!-- END HEADER -->
+<div class="mt44 mb50">
+    <div class="wrap" style="display:block">
+        <div class="order_complete_pic"></div>
+        <div class="prompt_text">
+            @(ViewBag.HasPay ? "您已成功支付，" : "")我们将安排发货，请注意查收。
+        </div>
+        <div class="empty_warning_text">
+            订单号：@ViewBag.OrderCode
+        </div>
+        <div class="empty_warning_text">
+           @(ViewBag.ItemsCount) 件商品将发送给 @(ViewBag.ShipName)
+        </div>
+    </div>
+    <div style="text-align:center">
+        <input type="button" value="返回首页" class="succindex" onclick="javascript:window.location.href = '@(ViewBag.BasePath)'"/>
+    </div>
+</div>
+<input type="hidden" value="@ViewBag.OrderId" id="OrderId"/>
+
+
+ 

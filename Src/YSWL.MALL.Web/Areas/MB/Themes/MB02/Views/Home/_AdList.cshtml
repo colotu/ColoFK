@@ -1,0 +1,37 @@
+﻿@model List<YSWL.MALL.Model.Settings.Advertisement>
+@if (Model != null && Model.Count > 0)
+{
+    <div class="act-wrap dis-flex">
+        <div class="act-l">
+            <a href="@Model[0].NavigateUrl">
+                <img src="@Model[0].FileUrl" alt="@Model[0].AdvertisementName">
+            </a>
+        </div>
+        @if (Model.Count > 1)
+        {
+            <div class="act-m">
+                <a href="@Model[1].NavigateUrl">
+                    <img src="@Model[1].FileUrl" alt="@Model[1].AdvertisementName">
+                </a>
+            </div>
+        }
+        @if (Model.Count > 2)
+        {
+            <div class="act-r">
+                <div class="act-sitem">
+                     <a href="@Model[2].NavigateUrl">
+                         <img src="@Model[2].FileUrl" alt="@Model[2].AdvertisementName">
+                    </a>
+                </div>
+@if (Model.Count > 3)
+{
+                <div class="act-sitem">
+                    <a href="@Model[3].NavigateUrl">
+                        <img src="@Model[3].FileUrl" alt="@Model[3].AdvertisementName">
+                    </a>
+                </div>
+}
+            </div>
+        }
+    </div>
+}

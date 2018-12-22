@@ -1,0 +1,28 @@
+﻿@model List<YSWL.MALL.Model.Shop.Products.ProductInfo>
+
+   <div class="box maybelike" style="margin-top: 10px;" >
+                    <div class="hd">
+                        <h2 style="padding: 10px 10px 0;">
+                            相关商品</h2>
+                    </div>
+                    <div class="bd" style="position: relative;padding: 15px 0 10px;">
+                        @if (Model != null)
+                        {
+                         <ul class="list-m list-m-n5" id="ulTopSaleList" style="width: auto; padding-left: 10px;">
+                            @foreach (var item in Model)
+                            {
+                             <li  class="item-m"><a href="@item.SeoUrl" target="_blank" title="@item.ProductName">
+                                                                   <img class="item-m-pic"  style="width:158px;height:158px;"  src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.ThumbnailUrl1, "T158X158_")" onerror="this.onerror='';this.src='/Content/themes/base/Shop/images/none.png'">
+                                                                   <span class="item-m-title">@item.ProductName </span></a>
+                                <p class="item-m-price">
+                                    <span style="font-weight: bold;color: #ea0000;" class="font_jq">￥@item.LowestSalePrice.ToString("F")</span></p>
+                            </li>
+                   
+                            }
+                        </ul>
+                           
+                        }
+                       
+                    </div>
+                </div>
+ 

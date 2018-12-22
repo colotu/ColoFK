@@ -1,0 +1,70 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model YSWL.MALL.ViewModel.Shop.ProductListModel
+           @{ int i=0;}
+<script type="text/javascript">
+    $(function () {
+        $(".txtenddate").each(function () {
+            var endDate = $(this).attr("endDate");
+            var productId = $(this).attr("Product");
+            var myclass = new CountDown();
+            myclass.init({
+                id: 'txtenddate_' + productId,
+                //天数
+                day_Dom: $("#dayEnd_" + productId),
+                //小时 
+                hour_Dom: $("#hourEnd_" + productId),
+                //分钟
+                min_Dom: $("#minEnd_" + productId),
+                //秒
+                sec_Dom: $("#secEnd_" + productId),
+                endTime: endDate
+            });
+        })
+    });
+</script>
+    @if (Model != null && Model.ProductPagedList != null && Model.ProductPagedList.Count > 0)
+    {
+ <div class="products_list"> 
+
+ @foreach (var item in Model.ProductPagedList)
+{
+    
+    <div class="item">
+                <ul>
+                    <li class="img"><a href="@(ViewBag.BasePath)Product/ProSaleDetail/@item.CountDownId" class="listimg" >
+                                        <img src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.ThumbnailUrl1, "T158X158_")"></a></li>
+                    <li class="name"><a href="@(ViewBag.BasePath)Product/ProSaleDetail/@item.CountDownId">
+                                         @item.ProductName</a><span>￥@item.ProSalesPrice.ToString("F")</span>
+                   <p class="item-brand txtenddate" style="text-align: left;margin: 5px 0;font-size: 12px;color: #7c7c7c;" endDate="@((item.ProSalesEndDate.ToUniversalTime() - Convert.ToDateTime("1970-01-01")).TotalMilliseconds.ToString("0"))"  Product="@item.CountDownId"  id="txtenddate_@(item.CountDownId)" >
+剩余：<span id="dayEnd_@(item.CountDownId)">0</span>天<span id="hourEnd_@(item.CountDownId)">0</span>时 <span id="minEnd_@(item.CountDownId)">0</span>分 <span id="secEnd_@(item.CountDownId)">0</span>秒
+</p>
+                    </li>
+                  
+                </ul>
+            </div> 
+    
+  
+    
+    
+                                                                                                                                                                if ((i + 1) % 2 == 0)
+                                                                                                                                                                {
+                <div class="clear">
+                </div>
+                                                                                                                                                                }
+                                                                                                                                                              i++;
+}
+@Ajax.Pager(Model.ProductPagedList, new PagerOptions
+{
+    ShowDisabledPagerItems = false,
+    AlwaysShowFirstLastPageNumber = false,
+    PageIndexParameterName = "pageIndex",
+    NumericPagerItemCount = 5,
+    CurrentPagerItemTemplate = "<p class=\"in_s\">{0}</p>",
+    NumericPagerItemTemplate = "<p>{0}</p>",
+    NavigationPagerItemTemplate = "<p>{0}</p>",
+    CssClass = "in_pages",
+     
+}).AjaxOptions(a => a.SetUpdateTargetId("ProductListDiv"))
+ </div> 
+    }
+ 

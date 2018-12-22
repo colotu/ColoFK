@@ -1,0 +1,34 @@
+﻿@{
+    Layout = "/Areas/MShop/Themes/AKTV/Views/Shared/_BaseLayout.cshtml";
+    ViewBag.Title = "我要推广";
+}
+
+<link href="/Areas/MShop/Themes/AKTV/Content/Css/UserCenter/userstyle.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+
+<div class="yy">
+</div>
+
+
+<style type="text/css">
+    .qrImg {
+        width: 100%;
+        
+        border: 0;
+        left:0;
+    }
+</style>
+<div>
+    @{
+        if (ViewBag.IsExist)
+        {
+            <img class="qrImg" src="/@(YSWL.Components.MvcApplication.UploadFolder)/QRcode/QR_@(ViewBag.UserId).jpg" alt="推广二维码" />
+        }
+        else
+        {
+            <div>
+                <img class="qrImg" src="/Images/QR_notExist.png" alt="推广二维码不存在" />
+            </div>
+        }
+    }
+</div>

@@ -1,0 +1,103 @@
+﻿ @{
+     Layout = "/Areas/MShop/Themes/F1/Views/Shared/_BaseLayout.cshtml";
+     ViewBag.Title = "个人中心";
+     ViewBag.Keywords = "个人中心";
+     ViewBag.Description = "个人中心";
+ }
+    
+
+<style>
+		.ui-grid-a { text-align: center; }
+		.ui-block-a, .ui-block-b { height: 50px; position: relative; }
+		.icon-label { color: #000; display: block; font-size: 16px; font-weight: normal;}
+		.icon-springboard { position: absolute; bottom: 0; width: 100%; }
+		a:link, a:visited, a:hover, a:active { text-decoration: none; }
+	</style>
+ @model YSWL.MALL.Model.Members.UsersExpModel
+           
+                <p style="padding-left:20px;">
+                    <span class="ui-input-text font_family_sans"> @Model.NickName </span>  
+                       @if (ViewBag.RankScoreIsEnable)
+                    {
+                        if (Model.UserRank != null)
+                        {
+                            @:&nbsp; &nbsp;<span class="ui-input-text font_family_sans">@(Model.UserRank.Name)会员</span>
+                        }  
+                    }
+                </p>
+                <p style="padding-left:20px;">
+                    <span class="price ui-input-text font_family_sans" >余额：@(Model.Balance!=null?Model.Balance.Value.ToString("C"):"￥ 0:00")&nbsp;&nbsp;</span>
+                    <span class="price ui-input-text font_family_sans" >积分：@Model.Points</span>
+                </p>
+       
+
+
+ <div data-role="content" class="ui-content" role="main">	
+		<div class="ui-grid-a">
+			<div class="ui-block-a">
+				<div class="icon-springboard">
+					<a  href="@(ViewBag.BasePath)u/Orders"  rel="external" class="ui-link">
+					    <img src="/Areas/MShop/Themes/F1/Content/Images/order.png"/>
+						<span class="icon-label">我的订单</span>
+					</a>
+				</div>
+			</div>
+			<div class="ui-block-b">
+				<div class="icon-springboard">
+					<a  href="@(ViewBag.BasePath)u/MyFavor"  rel="external">
+						<img src="/Areas/MShop/Themes/F1/Content/Images/collection.png">
+						<span class="icon-label">我的收藏</span>
+					</a>
+				</div>
+			</div>
+		</div>
+		
+		<ul data-role="listview" data-inset="true" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+		    <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-icon ui-first-child">
+		        <a href="@(ViewBag.BasePath)u/Personal"  rel="external"   class="ui-link-inherit">
+		                                                                         @*  <img src="/Areas/MShop/Themes/F1/Content/Images/user.png" class="ui-li-icon ui-li-thumb">*@个人资料
+		                                                                       </a> 
+		    </li>
+		    <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-icon ui-btn-up-c">
+		        <a href="@(ViewBag.BasePath)u/ChangePassword"  rel="external" class="ui-link-inherit">  
+		           修改密码
+		        </a> 
+		    </li>
+		    <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-icon ui-btn-up-c">
+		        <a href="@(ViewBag.BasePath)u/PointsDetail"  rel="external" class="ui-link-inherit">
+		           我的积分
+		        </a> 
+		    </li>
+		    <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-icon ui-btn-up-c">
+		        <a href="@(ViewBag.BasePath)u/Exchanges"  rel="external" class="ui-link-inherit">
+		             积分兑换
+		        </a> 
+		    </li>
+		    <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-icon ui-btn-up-c">
+		        <a href="@(ViewBag.BasePath)u/MyCoupon"  rel="external" class="ui-link-inherit">
+		            我的优惠券
+		        </a> 
+		    </li>
+		    <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-icon ui-btn-up-c">
+		        <a href="@(ViewBag.BasePath)u/UserCard"  rel="external" class="ui-link-inherit">
+		          我的会员卡
+		        </a> 
+		    </li>
+		    <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-icon ui-btn-up-c">
+		        <a href="@(ViewBag.BasePath)u/Inbox"  rel="external" class="ui-link-inherit">
+		            收件箱
+		        </a> 
+		    </li>
+             <li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-icon-right ui-li-has-arrow ui-li ui-li-has-icon ui-btn-up-c">
+		        <a href="@(ViewBag.BasePath)u/Outbox"  rel="external" class="ui-link-inherit">
+		            发件箱
+		        </a> 
+		    </li>
+ 
+			 	
+		</ul>
+	</div>
+ 
+  <a data-role="button" href="@(ViewBag.BasePath)account/Logout" rel="external"   data-theme="b" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-btn-up-b ui-shadow ui-btn-corner-all">
+                <span class="ui-btn-inner"><span class="ui-btn-text">退出</span></span>
+  </a>

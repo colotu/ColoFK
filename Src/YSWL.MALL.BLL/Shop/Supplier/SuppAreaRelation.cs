@@ -1,0 +1,205 @@
+﻿/**  版本信息模板在安装目录下，可自行修改。
+* SuppAreaRelation.cs
+*
+* 功 能： N/A
+* 类 名： SuppAreaRelation
+*
+* Ver    变更日期             负责人  变更内容
+* ───────────────────────────────────
+* V0.01  2017/3/1 11:13:51   N/A    初版
+*
+* Copyright (c) 2012 YSWL Corporation. All rights reserved.
+*┌──────────────────────────────────┐
+*│　此技术信息为本公司机密信息，未经本公司书面同意禁止向第三方披露．　│
+*│　版权所有：动软卓越（北京）科技有限公司　　　　　　　　　　　　　　│
+*└──────────────────────────────────┘
+*/
+using System;
+using System.Data;
+using System.Collections.Generic;
+using YSWL.Common;
+using YSWL.MALL.Model.Shop;
+using YSWL.MALL.DALFactory;
+using YSWL.MALL.IDAL.Shop;
+using YSWL.MALL.IDAL.Shop.Supplier;
+using System.Text;
+
+namespace YSWL.MALL.BLL.Shop.Supplier
+{
+	/// <summary>
+	/// SuppAreaRelation
+	/// </summary>
+	public partial class SuppAreaRelation
+	{
+		private readonly ISuppAreaRelation dal= DAShopSupplier.CreateSuppAreaRelation();
+		public SuppAreaRelation()
+		{}
+		#region  BasicMethod
+
+		/// <summary>
+		/// 得到最大ID
+		/// </summary>
+		public int GetMaxId()
+		{
+			return dal.GetMaxId();
+		}
+
+		/// <summary>
+		/// 是否存在该记录
+		/// </summary>
+		public bool Exists(int AreaId,int SupplierId)
+		{
+			return dal.Exists(AreaId,SupplierId);
+		}
+
+		/// <summary>
+		/// 增加一条数据
+		/// </summary>
+		public bool Add(YSWL.MALL.Model.Shop.Supplier.SuppAreaRelation model)
+		{
+			return dal.Add(model);
+		}
+
+		/// <summary>
+		/// 更新一条数据
+		/// </summary>
+		public bool Update(YSWL.MALL.Model.Shop.Supplier.SuppAreaRelation model)
+		{
+			return dal.Update(model);
+		}
+
+		/// <summary>
+		/// 删除一条数据
+		/// </summary>
+		public bool Delete(int AreaId,int SupplierId)
+		{
+			
+			return dal.Delete(AreaId,SupplierId);
+		}
+
+		/// <summary>
+		/// 得到一个对象实体
+		/// </summary>
+		public YSWL.MALL.Model.Shop.Supplier.SuppAreaRelation GetModel(int AreaId,int SupplierId)
+		{
+			
+			return dal.GetModel(AreaId,SupplierId);
+		}
+
+		/// <summary>
+		/// 得到一个对象实体，从缓存中
+		/// </summary>
+		public YSWL.MALL.Model.Shop.Supplier.SuppAreaRelation GetModelByCache(int AreaId,int SupplierId)
+		{
+			
+			string CacheKey = "SuppAreaRelationModel-" + AreaId+SupplierId;
+			object objModel = YSWL.Common.DataCache.GetCache(CacheKey);
+			if (objModel == null)
+			{
+				try
+				{
+					objModel = dal.GetModel(AreaId,SupplierId);
+					if (objModel != null)
+					{
+						int ModelCache = YSWL.Common.ConfigHelper.GetConfigInt("ModelCache");
+						YSWL.Common.DataCache.SetCache(CacheKey, objModel, DateTime.Now.AddMinutes(ModelCache), TimeSpan.Zero);
+					}
+				}
+				catch{}
+			}
+			return (YSWL.MALL.Model.Shop.Supplier.SuppAreaRelation)objModel;
+		}
+
+		/// <summary>
+		/// 获得数据列表
+		/// </summary>
+		public DataSet GetList(string strWhere)
+		{
+			return dal.GetList(strWhere);
+		}
+		/// <summary>
+		/// 获得前几行数据
+		/// </summary>
+		public DataSet GetList(int Top,string strWhere,string filedOrder)
+		{
+			return dal.GetList(Top,strWhere,filedOrder);
+		}
+		/// <summary>
+		/// 获得数据列表
+		/// </summary>
+		public List<YSWL.MALL.Model.Shop.Supplier.SuppAreaRelation> GetModelList(string strWhere)
+		{
+			DataSet ds = dal.GetList(strWhere);
+			return DataTableToList(ds.Tables[0]);
+		}
+		/// <summary>
+		/// 获得数据列表
+		/// </summary>
+		public List<YSWL.MALL.Model.Shop.Supplier.SuppAreaRelation> DataTableToList(DataTable dt)
+		{
+			List<YSWL.MALL.Model.Shop.Supplier.SuppAreaRelation> modelList = new List<YSWL.MALL.Model.Shop.Supplier.SuppAreaRelation>();
+			int rowsCount = dt.Rows.Count;
+			if (rowsCount > 0)
+			{
+				YSWL.MALL.Model.Shop.Supplier.SuppAreaRelation model;
+				for (int n = 0; n < rowsCount; n++)
+				{
+					model = dal.DataRowToModel(dt.Rows[n]);
+					if (model != null)
+					{
+						modelList.Add(model);
+					}
+				}
+			}
+			return modelList;
+		}
+
+		/// <summary>
+		/// 获得数据列表
+		/// </summary>
+		public DataSet GetAllList()
+		{
+			return GetList("");
+		}
+
+		/// <summary>
+		/// 分页获取数据列表
+		/// </summary>
+		public int GetRecordCount(string strWhere)
+		{
+			return dal.GetRecordCount(strWhere);
+		}
+		/// <summary>
+		/// 分页获取数据列表
+		/// </summary>
+		public DataSet GetListByPage(string strWhere, string orderby, int startIndex, int endIndex)
+		{
+			return dal.GetListByPage( strWhere,  orderby,  startIndex,  endIndex);
+		}
+        /// <summary>
+        /// 分页获取数据列表
+        /// </summary>
+        //public DataSet GetList(int PageSize,int PageIndex,string strWhere)
+        //{
+        //return dal.GetList(PageSize,PageIndex,strWhere);
+        //}
+
+        #endregion  BasicMethod
+        #region  ExtensionMethod
+        public int GetCount(int AreaId)
+        {
+            StringBuilder strSql = new StringBuilder();
+            strSql.Append("  AreaPath LIKE (SELECT Path FROM Shop_SuppAreas ");
+            strSql.AppendFormat("WHERE AreaId={0})+'|%' or AreaId={0}  ", AreaId);
+            return dal.GetRecordCount(strSql.ToString());
+        }
+        /// <summary>
+        /// 得到一个对象实体
+        /// </summary>
+        public YSWL.MALL.Model.Shop.Supplier.SuppAreaRelation GetModelBySupplerId(int SupplierId) {
+            return dal.GetModelBySupplerId(SupplierId);
+        }
+        #endregion  ExtensionMethod
+    }
+}
+

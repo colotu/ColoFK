@@ -1,0 +1,83 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model YSWL.MALL.ViewModel.Shop.SupplierModel
+@{
+    string areaid = Request.RequestContext.RouteData.Values["areaid"] != null ? Request.RequestContext.RouteData.Values["areaid"].ToString() : "0";
+    string mod = Request.RequestContext.RouteData.Values["mod"] != null ? Request.RequestContext.RouteData.Values["mod"].ToString() : "sales";
+}
+   @if (Model != null && Model.PageList != null && Model.PageList.Count > 0)
+   {
+    <script type="text/javascript">
+    $(function () {
+        var mod = '@mod';
+        if (mod === '') {
+            $('.f-sort a')[0].addClass("selected");
+        } else {
+            $(".f-sort").find("a").each(function () {
+                var mode = $(this).attr("mod");
+                if (mode == mod) {
+                    $(this).addClass("selected");
+                }
+            });
+        }
+    });
+   </script>
+        <div class="filter">
+            <div class="f-line">
+                <div class="f-sort">
+                    <a href="@(ViewBag.BasePath)store/storelist/@areaid/sales" mod="sales">销量<i class="icon-arrow-down"></i></a>
+                    <a href="@(ViewBag.BasePath)store/storelist/@areaid/favo" mod="favo">收藏<i class="icon-arrow-down"></i></a>
+                    <a href="@(ViewBag.BasePath)store/storelist/@areaid/prod" mod="prod">商品<i class="icon-arrow-down"></i></a>
+                </div>
+                <div class="f-sum">
+                    找到相关店铺<span class="num">@ViewBag.TotalCount</span>家
+                </div>
+            </div>
+        </div>
+        <div class="shop-list-wrap">
+            <ul class="pro-list shop-list clearfix storelist">
+                @foreach (var item in Model.PageList)
+                {
+                    <li class="pro-list-item">
+                        <a href="@(ViewBag.BasePath)store/@item.SupplierId">
+                            <div class="pro-item">
+                                <div class="pro-pic">
+                                    <img src="@(ViewBag.BasePath)Partial/SuppLogo?id=@(item.SupplierId)&size=T200X200" alt="@item.ShopName" onerror="this.onerror = ''; this.src = '/Images/Shop/store-default.jpg'">
+                                    <div class="mask-layer">
+                                        <span class="text">进入店铺</span>
+                                    </div>
+                                </div>
+                                <p class="shop-name">@item.ShopName</p>
+                                <p class="pro-quantity">商品总数：<span class="number">@item.ProductCount</span>件</p>
+                                <p class="location">@item.Address</p>
+                            </div>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+        <div class="pagination">
+            @Ajax.Pager(Model.PageList, new PagerOptions
+{
+    ShowDisabledPagerItems = false,
+    AlwaysShowFirstLastPageNumber = true,
+    ShowFirstLast = false,
+    PageIndexParameterName = "pageIndex",
+    NumericPagerItemCount = 6,
+    CurrentPagerItemTemplate = "<span class=\"page-item curr\">{0}</span>",
+    PagerItemTemplate = "<span class=\"page-item\">{0}</span>",
+    MorePagerItemTemplate = "<span class=\"pn-break\">{0}</span>",
+    CssClass = "p-wrap",
+    PrevPageText = "<span class=\"pn-prev \"><i>&lt;</i>上一页</span>",
+    NextPageText = "<span class=\"pn-next \">下一页<i>&gt;</i></span>",
+}).AjaxOptions(a => a.SetUpdateTargetId("storeList"))
+        </div>
+        <script type="text/javascript">
+            $.scaleLoad('.storelist', 202, 202);
+        </script>
+    }
+    else
+    {
+        <div class="no_propt">
+            <i>!</i>未找到相符合的店铺
+        </div>
+    }

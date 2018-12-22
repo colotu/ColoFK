@@ -1,0 +1,92 @@
+﻿@{
+    Layout = "~/Areas/MShop/Themes/AKTV/Views/Shared/_BaseLayout.cshtml";
+    ViewBag.Title = "购物车";
+}
+<link href="/Areas/MShop/Themes/AKTV/Content/Css/ProductStyle.css" rel="stylesheet"/>
+<script type="text/javascript">
+    $(function () {
+        $(".redu").die("click").live("click", function () {
+            var count = parseInt($(this).next().val());
+            if (count == 1) {
+                if (confirm("您确定要删除该商品吗？")) {
+                    $(this).parents('.gouwuchelist').find('.btnDelete').click();
+                }
+            } else {
+                $(this).next().val(count - 1);
+                var itemId = $(this).parent().attr("ItemId");
+                $.ajax({
+                    type: "POST",
+                    dataType: "text",
+                    async: false,
+                    url: $YSWL.BasePath +"ShoppingCart/UpdateItemCount?s=" + new Date().format('yyyyMMddhhmmssS'),
+                    data: { ItemId: itemId, Count: count - 1 },
+                    success: function (data) {
+                        if (data != "No") {
+                            $("#LoadCartList").load($YSWL.BasePath +"ShoppingCart/CartList?s=" + new Date().format('yyyyMMddhhmmssS'));
+                        } else {
+                            ShowFailTip("服务器繁忙，请稍候再试！");
+                        }
+                    }
+                });
+            }
+        });
+        $('.txtQuantity').die("blur").live("blur", function () {
+            var count = parseInt($(this).val());
+            if (count < 1) {
+                if (confirm("您确定要删除该商品吗？")) {
+                    $(this).parents('.gouwuchelist').find('.btnDelete').click();
+                    return;
+                }
+                $(this).val(1);
+                return;
+            }
+            var itemId = $(this).parent().attr("ItemId");
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                url: $YSWL.BasePath +"ShoppingCart/UpdateItemCount?s=" + new Date().format('yyyyMMddhhmmssS'),
+                data: { ItemId: itemId, Count: count },
+                success: function (data) {
+                    if (data != "No") {
+                        $("#LoadCartList").load($YSWL.BasePath +"ShoppingCart/CartList?s=" + new Date().format('yyyyMMddhhmmssS'));
+                    } else {
+                        ShowFailTip("服务器繁忙，请稍候再试！");
+                    }
+                }
+            });
+        });
+        $(".add").die("click").live("click", function () {
+            var count = parseInt($(this).prev().val());
+            $(this).prev().val(count + 1);
+            var itemId = $(this).parent().attr("ItemId");
+            var stock = $(this).parent().attr("stock");
+            if (stock <= 0) {
+                ShowFailTip("无货");
+                return;
+            }
+            if (stock < (count + 1)) {
+                ShowFailTip("库存不足！");
+                return;
+            }
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                async: false,
+                url: $YSWL.BasePath +"ShoppingCart/UpdateItemCount?s=" + new Date().format('yyyyMMddhhmmssS'),
+                data: { ItemId: itemId, Count: count + 1 },
+                success: function (data) {
+                    if (data != "No") {
+                        $("#LoadCartList").load($YSWL.BasePath +"ShoppingCart/CartList?s=" + new Date().format('yyyyMMddhhmmssS'));
+                    } else {
+                        ShowFailTip("服务器繁忙，请稍候再试！");
+                    }
+                }
+            });
+        });
+
+    })
+</script>
+
+<div id="LoadCartList">
+    @Html.Action("CartList", "ShoppingCart")
+</div>

@@ -1,0 +1,32 @@
+﻿<footer >
+    <ul>
+        <li class="category">
+              <a href="javascript:;" id="cate">分类</a>
+        </li>
+        <li class="cart">
+            <a href="@(ViewBag.BasePath)sc/ci">购物车</a>
+        </li>
+        <li class="member">
+            <a href="@(ViewBag.BasePath)u">我的</a>
+        </li>
+        <li class="home">
+            <a href="@(ViewBag.BasePath)">首页</a>
+        </li>
+    </ul>
+</footer>
+
+@if (ViewBag.IsHideMenu)
+{
+     <script type="text/javascript">
+         document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+             WeixinJSBridge.call('hideOptionMenu');
+         });
+</script>
+}
+
+<script type="text/javascript">
+    document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+        WeixinJSBridge.call('hideToolbar');
+    });
+</script>
+

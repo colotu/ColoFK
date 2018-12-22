@@ -1,0 +1,22 @@
+﻿@model List<YSWL.MALL.Model.Shop.Products.BrandInfo>
+<div id="channel_img">
+    @if (Model != null && Model.Count > 0)
+    {
+            foreach (var item in Model)
+            {
+                <div class="shop_list">
+                    <div class="pic">
+                        <a href="@(ViewBag.BasePath)p/0/@item.BrandId" class="itemList" target="_blank">
+                            <img src="@item.Logo" class="pro"/>
+                        </a>
+                    </div>
+                    <div class="shop_info clearfix">
+                        <p class="fl s_brand_name">
+                            @YSWL.Common.StringPlus.SubString(item.BrandName,15,"...")</p>
+                       
+                    </div>
+                </div>
+            }
+    }
+    
+</div>

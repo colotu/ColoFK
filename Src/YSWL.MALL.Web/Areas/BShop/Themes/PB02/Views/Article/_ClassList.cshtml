@@ -1,0 +1,20 @@
+﻿@model List<YSWL.MALL.Model.CMS.ContentClass>
+<script type="text/javascript">
+    $('#h-page-title').text('@ViewBag.AclassName');
+</script>
+<ul class="tab-tit clearfix" id="classList">
+@if (Model !=null || Model.Count >0)
+{
+    for (int i = 0; i < Model.Count; i++)
+    {
+        <li><a href="@(ViewBag.BasePath)Article/List?cid=@(Model[i].ClassID)" cid="@Model[i].ClassID">@Model[i].ClassName</a></li>@*class= "tab-active"*@
+    }
+}
+</ul>
+<script type="text/javascript">
+    if ($.getUrlParam('ky')) {
+        $('#classList a[href]').attr('href', function (e, v) {
+            return v += '&ky=' + $.getUrlParam('ky');
+        });
+    }
+</script>

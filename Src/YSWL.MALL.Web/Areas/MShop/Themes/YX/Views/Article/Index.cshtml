@@ -1,0 +1,69 @@
+﻿@{
+    Layout = "~/Areas/MShop/Themes/YX/Views/Shared/_SiteLayout.cshtml";
+}
+<link href="/Areas/MShop/Themes/YX/Content/css/cms.css" rel="stylesheet" type="text/css"/>
+ <nav>
+        <ul>
+            <li id="nav_gui" onclick="changetab('gui');" class="" style="cursor: pointer;">贵就赔</li>
+            <li id="nav_price" onclick="changetab('price');" class="selected" style="cursor: pointer;">价格保护</li>
+        </ul>
+    </nav>
+    <section class="m_gui" id="touch_gui" style="display: none;">
+        <div class="banner banner-1" style="height: 0px;">
+        </div>
+        <article>
+            @Html.Action("Details", "Article", new { id=4 })
+        </article>
+         
+    </section>
+    <section class="m_gui" id="touch_price" >
+        <div class="banner" style="height: 113.625px;">
+        </div>
+        <article>
+            @Html.Action("Details","Article",new{id=8})
+        </article>
+        
+    </section>
+    <footer class="y_cb">
+        <p>
+            若您还有疑问,</p>
+        <p>
+            <span>请拨打客服电话：</span>
+            <span class="telnum"><a href="tel:@ViewBag.phone">@ViewBag.phone</a><i></i></span>
+            </p>
+    </footer>
+    <script type="text/javascript">
+        function changetab(part) {
+            if (part == "gui") {
+                document.getElementById("nav_gui").className = "selected";
+                document.getElementById("nav_price").className = "";
+                document.getElementById("touch_gui").style.display = "";
+                document.getElementById("touch_price").style.display = "none";
+            } else {
+                document.getElementById("nav_gui").className = "";
+                document.getElementById("nav_price").className = "selected";
+                document.getElementById("touch_gui").style.display = "none";
+                document.getElementById("touch_price").style.display = "";
+            }
+            resizeBanner();
+        }
+        function resizeBanner() {
+            var _ele0 = document.getElementsByClassName("banner")[0];
+            _ele0.style.height = _ele0.clientWidth / 640 * 202 + "px";
+            var _ele1 = document.getElementsByClassName("banner")[1];
+            _ele1.style.height = _ele1.clientWidth / 640 * 202 + "px";
+        }
+
+        window.onload = function() {
+            var part = $.getUrlParam('type');
+            changetab(part);
+            setTimeout(function() { window.scrollTo(0, 1); }, 20);
+            resizeBanner();
+        };
+        window.onresize = function() {
+            resizeBanner();
+        };
+        window.onorientationchange = function() {
+            resizeBanner();
+        };
+</script>

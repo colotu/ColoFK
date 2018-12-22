@@ -1,0 +1,71 @@
+﻿@{
+    Layout = "/Areas/MBShop/Themes/Y1/Views/Shared/_BaseLayout.cshtml";
+    ViewBag.Title = "搜索结果";
+}
+@using Webdiyer.WebControls.Mvc
+@model YSWL.ViewModel.Shop.ProductListModel
+<div class="main-wrapper">
+    <header class="m_header">
+        <div class="navbar-fixed-top">
+            <div class="m_header_bar">
+                <div class="m_icon_goback icon" onclick="javascript:history.go(-1);">
+                    <span></span>
+                </div>
+                <p class="m_header_title">收藏商品</p>
+                <div class="m_icon_share icon">
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="mt44 mb50">
+        @if (Model != null)
+        {
+            foreach (var item in Model.ProductPagedList)
+            {
+                <div class="recentorder wrap">
+                    <div class="recent_prod">
+                        <div class="cart_photo_wrap">
+                            <a href="@(ViewBag.BasePath)p/d/@item.ProductId" class="cart_photo_cell">
+                                <img class="shp_cart_img" src="@YSWL.Web.Components.FileHelper.GeThumbImage(item.ImageUrl, "T115X115_")" alt="">
+                            </a>
+                        </div>
+                        <div class="recent_text">
+                            @*<span class="text_span">PS2123152704</span>*@
+                            <p>@item.ProductName</p>
+                            @*<span class="text_span">规格 6.18L</span>*@
+                        </div>
+                    </div>
+                    <div class="order_price">
+                        <p class="price_red">￥@item.LowestSalePrice.ToString("f")</p>
+                        @*<div class="cart icon" onclick="dialogShow(@item.ProductId,@item.SupplierId,'@item.ImageUrl')">
+                            <span></span>
+                        </div>*@
+                        @{
+                            if (item.SalesType == 1 && item.SaleStatus == 1 && ViewBag.IsMultiDepot)
+                            {
+                                <div class="cart icon" onclick="dialogShow(@item.ProductId, @item.SupplierId, '@item.ThumbnailUrl1',@item.SupplierId,@item.ProductId)">
+                                    <span></span>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="cart icon" onclick="dialogShow(@item.ProductId,@item.SupplierId,@item.ThumbnailsUrl)">
+                                    <span></span>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            }
+        }
+
+    @*@{Html.RenderPartial("_Result", Model);}*@
+        <input type="hidden" id="hdIsMultiDepot" value ="@ViewBag.IsMultiDepot" />
+
+    </div>
+    </div>
+@section foot{
+    <script src="/Scripts/jqueryui/jquery-ui-1.9.2.custom.js" type="text/javascript"></script>
+    <script src="/Areas/MBShop/Themes/Y1/Content/Scripts/productdetail.js"></script>
+}

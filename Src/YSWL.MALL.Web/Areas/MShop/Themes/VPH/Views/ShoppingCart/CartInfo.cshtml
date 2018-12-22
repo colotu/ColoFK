@@ -1,0 +1,105 @@
+﻿@{
+    Layout = "~/Areas/MShop/Themes/VPH/Views/Shared/_BaseLayout.cshtml";
+    ViewBag.Title = "购物车";
+}
+<script src="/Areas/MShop/Themes/VPH/Content/Scripts/maticsoft.jquery.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(function () {
+        $(".redu").die("click").live("click", function () {
+            // var count = parseInt($(this).next().val());
+            //var count = paseInt($(".txtQuantity").val());
+            var count = parseInt($(this).parent().next().text());
+            if (count == 1) {
+                if (confirm("您确定要删除该商品吗？")) {
+                    $(this).parents('.clearfix').find('.btnDelete').click();
+                }
+            } else {
+                //  $(this).next().val(count - 1);
+                //$(".txtQuantity").text(count - 1);
+                $(this).parent().next().text(count - 1);
+                var itemId = $(this).parent().attr("ItemId");
+                $.ajax({
+                    type: "POST",
+                    dataType: "text",
+                    async: false,
+                    url: $YSWL.BasePath + "ShoppingCart/UpdateItemCount?s=" + new Date().format('yyyyMMddhhmmssS'),
+                    data: { ItemId: itemId, Count: count - 1 },
+                    success: function (data) {
+                        if (data != "No") {
+                            $("#LoadCartList").load($YSWL.BasePath + "ShoppingCart/CartList?s=" + new Date().format('yyyyMMddhhmmssS'));
+                        } else {
+                            ShowFailTip("服务器繁忙，请稍候再试！");
+                        }
+                    }
+                });
+            }
+        });
+        $('.txtQuantity').die("blur").live("blur", function () {
+            var count = parseInt($(this).val());
+            if (count < 1) {
+                if (confirm("您确定要删除该商品吗？")) {
+                    $(this).parents('.gouwuchelist').find('.btnDelete').click();
+                    return;
+                }
+                $(this).val(1);
+                return;
+            }
+            var itemId = $(this).parent().attr("ItemId");
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                url: $YSWL.BasePath + "ShoppingCart/UpdateItemCount?s=" + new Date().format('yyyyMMddhhmmssS'),
+                data: { ItemId: itemId, Count: count },
+                success: function (data) {
+                    if (data != "No") {
+                        $("#LoadCartList").load($YSWL.BasePath + "ShoppingCart/CartList?s=" + new Date().format('yyyyMMddhhmmssS'));
+                    } else {
+                        ShowFailTip("服务器繁忙，请稍候再试！");
+                    }
+                }
+            });
+        });
+        $(".add").die("click").live("click", function () {
+            var count = parseInt($(this).parent().prev().text());
+            $(this).parent().prev().text(count + 1);
+            var itemId = $(this).parent().attr("ItemId");
+            var stock = $(this).parent().attr("stock");
+            if (stock <= 0) {
+                ShowFailTip("无货");
+                return;
+            }
+            if (stock < (count + 1)) {
+                ShowFailTip("库存不足！");
+                return;
+            }
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                async: false,
+                url: $YSWL.BasePath + "ShoppingCart/UpdateItemCount?s=" + new Date().format('yyyyMMddhhmmssS'),
+                data: { ItemId: itemId, Count: count + 1 },
+                success: function (data) {
+                    if (data != "No") {
+                        $("#LoadCartList").load($YSWL.BasePath + "ShoppingCart/CartList?s=" + new Date().format('yyyyMMddhhmmssS'));
+                    } else {
+                        ShowFailTip("服务器繁忙，请稍候再试！");
+                    }
+                }
+            });
+        });
+
+    })
+</script>
+
+<header id="header" class="header clearfix">
+	    
+	    <div class="head_left fl"><a href="javascript:;" onclick="history.go(-1);"><span class="h_back"></span></a></div>
+	     <span class="headtit">购物车</span>
+	    <div class="head_right fr"><a href="@(ViewBag.BasePath)"><span class="h_home"></span></a></div>
+	</header>
+    
+<div id="LoadCartList">
+@Html.Action("CartList", "ShoppingCart")
+</div>
+<div class="space10"></div>
+  

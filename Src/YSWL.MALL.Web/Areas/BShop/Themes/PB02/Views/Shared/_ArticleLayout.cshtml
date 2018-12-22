@@ -1,0 +1,27 @@
+﻿@{
+    Layout = "~/Areas/BShop/Themes/PB02/Views/Shared/_SiteLayout.cshtml";
+}
+@section head{
+    @RenderSection("head", false)
+}
+@Html.Action("Header", "Partial", new { area = "BShop" })
+<header class="head-bb">
+    <div class="wrap">
+        <div class="headerLayout clearfix">
+            <div class="headerLogo">
+                <span class="headerLogo-bg">
+                    <!-- logo -->
+                    @Html.Action("Header", "Partial", new { area = "BShop", ViewName = "_HeaderLogo" })
+                    @RenderSection("title", false)
+                </span>
+            </div>
+            @RenderSection("search", false)
+        </div>
+    </div>
+</header>
+    @RenderBody()
+    @Html.Action("Footer", "Partial", new { area = "BShop" })
+    @section foot{
+        @RenderSection("foot", false)
+    }
+@Html.Action("SelectRegion", "Partial", new { area = "BShop" })

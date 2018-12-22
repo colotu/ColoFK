@@ -1,0 +1,28 @@
+﻿@model  List<YSWL.MALL.Model.Shop.Supplier.SupplierInfo>
+<div class="floor-bd">
+    <div class="shop-list-wrap">
+        <ul class="pro-list shop-list clearfix">
+            @if (Model != null && Model.Count > 0)
+            {
+                foreach (var item in Model)
+                {
+                <li class="pro-list-item">
+                    <a href="@(ViewBag.BasePath)Store/@item.SupplierId" title="@item.ShopName" target="_blank">
+                        <div class="pro-item">
+                            <div class="pro-pic">
+                                <img src="@(ViewBag.BasePath)Partial/SuppLogo?id=@(item.SupplierId)&size=T200X200" alt="@item.ShopName" onerror="this.onerror = null; this.src = '/Images/Shop/store-default.jpg'">
+                                <div class="mask-layer">
+                                    <span class="text">进入店铺</span>
+                                </div>
+                            </div>
+                            <p class="shop-name">@item.ShopName</p>
+                            <p class="pro-quantity">商品总数：<span class="number">@item.ProductCount</span>件</p>
+                            <p class="location">@item.Address</p>
+                        </div>
+                    </a>
+                </li>
+                    }
+            }
+        </ul>
+    </div>
+</div>

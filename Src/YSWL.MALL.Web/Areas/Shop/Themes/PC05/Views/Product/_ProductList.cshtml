@@ -1,0 +1,160 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model YSWL.MALL.ViewModel.Shop.ProductListModel
+@{
+    string cid = Request.RequestContext.RouteData.Values["cid"] != null ? Request.RequestContext.RouteData.Values["cid"].ToString() : "0";
+    string brandid = Request.RequestContext.RouteData.Values["brandid"] != null ? Request.RequestContext.RouteData.Values["brandid"].ToString() : "0";
+    string attrvalues = Request.RequestContext.RouteData.Values["attrvalues"] != null ? Request.RequestContext.RouteData.Values["attrvalues"].ToString() : "0";
+    string mod = Request.RequestContext.RouteData.Values["mod"] != null ? Request.RequestContext.RouteData.Values["mod"].ToString() : "default";
+    string price = Request.RequestContext.RouteData.Values["price"] != null ? Request.RequestContext.RouteData.Values["price"].ToString() : "";
+
+}
+   
+
+
+     <script type="text/javascript">
+         $(function () {
+             //保存显示价格
+             var mod = '@mod';
+             $(".Sort").find("a").each(function () {
+                 var mode = $(this).attr("mod");
+                 if (mode == mod) {
+                     $(this).addClass("hover");
+                 }
+             });
+             if ($(".Sort a.hover").length == 0) {
+                 $(".Sort a").eq(0).addClass('hover');
+             }
+
+             $(".item-addcart .Reduction").die('click').live('click', function () {
+                 var quantity = $(this).parent().find('.Quantity');
+                 var num = parseInt(quantity.val()) - 1;
+                 if (!num || num < 1) num = 1;
+                 quantity.val(num);
+             });
+             $(".item-addcart .Addition").die('click').live('click', function () {
+                 var quantity = $(this).parent().find('.Quantity');
+                 var num = parseInt(quantity.val()) + 1;
+                 if (!num) num = 1;
+                 if (num > 99) num = 99;
+                 quantity.val(num);
+             });
+             $(".item-addcart .AddCart").die('click').live('click', function () {
+                 var sender = this;
+                 var quantity = $(sender).parent().find('.Quantity');
+                 var num = parseInt(quantity.val());
+                 if (!num || num < 1) num = 1;
+                 if (num > 99) num = 99;
+                 quantity.val(num);
+                 $.ajax({
+                     type: "POST",
+                     dataType: "json",
+                     async: false,
+                     url: $YSWL.BasePath + "ShoppingCart/AddCart?s=" + new Date().format('yyyyMMddhhmmssS'),
+                     data: { ProductId: $(sender).attr('productId'), Count: num },
+                     success: function (resultData) {
+                         switch (resultData.STATUS) {
+                             case "SUCCESS":
+                                 ShowSuccessTip("加入购物车成功！");
+                                 var quantity = $('#hd-cart-amount');
+                                 quantity.text(parseInt(quantity.text()) + num);
+                                 $(sender).parent().find('.Quantity').val(1);
+                                 break;
+                             default:
+                                 switch (resultData.DATA) {
+                                     case "NOSTOCK":
+                                         ShowServerBusyTip("非常抱歉, 商品库存不足！");
+                                         break;
+                                     case "NOSKU":
+                                     case "NO":
+                                     default:
+                                         ShowFailTip("服务器繁忙，请稍候再试！");
+                                         break;
+                                 }
+                                 break;
+                         }
+                     }
+                 });
+             });
+ 
+         });
+    </script>
+
+<div class="sub-pax">
+        	<span class="s1">排序：</span>
+            <span class="xl Sort">
+            <a href="@(ViewBag.BasePath)product/@cid/@brandid/@attrvalues/default/@price"  mod="default"  >默认<span class="uparrow"></span></a>
+            <a href="@(ViewBag.BasePath)product/@cid/@brandid/@attrvalues/hot/@price"  mod="hot" >销量<span class="uparrow"></span></a>
+            <a href="@(ViewBag.BasePath)product/@cid/@brandid/@attrvalues/new/@price"  mod="new" >上架时间<span class="uparrow"></span></a>
+            <a href="@(ViewBag.BasePath)product/@cid/@brandid/@attrvalues/price/@price" mod="price"  >价格<span class="uparrow"></span></a>
+            </span>
+        </div>
+	        <ul class="sub_glist clearfix" id="productResultList">
+                @if (Model.ProductPagedList != null)
+                {
+                    for (int i = 0; i < Model.ProductPagedList.Count;i++ )
+                    {
+                         <li  @if((i+1)%4==0){
+                                @:   class="lingshi"
+                              }
+                              >
+	         	
+	            	<span class="li">
+	                	<a href="@Model.ProductPagedList[i].SeoUrl"  class="aidse">
+	                	        <img src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(Model.ProductPagedList[i].ThumbnailUrl1, "T350X350_")"   />
+                        </a>
+	                    <a href="@Model.ProductPagedList[i].SeoUrl" title="@Model.ProductPagedList[i].ProductName"  class="ades">
+	                    	@Model.ProductPagedList[i].ProductName
+	                     <b></b>
+	                    </a>
+	                    <span class="aprices"><a href="javascript:;"   style="display:none;">
+	                    		已有@(Model.ProductPagedList[i].SaleCounts)人购买</a><i class="aprice">¥@Model.ProductPagedList[i].LowestSalePrice.ToString("F")</i> </span>
+	                  <span class="lcar clearfix item-addcart" style="display:none;">
+	                    	<i class="lja Reduction"   ></i>
+	                        <input type="text" class="stxt Quantity"/>
+	                        <i class="lji Addition" ></i>
+	                        <a href="javascript:;" class="lcars AddCart" productId="@(Model.ProductPagedList[i].ProductId)">加入购物车</a>
+	                    </span>   
+	                </span>
+	            </li>
+                    }
+                }else { 
+                     <div style="text-align:center;height: 80px;padding-top: 60px">
+              <i class="no_propt" style="font-size: 15px;">未搜索到相符合的商品</i>
+              </div>
+                }
+	        	 
+	        </ul> 
+@if (Model.ProductPagedList != null)
+{
+        @Ajax.Pager(Model.ProductPagedList, new PagerOptions
+   {
+       ShowDisabledPagerItems = false,
+       AlwaysShowFirstLastPageNumber = true,
+       PageIndexParameterName = "pageIndex",
+       NumericPagerItemCount = 10,
+       CurrentPagerItemTemplate = "<a class=\"shoye\">{0}</a>",
+       CssClass = "page",
+       FirstPageText = "首页",
+       PrevPageText = "上一页",
+       NextPageText = "下一页",
+       LastPageText = "尾页"
+   }).AjaxOptions(a => a.SetUpdateTargetId("ProductListDiv"))
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

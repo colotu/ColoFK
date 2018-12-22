@@ -1,0 +1,102 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model PagedList<YSWL.MALL.Model.Shop.PromoteSales.GroupBuy>
+@{
+    Layout = "/Areas/MShop/Themes/YX/Views/Shared/_BaseLayout.cshtml";
+    string cid = Request.RequestContext.RouteData.Values["cid"] != null ? Request.RequestContext.RouteData.Values["cid"].ToString() : "0";
+    string regionId = Request.RequestContext.RouteData.Values["regionid"] != null ? Request.RequestContext.RouteData.Values["regionid"].ToString() : "0";
+    string mod = Request.RequestContext.RouteData.Values["mod"] != null ? Request.RequestContext.RouteData.Values["mod"].ToString() : "default";
+    ViewBag.Title = "团购列表";
+}
+<script type="text/javascript" src="@Url.Content("/Scripts/jquery.unobtrusive-ajax.min.js")"></script>
+<script src="/Scripts/jquery/maticsoft.img.min.js" type="text/javascript"></script>
+<script src="/Areas/MShop/Themes/YX/Content/Scripts/timeCountDown.js" type="text/javascript"></script>
+<link type="text/css" rel="stylesheet" href="/Areas/MShop/Themes/YX/Content/css/item.css" />
+<link type="text/css" rel="stylesheet" href="/Areas/MShop/Themes/YX/Content/css/list.css" />
+ <div class="J_searchListWrapper" style="overflow: hidden;min-height: 480px;">
+    <!--列表页-->
+    <div class="page_list">
+        @if (null != Model)
+        {
+            <div class="J_main_wrapper" style="padding-top:65px;">
+                <div class="J_float">
+                    <!--顶部导航-->
+                   <header class="y_hd">
+    <a href="javascript:;" onclick="history.go(-1);" class="y_hd_back J_ytag" ytag="10000" data-type="1"></a>
+    团购
+    <a href="@(ViewBag.BasePath)" class="y_hdb J_ytag" data-type="2" ytag="21002" id="J_btnFn" style="">
+        首页</a>
+</header>
+                    <!--/顶部导航-->
+               
+                </div>
+                <!--地区-->
+                <div class="f-input" style="padding-left:10px;margin-bottom:20px;">
+                    <script src="/Scripts/jquery/jquery.guid.js" type="text/javascript"></script>
+                    <input type="hidden" id="hfSelectedNode"  value="@ViewBag.regionId"/>
+                    <script src="/Scripts/jquery/maticsoft.selectregion.js" handle="/RegionHandle.aspx" isnull="true" type="text/javascript"></script>
+                </div>
+                <div>
+                    <div style="margin:0 auto;width:140px;">
+                    <a href="javascript:;" class="regionOK" style="background-color:#2d73e2;padding:10px 50px;border-radius:5px;color:#fff";margin:0 auto;>确定</a>
+                    </div>
+                </div>
+                <!--/地区-->
+                <!--列表-->
+                <div class="list J_searchList" id="ProductListDiv"  style="background-color: #fff;min-height: 480px;">
+               @{Html.RenderPartial("_GroupBuyList", Model);}
+                </div>
+                <!--/列表-->
+           
+            </div>
+        }
+        <!-- 筛选 -->
+        
+        <!--/列表页-->
+    </div>
+
+</div>
+
+
+
+
+<script type="text/javascript">
+    $(function () {
+        $(".txtenddate").each(function () {
+            var endDate = $(this).attr("endDate");
+            var productId = $(this).attr("Product");
+            var myclass = new CountDown();
+            myclass.init({
+                id: 'txtenddate_' + productId,
+                //天数
+                day_Dom: $("#dayEnd_" + productId),
+                //小时 
+                hour_Dom: $("#hourEnd_" + productId),
+                //分钟
+                min_Dom: $("#minEnd_" + productId),
+                //秒
+                sec_Dom: $("#secEnd_" + productId),
+                endTime: endDate
+            });
+        });
+
+        $(".regionOK").click(function () {
+            var regionId = $("select:eq(0)").val();
+            if (regionId == "") {
+                ShowFailTip("请选择地区");
+                return false;
+            }
+            if ($("select:eq(1)").val()) {
+                regionId = $("select:eq(1)").val();
+            } else {
+                ShowFailTip("请选择市");
+                return false;
+            }
+            if ($("select:eq(2)").val()) {
+                regionId = $("select:eq(2)").val();
+            }
+            window.location.href = $YSWL.BasePath + "ProSales/GroupBuy?regionid=" + regionId;
+        });
+
+    });
+</script>
+

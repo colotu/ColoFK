@@ -1,0 +1,37 @@
+﻿@model List<YSWL.MALL.Model.Shop.Products.ProductInfo>
+@{
+    <script type="text/javascript">
+        $(function () {
+            $.lazyFixedLoadImg('.item', 175, 228);
+        });
+    </script>
+
+    if (Model != null)
+    {
+        foreach (YSWL.MALL.Model.Shop.Products.ProductInfo item in Model)
+        {
+    <li styleid="UW280019" class="item item-sale"><a target="_blank" href="@(ViewBag.BasePath)Product/Detail/@item.ProductId" title="@item.ProductName"
+                         class="item-desc ForSkuLink">
+        <img title="@item.ProductName" alt="@item.ProductName" width="175" height="228"
+                              ref="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.ThumbnailUrl1, "T175X228_")">
+        <span class="item-price"><em>@(item.LowestSalePrice.ToString("F"))</em></span>
+        @if (item.MarketPrice.HasValue)
+        {
+            <del>@(item.MarketPrice.Value.ToString("F"))</del>
+        }
+        <span class="item-title">@item.ProductName </span></a>
+        <p class="item-brand" style="display: none">
+                            Mind&amp;Style
+                        </p>
+                        <p class="item-addcart" style="display: none;">
+                            <span class="item-title">
+                                <span id="Reduction" style="float: left;margin-left: 1px;"><a style="background:url(/Areas/Shop/Themes/M1/Content/images/jjj.jpg) no-repeat; height:13px; width:13px; display:block;  margin-right:5px; margin-top:3px;"></a></span>
+                                <input id="Quantity" type="text" class="OnlyNum" value="1" maxlength="2" style="text-align: center;float: left;width: 15px;">
+                                <span id="Addition" style="float: left;"><a style="background:url(/Areas/Shop/Themes/M1/Content/images/jiahao.jpg) no-repeat; height:13px; width:13px; display:block; margin-left:5px; margin-top:3px;"></a></span>
+                                <span id="AddCart" productId="@(item.ProductId)" style="margin-right: 5px;padding-left: 15px;float: right;background: url(/Areas/Shop/Themes/M1/Content/images/list-v1-1.gif) no-repeat 0 -331px;"><a  style="white-space: nowrap;padding-right: 15px;line-height: 22px;cursor: pointer;_position: relative;overflow: hidden;float: left;height: 22px;_line-height: 24px;background: url(/Areas/Shop/Themes/M1/Content/images/list-v1-1.gif) no-repeat 0 -331px;background-position: 100% -331px;">加入购物车</a></span>
+                            </span>
+                        </p>
+    </li>
+        }
+    }
+}

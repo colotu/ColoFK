@@ -1,0 +1,53 @@
+﻿@{
+    Layout = "/Areas/MShop/Themes/AKTV/Views/Shared/_BaseLayout.cshtml";
+}
+
+<link href="/Areas/MShop/Themes/AKTV/Content/Css/index.css" rel="stylesheet">
+<link href="/Areas/MShop/Themes/AKTV/Content/Css/index_media.css" rel="stylesheet">
+<link href="/Areas/MShop/Themes/AKTV/Content/Css/flexslider.css" rel="stylesheet">
+<link href="/Areas/MShop/Themes/AKTV/Content/Css/products.css" rel="stylesheet">
+<link href="/Areas/MShop/Themes/AKTV/Content/Css/products_media.css" rel="stylesheet">
+
+<script type="text/javascript" src="/Areas/MShop/Themes/AKTV/Content/Scripts/shop.js"></script>
+<script type="text/javascript" src="/Areas/MShop/Themes/AKTV/Content/Scripts/flexslider.js"></script>
+<script type="text/javascript" src="/Areas/MShop/Themes/AKTV/Content/Scripts/index.js"></script>
+    
+<style type="text/css">
+    body, html
+    {
+        background: #fff;
+    }
+</style>
+<div style="height: 42px;margin-top: 5px;position: relative;padding-left: 5px;">
+        <script type="text/javascript">
+            $(function () {
+                $("#btnSearch").click(function () {
+                    var keyword = $("#txtKeyWord").val();
+                    if (keyword == "") {
+                        ShowFailTip('请输入关键字！');
+                        return;
+                    }
+                    location.href = $YSWL.BasePath + "s/0/0/hot/0-0/" + keyword;
+                });
+            })
+</script>
+  <input name="keyword" id="txtKeyWord" value="" class="keyword" style="color: #999999; width: 98.5%;height: 30px;line-height: 30px;border: 1px solid #cfcbc5;background: #e8e8e8;" autocomplete="off">
+    <input type="button" value="搜商品" id="btnSearch" class="search-button" style=" float: right; right: 2%;border:none;position: absolute;top:0;" autocomplete="off">
+</div>
+        <div id="shop_skin_index">
+            <div class="shop_skin_index_list banner" rel="edit-t01">
+                @Html.Action("AdDetail", "Partial", new { id = 63, ViewName = "_IndexAd" })
+            </div>
+        </div>
+    <div style="margin: 5px 0 58px;">
+   <a href="@(ViewBag.BasePath)ProSales/CountDown" class="index_prolm" >限时抢购</a>
+     <a href="@(ViewBag.BasePath)ProSales/GroupBuy" class="index_prolm" >团购</a>
+    </div> 
+<div id="index_prolist">
+  
+ 
+    <h1>
+        新品上市</h1>
+    @Html.Action("ProductRec", "Partial", new { Type = YSWL.MALL.Model.Shop.Products.ProductRecType.Latest, Top = 8, viewName = "_IndexLatestRec" })
+</div>
+@Html.Action("RecStore", "Partial", new { top = 6 })

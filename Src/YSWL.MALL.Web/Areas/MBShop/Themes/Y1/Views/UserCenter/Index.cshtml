@@ -1,0 +1,143 @@
+﻿@{
+    Layout = "/Areas/MBShop/Themes/Y1/Views/Shared/_BaseLayout.cshtml";
+    ViewBag.Title = "个人中心";
+    ViewBag.Keywords = "个人中心";
+    ViewBag.Description = "个人中心";
+}
+@model YSWL.MALL.Model.Members.UsersExpModel
+ <header class="m_header">
+    <div class="">
+        <div class="m_header_bar">
+            <div class="m_icon_goback icon" onclick="javascript:history.go(-1);">
+                <span></span>
+            </div>
+            <p class="m_header_title">个人中心</p>
+        </div>
+    </div>
+</header>
+<!-- END HEADER -->
+<div class="bg">
+    <div class="head_info">
+        <img src="/Areas/MBShop/Themes/Y1/Content/images/user.png" alt="...">
+        <div class="head_text">
+
+            @if (!string.IsNullOrWhiteSpace(Model.TrueName))
+        {
+            if (Model.TrueName.Length > 8)
+            {
+                    <p class="head_na">@Model.TrueName.Substring(0, 8)..</p>
+            }
+            else
+            {
+                    <p class="head_na">@Model.TrueName</p>
+            }
+
+        }
+        else
+        {
+
+            if ((Model.UserName+"").Length > 8)
+            {
+                    <p class="head_na">@Model.UserName.Substring(0, 8)..</p>
+            }
+            else
+            {
+                    <p class="head_na">@Model.UserName</p>
+            }
+
+
+        }
+            @if (ViewBag.RankScoreIsEnable)
+        {
+            if (Model.UserRank != null)
+            {
+                    <p class="vip">@(Model.UserRank.Name)会员</p>
+            }
+        }
+
+        </div>
+
+    </div>
+
+    <ul class="padding_list">
+        <li>
+            <a href="@(ViewBag.BasePath)u/Orders?type=1">
+                <p>@ViewBag.Unpaid</p>
+                <p>待付款</p>
+            </a>
+        </li>
+        <li>
+            <a href="@(ViewBag.BasePath)u/Orders?type=2">
+                <p>@ViewBag.UnShipping</p>
+                <p>待发货</p>
+            </a>
+        </li>
+        <li>
+            <a href="@(ViewBag.BasePath)u/Orders?type=3">
+                <p>@ViewBag.UnReceipt</p>
+                <p>待收货</p>
+            </a>
+        </li>
+    </ul>
+
+
+    <div style="display: none;" id="div_logout">
+        <a href="@(ViewBag.BasePath)account/Logout">
+            <input type="button" value="退出" id="order_tuan_submit" onclick="return " class="sub_btn">
+        </a>
+    </div>
+    <div class="myinfo">
+        <div class="menu_list">
+            <a href="@(ViewBag.BasePath)u/Personal">
+                <div class="menu_item">
+                    <img src="/Areas/MBShop/Themes/Y1/Content/images/me.png">
+                    <span>个人资料</span>
+                    <div class="into icon">
+                        <span></span>
+                    </div>
+                </div>
+            </a>
+            <a href="@(ViewBag.BasePath)u/ChangePassword">
+                <div class="menu_item">
+                    <img src="/Areas/MBShop/Themes/Y1/Content/images/suo.png">
+                    <span>修改密码</span>
+                    <div class="into icon">
+                        <span></span>
+                    </div>
+                </div>
+            </a>
+            <a href="@(ViewBag.BasePath)u/Orders">
+                <div class="menu_item">
+                    <img src="/Areas/MBShop/Themes/Y1/Content/images/order.png">
+                    <span>我的订单</span>
+                    <div class="into icon">
+                        <span></span>
+                    </div>
+                </div>
+            </a>
+            <a href="@(ViewBag.BasePath)u/ShippAddressList">
+                <div class="menu_item">
+                    <img src="/Areas/MBShop/Themes/Y1/Content/images/zhanghu.png">
+                    <span>收货地址</span>
+                    <div class="into icon">
+                        <span></span>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <div class="nav_bottom_focus bg_red log_off" onclick="window.location.href = '@(ViewBag.BasePath)account/Logout'; return false">
+            @*<a href="@(ViewBag.BasePath)account/Logout">*@
+            <a href="javascript:void(0);">
+                <span class="font_white">注销</span>
+            </a>
+        </div>
+    </div>
+</div>
+<input type="hidden" value="s_userCenter" id="hidPage" />
+<script>
+
+    $(function () {
+        $('body').addClass("bg");
+    });
+</script>

@@ -1,0 +1,14 @@
+﻿@{
+    Layout = "~/Areas/Shop/Themes/PC05/Views/Shared/_UserCenterLayOut.cshtml";
+}
+<input type="hidden" id="currentpage" value="span_10"/>
+ 
+<div class="m-right">  
+  <div class="user_dingdantitle">我的收件箱</div>   
+    <div   id="InBoxList">
+        @Html.Action("InboxList","UserCenter")
+    </div>   
+</div>  
+@section foot{
+    <script src="/scripts/MvcPager-1.8.js" type="text/javascript"></script>
+}

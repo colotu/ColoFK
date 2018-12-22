@@ -1,0 +1,271 @@
+﻿@{
+    Layout = "/Areas/Shop/Themes/PC05/Views/Shared/_BaseLayout.cshtml";
+}
+@using YSWL.MALL.Model.Shop.Products;
+@section head{
+		<link href="/Areas/Shop/Themes/PC05/Content/Css/index.css" rel="stylesheet"/>
+        <script type="text/javascript">
+            $IsHomePage = true;
+       </script>
+}  
+@if (YSWL.MALL.Web.MvcApplication.HasArea(YSWL.Web.AreaRoute.MShop))
+{
+    <script type="text/javascript">
+        try {
+            if ((navigator.userAgent.match(/(iPhone|iPod|Android|ios|iPad)/i))) {
+                location.replace('/m');
+            }
+        } catch (e) { }
+    </script>
+}
+		<!--/top-bg -->
+        <!--轮换大广告-->
+		@Html.Action("AdDetail", "Partial", new { id =77, ViewName = "_IndexAd" })
+
+		
+		<div class="body-conter clearfix">
+			<div class="i-conter">
+			<!--人气热卖 当季新品 限时抢购 开始-->
+				<div class="content_tab">
+				
+		 
+		 		<div class="alltab">
+					<div class="rqrm" id="rqrm_div" onclick="click_change('rqrm')"   onmouseover="controlScroll(2)" onmouseout="controlScroll(1)">
+						<div class="txtc">人气热卖</div>
+						<div class="hotimg"><img src="/Areas/Shop/Themes/PC05/Content/images/hot.png"></div>
+						<div class="tab-underline">&nbsp;</div>
+					</div>
+					<div class="djxp_click" id="djxp_div" onclick="click_change('djxp')"   onmouseover="controlScroll(2)" onmouseout="controlScroll(1)">
+						<div class="txtc">当季新品</div>
+						<div class="newimg"><img src="/Areas/Shop/Themes/PC05/Content/images/new.png"></div>
+						<div class="tab-underline">&nbsp;</div>
+						<div class="tab-underline">&nbsp;</div>
+					</div>
+					<div class="xstg" id="xstg_div" onclick="click_change('xstg')"  onmouseover="controlScroll(2)" onmouseout="controlScroll(1)">
+						<div class="txtc">限时团购</div>
+						<div class="tgimg"><img src="/Areas/Shop/Themes/PC05/Content/images/tg1.png"></div>
+						<div class="tab-underline">&nbsp;</div>
+					</div>
+				</div>
+		
+		 		<div class="tab_shadow">&nbsp;</div>
+		 		
+				
+				<div class="tab_content_bg">
+					@Html.Action("AdDetail", "Partial", new { id = 78, ViewName = "_IndexAdHot" })
+                    @Html.Action("AdDetail", "Partial", new { id =79, ViewName = "_IndexAdNew" })
+                    @Html.Action("AdDetail", "Partial", new { id =80, ViewName = "_IndexAdSale" })			
+					</div>
+				</div>
+
+                	<script type="text/javascript">
+                	    var currentTgTag = 1; //控制gif图片闪动
+                	    var scrollTag = 1; //控制3大模块轮播
+                	    var currentScrollIndex = 0; //当前轮播显示的模块
+
+                	    $(document).ready(function () {
+                	        changeTgImg();
+                	        autoScroll();
+                	    });
+
+                	    function changeTgImg() {
+                	        if (currentTgTag == 1) {
+                	            currentTgTag = 2;
+                	        } else {
+                	            currentTgTag = 1;
+                	        }
+                	        //setTgImg(currentTgTag);
+                	    }
+
+                	    function click_change(str) {
+                	        if (str == 'rqrm') {
+                	            if ($('#rqrm_div').attr('class') == 'rqrm') {
+                	                $('#rqrm_div').removeClass('rqrm');
+                	                $('#rqrm_div').addClass('rqrm_click');
+                	                $('#djxp_c').hide();
+                	                $('#xstg_c').hide();
+                	                $('#rqrm_c').show();
+                	                if ($('#djxp_div').attr('class') == 'djxp_click') {
+                	                    $('#djxp_div').removeClass('djxp_click');
+                	                    $('#djxp_div').addClass('djxp');
+                	                }
+                	                if ($('#xstg_div').attr('class') == 'xstg_click') {
+                	                    $('#xstg_div').removeClass('xstg_click');
+                	                    $('#xstg_div').addClass('xstg');
+                	                }
+                	            }
+
+                	        } else if (str == 'djxp') {
+                	            if ($('#djxp_div').attr('class') == 'djxp') {
+                	                $('#djxp_div').removeClass('djxp');
+                	                $('#djxp_div').addClass('djxp_click');
+                	                $('#rqrm_c').hide();
+                	                $('#xstg_c').hide();
+                	                $('#djxp_c').show();
+                	                if ($('#rqrm_div').attr('class') == 'rqrm_click') {
+                	                    $('#rqrm_div').removeClass('rqrm_click');
+                	                    $('#rqrm_div').addClass('rqrm');
+                	                }
+                	                if ($('#xstg_div').attr('class') == 'xstg_click') {
+                	                    $('#xstg_div').removeClass('xstg_click');
+                	                    $('#xstg_div').addClass('xstg');
+                	                }
+                	            }
+                	        } else if (str == 'xstg') {
+                	            if ($('#xstg_div').attr('class') == 'xstg') {
+                	                $('#xstg_div').removeClass('xstg');
+                	                $('#xstg_div').addClass('xstg_click');
+                	                $('#rqrm_c').hide();
+                	                $('#djxp_c').hide();
+                	                $('#xstg_c').show();
+                	                if ($('#rqrm_div').attr('class') == 'rqrm_click') {
+                	                    $('#rqrm_div').removeClass('rqrm_click');
+                	                    $('#rqrm_div').addClass('rqrm');
+                	                }
+                	                if ($('#djxp_div').attr('class') == 'djxp_click') {
+                	                    $('#djxp_div').removeClass('djxp_click');
+                	                    $('#djxp_div').addClass('djxp');
+                	                }
+                	            }
+                	        }
+                	    }
+
+
+                	    function autoScroll() {
+                	        var curTag = '';
+                	        if (scrollTag == 1) {
+                	            if (currentScrollIndex < 3) {
+                	                currentScrollIndex++;
+                	            } else {
+                	                currentScrollIndex = 1;
+                	            }
+                	            if (currentScrollIndex == 1) {
+                	                curTag = 'rqrm';
+                	            } else if (currentScrollIndex == 2) {
+                	                curTag = 'djxp';
+                	            } else if (currentScrollIndex == 3) {
+                	                curTag = 'xstg';
+                	            }
+                	            click_change(curTag);
+                	        }
+                	        setTimeout('autoScroll()', 5000);
+                	    }
+
+                	    function controlScroll(flag) {
+                	        scrollTag = flag;
+                	    }
+				</script>
+		
+				<!--人气热卖 当季新品 限时抢购 结束-->      
+		        
+		        <!--母婴馆 Begin-->
+		 		<div class="clearfix common-class baby-class">
+		 			<div class="common-title">
+		 				<span class="title-ico">&nbsp;</span>
+		 				<h2>母婴馆</h2>
+		 				<div class="title-more e-cms" e_cms="goods_tag" e_cdata="mygTags">
+		 					<ul>
+		 					    @Html.Action("CategoryList", "Partial", new { Cid = 2, Top = 3, ViewName = "/Areas/Shop/Themes/PC05/Views/Home/_SecondCate.cshtml" })	
+		 						<li class="title-more-last"><a href="@(ViewBag.BasePath)product/2"   target="_blank" >进入母婴馆频道</a></li>
+		 					</ul>
+		 				</div>
+		 			</div>
+		 			<div class="common-content">
+                    <!---广告位开始--->
+		 			@Html.Action("AD", "Partial", new { AdvPositionId =81, ViewName = "_IndexCateAd" })
+                    <!---广告位结束--->
+                    <!--商品开始-->
+                      @Html.Action("ProductList", "Home", new { Cid = 2, RecType =ProductRecType.IndexRec, Top = 4, viewName = "_ProductList" })	 
+                  <!--商品结束-->
+                    </div>
+		 		    <div class="class-bg">
+		 		    	&nbsp;
+		 		    </div>
+		 		 </div> 
+		 		<!--母婴馆  End-->
+		        
+		        <!--服装馆 Begin-->
+		 		<div class="clearfix common-class dress-class">
+		 			<div class="common-title">
+		 				<span class="title-ico">&nbsp;</span>
+		 				<h2>服装馆</h2>
+		 				<div class="title-more e-cms" e_cms="goods_tag" e_cdata="fzgTags">
+		 					<ul>
+		 						@Html.Action("CategoryList", "Partial", new { Cid = 31, Top = 3, ViewName = "/Areas/Shop/Themes/PC05/Views/Home/_SecondCate.cshtml" })	
+		 						<li class="title-more-last"><a href="@(ViewBag.BasePath)product/31"   target="_blank" >进入服装馆频道</a></li>
+		 					</ul>
+		 				</div>
+		 			</div>
+		 			<div class="common-content">
+		 				@Html.Action("AD", "Partial", new { AdvPositionId =82, ViewName = "_IndexCateAd" })
+		 				@Html.Action("ProductList", "Home", new { Cid = 31, RecType =ProductRecType.IndexRec, Top = 4, viewName = "_ProductList" })	 
+		 			 </div> 
+		 		
+		 		    <div class="class-bg">
+		 		    	&nbsp;
+		 		    </div>
+		 		</div> 
+		 		<!--服装馆 End-->
+		        
+		        
+		         <!--女性护理馆  Begin-->
+		 		<div class="clearfix common-class women-class">
+		 			<div class="common-title">
+		 				<span class="title-ico">&nbsp;</span>
+		 				<h2>女性护理馆</h2>
+		 				<div class="title-more e-cms" e_cms="goods_tag" e_cdata="nxflgTags">
+		 					<ul>
+		 						@Html.Action("CategoryList", "Partial", new { Cid = 72, Top = 3, ViewName = "/Areas/Shop/Themes/PC05/Views/Home/_SecondCate.cshtml" })	
+		 						<li class="title-more-last"><a href="@(ViewBag.BasePath)product/72"   target="_blank" >进入女性护理馆频道</a></li>
+		 					</ul>
+		 				</div>
+		 			</div>
+		 			<div class="common-content">
+		 				@Html.Action("AD", "Partial", new { AdvPositionId =83, ViewName = "_IndexCateAd" })
+		 				@Html.Action("ProductList", "Home", new { Cid = 72, RecType =ProductRecType.IndexRec, Top = 4, viewName = "_ProductList" })	 
+		 		 </div> 
+		 		
+		 		    <div class="class-bg">
+		 		    	&nbsp;
+		 		    </div>
+		 		 </div> 
+		 		<!--女性护理馆 End--> 
+		
+		       <!--家居日用馆  Begin-->
+		 		<div class="clearfix common-class family-class">
+		 			<div class="common-title">
+		 				<span class="title-ico">&nbsp;</span>
+		 				<h2>家居日用馆</h2>
+		 				<div class="title-more e-cms" e_cms="goods_tag" e_cdata="jjrrgTags">
+		 					<ul>
+		 						@Html.Action("CategoryList", "Partial", new { Cid =80, Top = 3, ViewName = "/Areas/Shop/Themes/PC05/Views/Home/_SecondCate.cshtml" })	
+		 						<li class="title-more-last"><a href="@(ViewBag.BasePath)product/80"   target="_blank" >进入家居日用馆频道</a></li>
+		 					</ul>
+		 				</div>
+		 			</div>
+		 			<div class="common-content">
+		 				@Html.Action("AD", "Partial", new { AdvPositionId =84, ViewName = "_IndexCateAd" })
+		 				@Html.Action("ProductList", "Home", new { Cid = 80, RecType =ProductRecType.IndexRec, Top = 4, viewName = "_ProductList" })	 
+		 			 </div> 
+		 		
+		 		    <div class="class-bg">
+		 		    	&nbsp;
+		 		    </div>
+		 		 </div> 
+		 		<!--家居日用馆 End-->
+		 		   
+                <!--精品店铺  Begin-->
+                    @Html.Action("RecStore", "Partial", new { top = 4 })
+		 		<!--精品店铺 End-->
+		     </div> 
+		    
+ 
+
+            </div>  
+          
+ 
+ 
+
+
+
+

@@ -1,0 +1,115 @@
+﻿ @model  YSWL.MALL.ViewModel.Shop.ActicityGiveList 
+<script type="text/javascript">
+    $(function () {
+        var freightPrice = parseFloat($('#freightPriceId').attr('freightPrice')); //运费
+        var couponPrice = parseFloat($("#couponPriceId").attr('couponPrice')); //优惠券优惠金额
+        if (IsFullFreeShipping()) { //免邮
+            $('#freightPriceId').text('￥0.00');
+            var totalprice = parseFloat($('#payPriceId').attr('BasePrice')).toFixed(2);
+            var payprice = (totalprice - couponPrice) > 0 ? (totalprice - couponPrice) : 0;
+            $('#payPriceId').text('￥' + payprice.toFixed(2));
+        } else {//不免邮
+            $('#freightPriceId').text('￥' + freightPrice.toFixed(2));
+            var totalprice = (parseFloat($('#payPriceId').attr('BasePrice')) + freightPrice).toFixed(2);
+            var payprice = (totalprice - couponPrice) > 0 ? (totalprice - couponPrice) : 0;
+            $('#payPriceId').text('￥' + payprice.toFixed(2));
+        }
+    });
+ 
+   </script>
+<input  type="hidden" id="hidFullFreeShipping" value="@ViewBag.FreeShippingActiv"/>
+@if (Model != null)
+{
+<!--赠品-->   
+    if (Model.ActProdList != null && Model.ActProdList.Count > 0)
+    {
+     <div class="gou_list" style="padding: 4px;">
+         <span>赠品：</span>
+         <div class="cartitem"  style="border-bottom: none;">
+              <table width="100%">
+            <tbody>
+             @foreach (var item in Model.ActProdList)
+             {
+                 <tr class="gou_list_tr">
+                     <td class="foodname">
+                         @item.ProductName
+                     </td>
+                     <td class="foodprice-nounit" style="width:100px;">
+                         小计 ￥@((item.SalePrice).ToString("F"))
+                     </td>
+                     <td class="food-op gouwuchelist" >
+                         数量  @item.Count
+                         @* <p class="p-num">
+                        编号：@ActivProduct.SkuInfos[0].SKU</p>*@
+                     </td>
+                 </tr>
+             }
+             </tbody>
+                 </table>
+   
+         </div>
+           </div>
+    }
+
+    if (Model.ActCouponList != null && Model.ActCouponList.Count > 0)
+    {  
+         <div class="gou_list" style="padding: 4px;">
+             <span>优惠券：</span>  
+             <div class="cartitem" style="border-bottom: none;">
+        <table width="100%">
+            <tbody>
+                 @if (ViewBag.IsMerge)
+               {
+                   foreach (var item in Model.ActCouponList)
+                   {
+                       <tr class="gou_list_tr">
+                           <td class="foodname" style="height: 34px;">
+                               @item.Name  面值为： @((item.CouponPrice * item.SendCount).ToString("F"))
+                           </td>
+                           <td class="food-op gouwuchelist" >
+                               1 张
+                   
+                           </td>
+                       </tr>
+                   }
+               }
+                 else
+                 {
+                     foreach (var item in Model.ActCouponList)
+                     {
+                         <tr class="gou_list_tr">
+                             <td class="foodname" style="height: 34px;">
+                                 @item.Name  面值为： @item.CouponPrice.ToString("F")
+                             </td>
+                             <td class="food-op gouwuchelist" >
+                                 @(item.SendCount) 张
+                   
+                             </td>
+                         </tr>
+                     }
+                 }
+                
+            </tbody>
+        </table>
+    </div>            
+                </div>
+                         
+    }
+
+    if (Model.NotStockActProdList != null && Model.NotStockActProdList.Count > 0)
+    {
+         <div style="border: 1px solid #f60;margin-top: 5px;padding: 5px;">
+                                                       <div   style="color: #f60;">
+                                                      非常抱歉，您来晚了，以下赠品今天已经被抢光了，您可以明天再试。</div>
+                                                        @foreach (var item in Model.NotStockActProdList)
+                                                        {
+                                                            <div  style="color: #999;" >
+                                                                @item.ProductName        x @item.Count  
+                                                            </div>
+                                                            
+                                                        }
+         </div>
+    }
+
+}
+  

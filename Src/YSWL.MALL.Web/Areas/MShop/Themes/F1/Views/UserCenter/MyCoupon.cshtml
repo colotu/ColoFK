@@ -1,0 +1,107 @@
+﻿ @{
+     Layout = "/Areas/MShop/Themes/F1/Views/Shared/_BaseLayout.cshtml";
+     ViewBag.Title = "个人中心-我的优惠券";
+ }
+ @using Webdiyer.WebControls.Mvc
+@model PagedList<YSWL.MALL.Model.Shop.Coupon.CouponInfo>
+ @section foot{
+     <script type="text/javascript">
+         $('#divPage a[href]').attr("rel", "external");
+         $(function() {
+             var status = $.getUrlParam("s");
+             if (!status) {
+                 status = "1";
+             }
+             $("#div_seach_but a").each(function() {
+                 var value = $(this).attr("s");
+                 if (value == status) {
+                     $(this).addClass("ui-btn-active");
+                     if (status == "-1" && $('#div_coupon_kuang').length>0) {
+                         $('#div_coupon_kuang').show();
+                     }
+                 }
+             });
+         });
+     </script>
+ }
+<div data-role="content"   class="ui-content " role="main" >
+<div data-role="navbar" id="div_seach_but">
+    <ul>
+         <li><a href="@(ViewBag.BasePath)UserCenter/MyCoupon?s=-1"  rel="external" s="-1" >冻结优惠券</a></li>   @* style="width: 33% !important;"*@
+        <li><a href="@(ViewBag.BasePath)UserCenter/MyCoupon?s=1"  rel="external" s="1"   >未使用优惠券</a></li>
+        <li><a href="@(ViewBag.BasePath)UserCenter/MyCoupon?s=2"  rel="external" s="2"  >已使用优惠券</a></li>
+    </ul>
+</div>
+ 
+ 
+@if (Model != null)
+{
+    foreach (var item in Model)
+    {
+        <ul data-role="listview" data-inset="true" data-theme="d" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+         <li style="padding:5px 10px 5px 10px" class="ui-li ui-li-static ui-btn-up-d ui-first-child ui-last-child"  >
+             <table style="padding: 0; margin: 0; width: 100%;">
+                 <tbody><tr>
+                            <td class="align_right align_top" width="120px"><label class="ui-input-text">优惠券：</label></td>
+                            <td>
+                                <label class="ui-input-text">@item.CouponCode</label>  
+                            </td>
+                        </tr>
+                          
+                     <tr>
+                         <td class="align_right align_top" width="120pxpx"><label class="ui-input-text">类型：</label></td>
+                         <td>
+                             <label class="ui-input-text" >@item.ClassName </label>
+                         </td>
+                     </tr>
+
+                     <tr>
+                         <td class="align_right align_top" width="120px"><label class="ui-input-text">面值：</label></td>
+                         <td  >
+                            <label class="ui-input-text" ><strong style="color: #ff8a00;"> @item.CouponPrice.ToString("C")</strong></label>
+                         </td>
+                     </tr> 
+                     <tr>
+                         <td class="align_right align_top" width="120px"><label class="ui-input-text">所需消费金额：</label></td>
+                         <td>
+                           <label class="ui-input-text" > @(item.LimitPrice == 0 ? "无限制" : item.LimitPrice.ToString("C"))  </label>
+                         </td>
+                     </tr>	
+                      <tr>
+                         <td class="align_right align_top" width="120px"><label class="ui-input-text">有效期：</label></td>
+                         <td>
+                           <label class="ui-input-text" >@(item.EndDate.ToString("yyyy-MM-dd").StartsWith("9999-") ? item.StartDate.ToString("yyyy-MM-dd HH:mm") +"开始": (item.StartDate.ToString("yyyy-MM-dd") + "至" + item.EndDate.ToString("yyyy-MM-dd")))</label>
+                         </td>
+                      </tr>	
+                      <tr>
+                         <td class="align_right align_top" width="120px"><label class="ui-input-text">使用限制：</label></td>
+                         <td>
+                           <label class="ui-input-text" >  @Html.Raw(String.Format(YSWL.MALL.BLL.Shop.Coupon.CouponInfo.GetLimitStr(item), ViewBag.BasePath))</label>
+                         </td>
+                     </tr>
+                     
+                 </tbody></table>
+
+         </li>
+     </ul>
+    }
+    <div id="divPage">
+             @Html.Pager(Model, new PagerOptions
+{
+    PageIndexParameterName = "p",
+    NumericPagerItemCount = 3,
+    CurrentPagerItemTemplate = "<p class=\"in_s\">{0}</p>",
+    NumericPagerItemTemplate = "<p>{0}</p>",
+    NavigationPagerItemTemplate = "<p>{0}</p>",
+    CssClass = "in_pages"
+})
+    </div>
+
+}
+    <div class="kuang" id="div_coupon_kuang" style="display:none;">
+     <div class="mt"><h3>冻结优惠劵相关说明</h3></div>
+        <div class="mc">
+                        1. 购物时赠送的优惠劵最初为冻结状态，当您的订单完成以后相关的优惠劵便会恢复正常。
+     </div>
+        </div>
+</div>

@@ -1,0 +1,32 @@
+﻿@model YSWL.MALL.Model.Shop.Supplier.SupplierInfo
+@{
+    Layout = "~/Areas/Shop/Themes/PC05/Views/Shared/_SupplierApplyLayout.cshtml";
+}
+@section step{
+    <div class="wrap" id="apply_shop_h">
+        <ul class="step" id="step3">
+            <li class="fore1">1.填写核对商家信息<b></b></li>
+            <li class="fore2">2.选填店铺信息<b></b></li>
+            <li class="fore3">3.商家审核</li>
+        </ul>
+    </div>
+}
+<div style="margin-left:300px;text-align: left;font-size: 16px;">
+    <p style="margin: 20px 0 0 0;color: #05948D;font-weight: bold;">@(Model.Name), 您的信息正在审核中..</p>
+       @if (!string.IsNullOrWhiteSpace(Model.ShopName))
+      { 
+          <p style="margin: 20px 0 0 0;">您的店铺名称：@(Model.ShopName)</p>
+      } 
+    <p style="margin: 20px 0 0 0;">  由于审核商家需要较长时间, 请您耐心等待。</p>
+</div>
+ 
+    <div class="o-ok">
+        <a   class="but_sss_aa" href="javascript:;" id="back" style="width: 100px;">返回首页</a>
+    </div>     
+ 
+<script type="text/javascript">
+    $('#back').unbind('click').bind('click', function () {
+        window.location.replace($YSWL.BasePath);
+        return;
+    });
+</script>

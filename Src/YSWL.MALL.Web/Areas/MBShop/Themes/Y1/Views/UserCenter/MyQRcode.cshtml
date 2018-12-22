@@ -1,0 +1,38 @@
+﻿@{
+    Layout = "/Areas/MBShop/Themes/Y1/Views/Shared/_BaseLayout.cshtml";
+    ViewBag.Title = "我要推广";
+}
+    <link href="/Areas/MBShop/Themes/Y1/Content/Css/UserCenter/userstyle.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="/Scripts/jquery.unobtrusive-ajax.min.js"></script>
+    <div class="top">
+        <span><a href="@(ViewBag.BasePath)co">&lt;返回</a></span>
+        @Html.Partial("/Areas/MBShop/Themes/Y1/Views/Partial/_HeadRight.cshtml")
+    </div>
+
+    <div class="yy">
+    </div>
+    <div class="index_h1">
+        我要推广
+    </div>
+
+    <style type="text/css">
+        .qrImg {
+            width: 100%;
+            border: 0;
+            left:0;
+        }
+    </style>            
+    <div>
+        @{
+            if (ViewBag.IsExist)
+            {
+                <img class="qrImg" src="/@(YSWL.Components.MvcApplication.UploadFolder)/QRcode/QR_@(ViewBag.UserId).jpg" alt="推广二维码" />
+            }
+            else
+            {
+                <div>
+                    <img class="qrImg" src="/Images/QR_notExist.png" alt="推广二维码不存在" />
+                </div>
+            }
+         }
+    </div>

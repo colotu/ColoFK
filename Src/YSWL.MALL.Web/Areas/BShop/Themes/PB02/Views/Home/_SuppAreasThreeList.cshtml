@@ -1,0 +1,8 @@
+﻿@model List<YSWL.MALL.Model.Shop.Supplier.SuppAreas>
+  @if (Model != null)
+  {
+      foreach (var item in Model)
+      {
+        <a href="@(ViewBag.BasePath)store/storelist/@item.AreaId/sales" class="a-link">@item.Name</a>
+      }
+  }

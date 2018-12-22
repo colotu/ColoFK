@@ -1,0 +1,64 @@
+﻿@model List<YSWL.MALL.Model.Settings.Advertisement>
+@if (Model != null && Model.Count>0)
+{
+    <div class="module" >
+        <div class="floor-line">
+            <div class="floor-hd">
+                <span class="txt">推荐品牌</span>
+                <span class="small-txt">小二精选，好商好货</span>
+            </div>
+            <div class="floor-bd">
+                <div class="floor-brand clearfix">
+                    <div class="left-box">
+                        <div class="img-box">
+                            <a href="@Model[0].NavigateUrl" target="_blank">
+                                <img src="@Model[0].FileUrl" alt="@Model[0].AdvertisementName">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="right-box">
+                        <div class="brand-list brand-table">
+                            <div class="brand-tr">
+                                @for (int i = 1; i < Model.Count; i++)
+                                {
+                                    <a href="@Model[i].NavigateUrl" class="brand-td brand-link" title="@Model[i].AdvertisementName" target="_blank">
+                                        <img src="@Model[i].FileUrl" alt="@Model[i].AdvertisementName">
+                                    </a>
+                                    if (i == 6) {
+                                        break;
+                                    }
+                                }
+                            </div>
+                            <div class="brand-tr">
+                                @for (int i = 7; i < Model.Count; i++)
+                                {
+                                    <a href="@Model[i].NavigateUrl" class="brand-td brand-link" title="@Model[i].AdvertisementName" target="_blank">
+                                        <img src="@Model[i].FileUrl" alt="@Model[i].AdvertisementName">
+                                    </a>
+                                    if (i == 12)
+                                    {
+                                        break;
+                                    }
+                                }
+                            </div>
+                            <div class="brand-tr">
+                                @for (int i = 13; i < Model.Count; i++)
+                                {
+                                    <a href="@Model[i].NavigateUrl" class="brand-td brand-link" title="@Model[i].AdvertisementName" target="_blank">
+                                        <img src="@Model[i].FileUrl" alt="@Model[i].AdvertisementName">
+                                    </a>
+                                    if (i == 18)
+                                    {
+                                        break;
+                                    }
+                                }
+                            </div>
+
+</div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

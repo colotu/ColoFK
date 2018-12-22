@@ -1,0 +1,15 @@
+﻿@using System.Web.Mvc.Html
+@{
+    Layout = "~/Areas/BShop/Themes/PB02/Views/Shared/_BaseLayout.cshtml";
+@*网站前台模版*@
+}
+@section head{
+    @RenderSection("head", false)
+    <link rel="stylesheet" type="text/css" href="/Areas/BShop/Themes/PB02/Content/Css/storestyle.css"/>
+}
+@Html.Action("Header", "Store", new { area = "BShop" })
+@RenderBody()
+@Html.Action("SelectRegion", "Partial", new { area = "BShop" })
+@section foot{
+    @RenderSection("foot", false)
+}

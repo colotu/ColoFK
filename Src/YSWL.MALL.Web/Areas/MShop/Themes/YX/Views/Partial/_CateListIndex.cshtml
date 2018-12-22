@@ -1,0 +1,13 @@
+﻿@model List<YSWL.MALL.Model.Shop.Products.CategoryInfo>
+<p class="link" style="min-height: 40px;">
+    @if (null != Model && Model.Count > 0)
+    {
+        foreach (var item in Model)
+        {
+        <a href="@(ViewBag.BasePath)p/@item.CategoryId" class="J_ytag" style="max-width: 102px;text-overflow:ellipsis">
+          @YSWL.Common.StringPlus.SubString(item.Name, 12, "...")
+        </a>
+        }
+
+    }
+</p>

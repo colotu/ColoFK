@@ -1,0 +1,48 @@
+﻿@{
+    Layout = "~/Areas/Shop/Themes/PC05/Views/Shared/_SiteLayout.cshtml";
+@*网站前台模版*@
+}
+@section head{
+    @RenderSection("head", false)
+}
+
+<div class="top-bg  top-bg2" >
+  @Html.Action("Header", "Partial", new { area = "Shop" }) 
+  <div class="top-logo top-logo1 clearfix">
+       @Html.Action("Header", "Partial", new { area = "Shop", ViewName = "_HeaderShopping" })
+       @RenderSection("step", false)
+    </div>
+ 
+</div>
+ 
+<div class="sub-goodsbody sub-goodsbody1 clearfix">
+@RenderBody()
+</div>
+
+@Html.Action("Footer", "Partial", new { area = "Shop" })
+@section foot{
+    @RenderSection("foot", false)
+}
+
+<script  type="text/javascript">
+    $('#div_header_top').addClass('top-logo1');
+    $('.foot').addClass('foot1');
+</script>
+
+<style>
+    .cart-item-list .shop {
+        padding-left: 10px;
+    height: 44px;
+    line-height: 44px;
+    font-weight: 700;
+    font-size: 14px;
+    }
+        .cart-item-list .shop .shop-name {
+             color: #666;
+        }
+      
+</style>
+
+
+
+

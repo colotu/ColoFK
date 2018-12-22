@@ -1,0 +1,46 @@
+﻿@{
+    Layout = "/Areas/MBShop/Themes/Y1/Views/Shared/_NoFootLayout.cshtml";
+}
+@using YSWL.MALL.Model.Shop.Products
+@model YSWL.MALL.Model.Shop.Products.ProductInfo
+<script type="text/javascript" src="/Scripts/jquery/maticsoft.img.min.js"></script> 
+<script type="text/javascript">
+    $(function () {
+        var width = $(window).width();
+        $.scaleLoad('.detail', width, 1280);
+    });
+</script>  
+	<!--START HEADER-->
+<header class="m_header">
+    <div class="navbar-fixed-top">
+        <div class="m_header_bar">
+            <div class="m_icon_goback icon" onclick="history.go(-1)">
+                <span></span>
+            </div>
+            <p class="m_header_title">商品详情</p>
+            
+        </div>
+    </div>
+</header>
+<!-- END HEADER -->
+<div class="prod_detail_content mt44">
+ 
+@if (Model != null)
+{
+    <!-- 名称、价格 -->
+    <div class="goods_detail_info wrap">
+        <div class="goods_detail_title">
+            @Model.ProductName
+        </div>
+        <div class="goods_detail_part">
+            <h3 class="module_title">商品介绍</h3>
+            <div class="module_container   module_content detail">
+                    @Html.Raw(Model.Description)
+            </div>
+        </div>
+
+    </div>
+
+}
+</div>
+ 

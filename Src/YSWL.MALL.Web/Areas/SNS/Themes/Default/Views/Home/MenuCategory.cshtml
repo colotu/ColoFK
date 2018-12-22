@@ -1,0 +1,70 @@
+﻿     @model  List<YSWL.MALL.Model.SNS.Categories>      
+           
+           @foreach (var item in Model)
+           {
+               <div class="main_sort">
+                   <div class="main_sort_top">
+                   </div>
+                   <div class="main_sort_cot">
+                       <div class="cates">
+                           <div class="cates_chart">
+                               <img src="/Areas/SNS/Themes/Default/Content/images/snsfav_@(item.CategoryId).jpg" /></div>
+                           <div class="cates_cate">
+                               @Html.Action("CategoryList", "Partial", new { Cid = item.CategoryId, Top = 3, ViewName = "_SonList" })
+
+                               @Html.Action("TagsList", new { cid = item.CategoryId,Top=5})
+
+                           </div>
+                           <div class="anniu">
+                               <a href="@(ViewBag.BasePath)Product/@(item.Name)/@(item.CategoryId)/@(item.CategoryId)/0-0-hot-all" >
+                                   <img src="/Areas/SNS/Themes/Default/Content/images/sort_5.jpg" /></a></div>
+                           <div class="clear">
+                           </div>
+                       </div>
+                       @Html.Action("ProductList", new { Cid = item.CategoryId, Top = 12 })
+                       <div class="clear">
+                       </div>
+                   </div>
+                   <div class="clear">
+                   </div>
+                   <div class="main_sort_bno">
+                   </div>
+                   <div class="clear">
+                   </div>
+               </div>
+           }
+
+@*     
+         下面提供另外一种写法，通过下标 i 可以控制其中任何一个样式和特殊数据处理，其余的可以参照此写法
+              @for (int i = 0; i < Model.Count;i++ )
+              {
+               <div class="main_sort">
+                   <div class="main_sort_top">
+                   </div>
+                   <div class="main_sort_cot">
+                       <div class="cates">
+                           <div class="cates_chart">
+                               <img src="/Areas/SNS/Themes/Default/Content/images/snsfav_@(Model[i].CategoryId).jpg" /></div>
+                           <div class="cates_cate">
+                               @Html.Action("CategoryList", "Partial", new { Cid = Model[i].CategoryId, Top = 3 })
+                               @Html.Action("TagsList", new { cid = Model[i].CategoryId, Top = 5 })
+                           </div>
+                           <div class="anniu">
+                               <a href="@(ViewBag.BasePath)Product/@(Model[i].Name)/@(Model[i].CategoryId)/@(Model[i].CategoryId)/0-0-hot-all" >
+                                   <img src="/Areas/SNS/Themes/Default/Content/images/sort_5.jpg" /></a></div>
+                           <div class="clear">
+                           </div>
+                       </div>
+                       @Html.Action("ProductList", new { Cid = Model[i].CategoryId, Top = 12 })
+                       <div class="clear">
+                       </div>
+                   </div>
+                   <div class="clear">
+                   </div>
+                   <div class="main_sort_bno">
+                   </div>
+                   <div class="clear">
+                   </div>
+               </div>
+              }
+              *@

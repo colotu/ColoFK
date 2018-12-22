@@ -1,0 +1,72 @@
+﻿@using YSWL.MALL.Model.Shop.Products
+@{
+    Layout = "/Areas/MShop/Themes/M1/Views/Shared/_BaseLayout.cshtml";
+    
+}
+@section head{
+    <script type="text/javascript" src="/Areas/MShop/Themes/M1/Content/Scripts/common.js?v=201304011"></script>
+    <script type="text/javascript" src="/Areas/MShop/Themes/M1/Content/Scripts/spin.min.js"></script>
+}
+<div class="top">
+    <div class="header-btn fl">
+        <a href="@(ViewBag.BasePath)p/c" style="margin: 8px; padding-top: 8px; height: 22px">
+            <img width="22" height="21" src="/Areas/MShop/Themes/M1/Content/images/sort.png">
+        </a>
+    </div>
+    <div class="logo fl">
+        <a href="@ViewBag.BasePath">
+            <img src="@ViewBag.MShopLogo">
+        </a>
+    </div>
+    <div class="header-btn fr">
+        <a href="@(ViewBag.BasePath)u" style="margin: 8px 8px 8px 0; padding-top: 5px; height: 25px">
+            <img width="22" height="21" src="/Areas/MShop/Themes/M1/Content/images/avatar.png"></a><a 
+                href="@(ViewBag.BasePath)sc/ci" style="margin: 8px 8px 8px 0; padding-top: 5px; height: 25px">
+                <img src="/Areas/MShop/Themes/M1/Content/images/cart.png" width="22" height="21">
+            </a>
+    </div>
+</div>
+<div class="search">
+      @*@Html.Partial("/Areas/MShop/Themes/M1/Views/Partial/_Search.cshtml")*@
+        <script type="text/javascript">
+            $(function () {
+                $("#btnSearch").click(function () {
+                    var keyword = $("#txtKeyWord").val();
+                    if (keyword == "") {
+                        ShowFailTip('请输入关键字！');
+                        return;
+                    }
+                    location.href = $YSWL.BasePath +"s/0/0/hot/0-0/" + keyword;
+                });
+            })
+</script>
+  <input name="keyword" id="txtKeyWord"  value="" class="keyword" style="color: #999999; width: 98.5%" >
+    <input type="button" value="搜商品" id="btnSearch" class="search-button" style=" float: right; right: 2%">
+</div>
+<style type="text/css">
+    body
+    {
+        word-break: break-all;
+    }
+</style>
+@Html.Action("AdDetail", "Partial", new { id = 49, ViewName = "_IndexAd" })
+@Html.Action("ProductList", new { Cid = 2, Top = 3})
+<div align="center">
+    @Html.Action("AdDetail", "Partial", new { id = 50, ViewName = "_IndexAd2" })
+</div>
+@Html.Action("ProductList", new { Cid = 31, Top =3, Type = ProductRecType.Recommend, viewName = "_ProductList" })
+@Html.Action("ProductList", new { Cid = 61, Top = 3, Type = ProductRecType.Recommend, viewName = "_ProductList" })
+@Html.Action("ProductList", new { Cid = 80, Top = 3, Type = ProductRecType.Recommend, viewName = "_ProductList" })
+<div class="prolm">
+    <a href="@(ViewBag.BasePath)p/c"><span>全部类别</span></a>
+    @Html.Action("CategoryList", new { cid = 0, top = 7, viewName = "_CategoryList" })
+    <a href="@(ViewBag.BasePath)ProSales/CountDown">限时抢购</a> 
+    <a href="@(ViewBag.BasePath)ProSales/GroupBuy">团购</a> 
+</div>
+
+    @Html.Action("RecStore", "Partial", new { top = 5 })
+
+<div class="newstitle">
+  <span>新闻中心</span></div>
+@Html.Action("NewsList", new { top = 4, ClassID = 9, ViewName = "_NewsList" })
+@Html.Partial("/Areas/Mshop/Themes/M1/Views/Partial/_BackTop.cshtml")

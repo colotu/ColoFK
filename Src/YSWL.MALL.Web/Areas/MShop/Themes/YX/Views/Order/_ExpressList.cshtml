@@ -1,0 +1,35 @@
+﻿@model List<YSWL.MALL.ViewModel.Shop.Express>
+ <style> 
+       .border_top{border-top: 1px solid #e5e5e5;}
+ </style>
+@if (ViewBag.ApiType == "html")
+{ 
+    <div style="width:100%; overflow:auto;" >
+    <iframe id="expressiframe" name="expressiframe" src="@ViewBag.ExpressUrl"  width="550"  height="340" marginwidth="0" marginheight="0" hspace="0" vspace="0" frameborder="0" scrolling="no">
+    </iframe>
+    </div>
+}
+else
+{
+        if (Model != null)
+         {
+             <div class="home_piclist" style="width: 80%;margin-left: 20px;">
+             @for (int i = 0; i < Model.Count;i++ )
+             {
+                  <div class="ddnum @if (i != 0)
+                                              {
+                                              @:border_top
+                                              }"    >
+         @Model[i].Date.ToString("yyyy-MM-dd HH:mm:ss")<br/>
+         @Model[i].Content 
+    </div>
+             }
+              </div> 
+         }
+        else
+        {
+           <p style="margin-left: 10px;">暂无物流信息</p>
+        }
+}
+ 
+ 

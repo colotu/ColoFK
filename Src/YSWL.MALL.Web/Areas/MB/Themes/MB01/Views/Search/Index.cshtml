@@ -1,0 +1,80 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model YSWL.MALL.ViewModel.Shop.ProductListModel
+@{
+    Layout = "/Areas/MB/Themes/MB01/Views/Shared/_BaseLayout.cshtml";
+    string cid = Request.RequestContext.RouteData.Values["cid"] != null ? Request.RequestContext.RouteData.Values["cid"].ToString() : "0";
+    string brandid = Request.RequestContext.RouteData.Values["brandid"] != null ? Request.RequestContext.RouteData.Values["brandid"].ToString() : "0";
+    string keyword = Request.RequestContext.RouteData.Values["keyword"] != null ? Request.RequestContext.RouteData.Values["keyword"].ToString() : "";
+    string mod = Request.RequestContext.RouteData.Values["mod"] != null ? Request.RequestContext.RouteData.Values["mod"].ToString() : "hot";
+}
+@section head{
+    <link href="/Areas/MB/Themes/MB01/Content/Css/main.css" rel="stylesheet" />
+}
+<input type="hidden" id="hidCid" value="@cid" />
+
+<!--当前分类名称-->
+<input type="hidden" id="hidCateName" value="@(Model != null?Model.CurrentCateName:"")" />
+
+
+
+<div class=" main_wrapper" id="main_page">
+    <!--START HEADER-->
+    <header>
+        <div class="top_navbar">
+           @Html.Partial("/Areas/MB/Themes/MB01/Views/Partial/_Back.cshtml")
+            <div class="top_search search_pl search_pr">
+                <div  class="searchInput" id="showSearch">
+                    <ul class="searchbar_tag">
+                        <li><span id="se_keyword">@keyword</span><em id="delky" class="my_icon icon_close"></em></li>
+                    </ul>
+                </div>
+            </div>
+            <span id="switch" class="icon_switch2_view topbar_mess si"></span>
+        </div>
+    </header>
+    <!-- END HEADER -->
+    <div class="sort_tab">
+        <ul>
+            <li class="modList sort_a" mod="hot"><span>销量</span></li>
+            <li class="modList" mod="new">最新</li>
+            <li class="modList" item="price" mod="price" id="li_price">价格<span class="si icon_sort"></span></li>
+            <li id="filter">筛选<span class="si icon_down"></span></li>
+        </ul>
+    </div>
+    <div class="floor" id="product_content">
+        <div id="mainProductList">
+            @{Html.RenderPartial("_ProdList", Model);}
+        </div>
+    </div>
+    <!---筛选内容开始-->
+    <!-- 右滑出筛选 -->
+    <div class="popCover_wrap" id="filter_content" isload=false>
+    </div>
+    <div class="black_overlay" id="f_black_overlay"></div>
+    <!---筛选内容结束-->
+
+    <!-- 列表页加入购物车模块开始-->
+    <!--加入购物车弹窗-->
+    <div id="addCart-Lay" class="dsn"></div>
+    <!-- END specificationWrapper -->  <!--加入购物车提示-->
+    @Html.Partial("/Areas/MB/Themes/MB01/Views/Partial/_AddCartTip.cshtml")
+    <!-- 列表页加入购物车模块结束-->
+    <!--加载提示信息--->
+    @Html.Partial("/Areas/MB/Themes/MB01/Views/Partial/_LoadTip.cshtml")
+</div>
+@Html.Partial("/Areas/MB/Themes/MB01/Views/Partial/_SearchLayer.cshtml")
+
+@section foot{
+    <script src="/Scripts/jquery/pullUp.js"></script>
+    <script src="/Areas/MB/Themes/MB01/Content/Scripts/searchIndex.js"></script>
+<!-- 列表页加入购物车模块相关js开始-->
+<script type="text/javascript" src="/Areas/MB/Themes/MB01/Content/Scripts/SKU.js"></script>
+<script src="/Scripts/jquery.cookie.js"></script>
+<script src="/Scripts/inflate.js"></script>
+<script src="/Areas/MB/Themes/MB01/Content/Scripts/cart.js"></script>
+<script src="/Areas/MB/Themes/MB01/Content/Scripts/addCart.js"></script>
+<link href="/Scripts/jqueryui/base/jquery-ui-1.9.2.min.css" rel="stylesheet" type="text/css" />
+<script src="/Scripts/jqueryui/jquery-ui-1.9.2.custom.js" type="text/javascript"></script>
+<!-- 列表页加入购物车模块相关js结束-->
+}
+ 

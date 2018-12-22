@@ -1,0 +1,92 @@
+﻿ @{
+     Layout = "/Areas/MShop/Themes/F1/Views/Shared/_BaseLayout.cshtml";
+     ViewBag.Title = "个人中心";
+}
+@model  YSWL.MALL.Model.Members.SiteMessage
+ 
+<script src="/Areas/MShop/Themes/F1/Content/Scripts/UserCenter/readMsgSendMsg.js" type="text/javascript"></script>
+
+ 
+  <div data-role="content" class="ui-content text_width_100" role="main"  >
+  @if (Model != null)
+  {
+      <div data-role="content" class="ui-content text_width_100" role="main"  id="divReplyMsg">
+      <input type="hidden" value="@Model.SenderID" id="hidreceiverid" />
+      <div data-role="fieldcontain" class="ui-field-contain ui-body ui-br" >
+                                   
+              <input  id="txtTitle" name="txtTitle" type="text"   placeholder = "主题"   class="ui-input-text ui-body-c" />    
+                                    
+              <div id="titleTip" class="txterror tipClass">
+                                <span   class="txterror">&nbsp;</span>     
+              </div>
+                                   
+      </div>  
+          <div  data-role="fieldcontain" class="ui-field-contain ui-body ui-br" >
+                                   
+                              
+              <textarea placeholder = "消息内容"   class="ui-input-text ui-body-c"  id="txtContent" name="txtContent" style="height: 80px; "        rows="3" cols="1"></textarea>    
+                             
+                                  
+              <div id="contentTip" class="txterror tipClass">
+                                     
+              </div>
+                                 
+          </div>  
+
+          
+               
+          <a data-role="button" href="javascript:;" onclick="submitSendMsg();"  rel="external" id="submit-btn" data-theme="b" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-b">
+              <span class="ui-btn-inner"><span class="ui-btn-text">回复</span></span>
+          </a>
+  
+      </div>
+      
+      
+        <ul data-role="listview" data-inset="true" data-theme="d" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+        <li style="padding:5px 10px 5px 10px" class="ui-li ui-li-static ui-btn-up-d ui-first-child ui-last-child" id="step-2">
+            <table style="padding: 0; margin: 0; width: 100%;">
+                <tbody><tr>
+                           <td class="align_right align_top" width="80px"><label class="ui-input-text">发送者：</label></td>
+                           <td>
+                               <label class="ui-input-text"> @(Model.SenderID == -1 ? "管理员" : Model.SenderUserName) </label>  
+                           </td>
+                       </tr>
+                          
+                    <tr>
+                        <td class="align_right align_top" width="80px"><label class="ui-input-text">发送时间：</label></td>
+                        <td>
+                            <label class="price ui-input-text" >@(Model.SendTime.HasValue ? Model.SendTime.Value.ToString("yyyy-MM-dd HH:mm:ss") : "")</label>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td class="align_right align_top" width="80px"><label class="ui-input-text">内容：</label></td>
+                        <td title="未读消息,点击">
+                            <label class="ui-input-text" id="promotionsPriceId"> @(string.IsNullOrEmpty(Model.Title) ? "" : Model.Title + ":")@Model.Content  </label> 
+                        </td>
+                    </tr> 
+                    <tr>
+                        <td class="align_right align_top" width="80px"><label class="ui-input-text">操作：</label></td>
+                        <td>
+                            <p>
+                                <a href="javascript:;" rel="external" itemid="@Model.ID"  data-role="button" data-inline="true" data-mini="true" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" data-theme="c" class="ui-btn ui-btn-up-c ui-shadow ui-btn-corner-all ui-mini ui-btn-inline DelReceiveMsg">
+                                    <span class="ui-btn-inner"><span class="ui-btn-text">删除</span></span>
+                                </a>
+ 
+                            </p>
+                        </td>
+                    </tr>	
+                  
+                </tbody></table>
+
+        </li>
+    </ul>
+    
+      
+  }
+ 
+     </div>   
+          
+ 
+
+

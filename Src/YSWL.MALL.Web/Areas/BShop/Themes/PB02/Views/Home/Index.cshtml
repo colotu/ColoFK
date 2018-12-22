@@ -1,0 +1,191 @@
+﻿@using YSWL.Web
+@using MvcApplication = YSWL.Components.MvcApplication
+@{
+    Layout = "/Areas/BShop/Themes/PB02/Views/Shared/_BaseLayout.cshtml";
+}
+@if (YSWL.MALL.Web.MvcApplication.HasArea(YSWL.Web.AreaRoute.MShop))
+{
+    <script type="text/javascript">
+        try {
+            if ((navigator.userAgent.match(/(iPhone|iPod|Android|ios|iPad)/i))) {
+                location.replace('/m');
+            }
+        } catch (e) { }
+    </script>
+}
+<link href="~/Scripts/Swiper-2.7.6/idangerous.swiper.css" rel="stylesheet" />
+<script src="~/Scripts/Swiper-2.7.6/idangerous.swiper.min.js"></script>
+<script type="text/javascript">
+    pagename = 'HomePage';
+</script>
+<div class="bgc">
+    <!-- 导航、分类及轮播 -->
+
+    <div class="grid-main">
+
+        <!-- 轮播图 -->
+        <div class="wrap">
+            <div class="grid-c1">
+                @Html.Action("Statistics", "Home")
+                <div class="slider-wrap">
+                    <!-- 轮播图 -->
+                    @Html.Action("AdDetail", "Partial", new { id = 137, ViewName = "/Areas/BShop/Themes/PB02/Views/Home/_IndexAd.cshtml" })
+                </div>
+            </div>
+            <div class="grid-c2">
+                <div class="real-time-data">
+                    <div class="data-box" id="box1">
+                       @*<div class="title">
+                          市场行情指数日报（元）
+                          <a href="javascript:;" class="more">更多<em class="character">&gt;&gt;</em></a>
+                      </div>*@
+                        <div class="data-content" style="height: 155px;">
+                            @Html.Action("AdDetail", "Partial", new { id = 143, ViewName = "/Areas/BShop/Themes/PB02/Views/Home/_UpperRightCornerAd.cshtml" })
+                        </div>
+                        </div>
+                    <div class="data-box" id="contentList">
+                        @Html.Action("RecContentList", "Partial", new { ClassID = 19, Top = 9, recType= YSWL.MALL.Model.CMS.EnumHelper.ContentRec.Recomend, viewName = "/Areas/BShop/Themes/PB02/Views/Home/_ContentList.cshtml" })
+                    </div>
+                    <div class="data-box" id="liveTradingList">
+                        <div class="title">
+                            实时交易
+                        </div>
+                        @Html.Action("LiveTrading", "Home", new { Top = 9 })
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<!-- 活动 -->
+<div class="activity wrap">
+    <div class="grid-l">
+
+        <!-- 商铺展示 -->
+        <div class="module">
+            <div class="floor-line switch-building" id="tab_c">
+                <div class="floor-hd">
+                    <span class="txt">商铺展示</span>
+                    <span class="small-txt">@*海淀区嘉华大厦D座*@</span>
+                    <!-- start tab切换 -->
+                    <div class="tab-nav">
+                        <!-- start 表单切换按钮 -->
+                       @Html.Action("SuppAreasList", "Partial", new { AreaId=0, Top = 8, viewName = "/Areas/BShop/Themes/PB02/Views/Home/_SuppAreasList.cshtml" })
+                        <!-- end 表单切换按钮 -->
+                    </div>
+                    <!-- end tab切换 -->
+                </div>
+                <div class="floor-bd">
+                    <div class="floor-layout clearfix">
+                        <!-- start tab切换主体 -->
+                        @Html.Action("SuppAreasList", "Partial", new { AreaId = 0, Top = 8, viewName = "/Areas/BShop/Themes/PB02/Views/Home/_SuppAreasList2.cshtml" })
+                        <!-- end tab切换主体 -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- 推荐品牌 -->
+        @Html.Action("AdDetail", "Partial", new { id = 138, ViewName = "/Areas/BShop/Themes/PB02/Views/Home/_IndexAd2.cshtml" })
+
+        <!--推荐店铺-->
+        <div class="module">
+            <div class="floor-line">
+                <div class="floor-hd">
+                    <span class="txt">推荐店铺</span>
+                    <span class="small-txt">小二精选，好商好货</span>
+                </div>
+                @Html.Action("RecStore", "Partial", new { top = 8,viewName= "_RecStoreList" })
+            </div>
+        </div>
+        @Html.Action("AD", "Partial", new { AdvPositionId = 139, ViewName = "/Areas/BShop/Themes/PB02/Views/Home/_AD.cshtml" })
+        <!-- 推荐商品 -->
+        <div class="module">
+            <div class="floor-line">
+                <div class="floor-hd">
+                    <span class="txt">推荐商品</span>
+                    <span class="small-txt">为您推荐的爆款产品都在这里，速来浏览吧！</span>
+                </div>
+                <div class="floor-bd">
+                    <div class="pro-list-wrapper">
+                        @Html.Action("ProductList", "Home", new { Cid = 0, RecType = YSWL.MALL.Model.Shop.Products.ProductRecType.Recommend, Top = 8, viewName = "_ProductList" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="grid-r">
+        <div class="rank-list module">
+            <!-- start tab切换 -->
+            <div class="tab-nav" id="tab_a">
+
+                <!-- start 表单切换按钮 -->
+                <ul class="tab-tit clearfix">
+                    <li><a class="tab-active" href="javascript:;">当日商户销量排行</a></li>
+                    <li><a href="javascript:;">当月商户销量排行</a></li>
+                </ul>
+                <!-- end 表单切换按钮 -->
+                <!-- start tab切换主体 -->
+                <ul class="tab-content">
+                    <li class="tab-box">
+                        @Html.Action("MerchantSales", "Home", new { Top = 5, Type = "day", viewName = "_MerchantSales" })
+                    </li>
+                    <li class="tab-box hidden">
+                        @Html.Action("MerchantSales", "Home", new { Top = 5, Type = "mouth", viewName = "_MerchantSales" })
+                    </li>
+                </ul>
+                <!-- end tab切换主体 -->
+            </div>
+            <!-- end tab切换 -->
+        </div>
+        <div class="rank-list module">
+            <!-- start tab切换 -->
+            <div class="tab-nav" id="tab_b">
+
+                <!-- start 表单切换按钮 -->
+                <ul class="tab-tit clearfix">
+                    <li><a class="tab-active" href="javascript:;">当日商品销量排行</a></li>
+                    <li><a href="javascript:;">当月商品销量排行</a></li>
+                </ul>
+                <!-- end 表单切换按钮 -->
+                <!-- start tab切换主体 -->
+                <ul class="tab-content">
+                    <li class="tab-box">
+                        @Html.Action("ProductSales", "Home", new { Top = 5, Type = "day", viewName = "_ProductSales" })
+                    </li>
+                    <li class="tab-box hidden">
+                        @Html.Action("ProductSales", "Home", new { Top = 5, Type = "mouth", viewName = "_ProductSales" })
+                    </li>
+                </ul>
+                <!-- end tab切换主体 -->
+            </div>
+            <!-- end tab切换 -->
+        </div>
+        <div class="sidebar-title module">商铺精选<span class="small-txt">小二精选，好商好货</span></div>
+        @Html.Action("AdDetail", "Partial", new { id = 140, ViewName = "/Areas/BShop/Themes/PB02/Views/Home/_IndexAd3.cshtml" })
+    </div>
+    <div class="clear"></div>
+</div>
+
+<script type="text/javascript">
+    //tab切换效果
+    function tab_switch1(ele_id, activeclass) {
+        $("#" + ele_id + " .tab-tit").children().each(function () {
+            var xh = $(this).index();
+            $(this).find("*").click(function () {
+                $(this).addClass(activeclass);
+                $(this).parent().siblings().find("*").removeClass(activeclass);
+                $("#" + ele_id + " .tab-content").find(".tab-box").addClass("hidden");
+                //alert(xh);    
+                $("#" + ele_id + " .tab-content").find(".tab-box").eq(xh).removeClass("hidden");
+            })
+        });
+    }
+    //根据ID调用菜单切换函数
+    tab_switch1("tab_a","tab-active");
+    tab_switch1("tab_b", "tab-active");
+    tab_switch1("tab_c", "tab-active");
+    </script>

@@ -1,0 +1,21 @@
+﻿@using YSWL.MALL.ViewModel.SNS
+@using Webdiyer.WebControls.Mvc
+@model YSWL.MALL.ViewModel.SNS.PhotoList
+@{
+    if (ViewBag.IsCurrentUser==true)
+    {
+        ViewBag.Title = "我喜欢的宝贝 - 来" + ViewBag.SiteName + "，做最喜欢的自己，发现最受欢迎的网购单品和最靠谱的网店。快来" + ViewBag.SiteName + "寻找最热网购宝贝，变身时尚达人";
+    }
+    else
+    {
+        ViewBag.Title = "" + ViewBag.NickName + "喜欢的宝贝 - 来" + ViewBag.SiteName + "，做最喜欢的自己，发现最受欢迎的网购单品和最靠谱的网店。快来" + ViewBag.SiteName + "寻找最热网购宝贝，变身时尚达人";
+    }
+    Layout = "~/Areas/SNS/Themes/TufenXiang/Views/Shared/_UserProfileLayOut.cshtml";
+}
+<script src="/Scripts/jquery/maticsoft.waterfall.min.js" type="text/javascript"></script>
+<script src="/Scripts/jquery/maticsoft.img.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="@Url.Content("/Scripts/jquery.unobtrusive-ajax.min.js")"></script>
+ <script src="/Areas/SNS/Themes/TufenXiang/Content/Scripts/InfoBind.js" type="text/javascript"></script>
+<script src="/Areas/SNS/Themes/TufenXiang/Content/Scripts/targetComment.js" type="text/javascript"></script>
+@{Html.RenderPartial("~/Areas/SNS/Themes/TufenXiang/Views/UserProfile/FavList.cshtml", Model);}
+ @RenderPage("~/Areas/SNS/Themes/TufenXiang/Views/Partial/TargetCommentInput.cshtml")

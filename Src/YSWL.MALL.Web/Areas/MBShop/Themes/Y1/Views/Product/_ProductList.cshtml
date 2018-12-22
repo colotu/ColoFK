@@ -1,0 +1,108 @@
+﻿
+
+<script type="text/javascript">
+    $(function () {
+        waterFall.init({
+            //Ajax请求参数
+            AjaxOptions: {
+                //Ajax请求参数
+                Params: { ajaxViewName: "_ProductListWaterfall2", cid: $("#hidDataParam").val(), mod: $(".adb").attr("mod") },
+                //Params:@Html.Raw(ViewBag.DataParam),
+                //Ajax请求URL
+                DataURL: "@(ViewBag.BasePath)Product/Index"
+            },
+            //瀑布流起始索引记录器 - 用于累计
+            CurrentAjaxStartIndexHF: $('#hfCurrentPageAjaxStartIndex'),
+            //瀑布流起始索引
+            StartIndex:$('#hfCurrentPageAjaxStartIndex').val() ? parseInt($('#hfCurrentPageAjaxStartIndex').val()) : 0,
+            //瀑布流结束索引
+            EndIndex: $('#hfCurrentPageAjaxEndIndex').val() ? parseInt($('#hfCurrentPageAjaxEndIndex').val()) : 0,
+
+            //分页容器
+            PagedContainer: $('.in_pages'),
+            //列容器ID前缀
+            ColumnFirstId: "J_lazyload",
+            //列数
+            ColumnNumber: 0,RowNumber: 3
+        });
+        $.lazyFixedLoadImg('.prod_img', 115, 115);
+    });
+</script>
+
+@if (Model.ProductList != null)
+{
+    foreach (var item in Model.ProductList)
+    {
+       
+        <div class="list_box2">
+            <div class="recent_prod">
+                <div class="list_thumb">
+                    <a href="@(ViewBag.BasePath)p/d/@item.ProductId" class="">
+                        <img class="" src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.ThumbnailUrl1, "T115X115_")" alt="@item.ProductName">
+                        @switch ((int)item.ruleType)
+                        {
+                        case 0:
+                        <div class="prod_tip bg_red">
+                            打折
+                        </div>
+                        break;
+                        case 1:
+                        <div class="prod_tip bg_blue">
+                            减价
+                        </div>
+                        break;
+                        case 2:
+                        <div class="prod_tip bg_green">
+                            直降
+                        </div>
+                        break;
+                        default:
+                        break;
+                        }
+                    </a>
+                </div>
+                <div class="list_descriptions">
+
+                    <div class="product_name">@item.ProductName</div>
+                    <span class="price_red">￥@item.LowestSalePrice.ToString("f")</span>
+                </div>
+            </div>
+
+
+            @{
+                if (item.SalesType == 1 && item.SaleStatus == 1 && ViewBag.IsMultiDepot)
+                {
+                    <div class="cart icon" onclick="dialogShow(@item.ProductId, @item.SupplierId, '@item.ThumbnailUrl1',@item.SupplierId,@item.ProductId)">
+                       <span></span>
+                    </div>
+                }
+                else
+                {
+                    <div class="cart icon" onclick="dialogShow(@item.ProductId,@item.SupplierId,'@item.ThumbnailUrl1')">
+                        <span></span>
+                    </div>
+                }
+            }
+        </div>
+    }
+}
+else
+{
+    <div class="shp_cart_wrap mt44 mb50">
+        <div class="emptycart " style="display:block">
+            <div class="shp_cart_empty">
+                <div class="order_empty">
+                    <div class="search_empty_pic icon">
+                        <span></span>
+                    </div>
+                    <div class="empty_warning_text">
+                        暂无结果
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+<input type="hidden" id="hfCurrentPageAjaxStartIndex" value="@ViewBag.CurrentPageAjaxStartIndex" />
+<input type="hidden" id="hfCurrentPageAjaxEndIndex" value="@ViewBag.CurrentPageAjaxEndIndex" />
+<input type="hidden" id="hfCurrentPageAjaxSize" value="@ViewBag.CurrentPageAjaxSize" />

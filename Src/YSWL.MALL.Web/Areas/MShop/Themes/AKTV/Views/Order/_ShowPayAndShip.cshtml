@@ -1,0 +1,40 @@
+﻿@model YSWL.MALL.ViewModel.Shop.PayAndShip
+<a name="payAndShipFocus"  href="@(ViewBag.BasePath)Order/PayAndShipInfo?payId=@Model.CurrentPaymentMode.ModeId&shipId=@Model.CurrentShippingType.ModeId">
+<div class="step-title" style="display: none">
+    <div id="save-consignee-tip" class="step-right">
+    </div>
+    <strong>支付及配送方式</strong> <span class="step-action" id="payment-ship_edit_action"></span>
+</div>
+<div class="step-content">
+    <div id="payment-ship" class="sbox-wrap" style="position: relative; padding-left: 8px">
+        <div class="sbox">
+            <div class="s-content payment-info">
+                @if (Model.CurrentPaymentMode != null)
+                {
+                    <div class="payment-selected">
+                        @Model.CurrentPaymentMode.Name <span class="easyPayWarning"></span>
+                    </div>
+                    <input type="hidden" id="PaymentModeId" value="@Model.CurrentPaymentMode.ModeId" />
+                }
+                @if (Model.CurrentShippingType != null)
+                {
+                    <div class="way-list">
+                        <div class="way-item">
+                            @Model.CurrentShippingType.Name @*&nbsp;&nbsp;中小件商品&nbsp;&nbsp;<font color="#FF6600;">工作日、双休日与假日均可送货</font> <span id="promise_jd_message">&nbsp;&nbsp;<font color="red">6月19日（周三）9:00-15:00</font></span>*@
+                        </div>
+                    </div>
+                    <input type="hidden" id="ShippingTypeId" value="@Model.CurrentShippingType.ModeId" />
+                }
+            </div>
+        </div>
+    </div>
+</div>
+</a>
+<script type="text/javascript">
+    $(function () {
+        $('#freightPriceId').attr('freightPrice','@(ViewBag.Freight.ToString("F"))').text('￥@(ViewBag.Freight.ToString("F"))');
+              var totalprice = (parseFloat($('#payPriceId').attr('BasePrice')) + @(ViewBag.Freight)).toFixed(2);
+              $('#payPriceId').text('￥' + totalprice);
+              //GetActivList(parseFloat($("#couponPriceId").attr('couponPrice'))); //优惠券优惠金额
+    });
+</script>

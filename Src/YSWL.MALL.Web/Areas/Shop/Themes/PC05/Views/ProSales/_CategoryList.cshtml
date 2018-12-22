@@ -1,0 +1,43 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model List<YSWL.MALL.Model.Shop.PromoteSales.GroupBuy>
+@{
+    string cid = Request.RequestContext.RouteData.Values["cid"] != null ? Request.RequestContext.RouteData.Values["cid"].ToString() : "0";
+    string regionId = Request.RequestContext.RouteData.Values["regionId"] != null ? Request.RequestContext.RouteData.Values["regionId"].ToString() : "643";
+    string mod = Request.RequestContext.RouteData.Values["mod"] != null ? Request.RequestContext.RouteData.Values["mod"].ToString() : "default";
+}
+<ul class="sub-sul clearfix" id="propretyArea" count="4">
+                     	<li class="clearfix proTypeBox" id="attr_2" index="0"><span class="slil" title="购物">购物：</span>
+				                	<span class="slir">
+				                	<div class="divldss">
+                                    <span class="dsib">
+                                    <a class="item fenleilist" title="全部"  href="@(ViewBag.BasePath)ProSales/GroupBuy/@regionId/0/@mod" cid="0">全部</a>
+                                    </span> 
+                                    </div>
+				                	    <div class="divr">
+                                        	 @if (null != Model)
+    {
+        foreach (var item in Model)
+        { 	
+            <span class="dsib">
+            <a  class="item fenleilist" href="@(ViewBag.BasePath)ProSales/GroupBuy/@regionId/@item.CategoryId/@mod" cid="@item.CategoryId">@item.ProductCategory</a> 
+        </span>
+            
+        }
+    }
+  
+				                	 	              	 	 	                  	                      	 	 	                  	                   
+				                	 	 
+
+                                             </div>
+				                   		
+				                     </span>                    
+					                <div class="clear"></div>   
+				                </li>
+				            </ul>
+ 
+<script type="text/javascript">
+    $(function () {
+        $(".fenleilist[cid='@cid']").addClass("hover");
+    });
+</script>
+

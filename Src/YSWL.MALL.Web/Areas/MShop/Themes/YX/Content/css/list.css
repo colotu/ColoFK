@@ -1,0 +1,583 @@
+.page_list
+{
+    width: 100%;
+    float: left;
+}
+.page_list .y_hd .numadd, .m_shai .y_hd .numadd
+{
+    line-height: 1.4;
+}
+.page_list .y_hd .name, .m_shai .y_hd .name
+{
+    padding-top: 2px;
+    font-size: .9em;
+}
+.page_list .y_hd .num, .m_shai .y_hd .num
+{
+    font-size: .5em;
+}
+.page_list .shaied .y_cart_num
+{
+    display: block;
+}
+.page_list .y_cart_num
+{
+    display: none;
+    height: 12px;
+    top: -5px;
+    border-radius: 12px;
+    width: 12px;
+    min-width: 12px;
+}
+.page_list .y_cart_num:after
+{
+    content: "";
+    width: 12px;
+    height: 10px;
+    display: inline-block;
+    position: absolute;
+    top: 1px;
+    left: 50%;
+    margin-left: -6px;
+    
+    -webkit-background-size: 12px 10px;
+    background-size: 12px 10px;
+}
+.page_list .filter
+{
+    width: 100%;
+    height: 44px;
+    overflow: hidden;
+}
+.page_list .filter ul
+{
+    width: 100%;
+}
+.page_list .filter li
+{
+    position: relative;
+    height: 44px;
+    width: 25%;
+    float: left;
+    background: #f1f1f1;
+    -webkit-box-shadow: 0 -1px 0 0 #E5E5E5 inset;
+}
+.page_list .filter li:after
+{
+    content: '';
+    position: absolute;
+    top: 15px;
+    right: 0;
+    width: 0;
+    height: 14px;
+    border-left: 1px #ccc solid;
+}
+.page_list .filter li:last-child::after
+{
+    border: none;
+}
+.page_list .filter li.current:before
+{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 39px;
+    background: #f1f1f1;
+    z-index: -1;
+}
+.page_list .filter a
+{
+    position: relative;
+    display: block;
+    text-align: center;
+    line-height: 44px;
+    font-size: 1.07142em;
+}
+.page_list .filter .current
+{
+    -webkit-box-shadow: none;
+    background: url(../images/orderbg.png) 50% 100% no-repeat;
+    -webkit-background-size: 500px 6px;
+    background-size: 500px 6px;
+}
+.page_list .filter .current a, .page_list .filter .current_up a, .page_list .filter .current_down a
+{
+    color: #4f8ad9;
+}
+.page_list .filter .current_up a:before, .page_list .filter .current_down a:before
+{
+    content: "";
+    position: absolute;
+    top: 18px;
+    right: 14px;
+    width: 7px;
+    height: 9px;
+    background-image: url(../images/upAnddown.png);
+    background-repeat: no-repeat;
+    -webkit-background-size: 15px 9px;
+    background-size: 15px 9px;
+}
+.page_list .filter .current_down a:before
+{
+    background-position: -8px top;
+}
+.page_list .list a
+{
+    display: block;
+    height: 130px;
+    border-bottom: 1px #E5E5E5 solid;
+    -webkit-box-shadow: 0 1px #fff;
+    -ms-box-shadow: 0 1px #fff;
+    box-shadow: 0 1px #fff;
+    -webkit-tap-highlight-color: transparent;
+}
+.page_list .list a:last-child
+{
+    border-bottom: none;
+}
+@media (min-width:768px)
+{
+    .page_list .filter .current_up a:before, .page_list .filter .current_down a:before
+    {
+        right: 50px;
+    }
+    .page_list .filter .current_up a:after, .page_list .filter .current_down a:after
+    {
+        right: 54px;
+    }
+    .page_list .list
+    {
+        overflow: hidden;
+    }
+    .page_list .list a
+    {
+        float: left;
+        width: 50%;
+    }
+    .page_list .list a:last-child
+    {
+        border-bottom: 1px #E5E5E5 solid;
+        -webkit-box-shadow: none;
+        -ms-box-shadow: none;
+        box-shadow: none;
+    }
+}
+.page_list .list .img_wrap
+{
+    float: left;
+    width: 100px;
+    height: 100px;
+    margin: 15px 15px 0 10px;
+    font-size: 0;
+    text-align: center;
+    line-height: 98px;
+    border-radius: 5px;
+    background-color: #fff;
+}
+.page_list .list .img_wrap img
+{
+    vertical-align: middle;
+}
+.page_list .list .text_wrap
+{
+    position: relative;
+    overflow: hidden;
+    margin-right: 10px;
+    padding-top: 17px;
+}
+.page_list .list .text_wrap .name
+{
+    overflow: hidden;
+    height: 36px;
+    line-height: 18px;
+    font-size: 1.07142em;
+    color: #666;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+.page_list .list .text_wrap .promo
+{
+    overflow: hidden;
+    color: #4f8ad9;
+    height: 16px;
+    font-size: .92857em;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+.page_list .list .text_wrap .price
+{
+    padding-top: 28px;
+    text-align: left;
+}
+.page_list .list .text_wrap .feed
+{
+    float: right;
+    color: #666;
+    font-size: .85714em;
+}
+.page_list .list .text_wrap .y_pf
+{
+    color: #000;
+    font-size: 1.14285em;
+    font-weight: bolder;
+}
+.m_shai
+{
+    width: 87.5%;
+    float: left;
+    background-color: #222;
+}
+.m_shai .y_hd
+{
+    background: #1e1e1e;
+    color: #fff;
+    border-color: #000;
+    text-shadow: none;
+    text-shadow: 0 -1px 0 rgba(0,0,0,.25);
+}
+.m_shai .y_hdb
+{
+    border-radius: 4px;
+}
+.m_shai .y_hd .btn_submit
+{
+    background: #4d4d4d;
+    color: #fff;
+    box-shadow: 0 1px 0 0 rgba(255,255,255,.15) inset;
+}
+.m_shai .y_hd .btn_clear
+{
+    right: auto;
+    left: 6.25%;
+    border: 1px solid #000;
+    background: #313131;
+    border-color: #181818;
+}
+.m_shai .y_hd .disabled
+{
+    display: none;
+    background: #333;
+    color: #4d4d4d;
+    border-color: #1e1e1e;
+}
+.m_shai .y_hd .shaied .disabled
+{
+    display: inline-block;
+}
+.m_shai li
+{
+    line-height: 50px;
+    background: #313131;
+    font-size: 1.071428em;
+}
+.m_shai li:last-child > p
+{
+    border-bottom: none;
+    box-shadow: none;
+}
+.u_parent > p, .u_parent > .secondbox > p
+{
+    height: 50px;
+    text-shadow: 0 -1px 0 rgba(0,0,0,.25);
+    position: relative;
+    padding: 0 7%;
+    border-bottom: 1px solid rgba(255,255,255,.05);
+    box-shadow: 0 -1px 0 rgba(0,0,0,.3) inset;
+    color: #fff;
+}
+.u_parent > p:after
+{
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-width: 0 2px 2px 0;
+    border-color: #7f7f7f;
+    border-style: solid;
+    position: absolute;
+    top: 50%;
+    margin-top: -4px;
+    background: none;
+    right: 6.875%;
+    -ms-transform: rotate(-45deg);
+    -moz-transform: rotate(-45deg);
+    -o-transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+.u_parent p .num
+{
+    margin: 0 13px;
+    color: #7f7f7f;
+    float: left;
+}
+.u_parent p .activeList
+{
+    padding: 0 13px;
+    color: #6190d8;
+    overflow: hidden;
+    display: block;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+.u_parent p .classify
+{
+    display: block;
+    float: left;
+    position: relative;
+}
+.u_parent.actived
+{
+    height: auto;
+}
+.u_parent.actived > p
+{
+    border-bottom: none;
+}
+.u_parent.actived > p:after
+{
+    -ms-transform: rotate(-135deg);
+    -moz-transform: rotate(-135deg);
+    -o-transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+}
+.u_parent p.second:after
+{
+    -ms-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+}
+.u_parent p.secondactive
+{
+    border-bottom-color: rgba(0,0,0,.7);
+    box-shadow: none;
+}
+.u_parent p.secondactive:after
+{
+    -ms-transform: rotate(-135deg);
+    -moz-transform: rotate(-135deg);
+    -o-transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+}
+.m_shai .u_child
+{
+    color: #fff;
+    background: #222;
+}
+.m_shai .u_child > p
+{
+    text-shadow: 0 -1px 0 rgba(0,0,0,.25);
+    position: relative;
+    margin: 0 2.5%;
+    padding-left: 4.5%;
+    
+    background-size: 1px;
+}
+.m_shai .u_child > p:after
+{
+    content: "";
+    position: absolute;
+    width: 22px;
+    height: 22px;
+    top: 50%;
+    right: 6.875%;
+    margin-right: -11px;
+    margin-top: -11px;
+    
+    background-size: 45px 22px;
+    -webkit-background: 45px 22px;
+}
+.m_shai .u_child > p.selected:after
+{
+    background-position: right top;
+}
+.m_shai .u_child:last-child > p
+{
+    background: none;
+}
+.result_empty
+{
+    width: 320px;
+    margin: 0 auto;
+    padding: 60px 0;
+    text-align: center;
+}
+.result_empty .txt
+{
+    position: relative;
+    padding: 88px 0 21px 0;
+    font-size: 1.07142em;
+    color: #999;
+}
+.result_empty .txt:before
+{
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 72px;
+    height: 69px;
+    margin-left: -36px;
+    background-image: url(../images/nogoods.png);
+    background-repeat: no-repeat;
+    -webkit-background-size: 72px 69px;
+    background-size: 72px 69px;
+}
+.result_empty .btn_research
+{
+    display: inline-block;
+    width: 178px;
+    height: 43px;
+    line-height: 41px;
+    border: 1px #DADADA solid;
+    border-radius: 5px;
+    color: #666;
+    font-size: 1.28571em;
+    background: #ededed;
+    background: -webkit-gradient(linear,left top,left bottom,from(#fefefe),to(#ededed));
+    background: -webkit-linear-gradient(top,#fefefe,#ededed);
+    background: -moz-linear-gradient(top,#fefefe,#ededed);
+    background: -ms-linear-gradient(top,#fefefe,#ededed);
+    background: -o-linear-gradient(top,#fefefe,#ededed);
+    -webkit-box-shadow: 1px -1px #fff inset,-1px 1px #fff inset;
+    box-shadow: 1px -1px #fff inset,-1px 1px #fff inset;
+}
+.result_empty .btn_active
+{
+    background: #F3F3F3;
+    background: -webkit-gradient(linear,left top,left bottom,from(#E9E9E9),to(#FBFBFB));
+    background: -webkit-linear-gradient(top,#E9E9E9,#FBFBFB);
+    background: -moz-linear-gradient(top,#E9E9E9,#FBFBFB);
+    background: -ms-linear-gradient(top,#E9E9E9,#FBFBFB);
+    background: -o-linear-gradient(top,#E9E9E9,#FBFBFB);
+}
+#CssGaga
+{
+    content: "131022151151,clu,294";
+}
+     .J_float
+        {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 100;
+        }
+        .J_float .filter, .J_float .y_hd
+        {
+            max-width: 1024px;
+            margin: 0 auto;
+        }
+        .m_shai_wrapper
+        {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            max-width: 1024px;
+            height: 100%;
+            margin: 0 auto;
+            z-index: 9999;
+            overflow: hidden;
+        }
+        .m_shai_wrapper .m_shai
+        {
+            float: right;
+            height: 100%;
+        }
+        #J_iscroll_wrapper
+        {
+            position: relative;
+            overflow: hidden;
+        }
+        .J_main_wrapper
+        {
+            padding-top: 89px;
+        }
+         .page_item .goods_img
+                {
+                    width: 100%;
+                    max-width: 1024px;
+                    height: 202px;
+                    overflow: hidden;
+                    clear: both;
+                }
+                .J_list
+                {
+                    position: relative;
+                    overflow: hidden;
+                    height: 164px;
+                }
+                .J_scorll_box
+                {
+                    position: absolute;
+                    width: 1000000px;
+                }
+                .J_scorll_inline
+                {
+                    display: inline-block;
+                    overflow: hidden;
+                    width: auto;
+                }
+                .page_item .goods_img .mod_img ul
+                {
+                }
+                .page_item .y_hd
+                {
+                    max-width: 100%;
+                    width: 100%;
+                }
+                header.y_hd
+                {
+                    left: 0;
+                }
+                .J_scrollGiftList
+                {
+                    height: 90px;
+                }
+                .page_item .goods_give .item.J_scrollGiftList ul.J_scrollGiftBox
+                {
+                    position: absolute;
+                    width: 10000px;
+                }
+                .page_item .goods_price .price_wrap
+                {
+                    width: 300px;
+                }
+                .price_wx
+                {
+                    height: 26px;
+                    line-height: 26px;
+                    overflow: hidden;
+                    font-size: 20px;
+                    margin-bottom: 18px;
+                }
+                .co_red
+                {
+                    color: #d50900;
+                }
+                #J_goods_img
+                {
+                    margin-top: 0;
+                }
+                #J_tips_outer
+                {
+                    display: block;
+                    width: 100%;
+                    height: 100%;
+                    background-color: #f1f1f1;
+                }
+                #J_wx_buy_tips
+                {
+                    color: #666;
+                    font-size: 15px;
+                }
+                 .addCart-gray 
+ {
+     border:0;
+	background: red;
+  cursor: pointer;
+	text-shadow:0 -1px 0 rgba(0, 0, 0, .6);
+}

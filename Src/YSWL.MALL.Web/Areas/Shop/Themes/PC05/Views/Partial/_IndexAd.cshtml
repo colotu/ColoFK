@@ -1,0 +1,141 @@
+﻿@model List<YSWL.MALL.Model.Settings.Advertisement>
+<div class="i-banner e-cms" e_cms="slide" e_cdata="topBannerlist" style="margin: 0px auto;">
+        @if (Model != null)
+        {
+            	<ul>
+                  @foreach (var item in Model)
+            {
+                	<li style="display: none;">
+                        <a target="_blank" href="@item.NavigateUrl">
+		    			<div class="bannerimg" style="height: 407px; background: url(@item.FileUrl) 50% 50% no-repeat;"></div>
+		    			</a>
+                    </li>
+            }
+		    </ul>
+		    <span class="clear"></span>
+		    <div class="i-bbut-before" style="display: block; width: 320px;"></div>    
+		    <div class="i-bannerbut"><div class="i-bbut-before" style="display: block; width: 320px;"></div>
+                @foreach (var item in Model)
+                {
+                    	<a href="javascript:;" class="ie6"></a>
+                }
+		    </div>          
+        }
+		</div>
+
+
+<script type="text/javascript">
+(function($){
+	$.fn.lmqslide=function(options){
+	var opts=$.extend({},$.fn.lmqslide.defaults,options);
+	var auplay; 
+	var _this=$(this);
+	if($(".i-banner ul li")!=null){
+		$(".i-banner").each(function(){
+			$(this).find('li').eq(0).css('display','block');
+		});
+
+	}
+	if($('.js-ib-banner2 ul li')!=null){
+		$('.js-ib-banner2').each(function(){
+			$(this).find('li').eq(0).css('display','block');	
+		});
+	}
+	var toalNumber_tags = opts.toalNumber_tags;
+	var toalNumber = toalNumber_tags.length;
+	 return this.each(function(){
+		toalNumber_tags.hover(function(){
+			if(opts.autoplay){
+				clearInterval(auplay);
+			}
+			  opts.index=toalNumber_tags.index($(this));
+			  toalNumber_tags.removeClass('hover').eq(opts.index).addClass('hover');
+	          opts.banners.fadeOut(600).eq(opts.index).fadeIn(1200);
+		},function(){
+			if(opts.autoplay){
+		     auplay=setInterval(function(){showImg()},opts.autoTime);
+		 }
+		});
+		if(opts.autoplay){
+		 auplay=setInterval(function(){showImg()},opts.autoTime);
+		}
+	 });
+	 
+	 function showImg(){
+		 opts.index++;
+		if(opts.index<toalNumber){
+		 toalNumber_tags.removeClass('hover').eq(opts.index).addClass('hover');
+	     opts.banners.fadeOut(600).eq(opts.index).fadeIn(1200);
+		}else{
+			opts.index=0;
+	      toalNumber_tags.removeClass('hover').eq(opts.index).addClass('hover');
+	      opts.banners.fadeOut(600).eq(opts.index).fadeIn(1200);
+		  }
+	 }
+	}
+	$.fn.lmqslide.defaults={
+		index:0,
+		toalNumber_tags:null,
+		autoplay:false,
+		autoTime:5000,
+		banners:null
+	}
+})(jQuery)
+
+var lmqindex = {
+    init: function () {
+        this.banner();
+    },
+    banner: function () { //首页轮播
+        var box = $('.i-banner');  
+        var aUl = $('.i-banner ul');  
+        var aLi = $('.i-banner li');  
+        var aImg = aUl.find('img');  
+        var bt = $('.i-bannerbut');  
+        var aBt = bt.find('a'); 
+        var veiwWidth = window.screen.width;  
+        var imgWidth = 1280;
+        if (document.body.scrollWidth > 1263) {
+            $('.i-bbut-before').show().css("width", (screen.width - 1280) / 2 + "px");
+        }
+        //toReSize();
+        function toReSize() {
+            if (veiwWidth >= 1280) {
+                aUl.style.width = "1280px";
+                for (var i = 0; i < aLi.length; i++) {
+                    aLi[i].style.width = '1280px';
+                }
+            }
+            if (veiwWidth > 1000) {
+                for (var i = 0; i < aImg.length; i++) {
+                    aImg[i].style.left = -(imgWidth - veiwWidth) / 2 + 'px';
+                }
+            }
+        }
+        $('.i-banner').lmqslide({ banners: $(".i-banner ul li"), toalNumber_tags: $('.i-bannerbut a'), autoplay: true });
+         if ($('.js-ib-banner1 ul li') != null) {
+            $(".js-ib-banner1").each(function () {
+                $(this).find('li').eq(0).css('display', 'block');
+                var bt_a = $(this).find('.js-ib-bt1 a');
+                if (bt_a.size() == 1) {
+                    bt_a.parent().hide();
+                    $(this).lmqslide({ banners: $("ul li", this), toalNumber_tags: $('.js-ib-bt1 a', this) });
+                } else {
+                    $(this).lmqslide({ banners: $("ul li", this), toalNumber_tags: $('.js-ib-bt1 a', this), autoplay: true });
+                }
+            });
+        }
+        $('.js-ib-banner2').lmqslide({ banners: $(".js-ib-banner2 ul li"), toalNumber_tags: $('.js-ib-bt2 a'), autoplay: true, autoTime: 4000 });
+       
+
+    }
+}
+$(function(){
+	lmqindex.init();
+	var sw = document.body.scrollWidth;
+	$(".i-banner ul li .bannerimg").each(function(){
+		$(this).width(sw).height(407);
+	});
+})
+</script>  
+

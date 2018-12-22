@@ -1,0 +1,22 @@
+﻿@{
+     Layout = "/Areas/MShop/Themes/YX/Views/Shared/_SiteLayout.cshtml";
+     ViewBag.Title = "个人中心-我的收藏";
+}
+<link href="/Areas/MShop/Themes/YX/Content/Css/style.css" rel="stylesheet"type="text/css" />
+<link href="/Areas/MShop/Themes/YX/Content/Css/userstyle.css" rel="stylesheet" type="text/css" />
+<link href="/Areas/MShop/Themes/YX/Content/Css/gb.css" rel="stylesheet"type="text/css" />
+<link href="/Areas/MShop/Themes/YX/Content/Css/my.css" rel="stylesheet"type="text/css" />
+<script src="/Scripts/jquery.unobtrusive-ajax.min.js" type="text/javascript"></script>
+
+<div class="top"> <span><a href="@(ViewBag.BasePath)u">&lt;返回</a></span>
+  @Html.Partial("/Areas/MShop/Themes/YX/Views/Partial/_HeadRight.cshtml")
+</div>
+<div class="index_h1">我的收藏</div>
+<div class="favor_list" id="divmyfavorlist">
+       @Html.Action("FavorList", "UserCenter","MShop") 
+</div>
+ 
+
+   
+   
+ 

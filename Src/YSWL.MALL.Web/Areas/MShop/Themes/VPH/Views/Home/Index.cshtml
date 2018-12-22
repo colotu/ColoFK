@@ -1,0 +1,54 @@
+﻿@{
+    Layout = "/Areas/MShop/Themes/VPH/Views/Shared/_BaseLayout.cshtml";
+}
+<script src="/Areas/MShop/Themes/VPH/Content/Scripts/Judgehome.js" type="text/javascript"></script>
+<script src="/Areas/MShop/Themes/VPH/Content/Scripts/swipe.min.js" type="text/javascript"></script>
+@*顶部Start*@
+@Html.Action("Header","Partial",new{viewName="_CateHeader"})
+@*顶部End*@
+@*分类导航Start*@
+@Html.Action("CategoryList", new { cid = 0, top = 4, viewName = "_CategoryList" })
+@*分类导航End*@
+<div class="c-top">
+</div>
+<div style="margin-top: 5px;position: relative;">
+        <script type="text/javascript">
+            $(function () {
+                $("#btnSearch").click(function () {
+                    var keyword = $("#txtKeyWord").val();
+                    if (keyword == "") {
+                        ShowFailTip('请输入关键字！');
+                        return;
+                    }
+                    location.href = $YSWL.BasePath + "s/0/0/hot/0-0/" + keyword;
+                });
+            })
+</script>
+  <input name="keyword" id="txtKeyWord" value="" class="keyword" style="color: #999999; width: 98.5%;height: 30px;line-height: 30px;border: 1px solid #cfcbc5;background: #e8e8e8;" autocomplete="off">
+    <input type="button" value="搜商品" id="btnSearch" class="search-button" style=" float: right; right: 2%" autocomplete="off">
+</div>
+@*广告Start*@
+@Html.Action("AdDetail", "Partial", new { id = 49, ViewName = "_IndexAd" })
+@*广告End*@
+<div class="shop_tit clearfix">
+    <h1>
+        今日新品</h1>
+    |<span>每天10点 新品特卖</span></div>
+    @*品牌列表Start*@
+@Html.Action("HotBrands", "Home", new { top = 4, productTypeId = 2, viewName = "_HotBrands" })     
+@*品牌列表End*@
+<div class="space15">
+</div>
+@Html.Action("RecStore", "Partial", new { top = 6 })
+
+<div class="s_links">
+    <a href="javascript:;"><em class="s_tel"></em>新闻中心<span></span><p class="telnum"></p></a>
+    @Html.Action("NewsList", new { top = 4, ClassID = 9, ViewName = "_NewsList" })
+</div>
+
+  <div class="i_client">
+        <a href="javascript:;" mars_sead="client_download_btn">
+            <img src="/Areas/MShop/Themes/VPH/Content/images/downloadbtn.jpg" alt="云商未来微商城">
+        </a>
+    </div>
+

@@ -1,0 +1,35 @@
+﻿@model List<YSWL.MALL.Model.Settings.Advertisement>
+@if (Model != null)
+{
+<div class="module category-entry wrap clearfix">
+    <div class="category-entry-container">
+        <a class="arrow-left" href="javascript:;"></a>
+        <a class="arrow-right" href="javascript:;"></a>
+        <div class="swiper-wrapper">
+@foreach (var item in Model)
+{
+            <div class="swiper-slide">
+                <a href="@item.NavigateUrl" class="area-item"><img src="@item.FileUrl" alt="@item.AdvertisementName"></a>
+            </div>
+}
+        </div>
+        <div class="pagination"></div>
+    </div>
+    <script>
+      var category = new Swiper('.category-entry-container',{
+        paginationClickable: true,
+        slidesPerView: 4,
+        spaceBetween: 10,
+        loop: true,
+      })
+      $('.arrow-left').on('click', function(e){
+        e.preventDefault();
+        category.swipePrev();
+      })
+      $('.arrow-right').on('click', function(e){
+        e.preventDefault();
+        category.swipeNext();
+      })
+    </script>
+</div>
+}

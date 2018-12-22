@@ -1,0 +1,130 @@
+﻿
+@{
+    Layout = "/Areas/MBShop/Themes/Y1/Views/Shared/_NoFootLayout.cshtml";
+    ViewBag.Title = "";
+    ViewBag.Keywords = "";
+    ViewBag.Description = "";
+}
+<body class="bg">
+    <div class="main-wrapper" id="aaa">
+        <header class="m_header">
+            <div class="navbar-fixed-top">
+                <div class="m_header_bar">
+                    <div class="m_icon_goback icon" onclick="javascript:history.go(-1);">
+                        <span></span>
+                    </div>
+                    <p class="m_header_title">管理收货地址</p>
+                </div>
+            </div>
+        </header>
+
+
+        <div class="manage_addr mt44 mb50">
+            @if (Model != null && Model.Count > 0)
+            {
+            @*@item.ShippingId*@
+                foreach (var item in Model)
+                {
+            <div class="item_adder">
+                <div class="adder_infos">
+                    <span class="addr_na">@item.ShipName</span>
+                    <span class="addr_num">@item.CelPhone</span>
+                    <p class="address">@item.RegionFullName @item.Address</p>
+                </div>
+                <div class="addr_icons">
+                    
+                        @if (item.IsDefault)
+                        {
+                            
+                                <div class="default_active icon">
+                                    <span></span>
+                                    默认地址
+                                </div>
+
+                        }
+                        else
+                        {
+                            <a href="javascript:;" onclick="SetDefaultAddress(@(item.ShippingId))">
+                                <div class="default icon">
+                                    <span></span>
+                                    设为默认
+                                </div>
+                            </a>
+                        }
+
+
+
+
+                        <div class="fr">
+                            <a href="@(ViewBag.BasePath)UserCenter/ShippAddress/@(item.ShippingId)">
+                                <div class="edit icon">
+                                    <span></span>
+                                    编辑
+                                </div>
+                            </a>
+                            <a href="javascript:;" onclick="DelAddress(@(item.ShippingId))">
+                                <div class="delete icon">
+                                    <span></span>
+                                    删除
+                                </div>
+                            </a>
+                        </div>
+</div>
+            </div>
+                }
+            }
+            else
+            {
+                <div class="shp_cart_wrap mt44 mb50">
+                    <div class="emptycart wrap" style="display:block">
+                        <div class="shp_cart_empty">
+                            <div class="order_empty">
+                                <div class="search_empty_pic icon">
+                                    <span></span>
+                                </div>
+                                <div class="empty_warning_text">
+                                    您还没有创建收获地址
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+             }
+        </div>
+        <a href="@(ViewBag.BasePath)U/ShippAddress">
+            <nav class="navbar-fixed-bottom nav_bottom_focus bg_yellow">
+
+                <span class="font_white">新建收货地址</span>
+
+            </nav>
+        </a>
+
+    </div>
+    </body>
+<script type="text/javascript">
+    function DelAddress(id) {
+        $.post('@(ViewBag.BasePath)UserCenter/DelShippAddress/' + id,
+            function (data) {
+                if (data == "OK") {
+                    window.location.reload();
+                } else {
+                    AlertWarning("服务器忙, 请稍后再试!");
+                }
+            }
+        );
+    }
+    function SetDefaultAddress(id) {
+        $.post('@(ViewBag.BasePath)UserCenter/SetDefaultAddress/' + id,
+            function (data) {
+                if (data == "OK") {
+                    window.location.reload();
+                } else {
+                    AlertWarning("服务器忙, 请稍后再试!");
+                }
+            }
+        );
+    }
+</script>

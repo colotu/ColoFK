@@ -1,0 +1,33 @@
+﻿@{
+    Layout = "/Areas/MShop/Themes/F1/Views/Shared/_BaseLayout.cshtml";
+}
+ 
+<div data-role="content" class="ui-content" role="main">
+    <div class="m-left">
+        <p>您的订单存在风险，请查看订单状态或稍后重试。 </p>
+        <p>
+            订单号：@ViewBag.OrderCode
+        </p>
+    </div>
+
+    <a data-role="button" href="javascript:;" rel="external" id="btn-impay" data-theme="b" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-b">
+        <span class="ui-btn-inner"><span class="ui-btn-text">继续支付</span></span>
+    </a>
+</div>
+ 
+<input type="hidden" value="@ViewBag.OrderId" id="OrderId"/>
+<input type="hidden" value="@ViewBag.PayStatus" id="Status"/>
+<script type="text/javascript">
+    (function () {
+        var id = $('#OrderId').val();
+        var url;
+        if (id) {
+            url = '/pay/certification' + id + '/' + $YSWL.CurrentArea;
+        } else {
+            url = $YSWL.BasePath + 'UserCenter/Orders';
+        }
+        $('#btn-impay').unbind('click').bind('click', function () {
+            window.location.replace(url);
+        });
+    })();
+</script>

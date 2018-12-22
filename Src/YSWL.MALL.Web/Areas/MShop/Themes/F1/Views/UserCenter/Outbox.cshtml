@@ -1,0 +1,12 @@
+﻿   @{
+     Layout = "/Areas/MShop/Themes/F1/Views/Shared/_BaseLayout.cshtml";
+     ViewBag.Title = "个人中心-发件箱";
+   }
+ 
+   @using Webdiyer.WebControls.Mvc;
+@model PagedList<YSWL.MALL.Model.Members.SiteMessage>
+  <div data-role="content"   class="ui-content " role="main" id="OutBoxList">
+ 
+            @{Html.RenderPartial("~/Areas/MShop/Themes/F1/Views/UserCenter/_OutboxList.cshtml", Model);}
+ </div>
+ 

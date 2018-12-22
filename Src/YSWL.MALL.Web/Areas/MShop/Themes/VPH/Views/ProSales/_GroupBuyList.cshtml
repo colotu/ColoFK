@@ -1,0 +1,70 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model PagedList<YSWL.MALL.Model.Shop.PromoteSales.GroupBuy>
+<script type="text/javascript">
+     $(function () {
+       @* //        $("select:eq(2)").hide();
+        //        $(".sequence a[id1='@mod']").addClass("current").siblings().removeClass("current");
+        //        $("#arealist").load($YSWL.BasePath + "ProSales/GetArea/@regionId?cid=@cid&&mod=@mod");
+        //        $("select:eq(1)").die("change").live("change", function () {
+        //            $("select:eq(2)").hide();
+        //            window.location.href = $YSWL.BasePath + "ProSales/GroupBuy/" + $(this).val() + "/@cid/@mod";
+        //            //            $("#arealist").load($YSWL.BasePath + "ProSales/GetArea/" + $(this).val());
+        //            //            $(".content-list").load($YSWL.BasePath + "ProSales/GroupBuy/" + $(this).val() + "/@cid/@mod");
+        //            //            $("#arealist a:eq(0)").trigger("click");
+        //        });*@
+
+        $(".txtenddate").each(function () {
+            var endDate = $(this).attr("endDate");
+            var productId = $(this).attr("Product");
+            var myclass = new CountDown();
+            myclass.init({
+                id: 'txtenddate_' + productId,
+                //天数
+                day_Dom: $("#dayEnd_" + productId),
+                //小时 
+                hour_Dom: $("#hourEnd_" + productId),
+                //分钟
+                min_Dom: $("#minEnd_" + productId),
+                //秒
+                sec_Dom: $("#secEnd_" + productId),
+                endTime: endDate
+            });
+        });
+</script>
+@if (Model != null && Model.Count > 0)
+{
+    foreach (var item in Model)
+    {
+    <dl id="detailList" class="rs-item" style="min-height: 247px;">
+        <a href="@(ViewBag.BasePath)Product/GroupBuyDetail/@item.GroupBuyId" class="clearfix ablock">
+            <dt class="pic">
+                <img src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.GroupBuyImage, "T175X228_")" style="display: block;">
+            </dt>
+            <dd class="b_goods_name">
+                @item.ProductName
+            </dd>
+            <dd class="pricebox clearfix">
+                <span class="grallyprice fl">¥@item.Price.ToString("F")</span> <span class="valuation-star"
+                    style="padding: 0; overflow: auto; height: auto;"><span class="txt-star" style="padding: 0;">
+                        已有@(item.BuyCount)人团购 </span></span>
+                <p class="item-brand txtenddate" style="font-size: 12px;color: #7c7c7c;text-align: left;display: inline-block;" endDate="@((item.EndDate.ToUniversalTime() - Convert.ToDateTime("1970-01-01")).TotalMilliseconds.ToString("0"))" Product="@item.GroupBuyId"  id="txtenddate_@(item.GroupBuyId)" >
+                    剩余：<span id="dayEnd_@(item.GroupBuyId)">0</span>天<span id="hourEnd_@(item.GroupBuyId)">0</span>时
+                    <span id="minEnd_@(item.GroupBuyId)">0</span>分 <span id="secEnd_@(item.GroupBuyId)">
+                        0</span>秒
+                </p>
+        </a>
+    </dl> 
+    }
+    @Ajax.Pager(Model, new PagerOptions
+{
+    ShowDisabledPagerItems = false,
+    AlwaysShowFirstLastPageNumber = false,
+    PageIndexParameterName = "pageIndex",
+    NumericPagerItemCount = 5,
+    CurrentPagerItemTemplate = "<p class=\"in_s\">{0}</p>",
+    NumericPagerItemTemplate = "<p>{0}</p>",
+    NavigationPagerItemTemplate = "<p>{0}</p>",
+    CssClass = "in_pages",
+     
+}).AjaxOptions(a => a.SetUpdateTargetId("ProductListDiv"))
+}

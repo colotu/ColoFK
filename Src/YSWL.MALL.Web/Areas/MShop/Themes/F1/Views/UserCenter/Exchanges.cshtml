@@ -1,0 +1,104 @@
+﻿ @{
+     Layout = "/Areas/MShop/Themes/F1/Views/Shared/_BaseLayout.cshtml";
+     ViewBag.Title = "个人中心-积分兑换";
+     YSWL.MALL.Model.Members.UsersExpModel UserInfo = ViewBag.UserInfo;
+ }
+ @using Webdiyer.WebControls.Mvc
+@model PagedList<YSWL.MALL.Model.Shop.Gift.ExchangeDetail>
+@section foot{
+    <script type="text/javascript">
+        $('#divPage a[href]').attr("rel", "external");
+        
+        $(function() {
+            var totalPoint =parseInt('@UserInfo.Points');
+            $("#btnExchange").click(function() {
+                var point =parseInt($(".radExc:checked").attr("point"));
+                if (!point) {
+                    ShowFailTip(" 请选择优惠券！");
+                    return;
+                }
+                if (point > totalPoint) {
+                    ShowFailTip(" 您的积分不足！");
+                    return;
+                }
+                var ruleId = $(".radExc:checked").attr("ruleId");
+                $.ajax({
+                    type: "POST",
+                    dataType: "text",
+                    url: "@(ViewBag.BasePath)UserCenter/AjaxExchange",
+                    data: { RuleId: ruleId },
+                    success: function(data) {
+                        if (data == "True") {
+                            ShowSuccessTip("兑换优惠券成功！");
+                            setTimeout(function() {
+                                window.location.reload();
+                            }, 1000);
+                        } else if (data == "NoPoints") {
+                            ShowFailTip(" 您的积分不足！");
+                        } else {
+                            ShowFailTip("服务器繁忙，请稍候再试！");
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+ 
+ <div data-role="content"   class="ui-content " role="main" >
+<div style=" font-family:微软雅黑; font-size:14px;margin-left:10px;">您当前的积分:<span style="color: #ff8a00;"> @UserInfo.Points  </span></div>
+@Html.Action("CouponRule", "UserCenter", new { area = "MShop" })
+@if (Model != null)
+{
+    foreach (var item in Model)
+    {<ul data-role="listview" data-inset="true" data-theme="d" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+         <li style="padding:5px 10px 5px 10px" class="ui-li ui-li-static ui-btn-up-d ui-first-child ui-last-child"  >
+             <table style="padding: 0; margin: 0; width: 100%;">
+                 <tbody><tr>
+                            <td class="align_right align_top" width="80px"><label class="ui-input-text">兑换日期：</label></td>
+                            <td>
+                                <label class="ui-input-text">@item.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")</label>  
+                            </td>
+                        </tr>
+                          
+                     <tr>
+                         <td class="align_right align_top" width="80px"><label class="ui-input-text">兑换面值：</label></td>
+                         <td>
+                             <label class="ui-input-text" ><strong style="color: #ff8a00;">@(item.Price.HasValue ? item.Price.Value.ToString("F") : "0")</strong> </label>
+                         </td>
+                     </tr>
+
+                     <tr>
+                         <td class="align_right align_top" width="80px"><label class="ui-input-text">消耗积分：</label></td>
+                         <td  >
+                            <label class="ui-input-text" > @item.CostScore </label>
+                         </td>
+                     </tr> 
+                     <tr>
+                         <td class="align_right align_top" width="80px"><label class="ui-input-text">状态：</label></td>
+                         <td>
+                           <label class="ui-input-text" >  @(item.Status == 1 ? "兑换成功" : "兑换失败")  </label>
+                         </td>
+                     </tr>	
+                  
+                 </tbody></table>
+
+         </li>
+     </ul>
+   
+    
+    }
+    <div id="divPage">
+    @Html.Pager(Model, new PagerOptions
+{
+    PageIndexParameterName = "p",
+    NumericPagerItemCount = 3,
+    CurrentPagerItemTemplate = "<p class=\"in_s\">{0}</p>",
+    NumericPagerItemTemplate = "<p>{0}</p>",
+    NavigationPagerItemTemplate = "<p>{0}</p>",
+    CssClass = "in_pages"
+})
+  </div>
+}
+</div>

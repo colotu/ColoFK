@@ -1,0 +1,87 @@
+﻿@model YSWL.MALL.ViewModel.SNS.PhotoList
+@{
+    ViewBag.Title = "图片搜索";
+    Layout = "~/Areas/SNS/Themes/TufenXiang/Views/Shared/_BaseLayOut.cshtml";
+
+}
+<script src="/Scripts/jquery/maticsoft.waterfall.min.js" type="text/javascript"></script>
+<script src="/Scripts/jquery/maticsoft.img.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="@Url.Content("/Scripts/jquery.unobtrusive-ajax.min.js")"></script>
+ <script src="/Areas/SNS/Themes/TufenXiang/Content/Scripts/InfoBind.js" type="text/javascript"></script>
+<script src="/Areas/SNS/Themes/TufenXiang/Content/Scripts/targetComment.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+    $(function () {
+        var tkeyword = $.getUrlParam("keyword") == null ? "" : $.getUrlParam("keyword");
+        $("#p_Keyword").val(tkeyword);
+        $("#@(ViewBag.sequence)").css('color', '#2466b7');
+        $(".searchbtn").click(function (e) {
+            e.preventDefault();
+            var keyword = $("#p_Keyword").val();
+            if (keyword) {
+                window.location = "@(ViewBag.BasePath)Search/Photo?type=hot&keyword=" + encodeURIComponent(keyword);
+            }
+            else {
+                window.location = "@(ViewBag.BasePath)Search/Photo?type=hot";
+            }
+        });
+
+        $("#popular").click(function (e) {
+            e.preventDefault();
+            var keyword = $("#p_Keyword").val();
+            if (keyword) {
+                window.location = "@(ViewBag.BasePath)Search/Photo?type=popular&keyword=" + encodeURIComponent(keyword);
+            }
+            else {
+                window.location = "@(ViewBag.BasePath)Search/Photo?type=popular";
+            }
+        });
+        $("#new").click(function (e) {
+            e.preventDefault();
+            var keyword = $("#p_Keyword").val();
+            if (keyword) {
+                window.location = "@(ViewBag.BasePath)Search/Photo?type=new&keyword=" + encodeURIComponent(keyword);
+            }
+            else {
+                window.location = "@(ViewBag.BasePath)Search/Photo?type=new";
+            }
+        });
+        $("#hot").click(function (e) {
+            e.preventDefault();
+            var keyword = $("#p_Keyword").val();
+            if (keyword) {
+                window.location = "@(ViewBag.BasePath)Search/Photo?type=hot&keyword=" + encodeURIComponent(keyword);
+            }
+            else {
+                window.location = "@(ViewBag.BasePath)Search/Photo?type=hot";
+            }
+        });
+    });
+</script>
+  <div class="search_bk">
+<div class="search_bk_1">
+     <div class="search_bk_1_a"><input name="" type="" value="" id="p_Keyword"></div>
+     <div class="search_bk_1_b"><a href="javascript:void(0)" class="searchbtn"><img src="/Areas/SNS/Themes/TufenXiang/Content/images/search_1.jpg"></a></div>
+  </div>
+  <div class="search_bk_2"> <a class="btnPhoto" href="javascript:void(0)"><span>图片</span></a> <a class="btnAlbums" href="javascript:void(0)">专辑</a>　<a class="btnUser" href="javascript:void(0)">用户</a>
+  <a class="btnGroups2" href="javascript:void(0)">
+小组</a></div>
+<div class="clear"></div>
+</div>
+<div class="os" >
+   <div class="order">
+   <div class="order_1">排序：</div>
+   <div class="order_2">
+     <ul>
+         <li><a href="javascript:void(0)" id="popular">潮流</a></li>
+         <li><a href="javascript:void(0)" id="new">最新</a></li>
+         <li style="border-right: 0;"><a href="javascript:void(0)" id="hot">最热</a></li>
+     </ul>
+   </div>
+</div>
+<div class="clear"></div>
+</div>
+    <div class="clear">
+    </div>
+ @{Html.RenderPartial("PhotoList", Model);}
+  @RenderPage("~/Areas/SNS/Themes/TufenXiang/Views/Partial/TargetCommentInput.cshtml")

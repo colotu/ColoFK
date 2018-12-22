@@ -1,0 +1,46 @@
+﻿@model YSWL.MALL.ViewModel.Shop.PayAndShip
+
+    <a name="payAndShipFocus"  href="@(ViewBag.BasePath)Order/PayAndShipInfo?payId=@Model.CurrentPaymentMode.ModeId&shipId=@Model.CurrentShippingType.ModeId">
+        
+        <section class="section_2 section_4" data-type="2" ytag="21000" id="J_addressSection">
+              <div class="m_input">
+                  <div class="label" style="margin-top: 13%;">
+                      支付及配送方式</div>
+                  <div class="input">
+                      <div id="J_defaultReceiverWrapper" style="margin-left: 20px;">
+                          <p class="person">
+                               @if (Model.CurrentPaymentMode != null)
+                        {
+                            <div class="payment-selected">
+                                @Model.CurrentPaymentMode.Name <span class="easyPayWarning"></span>
+                            </div>
+                            <input type="hidden" id="PaymentModeId" value="@Model.CurrentPaymentMode.ModeId" />
+                        }
+                          </p>
+                          <p class="address">
+                               @if (Model.CurrentShippingType != null)
+                               {
+                            <div class="way-list">
+                                <div class="way-item">
+                                    @Model.CurrentShippingType.Name 
+                                </div>
+                            </div>
+                            <input type="hidden" id="ShippingTypeId" value="@Model.CurrentShippingType.ModeId" />
+                               }</p>
+                      </div>
+                    
+                  </div>
+              </div>
+          </section>
+    </a>
+
+
+   
+<script type="text/javascript">
+    $(function () {
+       $('#freightPriceId').attr('freightPrice','@(ViewBag.Freight.ToString("F"))').text('￥@(ViewBag.Freight.ToString("F"))');
+              var totalprice = (parseFloat($('#payPriceId').attr('BasePrice')) + @(ViewBag.Freight)).toFixed(2);
+              $('#payPriceId').text('￥' + totalprice);
+              //GetActivList(parseFloat($("#couponPriceId").attr('couponPrice'))); //优惠券优惠金额
+    });
+</script>

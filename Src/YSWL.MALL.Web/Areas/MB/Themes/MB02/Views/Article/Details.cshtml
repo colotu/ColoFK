@@ -1,0 +1,75 @@
+﻿@{
+   Layout = "/Areas/MB/Themes/MB02/Views/Shared/_BaseLayout.cshtml";
+}
+@model YSWL.MALL.Model.CMS.Content
+@section head{
+    <link href="/Areas/MB/Themes/MB02/Content/Css/main.css?v=1.2" rel="stylesheet" />
+}
+<input type="hidden" id="hidCid" value="@Model.ClassID"/>
+<div class="main_wrapper">
+    <div class="news_wrap">
+        <header>
+            <div class="top_navbar fixed_header">
+                @Html.Partial("/Areas/MB/Themes/MB02/Views/Partial/_Back.cshtml")
+                <p class="header_title">文章详情</p>
+            </div>
+        </header>
+        <div class="top"></div>
+        <div class="news_content pd">
+            <h2 class="news_title">@Model.Title</h2>
+            <div class="news_info">
+                <div class="news_writer">@Model.BeFrom</div>
+                <div class="news_date">@Model.CreatedDate.ToString("yyyy-MM-dd HH:mm")</div>
+            </div>
+            <div class="news_details">
+                @Html.Raw(YSWL.MALL.BLL.Settings.SEORelationManage.FilterStr(Model.Description, true, true, false, false, false, Model.ContentID, "CMSDescription"))
+                <div class="news_digg">
+                    <div class="digg_btn"  contentId="@Model.ContentID">
+                        <span class="icon_digg"></span><span id="TotalSupport">@Model.TotalSupport</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript">
+    function Support(ContentID) {
+        $.ajax({
+            url: "@(ViewBag.BasePath)Article/Support",
+            type: 'post',
+            dataType: 'json',
+            async: true, // 同步请求将锁住浏览器，用户其它操作必须等待请求完成才可以执行。
+            timeout: 10000,
+            data: {
+                id: ContentID
+            },
+            success: function (jsondata) {
+                switch (jsondata.STATUS) {
+                    case "NOTALLOW":
+                        $('.digg_btn').addClass("actived");
+                        ShowFailTip("您已经赞过了！");
+                        break;
+                    case "SUCC":
+                        $("#TotalSupport").text(jsondata.TotalSupport);
+                        break;
+                    case "FAIL":
+                        $('.digg_btn').removeClass("actived");
+                        ShowFailTip("操作失败！");
+                        break;
+                    default:
+                        $('.digg_btn').removeClass("actived");
+                        break;
+                }
+            }
+        });
+
+    }
+
+    $(".digg_btn").click(function () {
+        if (!$(this).is(".actived")) {
+            $(this).addClass("actived");
+            Support($(this).attr('contentId'));
+        }
+    })
+</script>

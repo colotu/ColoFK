@@ -1,0 +1,16 @@
+﻿<div data-role="header" style="display:none;" id="div_header"  data-tap-toggle="false" class="ui-header ui-bar-a" role="banner">
+     <a href="javascript:;" onclick="history.go(-1)" id="a_back" data-icon="back">返回</a>
+   <b class="ui-two_title" role="heading"  aria-level="1">@(ViewBag.Name)</b> 
+</div>
+<script type="text/javascript">
+//    document.title = $('#div_header .ui-two_title').text();
+    $(function () {
+        if (navigator.userAgent.toLowerCase().indexOf('micromessenger/') == -1) { 
+            $('#div_header').show(); //显示标题
+            $('#div_header').attr('data-position', 'fixed'); //固定
+        } else {//通过微信浏览器访问
+            $('#order-layout.ui-content').css('top', '0'); //列表页清除头部空白
+        }
+    });
+</script> 
+ 

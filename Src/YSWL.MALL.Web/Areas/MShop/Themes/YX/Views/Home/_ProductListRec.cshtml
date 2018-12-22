@@ -1,0 +1,22 @@
+﻿@using YSWL.MALL.Model.Shop.Products
+@model List<YSWL.MALL.Model.Shop.Products.ProductInfo>
+@{
+    string productType = ViewBag.productType;
+}
+     @if (Model != null && Model.Count > 0)
+     {
+          foreach (var item in Model)
+          {
+           <span  class="productType" style="margin-bottom: 5px;">
+        <dl class="tit">
+            <dt class="name">
+           @Html.ActionLink(productType, "ProductList", "Product", new { RecType = ProductRecType.Recommend }, new { })
+            </dt>
+            <dd class="num">
+                @YSWL.Common.StringPlus.SubString(item.ProductName,8,null)</dd>
+        </dl>
+        <p class="img_wrap">
+              <img href="@(ViewBag.BasePath)p/d/@item.ProductId" src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.ThumbnailUrl1, "T175X228_")" alt="@ViewBag.productType" width="150px;"  style="cursor: pointer;"> </p>
+    </span>
+          }
+     }

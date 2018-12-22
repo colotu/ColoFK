@@ -1,0 +1,48 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model YSWL.MALL.ViewModel.Shop.ProductListModel
+@if (Model.ProductPagedList != null)
+{
+    <div class="list J_searchList" id="ProductListDiv" style="background-color: #fff;min-height: 480px;">
+        <div style="overflow: hidden;">
+            @foreach (var item in Model.ProductPagedList)
+            {
+                <a href="@(ViewBag.BasePath)p/d/@item.ProductId" class="J_datainfo T_ytag" >
+                    <div class="img_wrap">
+                        <img src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.ThumbnailUrl1, "T115X115_")" width="100" height="100">
+                    </div>
+                    <div class="text_wrap">
+                        <p class="name" >
+                            @item.ProductName</p>
+                        <p class="promo">
+                            @YSWL.Common.StringPlus.SubString(YSWL.Common.InjectionFilter.HtmlFilter(item.Description ?? ""), 16, "...")</p>
+                        <p class="price">
+                            @*<span class="feed">@(item.SaleCounts)人购买</span>*@<span class="y_pf">¥ @item.LowestSalePrice.ToString("F")</span>
+                        </p>
+                    </div>
+                </a>
+            }
+        </div>
+        <div>
+            @Ajax.Pager(Model.ProductPagedList, new PagerOptions
+                {
+                    ShowDisabledPagerItems = false,
+                    AlwaysShowFirstLastPageNumber = false,
+                    PageIndexParameterName = "pageIndex",
+                    NumericPagerItemCount = 5,
+                    CurrentPagerItemTemplate = "<p class=\"in_s\">{0}</p>",
+                    NumericPagerItemTemplate = "<p>{0}</p>",
+                    NavigationPagerItemTemplate = "<p>{0}</p>",
+                    CssClass = "in_pages",
+                     
+                }).AjaxOptions(a => a.SetUpdateTargetId("ProductListDiv"))
+        </div>
+    </div>
+
+}
+else
+{
+    <div class="list J_searchList" id="ProductListDiv">
+        <p style="text-align: center;margin-top: 20px;">该条件下没有商品</p>
+        <p style="text-align: center;margin-top: 20px;"><a href="@(ViewBag.BasePath)">返回首页</a></p>
+    </div>
+}

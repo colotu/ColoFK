@@ -1,0 +1,91 @@
+﻿
+@model YSWL.MALL.ViewModel.Shop.ProductListModel
+@using Webdiyer.WebControls.Mvc
+    <script type="text/javascript">
+                       $(function () {
+                           waterFall.init({
+                               //Ajax请求参数
+                               AjaxOptions: {
+                                   //Ajax请求参数
+                                   Params: { ajaxViewName: "_ProductListWaterfall2" },
+                                   //Params:@Html.Raw(ViewBag.DataParam),
+                                   //Ajax请求URL
+                                   DataURL: "@(ViewBag.BasePath)Product/Index"
+                               },
+                               //瀑布流起始索引记录器 - 用于累计
+                               CurrentAjaxStartIndexHF: $('#hfCurrentPageAjaxStartIndex'),
+                               //瀑布流起始索引
+                               StartIndex:$('#hfCurrentPageAjaxStartIndex').val() ? parseInt($('#hfCurrentPageAjaxStartIndex').val()) : 0,
+                               //瀑布流结束索引
+                               EndIndex: $('#hfCurrentPageAjaxEndIndex').val() ? parseInt($('#hfCurrentPageAjaxEndIndex').val()) : 0,
+
+                               //分页容器
+                               PagedContainer: $('.in_pages'),
+                               //列容器ID前缀
+                               ColumnFirstId: "J_lazyload",
+                               //列数
+                               ColumnNumber: 0,RowNumber: 3
+                           });
+                           $.lazyFixedLoadImg('.list_thumb', 115, 115);
+                       });
+    </script>
+    <div class="index_title"  id="J_lazyload">
+        @*@ViewBag.CategoryName*@
+    </div>
+    @if (Model != null && Model.ProductList != null && Model.ProductList.Count > 0)
+    {
+
+
+        foreach (var item in Model.ProductList)
+        {
+
+            <div class="list_box2">
+                <div class="home_prod">
+                    <div class="list_thumb">
+                        <a href="@(ViewBag.BasePath)p/d/@item.ProductId" class="">
+                            <img class="" src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.ThumbnailUrl1, "T115X115_")" >
+                        </a>
+                        @switch (item.ruleType)
+                        {
+                            case 0:
+                                <div class="prod_tip bg_red">
+                                    打折
+                                </div>
+                                break;
+                            case 1:
+                                <div class="prod_tip bg_blue">
+                                    减价
+                                </div>
+                                break;
+                            case 2:
+                                <div class="prod_tip bg_green">
+                                    直降
+                                </div>
+                                break;
+                            default:
+                                break;
+                        }
+                    </div>
+                    <div class="list_descriptions">
+                        <div class="product_name">@item.ProductName</div>
+                        
+                        <span class="price_red">￥@item.LowestSalePrice.ToString("f")</span>
+                    </div>
+                    <div class="cart icon" onclick="dialogShow(@item.ProductId,@item.SupplierId,'@item.ThumbnailUrl1')">
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+        }
+
+
+        <input type="hidden" id="hfCurrentPageAjaxStartIndex" value="@ViewBag.CurrentPageAjaxStartIndex" />
+                <input type="hidden" id="hfCurrentPageAjaxEndIndex" value="@ViewBag.CurrentPageAjaxEndIndex" />
+                <input type="hidden" id="hfCurrentPageAjaxSize" value="@ViewBag.CurrentPageAjaxSize" />
+    }
+ 
+
+
+
+
+

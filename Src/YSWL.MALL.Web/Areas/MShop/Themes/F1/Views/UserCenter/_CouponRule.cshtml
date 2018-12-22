@@ -1,0 +1,27 @@
+﻿@model List<YSWL.MALL.Model.Shop.Coupon.CouponRule>
+
+@if (Model != null && Model.Count > 0)
+{
+  <table style="padding: 0; margin: 0; width: 100%;" >
+                        <tbody class="consignee-form" id="consignee-form">
+                 
+                            <tr class="payment">
+                                <td class="item">
+                                   @foreach (var item in Model)
+                                   {
+                                       <input type="radio" class="radExc radio hookbox" name="RadioGroup1" id="ruleId-@item.RuleId" value="@item.CouponPrice" ruleId="@item.RuleId" point="@item.NeedPoint"  />
+                                            <label for="ruleId-@item.RuleId">
+                                               @(item.Name)(需@(item.NeedPoint)积分) 
+                                            </label>
+                                   
+                                   }
+                                </td>
+                            </tr>
+ 
+                        </tbody></table>
+ 
+        <a data-role="button" href="javascript:;"  id="btnExchange" rel="external"   data-theme="b" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-btn-up-b ui-shadow ui-btn-corner-all">
+                <span class="ui-btn-inner"><span class="ui-btn-text">兑换</span></span>
+            </a>
+}           
+ 

@@ -1,0 +1,67 @@
+﻿       @{
+    Layout = null;
+}
+@using Webdiyer.WebControls.Mvc
+@model PagedList<YSWL.MALL.Model.SNS.GroupTopics>
+
+<div class="content_post">
+
+@if (Model != null)
+{
+     foreach (YSWL.MALL.Model.SNS.GroupTopics item in Model)
+     {
+           <div class="content_post_one" style=" margin-top:25px">
+@*           <dl class="chunk"><a href="javascript:;">149</a></dl>
+*@
+               <dl class="chunk"><a href="@(ViewBag.BasePath)Group/TopicReply?id=@item.TopicID">@item.ReplyCount</a></dl>
+               <dl class="author" style=" width:440px">
+                   <dt class="author_tit"><a href="@(ViewBag.BasePath)Group/TopicReply?id=@item.TopicID">@item.Title</a></dt>
+                   <dd class="author_nam">
+                      <p class="author_nam_a"><a href="@(ViewBag.BasePath)User/Posts/@item.CreatedUserID"><img width="15px" height="15px" alt="@(item.CreatedNickName)" src="/@(YSWL.Components.MvcApplication.UploadFolder)/User/Gravatar/@(item.CreatedUserID).jpg"/></a></p>
+                      <p class="author_nam_b"><a href="@(ViewBag.BasePath)User/Posts/@item.CreatedUserID">@item.CreatedNickName</a></p>
+                   </dd>
+               </dl>
+               <dl class="reply"  style=" width:150px">
+            @*     <p></p>*@
+                 <p style="margin-top: 20px;">@item.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")  <a href="@(ViewBag.BasePath)Group/TopicReply?id=@item.TopicID">回复</a></p>
+                   @if (ViewBag.IsCreator != null && ViewBag.IsCreator)
+                   {
+                     if (item.IsRecomend == 0)
+                     {
+                       <p>
+                           <a href="javascript:void(0)" class="topicRecommand" topicid="@item.TopicID">推荐</a>
+                           <a style="display:none" href="javascript:void(0)" class="CancellTopicRecommand" topicid="@item.TopicID">取消推荐</a></p>
+                     }
+                     else
+                     {
+                       <p >
+                           <a style="display:none" href="javascript:void(0)" class="topicRecommand" topicid="@item.TopicID">推荐</a>
+                           <a href="javascript:void(0)" class="CancellTopicRecommand" topicid="@item.TopicID">取消推荐</a></p>
+                     }
+                   }
+               </dl>
+           <div class="clear"></div>
+           </div>
+     }
+}
+        <div class="clear"></div>
+        </div>
+
+                  <center>
+        <!--jQuery Ajax Paging Start-->
+        @if (Model != null)
+        {
+            Ajax.Pager(Model, new PagerOptions()
+            {
+                CssClass = "in_pages",
+                PageIndexParameterName = "page",
+                NumericPagerItemCount = 5,
+                NumericPagerItemTemplate = "<p>{0}</p>",
+                NavigationPagerItemTemplate = "<p>{0}</p>"
+            }).AjaxOptions(x => x.SetUpdateTargetId("YSWLToplist"));
+        }
+        <!--jQuery Ajax Paging End-->
+    </center>
+           
+
+      

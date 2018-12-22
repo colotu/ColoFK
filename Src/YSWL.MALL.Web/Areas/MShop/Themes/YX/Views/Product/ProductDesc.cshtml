@@ -1,0 +1,32 @@
+﻿@{
+    Layout = "~/Areas/MShop/Themes/YX/Views/Shared/_BaseLayout.cshtml";
+}
+<script type="text/javascript" src="/Scripts/jquery/maticsoft.img.min.js"></script> 
+<script type="text/javascript">
+    $(function () {
+        var width = $(window).width();
+        $.scaleLoad('.detail', width, 1280);
+    });
+</script> 
+@using YSWL.MALL.Model.Shop.Products
+@model YSWL.MALL.Model.Shop.Products.ProductInfo
+<div id="J_detailWrapper" class="J_pageBox" style="">
+    <div class="J_detailIndexWrapper">
+        <div class="page_item" style="">
+            <!--顶部导航-->
+<header class="y_hd" style="">
+    <a href="javascript:;" onclick="history.go(-1);" class="y_hd_back J_ytag" ytag="10000"
+       data-type="1"></a><a href="javascript:;" class="jump_next jump_prev"></a>
+       <span id="J_header_title" style="font-weight: bold">@YSWL.Common.StringPlus.SubString(Model.ProductName,12,"...")</span> 
+</header>
+<!--/顶部导航-->
+            @if (Model != null)
+            {
+<div class="detail" style="margin: 10px;">
+  @Html.Raw(Model.Description) 
+</div>
+            }
+        </div>
+    </div>
+</div>
+

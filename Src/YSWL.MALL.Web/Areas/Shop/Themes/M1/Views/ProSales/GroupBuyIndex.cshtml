@@ -1,0 +1,87 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model PagedList<YSWL.MALL.Model.Shop.PromoteSales.GroupBuy>
+@{
+    Layout = "/Areas/Shop/Themes/M1/Views/Shared/_BaseLayout.cshtml";
+    string cid = Request.RequestContext.RouteData.Values["cid"] != null ? Request.RequestContext.RouteData.Values["cid"].ToString() : "0";
+    string regionId = Request.RequestContext.RouteData.Values["regionid"] != null ? Request.RequestContext.RouteData.Values["regionid"].ToString() : "643";
+    string mod = Request.RequestContext.RouteData.Values["mod"] != null ? Request.RequestContext.RouteData.Values["mod"].ToString() : "default";
+}
+<style>
+    select {
+        min-height: 30px;
+    
+    }
+   .txtenddate span {
+    font-size: 12px;
+color: #ccc;
+    }
+</style>
+<link href="/Areas/Shop/Themes/M1/Content/Css/GroupBuy/style.css" rel="stylesheet"
+    type="text/css">
+    <link rel="stylesheet" href="/Areas/Shop/Themes/M1/Content/css/dialog,item,item-s,paging,scroeAndlist-v1.css"
+    type="text/css" />
+<link href="/Areas/Shop/Themes/M1/Content/Css/GroupBuy/tuangou.css" rel="stylesheet"
+    type="text/css">
+<script type="text/javascript" src="@Url.Content("/Scripts/jquery.unobtrusive-ajax.min.js")"></script>
+<script type="text/javascript" src="/Areas/Shop/Themes/M1/Content/Scripts/GroupBuy/slideshow.js"></script>
+<script language="javascript" type="text/javascript">    var $YSWL = { BasePath: '/' } </script>
+<script src="/Areas/Shop/Themes/M1/Content/Scripts/timeCountDown.js" type="text/javascript"></script>
+<div class="comiis_wrapad" id="slideContainer">
+    <div id="frameHlicAe" class="frame cl">
+        <div class="temp">
+        </div>
+        @Html.Action("AdDetail", "Partial", new { id = 61, ViewName = "_IndexAdGroup" })
+    </div>
+</div>
+<script type="text/javascript">
+    SlideShow(5000);
+</script>
+<div class="blank10">
+</div>
+<div id="main">
+    <div class="sort">
+        <div class="sortcon" >
+            <div class="sortcon-link">
+                <span class="title">区&nbsp;&nbsp;域：</span>
+                <div class="sortcon-linkson" id="arealist">
+                </div>
+            </div>
+            @Html.Action("GetListCate")
+        </div>
+        <div class="sequence">
+            <span class="title">排&nbsp;&nbsp;序：</span>
+            <a href="@(ViewBag.BasePath)ProSales/GroupBuy/@regionId/@cid/default" title="默认排序" id1="default">默认</a> 
+            <a href="@(ViewBag.BasePath)ProSales/GroupBuy/@regionId/@cid/new" title="按发布时间排序"  id1="new"><span>最新</span><span class="down"></span></a> 
+            <a href="@(ViewBag.BasePath)ProSales/GroupBuy/@regionId/@cid/hot" title="销量从高到低" id1="hot"><span>销量</span><span class="down"></span></a> 
+            <a href="@(ViewBag.BasePath)ProSales/GroupBuy/@regionId/@cid/price" title="价格从低到高"  id1="price"><span>价格</span><span class="up"></span></a>
+            <div class="f-input" style="float: right;" id> <script src="/Scripts/jquery/jquery.guid.js" type="text/javascript"></script>
+                <input type="hidden" id="hfSelectedNode"  value="@ViewBag.regionId"/>
+                <script src="/Scripts/jquery/maticsoft.selectregion.js" handle="/RegionHandle.aspx" isnull="true" type="text/javascript"></script>
+            </div>
+        </div>
+    </div>
+    @{Html.RenderPartial("_BuyProductListGroup", Model);}
+</div>
+<div class="clear">
+</div>
+<script type="text/javascript">
+    $(function () {
+        $("select:eq(2)").hide();
+        $(".sequence a[id1='@mod']").addClass("current").siblings().removeClass("current");
+        $("#arealist").load($YSWL.BasePath + "ProSales/GetArea/@regionId?cid=@cid&&mod=@mod");
+        $("select:eq(1)").die("change").live("change", function () {
+            $("select:eq(2)").hide();
+            var regionId = parseInt($(this).val());
+            if (isNaN(regionId) || regionId <= 0) {
+                ShowFailTip('请选择市！');
+                return;
+            }
+            window.location.href = $YSWL.BasePath + "ProSales/GroupBuy/" + regionId + "/@cid/@mod";
+            //            $("#arealist").load($YSWL.BasePath + "ProSales/GetArea/" + $(this).val());
+            //            $(".content-list").load($YSWL.BasePath + "ProSales/GroupBuy/" + $(this).val() + "/@cid/@mod");
+            //            $("#arealist a:eq(0)").trigger("click");
+        });
+
+
+    });
+</script>

@@ -1,0 +1,107 @@
+﻿@{
+    Layout = "~/Areas/MShop/Themes/F1/Views/Shared/_BaseLayout.cshtml";
+  
+}
+@model YSWL.MALL.Model.Shop.Order.OrderInfo
+ 
+<div data-role="content" id="orderinfo-layout" class="ui-content" role="main">
+    <table data-role="table" id="movie-table" data-mode="reflow" class="ui-body-c ui-shadow table-stroke breakpoint ui-table ui-table-reflow">
+        <thead>
+            <tr class="ui-bar-b">
+                <th class="name">名称</th>
+                <th class="num">购买份数</th>
+                <th class="price">价格</th>
+            </tr>
+        </thead>
+        <tbody>
+            
+            @if (Model != null && Model.OrderItems.Count > 0)
+            {
+                foreach (var item in Model.OrderItems)
+                { 
+                    <tr>
+                        <td class="name"><b class="ui-table-cell-label">名称</b>@item.Name</td>
+                        <td><b class="ui-table-cell-label">购买数量</b>@item.Quantity</td>
+                        <td><b class="ui-table-cell-label">价格</b>￥@((item.SellPrice * item.Quantity).ToString("F"))</td>
+                    </tr>
+                 
+                }
+            }
+        </tbody>
+    </table>
+       @if (!String.IsNullOrWhiteSpace(Model.ShipOrderNumber))
+       {
+           <table  data-role="table" id="movie-table" data-mode="reflow" class="ui-body-c ui-shadow table-stroke breakpoint ui-table ui-table-reflow">
+               <thead>
+                   <tr class="ui-bar-b">
+                       <th class="title">物流跟踪</th>
+                       <th class="value"></th>
+                       <th></th>
+                   </tr>
+               </thead>
+               <tbody>
+                   @Html.Action("ExpressList", "Order", new {OrderId = Model.OrderId})
+               </tbody>
+           </table>
+       }
+
+    <table data-role="table" id="movie-table" data-mode="reflow" class="ui-body-c ui-shadow table-stroke breakpoint ui-table ui-table-reflow">
+        <thead>
+            <tr class="ui-bar-b">
+                <th class="title">订单信息</th>
+                <th class="value"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><b class="ui-table-cell-label">订单信息</b>订单编号</td>
+                <td style="text-align: left;">@Model.OrderCode</td>
+            </tr>
+            <tr>
+                <td><b class="ui-table-cell-label">订单信息</b>下单时间</td>
+                <td style="text-align: left;">@Model.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+            </tr>
+            <tr>
+                <td><b class="ui-table-cell-label">订单信息</b>配送方式</td>
+                <td style="text-align: left;">@Model.RealShippingModeName</td>
+            </tr>
+             <tr>
+                <td><b class="ui-table-cell-label">订单信息</b>物流单号</td>
+                <td style="text-align: left;">@(string.IsNullOrWhiteSpace(Model.ShipOrderNumber) ? "无" : Model.ShipOrderNumber)</td>
+            </tr>
+            
+            <tr>
+                <td><b class="ui-table-cell-label">订单信息</b>联系姓名</td>
+                <td style="text-align: left;">@Model.ShipName</td>
+            </tr>
+            <tr>
+                <td><b class="ui-table-cell-label">订单信息</b>联系电话</td>
+                <td style="text-align: left;">@Model.ShipCellPhone</td>
+            </tr>
+            <tr>
+                <td><b class="ui-table-cell-label">订单信息</b>联系地址</td>
+                <td style="text-align: left;">@Model.ShipAddress</td>
+            </tr>
+            <tr>
+                <td><b class="ui-table-cell-label">订单信息</b>商品金额</td>
+                <td style="text-align: left;" class="font_family_sans">￥@Model.ProductTotal.ToString("F")</td>
+            </tr>
+            <tr>
+                <td><b class="ui-table-cell-label">订单信息</b>+ 运费</td>
+                <td style="text-align: left;" class="font_family_sans">￥@(Model.Freight.HasValue ? Model.Freight.Value.ToString("F") : "0.00")</td>
+            </tr>
+             <tr>
+                <td><b class="ui-table-cell-label">订单信息</b>- 优惠</td>
+                <td style="text-align: left;" class="font_family_sans">￥@((Model.OrderTotal - Model.Amount).ToString("F"))</td>
+            </tr>
+             <tr>
+                <td><b class="ui-table-cell-label">订单信息</b>总计</td>
+                <td style="text-align: left;color: red; font-size: 16px" class="font_family_sans">￥@Model.Amount.ToString("F")</td>
+            </tr>
+ 
+        </tbody>
+    </table>
+ 
+</div>
+
+ 

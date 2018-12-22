@@ -1,0 +1,69 @@
+﻿@model List<YSWL.MALL.Model.Shop.Products.ProductInfo>
+ 
+ <div class="hot_div js-hot">         
+          <ul style="width: 2460px; left: -246px;">
+
+@if (Model != null && Model.Count > 0)
+{
+    foreach (var item in Model)
+    {
+         <li>
+			      <a href="@item.SeoUrl">
+			      		 <img src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.ThumbnailUrl1, "T158X158_")"  ></a>
+	                   <a  class="tl" href="@item.SeoUrl"  >@item.ProductName</a>
+			           <span class="fl">¥@item.LowestSalePrice.ToString("F")</span>                 			
+			     </li>
+ 
+    }
+}
+ </ul>
+            <a href="javascript:void(0)" class="prev"></a>
+            <a href="javascript:void(0)" class="next"></a>
+            </div>
+               <script type="text/javascript">
+                   (function ($) {
+                       $.fn.listsildes = function (options) {
+                           var opts = $.extend({}, $.fn.listsildes.defaults, options);
+                           var len = opts.banners.length;
+                           var boxWidth = $(this).width();
+                           var liWidth = opts.banners.eq(0).outerWidth(true);
+                           var ouWidth = opts.bannersBox.width(liWidth * len);
+                           var now = 0;
+                           var pnume = 4;
+                           if (len > pnume) {
+                               $('.js-hot ul li:first').before($('.js-hot ul li:last'));
+                               opts.bannersBox.css({ left: -liWidth + 'px' });
+
+                               return this.each(function () {
+                                   opts.next.click(function () {
+                                       var lefts = parseInt(opts.bannersBox.css('left')) - liWidth;
+                                       opts.bannersBox.not(':animated').animate({ left: lefts + 'px' }, 600, function () {
+                                           $('.js-hot ul li:last').after($('.js-hot ul li:first'));
+                                           opts.bannersBox.css({ left: -liWidth + 'px' });
+                                       });
+                                   });
+
+                                   opts.prev.click(function () {
+                                       var lefts = parseInt(opts.bannersBox.css('left')) + liWidth;
+                                       opts.bannersBox.not(':animated').animate({ left: lefts + 'px' }, 600, function () {
+                                           $('.js-hot ul li:first').before($('.js-hot ul li:last'));
+                                           opts.bannersBox.css({ left: -liWidth + 'px' });
+                                       });
+                                   });
+
+                               });
+                           }
+                       }
+                       $.fn.listsildes.defaults = {
+                           prev: null,
+                           next: null,
+                           banners: null,
+                           bannersBox: null
+                       }
+                   })(jQuery)
+
+                   $(function () {
+                       //热卖商品  左右滚动效果
+                       $('.js-hot').listsildes({ bannersBox: $('.js-hot ul'), banners: $('.js-hot ul li'), next: $('.next'), prev: $('.prev') });
+                   });
+        </script>

@@ -1,0 +1,26 @@
+﻿@model  List<YSWL.MALL.Model.Shop.Supplier.SupplierInfo>
+   @if (Model != null && Model.Count > 0)
+   {  
+       <div class="page_list ">
+       <div class="list J_searchList" id="ProductListDiv" style="background-color: #fff;">
+          <div style="overflow: hidden;">
+           @for (int i = 0; i < Model.Count; i++)
+           {
+               <a href="@(ViewBag.BasePath)Store/@Model[i].SupplierId"  style=" width: 120px; padding: 0 12px 12px 12px;float: left" >
+                   <div class="img_wrap">
+                       <img src=" @(ViewBag.BasePath)Partial/SuppLogo?id=@(Model[i].SupplierId)&size=T200X200"   href="@(ViewBag.BasePath)Store/@Model[i].SupplierId"  onerror="this.onerror='';this.src='/Content/themes/base/images/404/404_200X200.jpg'" width="100" height="100">
+                   </div>
+               </a>
+           }
+      
+        </div>
+ 
+
+        </div>
+    </div>
+  
+   }
+      
+            
+
+

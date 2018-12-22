@@ -1,0 +1,32 @@
+﻿
+<div class="foot" id="help-center">
+	<div class="foot-tip clearfix">
+    	<span class="tuihuo"></span>
+        <span class="mianf"></span>
+        <span class="baoz"></span>
+    </div>
+    <div class="foot-nav  clearfix">
+     <!--关于我们-->
+            @Html.Action("ContentList", "Partial", new { viewName = "_FooterContentList", ClassID = 12, Top = 6 })
+            <!--新手上路-->
+            @Html.Action("ContentList", "Partial", new { viewName = "_FooterContentList", ClassID = 13, Top = 6 })
+            <!--支付方式-->
+            @Html.Action("ContentList", "Partial", new { viewName = "_FooterContentList", ClassID = 14, Top = 6 })
+            <!--配送方式-->
+            @Html.Action("ContentList", "Partial", new { viewName = "_FooterContentList", ClassID = 15, Top = 6 })
+            <!--售后服务-->
+            @Html.Action("ContentList", "Partial", new { viewName = "_FooterContentList", ClassID = 16, Top = 6 })
+		<dl class="foot-sever">
+			<dt><h3>客服中心<span>Customer Service</span></h3></dt>
+			<dd>热线：<i>021-95105225</i></dd>
+			<dd>信箱：<span>service#ys56(发邮件时，请将#改为@@)</span></dd>
+		</dl>
+    </div>
+</div>
+
+ <script type="text/javascript">
+     $('.help-center-about').eq(0).append("<dd><a href=\"" + $YSWL.BasePath + "store/apply\" target=\"_blank\">商家入驻</a></dd>");
+     $(function () {
+         $('.copyright').css('text-align', 'center');
+     });
+</script> 

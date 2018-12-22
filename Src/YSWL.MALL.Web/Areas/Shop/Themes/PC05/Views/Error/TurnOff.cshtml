@@ -1,0 +1,30 @@
+﻿@{
+    Layout = "~/Areas/Shop/Themes/PC05/Views/Shared/_BaseLayout.cshtml";
+}
+ 
+        <div class="box box-pwd">                   
+                <div id="tab_regi">
+                    <div class="J_tab_panel">                 
+<div class="error___">
+  <div class="error_r"></div>
+  <div class="error_w">
+     <p class="error_w_a"> Sorry!  该功能已被管理员关闭</p>
+     <p class="error_w_b">如果有疑问，请联系网站管理员，您还可以：</p>
+      <p class="error_w_b"><a href="@(ViewBag.BasePath)Home">返回首页</a>;</p>
+  </div>
+</div> 
+                </div>
+            </div>
+        </div>
+  @section foot{
+ <script  type="text/javascript">
+     $('#div_header_top').addClass('top-logo1');
+     $('#search_div').addClass('top-logo1');
+     $('#div_top_nav').addClass('top-logo1');
+     $('.foot').addClass('foot1');
+</script>
+}
+
+
+ 
+

@@ -1,0 +1,21 @@
+﻿@{
+     Layout = "/Areas/MShop/Themes/AKTV/Views/Shared/_BaseLayout.cshtml";
+     ViewBag.Title = "个人中心-我的收藏";
+}
+ <link href="/Areas/MShop/Themes/AKTV/Content/Css/UserCenter/style.css" rel="stylesheet"/> 
+<link href="/Areas/MShop/Themes/AKTV/Content/Css/UserCenter/userstyle.css" rel="stylesheet" type="text/css" />
+<script src="/Scripts/jquery.unobtrusive-ajax.min.js" type="text/javascript"></script>
+
+
+
+<div class="yy"></div>
+<div class="index_h1">我的收藏</div>
+<div class="favor_list" id="divmyfavorlist">
+
+       @Html.Action("FavorList", "UserCenter","MShop") 
+</div>
+ 
+
+   
+   
+ 

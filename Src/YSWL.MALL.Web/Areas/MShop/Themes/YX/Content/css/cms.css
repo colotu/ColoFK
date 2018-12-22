@@ -1,0 +1,53 @@
+﻿*{margin:0;padding:0;}
+header,footer,section,article,nav,figure,aside,canvas{display:block;}
+ul,li{list-style:none;}
+a{text-decoration:none;color:#444;}
+body{line-height:1.4;font-size:14px;color:#444;-webkit-text-size-adjust:none;font-family:"ff-tisa-web-pro-1","ff-tisa-web-pro-2","Lucida Grande","Hiragino Sans GB","Hiragino Sans GB W3";min-width:320px; max-width:1024px; margin:0 auto; }
+.y_cb:after{clear:both;content:'.';display:block;height:0;visibility:hidden;overflow:hidden;}
+.y_hd {position:relative;width:100%;height:44px;line-height:44px;text-align:center;background:#4f8ad9;color:#fff;font-size:1.42857em;text-shadow: 0px -1px #7c7c7c;}
+.y_hdb{position:absolute;display:block;width:53px;height:30px;top:7px;line-height:30px;color:#fff;font-size:15px;text-align:center;border:#335ea0 1px solid;border-radius: 4px;text-shadow:0px -1px #7c7c7c;-webkit-box-shadow:0 1px #8ab5ef inset;background:-webkit-gradient(linear, 0 0, 0 100%, from(#5a97e8), to(#3570c0));background:-ms-linear-gradient(top, #5a97e8, #3570c0);background:-moz-linear-gradient(top, #5a97e8, #3570c0);background:-o-linear-gradient(top, #5a97e8, #3570c0);}
+.y_hdb.active{background:-webkit-gradient(linear, 0 0, 0 100%, from(#3570c0), to(#5a97e8));background:-ms-linear-gradient(top, #3570c0, #5a97e8);background:-moz-linear-gradient(top, #3570c0, #5a97e8);background:-o-linear-gradient(top, #3570c0, #5a97e8);}
+.y_pf{font-family:"Heiti SC";}
+
+body{background:#f1f1f1;color:#999;}
+.yin{font-family:none;}
+/* hd back */
+.y_hd .jump_next {position:absolute;display:block;top:7px;left:15px;width:30px;height:30px;background:#2a5fa8;border-radius:15px;}
+.y_hd .jump_next:after,.y_hd .jump_next:before{content:'';position:absolute;top:50%;}
+.y_hd .jump_next:after{width:10px;height:10px;top:13px;left:10px;border-color:#fff;border-style:solid;border-width:0 2px 2px 0;-webkit-transform:rotate(-45deg);margin-top:-4px;}
+.y_hd .jump_next:before{width:18px;height:2px;left:6px;margin-top:-1px;z-index:2;background:#fff;}
+.y_hd .jump_prev {-webkit-transform:rotate(180deg);}
+.y_hd .jump_prev:before {width:16px;}
+
+/* nav */
+nav{width:100%;position:relative;z-index: 0;background:#fff;}
+nav ul{height:36px;line-height:40px;width:100%;font-size:18px;font-weight:bold;color:#999;}
+nav ul li{position:relative;width:50%;float:left;padding:0;border:none;text-align:center;z-index:1;}
+nav ul li.selected{color:#ff7f02;}
+/* content */
+.m_gui{width:100%;}
+.m_gui .banner{width:100%;height:101px;background:#fff url(../images/touch-protectprice.png) no-repeat;background-size:100%;-webkit-background-size:100%;}
+.m_gui .banner-1{background:#fff url(../images/touch-gui.png) no-repeat;background-size:100%;-webkit-background-size:100%;}
+article{width:90%;padding:20px 5%;border-bottom:1px #fff solid;-webkit-box-shadow:0 -1px 0 #e5e5e5 inset;}
+article h2{width:100%;font-size:18px;font-weight:bold;color:#444;padding-bottom:6px;}
+article h3{width:100%;font-size:15px;color:#010000;}
+article section {line-height:20px;}
+article section span.color1{color:#010000;}
+
+article section ul{counter-reset:sectioncounter;}
+article section li{width:90%;padding-left:21px;position:relative;margin-bottom:14px;}
+article section li:last-child{margin-bottom:0;}
+article section li:before{content:counter(sectioncounter);counter-increment:sectioncounter;color:#fff;width:15px;height:15px;text-align:center;line-height:15px;font-size:13px;position:absolute;top:3px;left:0;background:#444;border-radius:7px;}
+article section li p{width:100%;line-height:20px;}
+
+footer{width:90%;padding:15px 5%;background:#999;color:#fff;font-size:15px;line-height:20px;}
+footer p{min-height:20px;}
+footer  .telnum{position:relative;text-decoration:underline;padding-left:34px;color:#fff;}
+footer  .telnum a{color:#fff;}
+footer  .telnum.active{color:#ff7f02;}
+footer  .telnum i{position: absolute;width:15px;height:15px;top:2px;left:13px;background:url(../images/call.png) no-repeat;background-size:100%;-webkit-background-size:100%;}
+
+article section .att{padding:12px;margin-top:10px;border:1px solid #dadada;border-radius:4px;}
+article section .att li{margin-bottom:0;font-size:12px;}
+article section .att li:before{content:counter(sectioncounter)".";background:none;color:#999;font-size:12px;}
+article section .att h4{width:100%;color:#444;font-size:15px;line-height:19px;}

@@ -1,0 +1,6 @@
+﻿@model  YSWL.MALL.Model.Settings.Advertisement
+@if (Model != null)
+{
+        <!-- 广告位 -->
+        <a href="@Model.NavigateUrl" title="@Model.AdvertisementName" target="_blank" class="ad"><img src="@Model.FileUrl" alt="@Model.AdvertisementName"></a>
+}

@@ -1,0 +1,38 @@
+﻿@model List<YSWL.MALL.Model.Shop.Order.OrderInfo>
+    <div class="data-content">
+        @if (Model != null && Model.Count > 0)
+        {
+            <div class="swiper-wrapper">
+                @for (int i = 0; i < Math.Ceiling(Model.Count * 1.0 / 3); i++)
+                {
+                    <div class="swiper-slide">
+                        <div class="roll-data">
+                            @for (int j = i * 3; j < (j + 3 > Model.Count ? Model.Count : (j + 3)); j++)
+                            {
+                                <div class="roll-line">
+                                    <div class="text">
+                                        @Model[j].SupplierName<span class="time">@Model[j].CreatedDate.ToString("HH:mm")</span>成交一笔
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+            <script>
+                var liveTradingListSwiper = new Swiper('#liveTradingList .data-content', {
+                    autoplay: 3000,//可选选项，自动滑动
+                    loop: true,//可选选项，开启循环
+                    mode: 'vertical'
+                });
+            </script>
+        }
+        else
+        {
+            <div class="roll-data home_right_list_empty">
+                暂无数据
+            </div>
+        }
+    </div>
+
+

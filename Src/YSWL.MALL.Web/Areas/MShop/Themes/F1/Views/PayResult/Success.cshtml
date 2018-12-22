@@ -1,0 +1,19 @@
+﻿@{
+    Layout = "/Areas/MShop/Themes/F1/Views/Shared/_BaseLayout.cshtml";
+}
+<div data-role="content" class="ui-content" role="main">
+    <div class="m-left">
+        <p>@(ViewBag.HasPay ? "您已成功支付，" : "")我们将安排发货，请注意查收。</p>
+        <p>
+            订单号：@ViewBag.OrderCode
+        </p>
+        <p id="p_show_info" style="margin-bottom: 30px;">
+                    <strong><span class="ftx-01">@(ViewBag.ItemsCount)</span>件商品将发送给 @(ViewBag.ShipName)</strong></p>
+    </div>
+
+    <a data-role="button" href="@(ViewBag.BasePath)UserCenter/Orders" rel="external"  data-theme="b" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-b">
+        <span class="ui-btn-inner"><span class="ui-btn-text">查看或更改您的订单</span></span>
+    </a>
+</div>
+ 
+<input type="hidden" value="@ViewBag.OrderId" id="OrderId"/>

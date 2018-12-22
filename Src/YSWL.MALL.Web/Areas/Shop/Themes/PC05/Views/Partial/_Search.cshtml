@@ -1,0 +1,66 @@
+﻿
+ 
+   <div class="top-logo clearfix" id="search_div">
+            <a href="@(ViewBag.BasePath)" class="logo" @*style="margin-left: -108px;"*@  title="@ViewBag.WebName">
+                <img src="@ViewBag.Logo" alt="@ViewBag.WebName"  style="height: 54px; width:236px;"/>
+            </a>
+@* <p>
+                    热门关键字：
+                    @Html.Action("HotKeyword", new { Cid = 0, Top = 6 })
+                </p> *@
+		        <!--搜索开始-->
+                <div class="top-search" >
+
+		        	<input type="text" id="txtMallKeyWord" class="txt ui-autocomplete-input"   autocomplete="off" />
+		            <input type="button" class="bt" id="btnMallSearch" />
+		            <div class="clear"></div>
+		            <div class="hotwords">  </div>
+		        </div>
+                <!--搜索结束-->
+		        <div class="top_cart ie6">
+		        	<span class="ie6"></span>
+		            <a href="@(ViewBag.BasePath)ShoppingCart/CartInfo">去购物车结算</a>
+		            <i id="hd-cart-amount" class="ie6"></i>
+		        </div>
+		    </div>
+
+
+ 
+
+<script type="text/javascript">
+    $(function () {
+        $('#hd-cart-amount').load($YSWL.BasePath + 'ShoppingCart/GetCartCount');
+        $("#btnMallSearch").click(function () {
+            var keyword = $("#txtMallKeyWord").val();
+            if (keyword == "") {
+                ShowFailTip('请输入关键字！');
+                return;
+            }
+            location.href = $YSWL.BasePath+"search/0/0/default/0-0/" + keyword;
+        });
+
+        $('#txtMallKeyWord').keydown(StartSearch);
+
+
+    });
+
+    //开始搜索
+    function StartSearch(e) {
+
+        var e = e || event;
+        var currKey = e.keyCode || e.which || e.charCode;
+        if ((currKey > 7 && currKey < 14) || (currKey > 31 && currKey < 47)) {
+            if (currKey == 13) {
+                var keyword = $("#txtMallKeyWord").val();
+                location.href = $YSWL.BasePath + "search/0/0/default/0-0/" + keyword;
+                return false;
+            }
+            else {
+                //$("#txtMallKeyWord").focus();
+
+            }
+            keystring += keyName;
+        }
+
+    }
+</script>

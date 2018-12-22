@@ -1,0 +1,11 @@
+﻿
+ <div class="ding"  id="divding"><a href="javascript:;">回顶部</a></div>
+   <script>
+       $(function () {
+           $("#divding").click(function (e) {
+               //以1秒的间隔返回顶部
+               $('body,html').animate({ scrollTop: 0 }, 1000);
+               return false;
+           });
+       });
+</script>

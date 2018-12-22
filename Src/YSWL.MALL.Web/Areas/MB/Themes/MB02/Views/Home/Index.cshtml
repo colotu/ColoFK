@@ -1,0 +1,145 @@
+﻿@{
+    Layout = "/Areas/MB/Themes/MB02/Views/Shared/_BaseLayout.cshtml";
+}
+@section headtop{
+    <!--swiper-->
+    <link href="/Scripts/Swiper-3.3.1/css/swiper.min.css" rel="stylesheet" />
+    <!--swiper-->
+}
+@section head{    
+<link href="/Areas/MB/Themes/MB02/Content/Css/main.css?v=1.2" rel="stylesheet" />
+    <!--swiper-->
+<script src="/Scripts/Swiper-3.3.1/js/swiper.min.js"></script>
+<!--swiper-->
+}
+<div class="main_wrapper">
+    <div  id="main_page">
+        <!--START HEADER-->
+        <header>
+            <div class="top_navbar fixed_header">
+                <div class="topbar_location">
+                    <a href="javascript:;" id="showSelectRegion">
+                        <span class="location"  id="l_regionName"></span>
+                        <span class="si icon_down"></span>
+                    </a>
+                </div>
+                <div class="top_search search_pr pl70px">
+                    <!--头部搜索框-->
+                    @Html.Partial("/Areas/MB/Themes/MB02/Views/Partial/_HeaderSearch.cshtml")
+                </div>
+                @Html.Partial("/Areas/MB/Themes/MB02/Views/Partial/_HeaderMsg.cshtml")
+            </div>
+        </header>
+        <!-- END HEADER -->
+        <!--START banner轮播-->
+        <div class="top"></div>
+        @Html.Action("AdDetail", "Partial", new { id = 144, ViewName = "_IndexAd" })
+        <div class="statistics-wrap">
+            @Html.Action("Statistics", "Home")
+        </div>
+        <div class="floor">
+            <div class="quick-nav-box">
+                <a class="quick-nav-link" href="@(ViewBag.BasePath)Statistics/IndexDaily">
+                    <div class="quick-nav-img">
+                        <img src="/Areas/MB/Themes/MB02/Content/images/qlink1.png" alt="">
+                    </div>
+                    <span>指数日报</span>
+                </a>
+                <a class="quick-nav-link" href="@(ViewBag.BasePath)article/list?cid=40">
+                    <div class="quick-nav-img">
+                        <img src="/Areas/MB/Themes/MB02/Content/images/qlink2.png" alt="">
+                    </div>
+                    <span>市场新闻</span>
+                </a>
+                <a class="quick-nav-link" href="@(ViewBag.BasePath)Statistics">
+                    <div class="quick-nav-img">
+                        <img src="/Areas/MB/Themes/MB02/Content/images/qlink3.png" alt="">
+                    </div>
+                    <span>销量排行</span>
+                </a>
+                <a class="quick-nav-link" href="@(ViewBag.BasePath)u/MyFavor">
+                    <div class="quick-nav-img">
+                        <img src="/Areas/MB/Themes/MB02/Content/images/qlink4.png" alt="">
+                    </div>
+                    <span>收藏商品</span>
+                </a>
+            </div>
+        </div>
+        <!-- 活动 -->
+        <div class="floor activity">
+            <div class="floor_container">
+               @Html.Action("LiveTrading", "Home", new { Top = 9 })
+               @Html.Action("AdDetail", "Partial", new { id = 145, ViewName = "/Areas/MB/Themes/MB02/Views/Home/_AdList.cshtml" })
+            </div>
+        </div>
+        <!-- 楼层预览 -->
+        <div class="floor">
+            <div class="floor_container">
+                <div class="building-wrap">
+                    @Html.Action("SuppAreasList", "Partial", new { AreaId = 0, Top = 8, viewName = "/Areas/MB/Themes/MB02/Views/Home/_SuppAreasList.cshtml" })
+                </div>
+            </div>
+        </div>
+        <!-- 推荐商铺 -->
+        <div class="floor shop-recommend">
+            <div class="floor_container">
+                <div class="title-def">-&nbsp;推荐商铺&nbsp;-</div>
+                @Html.Action("RecStore", "Partial", new { top =8, viewName = "_RecStoreList" })
+            </div>
+        </div>
+        <!-- 推荐品牌 -->
+        @Html.Action("AdDetail", "Partial", new { id = 146, ViewName = "/Areas/MB/Themes/MB02/Views/Home/_AdList2.cshtml" })
+        @Html.Action("AD", "Partial", new { AdvPositionId = 147, ViewName = "/Areas/MB/Themes/MB02/Views/Home/_AD.cshtml" })        
+
+        <!-- 推荐商品 -->
+        <div class="floor">
+            <div class="floor_container">
+                <div class="title-def">-&nbsp;推荐商品&nbsp;-</div>
+                <div class="floor_item">
+                    <div class="pro_container2_list">
+                        @Html.Action("Index", "Recommend", new { type = "irec", vName = "IndexRec", ajaxVName = "_IndexRec", pageSize = 30 })
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--加载提示信息--->
+        @Html.Partial("/Areas/MB/Themes/MB02/Views/Partial/_LoadTip.cshtml")
+        <!-- ################-->
+        <!-- END TOP MENU -->
+        <!-- ################-->
+        <div class="bottom">
+
+        </div>
+        <!--START footer-->
+        @Html.Partial("/Areas/MB/Themes/MB02/Views/Partial/_FooterNav.cshtml")
+        <!-- END footer -->
+    </div>
+
+</div>
+ <!-- END MAIN WRAPPER-->
+@Html.Partial("/Areas/MB/Themes/MB02/Views/Partial/_SearchLayer.cshtml")
+@section foot{
+<script src="/Scripts/jquery/pullUp.js"></script>
+<script src="/Areas/MB/Themes/MB02/Content/Scripts/timeCountDown.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        //显示地区
+        var regionName = $.cookie('deliveryareas_lastRegionName');
+        if (regionName == null || regionName == ""){
+            regionName = "请选择";
+        }
+        $('#l_regionName').text($.cookie('deliveryareas_lastRegionName'));        
+      
+        // 楼层分类展开
+        $(".building-box .building-item").click(function () {
+            if (!$(this).parent().is(".open")) {
+                $(this).siblings(".floor-info").slideDown();
+                $(this).parent(".building-box").addClass("open");
+                $(this).parent(".building-box").siblings(".building-box").children(".floor-info").slideUp();
+                $(this).parent(".building-box").siblings(".building-box").removeClass("open");
+            }
+        })
+        $(function () {
+            $('#body').addClass('m_home');
+        });
+    </script>
+} 

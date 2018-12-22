@@ -1,0 +1,42 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model YSWL.MALL.ViewModel.Shop.ProductListModel
+<div id="ProductListDiv">
+  <script src="/Scripts/jquery/maticsoft.img.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function () {
+            resizeImg('.products_list', 100, 100);
+        });
+    </script>
+@if (Model.ProductPagedList != null)
+{
+    <div class="products_list">
+        @foreach (var item in Model.ProductPagedList)
+        {
+            <ul>
+                <a href="@(ViewBag.BasePath)p/d/@item.ProductId" class="listimg">
+                    <img ref="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.ThumbnailUrl1, "T115X115_")"  width="100"/></a>
+                <a href="@(ViewBag.BasePath)p/d/@item.ProductId">
+                    <h3 class="ht1_o_h">
+                        @item.ProductName
+                    </h3>
+                    <small class="zeng">￥@item.LowestSalePrice.ToString("F")
+                    </small> </a>
+            </ul>
+        }
+        <div>
+            @Ajax.Pager(Model.ProductPagedList, new PagerOptions
+       {
+           ShowDisabledPagerItems = false,
+           AlwaysShowFirstLastPageNumber = false,
+           PageIndexParameterName = "pageIndex",
+           NumericPagerItemCount = 5,
+           CurrentPagerItemTemplate = "<p class=\"in_s\">{0}</p>",
+           NumericPagerItemTemplate = "<p>{0}</p>",
+           NavigationPagerItemTemplate = "<p>{0}</p>",
+           CssClass = "in_pages",
+            
+       }).AjaxOptions(a => a.SetUpdateTargetId("ProductListDiv"))
+        </div>
+    </div>
+}
+</div>

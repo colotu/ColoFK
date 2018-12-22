@@ -1,0 +1,17 @@
+﻿@model List<YSWL.MALL.Model.Shop.Products.ProductInfo>
+ 
+@if (Model != null && Model.Count > 0)
+{
+    <div class="products_cnxh" style="margin-top: 10px;">
+ 
+            @foreach (var item in Model)
+            {
+                <span class="product_relation_item"><a href="@(ViewBag.BasePath)p/d/@item.ProductId">
+                   
+                          <img width="115px" height="115px" src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.ThumbnailUrl1, "T115X115_")"   onerror="this.onerror='';this.src='/Areas/MShop/Themes/F1/Content/Images/404.jpg'" />
+                          <span class="product_relation_price">￥@item.LowestSalePrice.ToString("F")</span>
+                          </a></span>
+            }
+ 
+    </div>
+}

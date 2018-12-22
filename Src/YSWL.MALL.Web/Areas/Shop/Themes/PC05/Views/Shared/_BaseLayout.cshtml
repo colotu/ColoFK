@@ -1,0 +1,21 @@
+﻿@{
+    Layout = "~/Areas/Shop/Themes/PC05/Views/Shared/_SiteLayout.cshtml";
+@*网站前台模版*@
+}
+@section head{
+    @RenderSection("head", false)
+}
+<div class="top-bg" >
+  @Html.Action("Header", "Partial", new { area = "Shop" }) 
+  @Html.Action("Search", "Partial", new { area = "Shop" })
+   <div class="top-nav clearfix" id="div_top_nav">
+                @Html.Action("CategoryList", "Partial", new { Cid = 0,Top=10, viewName = "_CateAll" })
+                @Html.Action("Navigation", "Partial", new { area = "Shop", Theme ="PC05"}) 
+  </div>
+</div>
+		<div class="clear"></div>
+@RenderBody()
+@Html.Action("Footer", "Partial", new { area = "Shop" })
+@section foot{
+    @RenderSection("foot", false)
+}

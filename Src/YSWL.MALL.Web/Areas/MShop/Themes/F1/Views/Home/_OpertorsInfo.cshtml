@@ -1,0 +1,16 @@
+﻿ 
+            <ul data-role="listview" data-inset="true" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+                <li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-b ui-first-child">基本信息</li>
+            <li class="ui-li ui-li-static ui-btn-up-c">营业时间：@ViewBag.BusinessHoursStart - @ViewBag.BusinessHoursEnd</li>			
+		    @*<li data-corners="false" data-shadow="false" data-iconshadow="true" data-wrapperels="div" data-icon="arrow-r" data-iconpos="right" data-theme="c" class="ui-btn ui-btn-up-c ui-btn-icon-right ui-li-has-arrow ui-li">
+		                <a href="javascript:;" data-ajax="false" class="ui-link-inherit"><span class="font-16">地址：@Model.CompanyAddress</span></a>
+		    </li>*@ 
+			<li   class="ui-li ui-li-static ui-btn-up-c">
+		               地&#12288;&#12288;址：@ViewBag.Address 
+		    </li>			
+		    <li class="ui-li ui-li-static ui-btn-up-c">联系电话：@ViewBag.Telephone</li>
+		    <li class="ui-li ui-li-static ui-btn-up-c">起送价格：@ViewBag.SentPrices 元起送</li>
+		    <li class="ui-li ui-li-static ui-btn-up-c">服务半径：@ViewBag.ServiceRadius 公里</li>
+		    <li class="ui-li ui-li-static ui-btn-up-c ui-last-child">配送区域：@ViewBag.DeliveryArea</li>	
+  
+       </ul>

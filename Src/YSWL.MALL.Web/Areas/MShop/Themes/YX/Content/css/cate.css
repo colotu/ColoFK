@@ -1,0 +1,117 @@
+html
+{
+    min-height: 100%;
+    background-color: #f1f1f1;
+}
+.page_cate .cate
+{
+    overflow: hidden;
+    padding: 42px 0 70px;
+}
+.cate_first .item, .cate_second .item, .cate_third .item
+{
+    position: relative;
+    height: 57px;
+    padding: 0 3.125%;
+    border-bottom: 1px #E3E3E3 solid;
+    -webkit-box-shadow: 0 1px #fff;
+    -ms-box-shadow: 0 1px #fff;
+    box-shadow: 0 1px #fff;
+}
+ .cate_second .item:after, .cate_third .item:after, .cate_third .title:after
+{
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    top: 50%;
+    margin-top: -3px;
+    right: 6.25%;
+    border-color: #444;
+    border-style: solid;
+    border-width: 0 2px 2px 0;
+    -webkit-transform: rotate(-45deg);
+    -ms-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+.cate_first dl:last-child, .cate_second a:last-child, .cate_third a:last-child
+{
+    border-bottom: none;
+    -webkit-box-shadow: none;
+    -ms-box-shadow: none;
+    box-shadow: none;
+}
+.cate_first .item dt
+{
+    padding-top: 8px;
+    font-size: 1.28571em;
+}
+.cate_first .item dt a
+{
+    color: #000;
+}
+.cate_first .item dd
+{
+    font-size: .85714em;
+}
+.cate_first .item dd a
+{
+    margin-right: 8px;
+    color: #999;
+}
+.cate_second .item, .cate_third .item
+{
+    clear: both;
+    display: block;
+    line-height: 57px;
+    font-size: 1.125em;
+    color: #000;
+}
+.cate_third .title
+{
+    position: relative;
+    display: block;
+    height: 58px;
+    padding: 0 3.75%;
+    line-height: 58px;
+    background-color: #fff;
+    font-size: 1.28571em;
+    color: #000;
+}
+.cate_third .title:before
+{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    left: 0;
+    bottom: -5px;
+    background-image: url(../images/back.png);
+    background-repeat: no-repeat;
+    -webkit-background-size: 100% 5px;
+    background-size: 100% 5px;
+}
+#CssGaga
+{
+    content: "131022151146,clu,294";
+}
+.y_hd {
+	position:fixed;
+	width:100%;
+	height: 42px;
+	top:0;
+	z-index: 9999;
+}
+.J_cateSecond, .J_cateThird {
+	width: 100%;
+	display: none;
+}
+.J_cateFirst {
+	width: 100%;
+	display: block;
+}
+.rightGo {
+    top: 20%;
+right: 2%;
+position: absolute
+}

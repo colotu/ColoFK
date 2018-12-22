@@ -1,0 +1,37 @@
+﻿@model  List<YSWL.MALL.Model.Shop.Supplier.SupplierInfo>
+   @if (Model != null && Model.Count > 0)
+   {
+       <div id="index_prolist">
+           <h1>
+               精品店铺</h1>
+                   <div id="products">
+               <div class="list-1">
+                @for(int i=0;i<Model.Count;i++)
+          {
+              <div class="item">
+                  <ul> 
+                      <li class="img">
+                          <a href="@(ViewBag.BasePath)Store/@Model[i].SupplierId">
+                              <img alt="@Model[i].ShopName"  src="@(ViewBag.BasePath)Partial/SuppLogo?id=@(Model[i].SupplierId)&size=T200X200" onerror="this.onerror='';this.src='/Content/themes/base/images/404/404_200X200.jpg'"/>
+                          </a>
+                      </li>
+                  </ul>
+              </div>
+              if ((i+1)%2==0)
+              {
+                   <div class="clear">
+                   </div>
+              }
+          }
+        
+                  
+              
+      
+               </div>
+           </div>
+
+        </div>
+ 
+   }
+       
+

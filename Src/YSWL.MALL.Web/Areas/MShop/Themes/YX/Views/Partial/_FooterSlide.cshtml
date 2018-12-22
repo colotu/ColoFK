@@ -1,0 +1,50 @@
+﻿   <div class="y_nav_bg J_commonNav">
+    </div>
+<div class="J_nav_bar y_nav_content" show="hide" id="tabMenu" style="bottom: -250px;z-index: 99999">
+    <a href="javascript:;" class="btn_slide J_nav_bar_button J_ytag" data-type="2" ytag="11000">
+    </a>
+    <div class="search">
+        <div class="inner" style="z-index: 99999;">
+            <input type="search" class="input_txt J_search" placeholder="输入商品名称" style="margin-left: 0;
+                margin-right: 5px; width: 90%; padding-left: 5px;">
+            <input class="input_reset" type="reset" value="" style="background-color: transparent;">
+        </div>
+    </div>
+    <div class="nav_list">
+        <ul>
+            <li><a href="@(ViewBag.BasePath)" class="homeclass J_ytag" ><span>首页</span></a></li>
+            <li><a href="@(ViewBag.BasePath)p/c" class="cate J_ytag cateclass"><span>商品分类</span></a></li>
+        </ul>
+        <ul>
+            <li><a href="@(ViewBag.BasePath)sc/ci" class="cart cartclass"><span>购物车</span></a></li>
+            <li><a href="@(ViewBag.BasePath)u"class="my J_ytag myclass"><span>我的商城</span></a></li></ul>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $(".btn_slide").click(function () {
+            var tab = $("#tabMenu").attr("show");
+            if (tab === "hide") {
+                $("#tabMenu").animate({
+                    bottom: 0
+                }, 1000);
+                $(".J_commonNav").css("opacity", "0.5").css("display", "block");
+                $("#tabMenu").attr("show", "show");
+            } else {
+                $("#tabMenu").animate({
+                    bottom: -250
+                }, 1000);
+                $("#tabMenu").attr("show", "hide");
+                $(".J_commonNav").css("opacity", 0).css("display", "none");
+            }
+        });
+        $(".input_reset").click(function () {
+            var keyword = $(".J_search").val();
+            if (keyword == "") {
+                ShowFailTip('请输入关键字！');
+                return;
+            }
+            location.href = $YSWL.BasePath + "s/0/0/hot/0-0/" + keyword;
+        });
+    });
+</script>

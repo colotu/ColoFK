@@ -1,0 +1,58 @@
+﻿@using Webdiyer.WebControls.Mvc
+@if (Model != null && Model.Count > 0)
+{
+    foreach (var item in Model)
+    {
+        <div class="recentorder wrap">
+            <div class="recent_prod">
+                <div class="cart_photo_wrap">
+                    <a href="@(ViewBag.BasePath)p/d/@item.ProductId" class="cart_photo_cell">
+                        <img class="shp_cart_img" src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.ThumbnailsUrl, "T81X81_")" alt="">
+                    </a>
+                 @switch ((int)item.ruleType)
+                    {
+                        case 0:
+                        <div class="prod_tip bg_red">
+                            打折
+                        </div>
+                         break;
+                     case 1:
+                        <div class="prod_tip bg_blue">
+                            减价
+                        </div>
+                         break;
+                     case 2:
+                        <div class="prod_tip bg_green">
+                            直降
+                        </div>
+                         break;
+                     default:
+                         break;
+                 }
+                </div>
+                <div class="recent_text">
+                    <p>@item.ProductName</p>
+                </div>
+            </div>
+            <div class="order_price">
+                <p class="price_red">￥@item.LowestSalePrice.ToString("f")</p>
+
+                @{
+                    if (item.SalesType == 1 && item.SaleStatus == 1 && ViewBag.IsMultiDepot)
+                    {
+                        <div class="cart icon" onclick="dialogShow(@item.ProductId, @item.SupplierId, '@item.ThumbnailUrl1',@item.SupplierId,@item.ProductId)">
+                            <span></span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="cart icon" onclick="dialogShow(@item.ProductId, @item.SupplierId, '@item.ThumbnailsUrl')">
+                            <span></span>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    }
+}
+

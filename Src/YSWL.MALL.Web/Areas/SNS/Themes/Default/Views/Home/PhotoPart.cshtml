@@ -1,0 +1,33 @@
+﻿@model List<YSWL.MALL.Model.SNS.Photos>
+<div class="main_sort">
+    <div class="main_sort_top">
+    </div>
+    <div class="main_sort_cot">
+        <div class="cate_list">
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    <dl class="cate_list_cad">
+                        <dt class="PhotoPart juzhong ">
+                            <dl class="juzhong_i">
+                                <a class="pic_load" href="@item.StaticUrl">
+                                    <img  ref="@(YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.ThumbImageUrl, "T116x170_"))" alt="@item.Description"  /></a></dl>
+                        </dt>
+                        <dl class="cate_list_cad_Y">
+                            <dt class="cate_list_cad_YA"></dt>
+                            <dt class="cate_list_cad_YB"><a href="@(ViewBag.BasePath)User/Posts?uid=@(item.CreatedUserID)">@item.CreatedNickName</a></dt>
+                        </dl>
+                    </dl>
+                }
+                <div class="clear">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="clear">
+    </div>
+    <div class="main_sort_bno">
+    </div>
+    <div class="clear">
+    </div>
+</div>

@@ -1,0 +1,41 @@
+﻿ @model List<YSWL.MALL.Model.Shop.Order.OrderInfo>
+   @if (Model != null && Model.Count > 0)
+   {
+       int num = 0;
+       foreach (var item in Model)
+       {
+           foreach (var it in item.OrderItems)
+           {
+               num = num + it.Quantity;
+           }
+        <div class="order_wrap wrap">
+            <div class="order_item">
+                <span class="order_num">
+                    @item.OrderCode
+                </span>
+                <span class="order_status">@YSWL.MALL.Web.Areas.MShop.Controllers.UserCenterController.GetOrderType(item.PaymentGateway, item.OrderStatus, item.PaymentStatus, item.ShippingStatus)</span>
+            </div>
+            <div class="order_info_wrap">
+                <div class="order_info" onclick='javascript:window.location.href="@(ViewBag.BasePath)O/oi/@item.OrderId"'>
+                    <table>
+                        <tr>
+                            <td>订单金额</td>
+                            <td>￥@item.Amount.ToString("F")</td>
+                        </tr>
+                        <tr>
+                            <td>商品数量</td>
+                            <td>@num</td>
+                        </tr>
+                        <tr>
+                            <td>下单时间</td>
+                            <td>@item.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="buy_again"  orderId="@item.OrderId">
+                    <input type="button" size="4" value="再次购买" class="btn1" >
+                </div>
+            </div>
+        </div>
+       }
+   }

@@ -1,0 +1,29 @@
+﻿  @model List<YSWL.MALL.Model.Settings.Advertisement>
+@if (Model != null && Model.Count > 0)
+{
+    <div class="slide_wrapper">
+        <div class=" swiper-container">
+            <div class="swiper-wrapper">
+                @foreach (var item in Model)
+                {
+                    <a class="swiper-slide" href="@item.NavigateUrl"><img src="@item.FileUrl" alt="@item.AdvertisementName"></a>
+                }
+            </div>
+        </div>
+        <div class="pagination"></div>
+    </div>
+
+    <script type="text/javascript">
+        var slideW = parseInt($(".slide_wrapper").width());
+        $(".slide_wrapper").height(slideW / 75 * 32);
+            // 轮播图
+        var bannerSwiper = new Swiper('.slide_wrapper .swiper-container', {
+                pagination: '.pagination',
+                loop: true,
+                grabCursor: true,
+                paginationClickable: true,
+                speed: 300,
+                autoplay: 3000,
+            })
+    </script>
+}

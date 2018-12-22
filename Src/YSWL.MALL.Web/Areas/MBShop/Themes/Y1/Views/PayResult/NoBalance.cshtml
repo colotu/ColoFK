@@ -1,0 +1,28 @@
+﻿@{
+    Layout = "~/Areas/MBShop/Themes/Y1/Views/Shared/_BaseLayout.cshtml";
+}
+<!--START HEADER-->
+<header class="m_header">
+    <div class="navbar-fixed-top">
+        <div class="m_header_bar">
+            <p class="m_header_title">支付失败</p>
+        </div>
+    </div>
+</header>
+<!-- END HEADER -->
+<div class="mt44 mb50">
+    <div class="wrap" style="display:block">
+        <div class="order_fail_pic"></div>
+        <div class="prompt_text">
+            您的账户余额不足，请充值。<br/>
+            订单号：@(ViewBag.OrderCode<br />
+            应付金额：@(ViewBag.Amount.ToString("F"))元
+            账户余额：@(ViewBag.Balance.ToString("F"))元
+        </div>
+    </div>
+</div>
+<input type="hidden" value="@ViewBag.OrderId" id="OrderId" />
+<input type="hidden" value="@ViewBag.PayStatus" id="Status" />
+ 
+
+ 

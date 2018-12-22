@@ -1,0 +1,77 @@
+﻿@{
+    Layout = "~/Areas/Shop/Themes/PC01/Views/Shared/_ShoppingLayout.cshtml";
+}
+<link href="~/Areas/Shop/Themes/PC01/Content/Css/shopc2.css" rel="stylesheet" />
+<!-- 微信支付 -->
+<div class="weixin_payment">
+    <div class="wrap">
+        <div class="wxpym_content">
+            <div class="order_info">
+                <div class="order_number">订单提交成功，请尽快付款！订单号：@ViewBag.OrderCode</div>
+                <div class="order_payment">
+                    应付金额<span class="price_number">@ViewBag.OrderAmount.ToString("F2")</span>元
+                </div>
+            </div>
+            <div class="wxpym_box">
+                <div class="wx_title">微信支付</div>
+                <div class="wx_text" style="display: none;">距离二维码过期还剩<span class="countdown">45</span>秒，过期后请刷新页面重新获取二维码。
+                </div>
+                <div class="wxpym_code">
+                    <div class="code_box">
+                        <p><img id="wechatQR" src="" alt="" title="">
+                        </p>
+                    </div>
+                    <div class="tip_text">请使用微信扫一扫<br/>扫描二维码支付
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function() {
+        $('.payNow').unbind('click').bind('click', function () {
+            window.location.replace('/pay/certification@(ViewBag.OrderId)/@(ViewBag.CurrentArea)');
+            return;
+        });
+
+        $.ajax({
+            type: "POST",
+            url: '/pay/certification@(ViewBag.OrderId)/Shop?action=qr',
+            dataType: "json",
+            success: function (qrdata) {
+                if (qrdata.STATUS === 'SUCCESS') {
+                    $('#wechatQR').attr('src', '/tools/qr/gen.aspx?size=300&content=' + qrdata.DATA);
+                    //$('#wechat').show();
+                    CheckPayment(@(ViewBag.OrderId));
+                } else {
+                    console.log(qrdata.Result_Code);
+                }
+            }
+        });
+    });
+
+    function CheckPayment(id) {
+        if (id < 0) return;
+        $.ajax({
+            async: false,
+            type: "POST",
+            url: "@(ViewBag.BasePath)PayWeChat/CheckPayment",
+            data: { id: id },
+            dataType: "text",
+            success: function (data) {
+                if (data === "NOTYET") {
+                    time = setTimeout('CheckPayment(' + id + ')', 3000);
+                }
+                if (data === 'PREPAID') {
+                    ShowSuccessTip("支付成功!",3000);
+                    var goto = function () {
+                        window.location.replace('@(ViewBag.BasePath)UserCenter/Orders');
+                    };
+                    setTimeout(goto, 5000);
+                }
+            }
+        });
+    }
+</script>

@@ -1,0 +1,39 @@
+﻿@model  List<YSWL.MALL.Model.Shop.Supplier.SupplierInfo>
+            <div class="clearfix common-class family-class">
+		 			<div class="common-title">
+		 				<h2>精品店铺</h2>
+		 				<div class="title-more e-cms" e_cms="goods_tag" e_cdata="jjrrgTags">
+		 				</div>
+		 			</div>
+                       @if (Model != null && Model.Count > 0)
+          {
+               <div class="common-content">	
+                <div class="rig-list">
+		                      <ul class="e-cms" e_cms="goods"  e_cdata="mygGoods" style="width: 1034px; height: 242px;">
+                                @for (int i = 0; i < Model.Count; i++)
+                {
+    
+                          <li  @if ((i + 1) % 4 == 0)
+                               {   
+                                   @: class="proLast"  
+                                   }   
+                                     style="height: 242px;"> 
+                       <a  href="@(ViewBag.BasePath)Store/@Model[i].SupplierId"  title="@Model[i].ShopName" target="_blank">
+                            <img width="240" height="240" alt="@Model[i].ShopName"   src="@(ViewBag.BasePath)Partial/SuppLogo?id=@(Model[i].SupplierId)&size=T200X200" onerror="this.onerror = null; this.src = '/Images/Shop/store-default.jpg'"   class="fl mr10" style="margin-right: 5px" />
+                        </a> 			        			
+                                                      </li> 
+
+                             }		        	
+                                               </ul>
+                          </div>
+ 
+                </div> 
+          }	 	 		
+		 		    <div class="class-bg">
+		 		    	&nbsp;
+		 		    </div>
+		 		 </div> 
+
+ 
+            
+

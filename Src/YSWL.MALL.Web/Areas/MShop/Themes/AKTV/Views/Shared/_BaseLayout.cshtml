@@ -1,0 +1,16 @@
+﻿@using System.Web.Mvc.Html
+@{
+    Layout = "~/Areas/MShop/Themes/AKTV/Views/Shared/_SiteLayout.cshtml";
+    @*网站前台模版*@
+}
+
+@section head{
+    @RenderSection("head", false)
+}
+@Html.Action("Header","Partial",new{area="MShop",ViewName="_Header"})
+@RenderBody()
+@section foot{
+@Html.Action("Footer", "Partial", new { area = "MShop", ViewName = "_Footer" })
+@Html.Action("CategoryList","Partial",new{area="MShop",ViewName="_CategoryList"})
+    @RenderSection("foot", false)
+}

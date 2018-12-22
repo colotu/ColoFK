@@ -1,0 +1,41 @@
+﻿@{
+    Layout = "~/Areas/MShop/Themes/YX/Views/Shared/_BaseLayoutNullFooter.cshtml";
+}
+@model List<YSWL.MALL.Model.Shop.Products.CategoryInfo>
+<link href="/Areas/MShop/Themes/YX/Content/css/gb.css" rel="stylesheet" type="text/css"/>          
+<link href="/Areas/MShop/Themes/YX/Content/css/cate.css" rel="stylesheet" type="text/css"/>          
+<!--分类页-->
+<div class="page_cate"    >
+    <!--顶部导航-->
+    <header class="y_hd"><a href="javascript:;" onclick="history.go(-1);" class="y_hd_back J_ytag" ytag="10000"
+                            data-type="1"></a>商品分类</header>
+    <!--/顶部导航-->
+    <div class="y_loading" id="J_tips_outer" style="display: none; opacity: 0; -webkit-transition: opacity 0.2s ease-in 0s;
+                                                                                                                                                                transition: opacity 0.2s ease-in 0s;">
+        <div class="mask">
+        </div>
+        <img class="left">
+        <div class="inner-content" id="J_error_txt">
+            <div class="loading-gif">
+            </div>
+            <div id="J_tips">
+                努力加载中...</div>
+        </div>
+    </div>
+    <div class="cate">
+        <!--三级分类-->
+        <div class="cate_third J_cateThird page" style="display: block;">
+            <div id="thirdcate">
+                  @if (null != Model && Model.Count > 0)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <a href="@(ViewBag.BasePath)p/@item.CategoryId" class="item J_ytag">@item.Name</a>
+                        }
+                    }
+                </div>
+        </div>
+        <!--/三级分类-->
+    </div>
+</div>
+

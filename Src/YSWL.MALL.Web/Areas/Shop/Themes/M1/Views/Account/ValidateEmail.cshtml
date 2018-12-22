@@ -1,0 +1,56 @@
+﻿  @{
+    Layout = "~/Areas/Shop/Themes/M1/Views/Shared/_BaseLayout.cshtml";
+}
+@section head{
+    <link rel="stylesheet" type="text/css" href="/Areas/Shop/Themes/M1/Content/Css/msg,btn,form,reg-base,reg.css?v=12022713" />
+    <style type="text/css">
+    .xxts {
+width: 650px;
+font-size: 14px;
+color: #333;
+}
+</style>
+}
+
+<script type="text/javascript">
+    $(function () {
+        var msgvalue = $('#hidmsg').val();
+        if (msgvalue == "Success") {
+            $('#hyanzheng').css({ 'color': 'rgb(104, 223, 66)' }).text('恭喜，' + $('#hidemail').val() + '邮箱已通过验证');
+        } else {
+            $('#hyanzheng').text(msgvalue);
+        }
+    });
+
+</script>
+<input type="hidden" value="@ViewBag.Msg" id="hidmsg" />
+<input type="hidden" value="@ViewBag.email" id="hidemail"/>
+
+<div class="w760">
+        <div class="box box-pwd">
+            <div class="hd" style="height:200px;margin-top:50px;">
+                <h2 style=" font-size:large;  color:Red;font-family: '微软雅黑';" id="hyanzheng">
+                   </h2>
+            </div>
+          @*  <div class="bd" style="border:0px;">
+                <div id="tab_regi">
+                    <div class="J_tab_panel">
+                     <div class="login_k">
+      	<div class="xxts ">
+            <span style="font-size: 16px; color: #999;font-family: '微软雅黑';line-height: 30px;">已成功发送邮件，请登录邮箱进行处理</span>
+            <p style="font-family: '微软雅黑';line-height: 30px;">我们已将注册验证邮件发送到您的邮箱 @ViewBag.Email，请点击邮件中的“激活帐号链接”来完成帐号激活。</p>
+            <div>
+                <a href="@ViewBag.EmailUrl" class="l"><img src="/Areas/Shop/Themes/M1/Content/images/dlyx.gif" width="100" height="50" /></a>
+                <p class="l" style="font-family: '微软雅黑';line-height: 30px;">没收到找回密码邮件？请稍等……<br />
+                      若仍未收到找回密码邮件，请<a  href="javascript:void(0)" id="btnSend" >点击这里</a>重新发送</p>
+                <span class="cl2"></span>
+            </div>
+        </div><br class="cl" />
+    </div>
+
+                    </div>
+            
+                </div>
+            </div>*@
+        </div>
+    </div>

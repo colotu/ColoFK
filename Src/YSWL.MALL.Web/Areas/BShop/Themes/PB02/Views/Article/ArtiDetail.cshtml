@@ -1,0 +1,86 @@
+﻿@{
+   Layout = "/Areas/BShop/Themes/PB02/Views/Shared/_ArticleLayout.cshtml";
+}
+@model YSWL.MALL.Model.CMS.Content
+@section title{
+    <b class="word" id="h-page-title">@Model.ClassName</b>
+}
+@section search{
+    <!-- 搜索框 -->
+    <div class="cartSearch clearfix">
+        @Html.Partial("/Areas/BShop/Themes/PB02/Views/Partial/_Search2.cshtml")
+    </div>
+}
+<input type="hidden" id="hidCid" value="@Model.ClassID"/>
+<div class="wrap">
+    <div class="news-list clearfix">
+        <div class="left-box">
+            <div class="news-detail">
+                <div class="title-wrap">
+                    <h1 class="title">@Model.Title</h1>
+                    <div class="article-source">
+                        <span class="author">来自：<span class="text">@Model.BeFrom</span></span>
+                        <span class="date">时间：@Model.CreatedDate.ToString("yyyy-MM-dd HH:mm")</span>
+                        <span class="seeing">阅读数：@Model.PvCount</span>
+                    </div>
+                </div>
+                <div class="detail-content">
+                    @Html.Raw(YSWL.MALL.BLL.Settings.SEORelationManage.FilterStr(Model.Description, true, true, false, false, false, Model.ContentID, "CMSDescription"))
+                </div>
+                <div class="digg">
+                    <div class="btn-digg" contentId="@Model.ContentID">@Model.TotalSupport</div>
+                </div>
+                <div style="    float: right;">
+                    分享到：<div style="display: inline-block;vertical-align: middle;">@Html.Action("BaiduShare", "Partial")</div>
+                </div>
+            </div>
+       
+        </div>
+        <div class="right-box">
+            <div class="ad-wrap">
+                @Html.Action("AdDetail", "Partial", new { id = 142, ViewName = "/Areas/BShop/Themes/PB02/Views/Article/_AdList.cshtml" })
+            </div>
+        </div>
+    </div>
+
+</div>
+<script type="text/javascript">
+    function Support(ContentID) {
+        $.ajax({
+            url: "@(ViewBag.BasePath)Article/Support",
+            type: 'post',
+            dataType: 'json',
+            async: true, // 同步请求将锁住浏览器，用户其它操作必须等待请求完成才可以执行。
+            timeout: 10000,
+            data: {
+                id: ContentID
+            },
+            success: function (jsondata) {
+                switch (jsondata.STATUS) {
+                    case "NOTALLOW":
+                        $('.btn-digg').addClass("active");
+                        ShowFailTip("您已经赞过了！");
+                        break;
+                    case "SUCC":
+                        $(".btn-digg").text(jsondata.TotalSupport);
+                        break;
+                    case "FAIL":
+                        $('.btn-digg').removeClass("active");
+                        ShowFailTip("操作失败！");
+                        break;
+                    default:
+                        $('.btn-digg').removeClass("active");
+                        break;
+                }
+            }
+        });
+
+    }
+
+    $(".btn-digg").click(function () {
+        if (!$(this).is(".active")) {
+            $(this).addClass("active");
+            Support($(this).attr('contentId'));
+        }
+    })
+</script>

@@ -1,0 +1,63 @@
+﻿ @{
+     Layout = "/Areas/MShop/Themes/F1/Views/Shared/_BaseLayout.cshtml";
+     ViewBag.Title = "个人中心-积分详细";
+ }
+ @using Webdiyer.WebControls.Mvc
+@model PagedList<YSWL.MALL.Model.Members.PointsDetail>
+ 
+ 
+ 
+<div style=" font-family:微软雅黑; font-size:14px;margin:10px;">您当前的积分:
+<span style="color: #ff8a00;"> @ViewBag.UserInfo  </span></div>
+
+ <div data-role="content" id="orderhistory-layout" class="ui-content orderlist-layout" role="main">
+     <table data-role="table" id="movie-table" data-mode="reflow" class="ui-body-c ui-shadow table-stroke breakpoint ui-table ui-table-reflow" data-column-btn-theme="b" data-column-btn-text="Columns to display..." data-column-popup-theme="a">
+         <thead>
+             <tr class="ui-bar-b">
+                 <th class="time">日期</th>
+                 <th class="tag">类型</th>
+                 <th class="status">积分</th>
+                 <th class="info">说明</th>
+             </tr>
+         </thead>
+         <tbody>
+             @if (Model != null)
+             {
+                 foreach (var item in Model)
+                 {
+                     <tr>
+                         <td><b class="ui-table-cell-label">日期</b>@item.CreatedDate.ToString("yyyy-MM-dd")</td>
+                         <td><b class="ui-table-cell-label">类型</b>@item.RuleName</td>
+                         <td><b class="ui-table-cell-label">积分</b>@if (item.Type == 0)
+                                                                  {
+                                                                      <strong style="color: #ff8a00;">+@item.Score</strong>
+                 
+                                                                  }
+                                                                  else
+                                                                  {
+                                                                      <strong style="color: #33982e;">-@item.Score</strong>
+                                                                  }</td>
+                         <td><b class="ui-table-cell-label">说明</b> @item.Description </td>
+                     </tr>
+                 }
+             
+             }
+         </tbody>
+     </table>
+     
+         @Html.Pager(Model, new PagerOptions
+            {
+                ShowFirstLast = false,
+                ShowPrevNext = false,
+                ShowDisabledPagerItems = false,
+                AlwaysShowFirstLastPageNumber = false,
+                PageIndexParameterName = "pageIndex",
+                NumericPagerItemCount = 3,
+                CurrentPagerItemTemplate = "<p class=\"in_s\">{0}</p>",
+                NumericPagerItemTemplate = "<p>{0}</p>",
+                NavigationPagerItemTemplate = "<p>{0}</p>",
+                CssClass = "in_pages"
+            })
+ </div>
+
+ 

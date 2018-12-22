@@ -1,0 +1,42 @@
+﻿@model YSWL.MALL.ViewModel.Shop.ProductSKUModel
+@if (Model == null) { return; }
+@if (!ViewBag.HasSKU && Model.ListSKUInfos != null && Model.ListSKUInfos.Count == 1)
+{
+    <script type="text/javascript">
+        $(function () {
+         var stock=parseInt('@Model.ListSKUInfos[0].Stock');
+         $('#btnAddToCart').attr('itemid', '@Model.ListSKUInfos[0].SKU');
+         if (stock == 0)
+         {
+             var skuItem = $('#btnAddToCart').attr('disabled', 'disabled').addClass('addCart-gray');
+             $('#btnAddToCart').text('该商品已售罄');
+         }else{
+             $('#div_stock').show().find('#stock_num').text(stock);
+         }
+        }); 
+    </script>
+}
+<input type="hidden"  value="@ViewBag.HasSKU" id="hdHasSKU" />
+@if (Model.ListAttrSKUItems == null || Model.ListAttrSKUItems.Count < 1)
+{
+    <input type="hidden"  value="@Model.ListSKUInfos[0].SKU"   stock="@Model.ListSKUInfos[0].Stock"   id="hdprodSku" />
+    return;
+}
+<input type="hidden" id="SKUDATA" value="@ViewBag.SKUJson"/>
+@foreach (KeyValuePair<YSWL.MALL.Model.Shop.Products.AttributeInfo, SortedSet<YSWL.MALL.Model.Shop.Products.SKUItem>>
+    attrSKUItem in Model.ListAttrSKUItems)
+{
+    <div class="goods_item goods_speci">
+        <p class="title">
+            @attrSKUItem.Key.AttributeName</p>
+        <div class="list skuitems">
+            @foreach (YSWL.MALL.Model.Shop.Products.SKUItem skuItem in attrSKUItem.Value)
+            {
+                <a AttrId="@skuItem.ValueId" class="J_anotherItem 0 J_ytag"  alt="@skuItem.ValueStr">@skuItem.ValueStr</a>
+            }
+           
+        </div>
+    </div>
+
+
+}

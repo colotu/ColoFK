@@ -1,0 +1,25 @@
+﻿  @{
+     Layout = "/Areas/MShop/Themes/VPH/Views/Shared/_BaseLayout.cshtml";
+     ViewBag.Title = "个人中心-收件箱";
+  }
+<link href="/Scripts/jqueryui/base/jquery-ui-1.9.2.min.css" rel="stylesheet" type="text/css" />
+<link href="/Areas/MShop/Themes/VPH/Content/Css/UserCenter/userstyle.css" rel="stylesheet" type="text/css" />
+    <script src="/Scripts/jqueryui/jquery-ui-1.9.2.custom.js" type="text/javascript"></script>
+    <script src="/Areas/MShop/Themes/VPH/Content/Scripts/UserCenter/SendSiteMsg.js" type="text/javascript"></script>
+  <script src="/Scripts/jquery.unobtrusive-ajax.min.js" type="text/javascript"></script>
+<header id="header" class="header clearfix">
+    <div class="head_left fl"><a href="javascript:;" onclick="history.go(-1);"><span class="h_back"></span></a></div>
+    <span class="headtit">收件箱</span>
+    <div class="head_right fr"><a href="@(ViewBag.BasePath)"><span class="h_home"></span></a></div>
+</header>
+
+
+<div class="userinfo clearfix">
+    <div class="fl"><p class="username">我的收件箱</p>
+        <p></p></div>
+    <a href="@(ViewBag.BasePath)u/SendMessage" class="btn_out fr">发信息</a>
+</div>
+
+<div class="s_links in_user_center"  id="InBoxList">
+  @Html.Action("InboxList","UserCenter","MShop")
+</div>

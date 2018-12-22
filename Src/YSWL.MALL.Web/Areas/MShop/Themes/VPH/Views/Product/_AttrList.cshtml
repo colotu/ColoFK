@@ -1,0 +1,40 @@
+﻿@model List<YSWL.MALL.Model.Shop.Products.AttributeInfo> 
+@if (Model != null && Model.Count > 0)
+{
+            <input id="hfAttrValue" type="hidden" />
+  <div class="drop_cate clearfix">
+    <div id="B_cateWrap" class="c_wrapper" style="height:auto; overflow: hidden;position: relative;">
+        <div id="B_pageScroller" class="c_scroller" style="position: relative;-webkit-transition: -webkit-transform 0ms;
+transition: -webkit-transform 0ms; -webkit-transform-origin: 0px 0px; -webkit-transform: translate(0px, 0px) translateZ(0px);">
+            <ul style="overflow: hidden;">
+                @foreach (var item in Model)
+                {
+                    <li data-cateid="@item.AttributeId">
+                        <h2 >
+                            @item.AttributeName<span></span></h2>
+                    </li>
+                }
+                
+               
+            </ul> 
+            <div>
+                <a class="filterbuttom" style="float: left;text-shadow: none;" id="btn-go"><h1>应用本次筛选</h1></a>
+                <a  class="filterbuttom" style="float: right;text-shadow: none;" id="btn-reset"><h1>重置条件</h1></a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="drop_cate right">
+    <div id="B_listWrap" class="c_wrapper" style="height: auto; overflow: hidden;">
+        <div id="B_pageScroller" class="c_scroller" style="position: relative;-webkit-transition: -webkit-transform 0ms;
+transition: -webkit-transform 0ms; -webkit-transform-origin: 0px 0px; -webkit-transform: translate(0px, 0px) translateZ(0px);">
+                          @foreach (var item in Model)
+                          {
+                              @Html.Action("AttrValues", new { AttrId = item.AttributeId, viewName = "_AttrValues" })
+                          }
+            
+        </div>
+    </div>
+</div>
+    }
+

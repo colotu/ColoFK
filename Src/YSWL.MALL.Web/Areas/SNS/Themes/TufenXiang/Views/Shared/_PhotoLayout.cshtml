@@ -1,0 +1,14 @@
+﻿@{
+    Layout = "~/Areas/SNS/Themes/TufenXiang/Views/Shared/_SiteLayout.cshtml";
+}
+<div class="header" id="headers">
+@*@Html.Partial("~/Areas/SNS/Themes/TufenXiang/Views/Partial/_Header.cshtml")*@
+@Html.Action("Header", "Partial")
+</div>
+@Html.Action("Navigation", "Partial", new { navType = YSWL.MALL.Model.SNS.EnumHelper.NavigationType.TufenXiang })@*导航*@
+
+<div class="tgoods">
+   @RenderBody()
+
+@Html.Action("Footer", "Partial")
+</div>

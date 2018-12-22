@@ -1,0 +1,43 @@
+﻿@model YSWL.MALL.ViewModel.Shop.ProductModel
+           
+<div class="pro_img">
+    <div class="touchslider">
+        <div class="img">
+            <div class="touchslider-prev">
+                <span></span>
+            </div>
+            <div class="touchslider-viewport" style="height: 200px; position: relative;">
+                <div class="list" style="position: absolute; left: -3075px; height: 200px; width: 100000px;">
+                    @if (null != Model && Model.ProductImages.Count > 0)
+                    {
+                        foreach (var item in Model.ProductImages)
+                        {
+                            <div class="touchslider-item" style="position: absolute; left: -10000px;">
+                                <img src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.ThumbnailUrl1, "T158X158_")"/>
+                            </div>
+                        }
+                                     
+                    }
+                </div>
+            </div>
+            <div class="touchslider-next">
+                <span></span>
+            </div>
+        </div>
+        <div class="touchslider-nav">
+            @if (null != Model && Model.ProductImages.Count > 0)
+            {
+                foreach (var item in Model.ProductImages)
+                {
+                    <a class="touchslider-nav-item touchslider-nav-item-current"></a>
+                }
+                                     
+            }
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function() {
+    
+    });
+</script>

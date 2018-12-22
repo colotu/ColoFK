@@ -1,0 +1,19 @@
+﻿@{
+    Layout = "/Areas/MShop/Themes/F1/Views/Shared/_BaseLayout.cshtml";
+}
+ 
+	<div data-role="content" class="ui-content" role="main">
+		@Html.Action("AdDetail", "Partial", new { id = 65, ViewName = "_IndexAd" })					
+		@Html.Action("NewsList","Home", new { top = 4, ClassID = 9, ViewName = "_NewsList" })			
+		
+		<!---基本信息--->
+		@Html.Action("OpertorsInfo", "Home")
+	    <!---基本信息--->
+
+    
+	</div>
+<script>
+    $('#a_back').hide();
+</script>
+
+ 

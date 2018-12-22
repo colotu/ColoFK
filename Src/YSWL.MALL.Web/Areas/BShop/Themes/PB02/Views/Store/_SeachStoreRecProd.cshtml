@@ -1,0 +1,21 @@
+﻿@model  List<YSWL.MALL.Model.Shop.Products.ProductInfo>
+@if (Model != null && Model.Count > 0)
+{
+    foreach (var item in Model)
+    {
+<div class="pro-item">
+    <a href="@(ViewBag.BasePath)Product/Detail/@item.ProductId">
+        <div class="pro-pic">
+            <img src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.ThumbnailUrl1, "T350X350_")" />
+        </div>
+        <div class="pro-price">
+            <span class="price-new"><i>¥</i>@(item.LowestSalePrice.ToString("F"))</span>
+        </div>
+        <span class="sales">销量：@(item.SaleCounts.ToString("F"))件</span>
+  </a>
+</div>
+    }
+}
+else {
+    <div class="seach-store-prod-nodata ">暂无数据</div>
+}

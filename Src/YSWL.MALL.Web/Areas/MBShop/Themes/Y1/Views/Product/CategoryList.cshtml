@@ -1,0 +1,76 @@
+﻿@{
+    Layout = "/Areas/MBShop/Themes/Y1/Views/Shared/_BaseLayout.cshtml";
+    ViewBag.Title = "商品分类";
+    ViewBag.Keywords = "商品分类";
+    ViewBag.Description = "商品分类";
+}
+@model List<YSWL.MALL.Model.Shop.Products.CategoryInfo>
+    @Html.Action("Header", "Partial")
+
+
+    <div class="container category">
+        <div class="row">
+            <div class="category_sidebar col-xs-3 col-sm-3 col-md-2 sidebar" id="scrollsidebar">
+                <!-- Nav tabs -->
+                <ul class="nav nav-sidebar affixed-element-top js-affixed-element-top" data-spy="affix" data-offset-top="60" role="tablist" style="position: fixed;top: 44px;">
+                    @*<li class="active category_sidebar_tab" role="presentation">
+                            <a class="pad_10" href="#home" aria-controls="home" role="tab" data-toggle="tab">
+                                推荐分类
+                            </a>
+                        </li>*@
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        <style >
+                            .block {
+                                background-color: #fff;
+                            }
+                        </style>
+                        <script type="text/javascript">
+                            $(function () {
+                                $("#selectCate").load("@(ViewBag.BasePath)p/c/@Model[0].CategoryId?viewname=_SecCateList");
+                                $(".pad_10:first").addClass("block");
+
+                                $(".pad_10").click(function () {
+                                    $(".pad_10").removeClass("block");
+                                    $(this).addClass("block");
+                                    var parentid = $(this).attr("parentid");
+                                    if (!parentid) {
+                                        var categoryId = $(this).attr("categoryId");
+                                        location.href = '@(ViewBag.BasePath)p/' + categoryId;
+                                    } else {
+                                        $("#selectCate").load("@(ViewBag.BasePath)p/c/" + parentid + "?viewname=_SecCateList");
+                                    }
+                                });
+                            });
+                        </script>
+                        foreach (var item in Model)
+                        {
+                            if (item.HasChildren)
+                            {
+                                <li class="category_sidebar_tab" role="presentation">
+                                    <a class="pad_10" href="javascript:;" role="tab" data-toggle="tab" parentid="@item.CategoryId">@YSWL.Common.StringPlus.SubString(item.Name, 12, "...")</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="category_sidebar_tab" role="presentation">
+                                    <a class="pad_10" href="javascript:;" role="tab" data-toggle="tab" categoryId="@item.CategoryId">@YSWL.Common.StringPlus.SubString(item.Name, 12, "...")</a>
+                                </li>
+                            }
+                        }
+
+                    }
+
+                </ul>
+            </div>
+
+
+            <div class="tab-content col-xs-9 col-sm-9 col-md-10 mb50" id="selectCate">
+
+            </div>
+        </div>
+    </div>
+
+    <!--底部悬浮导航-->
+    <input type="hidden" value="s_cate" id="hidPage" />
+

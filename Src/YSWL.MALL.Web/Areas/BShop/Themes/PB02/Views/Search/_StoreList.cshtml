@@ -1,0 +1,84 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model  YSWL.MALL.ViewModel.Shop.SupplierModel
+@{
+    string areaid = Request.RequestContext.RouteData.Values["areaid"] != null ? Request.RequestContext.RouteData.Values["areaid"].ToString() : "0";
+    string mod = Request.RequestContext.RouteData.Values["mod"] != null ? Request.RequestContext.RouteData.Values["mod"].ToString() : "sales";
+    string keyword = Request.RequestContext.RouteData.Values["keyword"] != null ? Request.RequestContext.RouteData.Values["keyword"].ToString() : ""; 
+}
+@if (Model != null && Model.PageList!=null && Model.PageList.Count>0)
+{
+    <script type="text/javascript">
+    $(function () {
+        var mod = '@mod';
+        if (mod === '') {
+            $('.f-sort a')[0].addClass("selected");
+        } else {
+            $(".f-sort").find("a").each(function () {
+                var mode = $(this).attr("mod");
+                if (mode == mod) {
+                    $(this).addClass("selected");
+                }
+            });
+        }
+    });
+    </script>
+    <div class="filter">
+        <div class="f-line">
+            <div class="f-sort">
+                <a href="@(ViewBag.BasePath)search/storelist/@areaid/sales/@keyword" mod="sales">销量<i class="icon-arrow-down"></i></a>
+                <a href="@(ViewBag.BasePath)search/storelist/@areaid/favo/@keyword" mod="favo">收藏<i class="icon-arrow-down"></i></a>
+                <a href="@(ViewBag.BasePath)search/storelist/@areaid/prod/@keyword" mod="prod">商品<i class="icon-arrow-down"></i></a>
+            </div>
+            <div class="f-sum">
+                找到相关店铺<span class="num">@ViewBag.TotalCount</span>家
+            </div>
+        </div>
+    </div>
+    <div class="shoplist">
+        <ul class="list-container">
+            @foreach (var item in Model.PageList)
+            {
+                <li class="shop-item">
+                    <div class="shop-info">
+                        <a href="@(ViewBag.BasePath)store/@item.SupplierId">
+                            <div class="shop-name"><span class="tag-shop">铺</span>@item.ShopName</div>
+                            <p class="info"><span class="text">收藏数：</span>@item.FavoritesCount</p>
+                            <p class="info"><span class="text">销量：</span><span class="em-text">@(item.SalesCount)</span>件</p>
+                            <p class="info"><span class="text">商品总数：</span><span class="em-text">@(item.ProductCount)</span>件</p>
+                            <p class="info"><span class="text">年限：</span>@(item.EstablishedDate.HasValue?(DateTime.Now.Year- item.EstablishedDate.Value.Year) + "年" : "")</p>
+                            <p class="info"><span class="text">所在地：</span>@item.Address</p>
+                            @*<div class="auth-info"><span class="tag-auth">证</span>以上信息已通过深度验厂认证</div>*@
+                        </a>
+                    </div>
+                    <div class="shop-prolist" suppId="@(item.SupplierId)">
+                        @Html.Action("RecProd", "Store", new { suppid = item.SupplierId, top=4,viewName= "_SeachStoreRecProd" })
+                    </div>
+                    <a href="@(ViewBag.BasePath)store/@item.SupplierId" class="into-link">进入店铺<span class="arrow">&gt;&gt;</span></a>
+                </li>
+            }
+        </ul>
+    </div>
+                    <!-- 分页 -->
+    <div class="pagination">
+        @Ajax.Pager(Model.PageList, new PagerOptions
+           {
+               ShowDisabledPagerItems = false,
+               AlwaysShowFirstLastPageNumber = true,
+               ShowFirstLast = false,
+               PageIndexParameterName = "pageIndex",
+               NumericPagerItemCount = 6,
+               CurrentPagerItemTemplate = "<span class=\"page-item curr\">{0}</span>",
+               PagerItemTemplate = "<span class=\"page-item\">{0}</span>",
+               MorePagerItemTemplate = "<span class=\"pn-break\">{0}</span>",
+               CssClass = "p-wrap",
+               PrevPageText = "<span class=\"pn-prev \"><i>&lt;</i>上一页</span>",
+               NextPageText = "<span class=\"pn-next \">下一页<i>&gt;</i></span>",
+           }).AjaxOptions(a => a.SetUpdateTargetId("storeList"))
+    </div>
+            }
+            else
+            {
+                <div class="no_propt">
+                    <i>!</i>未找到相符合的店铺
+                </div>
+            }

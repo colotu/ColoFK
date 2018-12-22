@@ -1,0 +1,108 @@
+﻿@model List<YSWL.MALL.Model.Shop.Shipping.ShippingAddress>
+@{
+    Layout = "~/Areas/MBShop/Themes/Y1/Views/Shared/_BaseLayout.cshtml";
+    string sku = Session["SubmitOrder_SKU"] as string;
+    int count = YSWL.Common.Globals.SafeInt(Session["SubmitOrder_COUNT"], 1);
+    int c = YSWL.Common.Globals.SafeInt(Session["SubmitOrder_CountDown"], 0);
+    int g = YSWL.Common.Globals.SafeInt(Session["SubmitOrder_GroupBuy"], 0);
+    var shopid = Request.QueryString["shopid"];
+}
+<header class="m_header">
+    <div class="">
+        <div class="m_header_bar">
+            <div class="m_icon_goback icon" onclick="history.go(-1);">
+                <span></span>
+            </div>
+            <p class="m_header_title">地址列表</p>
+        </div>
+    </div>
+</header>
+@if (Model != null && Model.Count > 0)
+{
+    foreach (var item in Model)
+    {
+        <div class="addresitem" style="overflow: hidden;position: relative;padding: .75em 10px;border-bottom: 1px solid #e1e1e1;">
+            <div style="float:left;text-align:center;vertical-align:middle;display:none;/* height: .875em; */margin: 2em 0 0 0;width: 30px;" class="showselect" id="@("shop"+item.ShippingId)">
+                <div addressId="@item.ShippingId">
+                    <p>
+                        <a href="javascript:void(0)">
+                            <img src="@(ViewBag.BasePath)Areas/MBShop/Themes/Y1/Content/images/addresslist/selectright.png" style="width:20px;">
+                        </a>
+                    </p>
+                </div>
+            </div>
+            <div class="item_addr" style="float:left;width: 76.125%;">
+                <div class="address_info" addressId="@item.ShippingId">
+                    <p>收货人:@item.ShipName</p>
+                    <p>@item.Address</p>
+                    <p>@item.CelPhone</p>
+                </div>
+            </div>
+            <div class="eidt" style="float:right;text-align:center;vertical-align:middle;position: absolute;right: 3%;top: 50%;margin-top: -17px;border-left: 1px solid #c3c3c3;width: 10%;/* height: 25%; */">
+                <div addressId="@item.ShippingId">
+                    <p>
+                        <a href="@(ViewBag.BasePath)Order/AddressInfo/@item.ShippingId">
+                            <img src="@(ViewBag.BasePath)Areas/MBShop/Themes/Y1/Content/images/addresslist/addressedit.png" style="width: 1.2em;height: 1.2em;">
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <a href="@(ViewBag.BasePath)Order/AddressInfo">
+        <input id="txtAddressCount" type="hidden" value="0" />
+        <div class="item_addr">
+            <div class="menu_item pl10">
+                <span>收货信息</span>
+                <div class="into icon">
+                    <span></span>
+                </div>
+            </div>
+            <div class="address_info" addressId="-1">
+                <p>未设置收货信息</p>
+            </div>
+        </div>
+    </a>
+}
+<script>
+    $(function () {
+        $('#shop'+ '@shopid').show();
+        $('.address_info').click(function () {
+            $('.showselect').hide();
+            $(this).parent('div').siblings('.showselect').show();
+            var shopid = $(this).attr('addressId');
+            window.location.href = "@(ViewBag.BasePath)Order/SubmitOrder?sku=@sku"+"&count=@count"+"&c=@c"+"&g=@g"+"&shopid="+shopid;
+        });
+    });
+</script>
+
+@*<div class="addresitem">
+<div style="float:left;text-align:center;vertical-align:middle;" class="showselect">
+<div addressId="@item.ShippingId">
+    <p>
+        <a href="javascript:void(0)">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAcCAYAAAATFf3WAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpGRDgyRTlGMUIzNDExMUU0QjUzNzg3MjQ1REM1MjdBQSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpGRDgyRTlGMkIzNDExMUU0QjUzNzg3MjQ1REM1MjdBQSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkZEODJFOUVGQjM0MTExRTRCNTM3ODcyNDVEQzUyN0FBIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkZEODJFOUYwQjM0MTExRTRCNTM3ODcyNDVEQzUyN0FBIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+0glcbgAAAlFJREFUeNrMl8FLFHEUx2d3RcIOXtpD4F8QrIcOefAg7FqhYUpLhxQxraCQhLoke9GL4kElMJKKCkoRBUUwRUU6dAg2KCjZIBAM3CBZ9rCgHkTJ74PvwGPZbXbcmd35wofdNwzDd37z3vu9ny8TjRoeUwC8BJ3gWYXHzPnBa9DF+I7fQ+Z84IUyJ3ru95C5CXBXXZPPHPOKwTHQq+K34D745wWDI+CRit+De2LOTMpyahA8UfEc6AbHumrKpRgYUPEC6NDmymnwMRhS8QdwCxzl6julVh8YVfEqkN3iMF9jHAf7TFa3Jcn/lG1FtPE/c6ZBKe8qJmu/i+a62YhNc59AKziw2lreqXiYieq02sErZe4zuGZlTq/gR9XR34Cwg+ZuchECjL+AZrBX6OYs378FxHmtkiUfcsBcG5hS5r6BKyBjZ3owuNRicotxNVgBNUWYk1Wa5QuLftg1l91mUqCJvwbNrdCsXV0G88pcAjSC9GnmL60trqSZvCF+7kobz2wAi+AM4180lzrtgJitOMvf7E1hFo6vgOfVg2W2LfOFxdzfYibYXJIG2mNOFGw9wxbPukRzZxn/5sslix2x82maG7opaeIP8tx7EayrfN2huR0nzgBWs9qkimXqvZ51Ty1YU+b+0Ny2U4cUKz0EM+rEJf/rGF9gOpxjvAsiql2VxKDMZ7fVbiMFsMQ+J+aCqk1FWLVGKQ0arOgbYJNxkAVxnnGavS/hxjm0UGW4askc16+C724dlO0oSTOpLHNf3TzJ29VP7jYpjkxxNyfcEwEGAArXdosDSk1aAAAAAElFTkSuQmCC" />
+        </a>
+    </p>
+</div>
+</div>
+<div class="item_addr" style="float:left">
+<div class="address_info" addressId="@item.ShippingId">
+    <p>收货人:@item.ShipName</p>
+    <p>@item.Address</p>
+    <p>@item.CelPhone</p>
+</div>
+</div>
+<div class="eidt" style="float:right;text-align:center;vertical-align:middle">
+<div addressId="@item.ShippingId">
+    <p>
+    <a href="@(ViewBag.BasePath)Order/AddressInfo/@item.ShippingId">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACYAAAAlCAYAAAAuqZsAAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyFpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpDOEM2OTVBOEIzNDIxMUU0QjgzQkUwQkRENTM1RTI5NyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpDOEM2OTVBOUIzNDIxMUU0QjgzQkUwQkRENTM1RTI5NyI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkM4QzY5NUE2QjM0MjExRTRCODNCRTBCREQ1MzVFMjk3IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkM4QzY5NUE3QjM0MjExRTRCODNCRTBCREQ1MzVFMjk3Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+/rAGIwAAAR5JREFUeNrs1ssKgkAUBuDRpEVPUC/VC3RbtOoGFQRB24iMFhGUtal8uvIBWtTGzgGFGDRvZ0aD+eEXhVl8nFEcbbky64yxE7TG6PKGbqGLmOtL0Au07T07OlzOxChMGTpOicLYCKsy+rygu5Qo3L25wS3UmLwg6gptcag+1NVZPvmJwge9iKg8YEEoi0fJhoWhBjxKJiwRCmNIQt2gzbgoGRMLQh2jUKJhYahhFEokLBNKFCwzSgQMUXZKlAl9QtfUMB/VSDmpKbQCnVDCglCHhNtnfB2ZSGBhqFGSd0rEO2ZRo6hgHWoUFWzvfU0bKhTVv3LmlTR5nWAVTMEUTMEUTMH+Bcb/xN0iTexRsGHdfVgP6hQEhUPq4s1HgAEAv4ZMZmcw3dwAAAAASUVORK5CYII=" />
+        </a>
+    </p>
+</div>
+</div>
+</div>*@

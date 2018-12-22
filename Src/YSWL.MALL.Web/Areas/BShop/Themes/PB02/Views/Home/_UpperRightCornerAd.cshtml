@@ -1,0 +1,23 @@
+﻿@model List<YSWL.MALL.Model.Settings.Advertisement>
+@if (Model != null)
+{
+        <div class="swiper-wrapper">
+            @foreach (var item in Model)
+            {            
+            <div class="swiper-slide">
+                <div class="roll-data">
+                    <a href="@item.NavigateUrl" title="@item.AdvertisementName" target="_blank">
+                        <img src="@item.FileUrl" />
+                    </a>
+                </div>
+            </div>
+            }
+        </div>
+        <script>
+                                var mySwiper2 = new Swiper('#box1 .data-content', {
+                                    autoplay: 3000,//可选选项，自动滑动
+                                    loop: true,//可选选项，开启循环
+                                    mode: 'vertical'
+                                });
+        </script>
+}

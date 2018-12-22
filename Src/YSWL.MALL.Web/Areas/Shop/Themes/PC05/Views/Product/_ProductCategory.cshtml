@@ -1,0 +1,41 @@
+﻿      @model List<YSWL.MALL.Model.Shop.Products.CategoryInfo>
+            @{
+                string cid = Request.RequestContext.RouteData.Values["cid"] != null ? Request.RequestContext.RouteData.Values["cid"].ToString() : "0";
+                string brandid = Request.RequestContext.RouteData.Values["brandid"] != null ? Request.RequestContext.RouteData.Values["brandid"].ToString() : "0";
+                string attrvalues = Request.RequestContext.RouteData.Values["attrvalues"] != null ? Request.RequestContext.RouteData.Values["attrvalues"].ToString() : "0";
+                string mod = Request.RequestContext.RouteData.Values["mod"] != null ? Request.RequestContext.RouteData.Values["mod"].ToString() : "default";
+                string price = Request.RequestContext.RouteData.Values["price"] != null ? Request.RequestContext.RouteData.Values["price"].ToString() : "";
+
+            }
+ 
+<div class="sub-goodss">
+		<h3>分类筛选</h3>
+   @if (Model != null && Model.Count > 0)
+   {
+       <h4 class="bb cateSelect cur" >
+             <a href="@(ViewBag.BasePath)product/@ViewBag.Cid/@brandid/@attrvalues/@mod/@price">@YSWL.Common.StringPlus.SubString(ViewBag.CateName, 10, "")</a>
+        </h4>
+           <ul class="clearfix" >	
+      @foreach (var item in Model)
+       {
+ 
+                     	<li>
+								   		<a href="@(ViewBag.BasePath)product/@item.CategoryId/@brandid/@attrvalues/@mod/@price" title="@item.Name">
+									   						@YSWL.Common.StringPlus.SubString(item.Name, 6, "") 
+								   			</a>
+								   		</li>							
+   }
+   	</ul>
+   }
+          
+             </div>
+
+             <script  type="text/javascript">
+                 $(function () {
+                     //点击分类
+                     $('.cateSelect').click(function () {
+                         $(this).next().toggle();
+                         $(this).toggleClass("cur");
+                     });
+                 });
+             </script>

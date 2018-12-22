@@ -1,0 +1,82 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model  List<YSWL.MALL.Model.Shop.Supplier.SupplierInfo> 
+@{
+    Layout = "/Areas/MB/Themes/MB02/Views/Shared/_BaseLayout.cshtml";
+    string keyword = Request.RequestContext.RouteData.Values["keyword"] != null ? Request.RequestContext.RouteData.Values["keyword"].ToString() : "";
+    string areaid = Request.RequestContext.RouteData.Values["areaid"] != null ? Request.RequestContext.RouteData.Values["areaid"].ToString() : "";
+}
+@section head{
+    <link href="/Areas/MB/Themes/MB02/Content/Css/main.css?v=1.2" rel="stylesheet" />
+}
+<input id="hfAreaId" type="hidden" value="@areaid" />
+<div class="main_wrapper"  id="main_page"> 
+    <!--START HEADER-->
+    <header>
+        <div class="top_navbar fixed_header">
+            @Html.Partial("/Areas/MB/Themes/MB02/Views/Partial/_Back.cshtml")
+            <div class="top_search search_pl"  id="showSearch-Store">
+                <span class="searchInput" >
+                    <i class="si icon_search"></i>
+                    请输入您要搜索的店铺
+                </span>
+            </div>
+        </div>
+    </header>
+    <!-- END HEADER -->
+    <!-- 筛选 -->
+    <div class="sort_tab">
+        <ul>
+            <li class="modList sort_a" mod="sales"><span>销量</span></li>
+            <li class="modList" mod="favo">收藏</li>
+            <li class="modList" mod="years" >年限</li>
+            <li id="filter">筛选<span class="icon_filtrate"></span></li>
+        </ul>
+    </div>
+    <!-- 店铺列表 -->
+    <div class="floor_shop shop_list shop_list-ptop"  id="mainList">
+        @{Html.RenderPartial("_StoreList", Model);}
+    </div>
+    <!---筛选内容开始-->
+    <!-- 右滑出筛选 -->
+    <div class="popCover_wrap" id="filter_content">
+        <div class="popCover" id="pop1">
+            <div class="top_navbar fixed_header">
+                <div class="si icon_goback" id="filter-back">
+                </div>
+                <p class="header_title">筛选</p>
+            </div>
+            <div class="cover-wrap">
+                <div class="top"></div>
+                <div class="floor pop_content">
+                    <div class="floor_container">
+                        <div class="filter_wrap">
+                            <div class="filter_item b-bottom1" id="areaPathList">
+                                @Html.Action("SuppAreaPathList", "Partial", new { AreaId = areaid, Top = 0, viewName = "_SuppAreaPathList" })
+                            </div>
+                            <div class="filter_item brand"  id="suppAreaList">
+                                @Html.Action("SuppAreasList", "Partial", new { AreaId = areaid, Top = 0, viewName = "_SuppAreasList" })
+                            </div>
+                            </div>
+                    </div>
+                </div>
+               
+            </div>
+             
+        </div>
+    </div>
+    <div class="black_overlay" id="f_black_overlay"></div>
+    <!---筛选内容结束-->
+    <!--加载提示信息--->
+    @Html.Partial("/Areas/MB/Themes/MB02/Views/Partial/_LoadTip.cshtml")
+</div>
+@Html.Partial("/Areas/MB/Themes/MB02/Views/Partial/_SearchLayer.cshtml")
+@section foot{
+    <script src="/Scripts/jquery/pullUp.js"></script>
+    <script src="/Areas/MB/Themes/MB02/Content/Scripts/storeList.js"></script>
+}
+
+
+
+
+ 
+      

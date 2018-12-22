@@ -1,0 +1,35 @@
+﻿@model YSWL.MALL.ViewModel.Shop.PayAndShip
+              <div  class="dis-modes f_t" > 
+                                                          
+               <div class="mode-item-tit">
+                    <strong>配送方式</strong>
+                     
+                  </div>
+                  <div class="mode-tab-nav">
+                    <ul>
+                     @if (Model.ListShippingType != null && Model.ListShippingType.Count > 0)
+                     {
+                         foreach (YSWL.MALL.Model.Shop.Shipping.ShippingType item in Model.ListShippingType)
+                         {
+                              <li class="mode-tab-item " id="ship_item_@(item.ModeId)"   onclick="save_Ship(this,@item.ModeId,@(item.SupplierId > 0 ? item.SupplierId : 0))" >
+							<span  class="m-txt_">@item.Name<i class="qmark-icon qmark-tip" data-tips="@Html.Raw(item.Description)"></i></span><strong class="gou"></strong>
+                        </li>
+                         }
+                     }
+                    </ul>
+                  </div>   
+                  <input type="hidden" id="curr_supp_ship_@(ViewBag.SuppId)" value="@(Model.CurrentShippingType != null ? Model.CurrentShippingType.ModeId : 0)" suppId="@(ViewBag.SuppId)" />
+                        </div>
+
+                          <div class="freight-cont">运费：<strong class="red"  id="freightPrice_supp_@(ViewBag.SuppId)" originalfreight="@(ViewBag.Freight)"  adjustedFreight="@(ViewBag.Freight)">￥@(ViewBag.Freight)</strong></div>
+
+
+<script type="text/javascript">
+    //选中配送方式
+    if (parseInt($('#curr_supp_ship_'+@(ViewBag.SuppId)).val()) > 0) {
+        $('#ship_item_' + $('#curr_supp_ship_'+@(ViewBag.SuppId)).val()).addClass('curr');
+    }
+   $(function () {
+              //GetActivList(@(ViewBag.SuppId),parseFloat($("#couponPriceId").attr('couponPrice'))); //优惠券优惠金额
+    });
+</script>

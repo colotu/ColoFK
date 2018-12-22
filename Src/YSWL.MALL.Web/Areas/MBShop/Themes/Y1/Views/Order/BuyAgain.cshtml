@@ -1,0 +1,150 @@
+﻿@{
+    Layout = "/Areas/MBShop/Themes/Y1/Views/Shared/_NoFootLayout.cshtml";
+}
+ @model List<YSWL.MALL.Model.Shop.Order.OrderInfo>
+@section foot{
+        <script src="/Scripts/jquery/maticsoft.waterfall.js"></script>
+        <script src="/Scripts/jquery/maticsoft.img.js"></script>
+        <script type="text/javascript">
+            $(function () {
+                $('body').addClass('bg');
+                waterFall.init({
+                    //Ajax请求参数
+                    AjaxOptions: {
+                        //Ajax请求参数
+                        Params: { viewName: "_WaterfallBuyAgainData",@Html.Raw(ViewBag.DataParams) },
+                        //Ajax请求URL
+                        DataURL: "@(ViewBag.BasePath)Order/WaterfallBuyAgainData"
+                    },
+                    //瀑布流起始索引记录器 - 用于累计
+                    CurrentAjaxStartIndexHF: $('#hfCurrentPageAjaxStartIndex'),
+                    //瀑布流起始索引
+                    StartIndex: $('#hfCurrentPageAjaxStartIndex').val() ? parseInt($('#hfCurrentPageAjaxStartIndex').val()) : 0,
+                    //瀑布流结束索引
+                    EndIndex: $('#hfCurrentPageAjaxEndIndex').val() ? parseInt($('#hfCurrentPageAjaxEndIndex').val()) : 0,
+
+                    //分页容器
+                    PagedContainer: $('.in_pages'),
+                    //列容器ID前缀
+                    ColumnFirstId: "J_lazyload",
+                    //列数
+                    ColumnNumber: 0, RowNumber: 3
+                });
+            });
+
+
+            //再次购买
+            $(document).on("click", ".buy_again", function () {
+                var orderid = $(this).attr('orderId');
+                if (!orderid) {
+                    ShowFailTip("订单有误，请稍候再试！");
+                    return;
+                }
+                //加入购物车
+                $.ajax({
+                    type: "POST",
+                    dataType: "json",
+                    async: false,
+                    url: $YSWL.BasePath + "ShoppingCart/OrderAddCart?s=" + new Date().format('yyyyMMddhhmmssS'),
+                    data: { orderId: orderid },
+                    success: function (resultData) {
+                        switch (resultData.STATUS) {
+                            case "SUCCESS":
+                                //跳转到购物车页面
+                                location.href = $YSWL.BasePath + "sc/ci";
+                                return;
+                            case "FAILED":
+                                switch (resultData.DATA) {
+                                    case "OrderNO":
+                                        ShowFailTip("该订单不存在，请稍候再试！");
+                                        return;
+                                    case "NOTCANBUY":
+                                        ShowFailTip("没有可以购买的商品！");
+                                        return;
+                                    default:
+                                        ShowFailTip("服务器繁忙，请稍候再试！");
+                                        return;
+                                }
+                            default:
+                                ShowFailTip("服务器繁忙，请稍候再试！");
+                                return;
+                        }
+                    }
+                });
+            });
+        </script>
+    }
+    <!--START HEADER-->
+                <header class="m_header">
+                    <div class="navbar-fixed-top">
+                        <div class="m_header_bar">
+                            <div class="m_icon_goback icon" onclick="history.go(-1);">
+                                <span></span>
+                            </div>
+                            <p class="m_header_title">再次购买</p>
+                        </div>
+                    </div>
+                </header>
+    <!-- END HEADER -->
+                <div class="order_content mt44 " id="J_lazyload" style="margin-bottom:10px;">
+@if (Model != null && Model.Count > 0)
+{
+    int num = 0;
+    foreach (var item in Model)
+    {
+        foreach (var it in item.OrderItems)
+        {
+            num = num + it.Quantity;
+        }
+                    <div class="order_wrap wrap">
+                        <div class="order_item">
+                            <span class="order_num">
+                                @item.OrderCode
+                            </span>
+                            <span class="order_status">@YSWL.MALL.Web.Areas.MBShop.Controllers.UserCenterController.GetOrderType(item.PaymentGateway, item.OrderStatus, item.PaymentStatus, item.ShippingStatus)</span>
+                        </div>
+                        <div class="order_info_wrap" >
+                            <div class="order_info" onclick='javascript:window.location.href="@(ViewBag.BasePath)O/oi/@item.OrderId"'>
+                                <table>
+                                    <tr>
+                                        <td>订单金额</td>
+                                        <td>￥@item.Amount.ToString("F")</td>
+                                    </tr>
+                                    <tr>
+                                        <td>商品数量</td>
+                                        <td>@num</td>
+                                    </tr>
+                                    <tr>
+                                        <td>下单时间</td>
+                                        <td>@item.CreatedDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="buy_again"  orderId="@item.OrderId">
+                                <input type="button" size="4" value="再次购买" class="btn1" >
+                            </div>
+                        </div>
+                    </div>
+    }
+}else
+                    {
+                    <div class="shp_cart_wrap mt44 mb50">
+                        <div class="emptycart wrap" style="display:block">
+                            <div class="shp_cart_empty">
+                                <div class="order_empty">
+                                    <div class="search_empty_pic icon">
+                                        <span></span>
+                                    </div>
+                                    <div class="empty_warning_text">
+                                        暂无结果
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    }
+                    <input type="hidden" id="hfCurrentPageAjaxStartIndex" value="@ViewBag.CurrentPageAjaxStartIndex" />
+                    <input type="hidden" id="hfCurrentPageAjaxEndIndex" value="@ViewBag.CurrentPageAjaxEndIndex" />
+                    <input type="hidden" id="hfCurrentPageAjaxSize" value="@ViewBag.CurrentPageAjaxSize" />
+                    </div>

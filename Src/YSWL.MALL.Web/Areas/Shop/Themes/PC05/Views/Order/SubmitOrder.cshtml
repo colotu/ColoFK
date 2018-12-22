@@ -1,0 +1,354 @@
+﻿@{
+    Layout = "~/Areas/Shop/Themes/PC05/Views/Shared/_ShoppingLayout.cshtml";
+}
+@section step{
+  <div class="lc1 lc2"></div>
+}
+@section head{
+ <link href="/Scripts/jqueryui/red/jquery-ui-1.9.2.min.css" rel="stylesheet" type="text/css" /> 
+    <script src="/Scripts/jquery/jquery.guid.js" type="text/javascript"></script>
+        <style type="text/css">
+            .progress {display: none; float: left; width: 1px; height: 14px; color: white; font-size: 12px; overflow: hidden; background-color: navy; padding-left: 5px; }
+        </style>
+   <link href="/Areas/Shop/Themes/PC05/Content/Css/goods.css" rel="stylesheet"/>
+   <link href="/Areas/Shop/Themes/PC05/Content/Css/shop2.css" rel="stylesheet"/>
+    <script src="/Scripts/jqueryui/jquery-ui-1.9.2.min.js" type="text/javascript"></script>
+    <script src="/Scripts/jqueryui/maticsoft.jqueryui.dialog.min.js" type="text/javascript"></script>
+    <script src="/Scripts/jquery/maticsoft.jquery.dynatextarea.js" type="text/javascript"></script>
+    <script src="/Areas/Shop/Themes/PC05/Content/Scripts/ajaxLogin.js" type="text/javascript"></script>
+    <script src="/Areas/Shop/Themes/PC05/Content/Scripts/Pay/SubmitOrder.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function() {
+            //            if ($('#step-1').find('#txtAddressCount').val() < 1) {
+            //                Edit_Consignee(null, -1);
+            //            }
+            $.dynatextarea($('#txtRemark'), 200, $('#progressbar1'));
+            $('#order-submit').live('click',function() {
+                var addressId = $('#step-1 .step-content').attr("addressId");
+                if (!addressId || addressId < 1 || $('#hidIsGroupRegionId').val().toLocaleLowerCase() == 'false') { //未设置收货地址 或者 收货地区不是团购地区
+                    $.alertEx('请修改收货人信息!', function() {
+                        $('#step-1').effect('highlight', 1000);
+                        //$('#step-1').effect('shake');
+                    });
+                    return false;
+                }
+                var payId = $('#step-2 #paylist .payment-type.selected').attr('payid');
+                if (!payId || payId < 1) {
+                    $.alertEx('请修改支付方式后提交订单!', function () {
+                        $('#step-2').effect('highlight', 1000);
+                    });
+                    return false;
+                }
+                var conpon = $("#hfcoupon").val();
+                SubmitOrder(this, addressId, payId, conpon);
+            });
+
+            //是否可用优惠券
+            IsUseCoupon();
+        });
+
+        function query_coupons() {
+            $("#orderCouponId").toggle();
+        }
+
+        function query_remark() {
+            $("#orderRemarkId").toggle();
+        }
+
+//是否可用优惠券
+
+        function IsUseCoupon() {
+            var useCoupon = $('#hidUseCoupon').val();
+            //不是限时抢购/团购
+            if (!$.getUrlParam('c') && !$.getUrlParam('g')) {
+                $('#coupons_toggler').show();
+                return;
+            }
+            //限时抢购/团购 开启了使用优惠劵
+            if (($.getUrlParam('c') || $.getUrlParam('g')) && useCoupon.toLocaleLowerCase() == 'true') {
+                $('#coupons_toggler').show();
+            }
+        }
+
+        //获取赠品及包邮信息
+
+        function GetActivList(couponPrice) {
+            $('#activList').load($YSWL.BasePath + 'Order/ActivList', {coupPrice: couponPrice });
+        }
+
+        //是否包邮
+
+        function IsFullFreeShipping() {
+            if ($('#hidFullFreeShipping').length > 0 && $('#hidFullFreeShipping').val() && $('#hidFullFreeShipping').val().toLocaleLowerCase() == 'true') {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        
+        //获取要购买的商品的库存
+        function GetBuyProdStock() {
+            $.ajax({
+                type: "POST",
+                dataType: "json",
+                url: $YSWL.BasePath + "Order/GetBuyProdStock",
+                async: false,
+                success: function (resultJson) {
+                    if (resultJson.STATUS == "OK") {
+                        var datajson = $.parseJSON(resultJson.DATA);
+                        var tiptext = '';
+                        var isred = false;
+                        for (var i = 0; i < datajson.length; i++) {
+                            if (parseInt(datajson[i].stock) <= 0) {
+                                tiptext = '无货';
+                                isred = true;
+                            } else if (parseInt(datajson[i].stock) < parseInt(datajson[i].quantity)) {
+                                tiptext = '库存不足';
+                                isred = true;
+                            } else {
+                                tiptext = '有货';
+                                isred = false;
+                            }
+                            if ($('#items_' + datajson[i].sku + ' .stockTip').length > 0) {
+                                if (isred) {
+                                    $('#items_' + datajson[i].sku + ' .stockTip').text(tiptext).addClass('red');
+                                } else {
+                                    $('#items_' + datajson[i].sku + ' .stockTip').text(tiptext).removeClass('red');
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    </script>
+}
+
+@model YSWL.MALL.Model.Shop.Products.ShoppingCartInfo
+<input  type="hidden" id="hidUseCoupon" value="@ViewBag.PromotionsIsUseCoupon"/>
+<input  type="hidden" id="hdIsMultiDepot" value="@ViewBag.IsMultiDepot"/>
+<h1 class="sub-h1nav">填写并核对订单信息</h1>
+<div class="checkout-steps">
+
+<div id="step-1" class="qr addressMain step step-complete">
+                @Html.Action("ShowAddress", "Order")
+    </div>
+
+
+    <div class="qr qr1 step step-complete" id="step-2">
+     @Html.Action("PayList", "Order")
+    </div>
+
+      <div id="step-4" class="step step-complete qr no-btp">
+        
+    	
+         @if (Model != null && Model.Items.Count > 0)
+         {
+             <!--**********商品清单内容列表开始************-->
+             <h1>送货清单</h1>
+<div id="order-cart"  style="padding: 0 20px;">
+@if (Model.DicSuppCartItems != null)
+{
+    foreach (var dicItem in Model.DicSuppCartItems)
+    {
+        <div class="store-shopping-list">
+            <div class="dis-modes fl">
+                <div class="dis-mode-tit">
+                    配送方式
+                </div>
+                @Html.Action("GetShipTypeBySupp", "Order", new { suppId = dicItem.Key })
+            </div>
+
+            <div class="shopping-prodcuts-list fr">
+                <div class="store-name">
+                    商家：
+                    @if (dicItem.Key <= 0)
+                    {
+                        @:自营
+                        }
+                    else
+                    {
+                        @(dicItem.Value.Count > 0 ? dicItem.Value[0].ShopName : "")
+                    }
+                </div>
+
+                <table class="productss font_jq">
+                    <tbody>
+                        @*<tr>
+                    <td width="542">商品 </td>
+                    <td width="105">单价</td>
+                    <td width="114">数量 </td>
+                    <td>小计</td>
+                </tr>*@
+                        @foreach (YSWL.MALL.Model.Shop.Products.ShoppingCartItem item in dicItem.Value)
+                        {
+
+                            <tr id="items_@(item.SKU)">
+                                <td  class="txt-l">
+                                    @if (item.SaleStatus != 1)
+                            {
+                                        @:<div class="gl_invalid_o">失效</div>
+                    }
+                                    <div class="imge">
+                                        <a href="@(ViewBag.BasePath)Product/Detail/@item.ProductId" target="_blank">
+                                            <img src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.ThumbnailsUrl, "T81X81_")" />
+                                        </a>
+                                    </div>
+                                    <div class="imgnam">
+                                        <a href="@(ViewBag.BasePath)Product/Detail/@item.ProductId" target="_blank" class="clor-blue1">@item.Name</a>
+                                        @if (item.SkuValues != null && item.SkuValues.Length > 0)
+                                        {
+                                            <div>
+                                                <div class="sizeOptions cf sku-size-div">
+                                                    <ul class="sku-size-select AttrItems" style="height: 36px;">
+                                                        @foreach (string val in item.SkuValues)
+                                                        {
+                                                            <li class="SkuItems"><a href="javascript:;">@val</a> </li>
+                                                        }
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        }
+                                        <div class="p-more">
+                                            商品编号：@item.SKU
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="width100 txt-r">¥@item.SellPrice.ToString("F")</td>
+                                <td class="width100">
+                                    <span>  x @item.Quantity </span>
+                                    @if (item.SaleStatus == 1)
+                            {
+                                if (item.Stock <= 0)
+                                {
+                                            <span style="margin-left: 3px;" class="red stockTip">无货</span>
+                                        }
+                                        else if (item.Stock < item.Quantity)
+                                        {
+                                            <span style="margin-left: 3px;" class="red stockTip">库存不足</span>
+                                        }
+                                        else
+                                        {
+                                            <span style="margin-left: 3px;" class="stockTip">有货</span>
+                                        }
+                                    }
+                                </td>
+
+                                <td class="width100 txt-r">¥@((item.SellPrice * item.Quantity).ToString("F"))</td>
+                            </tr>
+
+                        }
+
+                        @*<tr style="display:none;">
+                    <td></td>
+                    <td colspan="3" style="text-align:right;padding-right:20px;"><font color="blue">[包邮]</font>您已参加普通会员满元包邮 </td>
+                </tr>*@
+                    </tbody>
+                </table>
+            </div>
+            <div class="clear"></div>
+            </div>
+            }
+            }
+        </div>
+               <!--赠品-->
+                                                   <div id="activList">
+           
+                                                   </div>
+                                                            
+                                                <!--赠品-->
+             
+                  <!--**********商品清单内容列表结束************-->
+             
+            
+                    <div class="step-content font_jq">
+                        <div id="part-order" class="sbox-wrap">
+                            <div class="order-summary">
+                                <div class="statistic fr  ">
+                                    <div class="list">
+                                        <span><em>@ViewBag.TotalQuantity</em> 件商品，总商品金额：</span><em class="price" id="warePriceId">￥@ViewBag.ProductTotal.ToString("F")</em>
+                                    </div>
+
+                                    <div class="list" id="showFreightPrice" style="padding-left: 140px;">
+                                        <span id="freightSpan" style="width: 40px;">运费：</span> <em class="price" id="freightPriceId" freightPrice="0">
+                                            ￥@ViewBag.Freight.ToString("F")
+                                        </em>
+                                    </div>
+                                    <div class="list">
+                                        <span>促销：</span><em class="price" id="promotionsPriceId">-￥@ViewBag.TotalPromPrice.ToString("F")</em>
+                                    </div>
+                                    <div class="list" id="showCouponPrice">
+                                        <span>优惠券：</span><em class="price" id="couponPriceId" couponPrice="0">-￥0.00</em>
+                                    </div>
+
+
+
+
+                                </div>
+                                <div class="span clr">
+                                </div>
+                                <div class="order-coupon" data-bind="coupon">
+                                    <!-- 优惠券开始 -->
+                                    <div class="item" id="orderCouponItem">
+                                        <div class="toggle-title">
+                                            <a class="toggler" href="javascript:void(0)" id="coupons_toggler" style="display:none;" onclick="query_coupons()"><b></b>使用优惠券抵消部分总额</a>
+                                        </div>
+                                        <div class="toggle-wrap" style="display: none" id="orderCouponId">
+                                            @Html.Action("CouponList", "Order", new { cartInfo = Model })
+                                        </div>
+                                    </div>
+                                    <!-- 优惠券结束 -->
+                                    <div class="item" id="orderGiftCardItem" style="display: none">
+                                        <div class="toggle-title">
+                                            <a class="toggler" href="javascript:;" onclick="query_giftCards()"><b></b>@(ViewBag.WebName)礼品卡</a>
+                                        </div>
+                                        <div class="toggle-wrap hide" id="giftCardId">
+                                            <div class="cbox" id="gift">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- 订单备注  -->
+                                    <div class="item" id="orderRemarkItem">
+                                        <div class="toggle-title">
+                                            <a class="toggler" href="javascript:;" onclick="query_remark()"><b></b>添加订单备注/发票信息</a>
+                                        </div>
+                                        <div class="toggle-wrap" style="display: none" id="orderRemarkId">
+                                            <div id="Remarks">
+                                                <textarea id="txtRemark" style="font-size:14px;padding: 5px;" placeholder="您可以在此添加订单备注或发票信息" rows="3" cols="75"></textarea>
+                                                <div id="progressbar1" class="progress"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                                <!--end div.order-coupon-->
+                            </div>
+                            <span class="clr"></span>
+                        </div>
+                        <!--end div#part-order-->
+                        <span class="clr"></span>
+                  
+                    </div> 
+         }
+ 
+        <div class="lcjs">     
+        	   
+        	  <div class="tjiaol">  
+                应付总额：<i id="payPriceId" BasePrice="@ViewBag.TotalPrice.ToString("F")" >
+                                            ￥@ViewBag.TotalPrice.ToString("F")
+                                        </i>
+
+                <a id="backcar" href="@(ViewBag.BasePath)ShoppingCart/CartInfo" class="backcar"></a> 
+            	<a href="javascript:;"  id="order-submit"  class="gojsll" style="margin-left: -5px;"></a>   
+            </div>	
+              <span id="submit_message" style="display: none" class="submit-error"></span>
+        </div>
+
+    </div>
+
+    
+
+    </div>
+     
+ 

@@ -1,0 +1,110 @@
+﻿@model List<YSWL.MALL.Model.Shop.Products.ProductInfo>
+<div class="floor-bd clearfix placeholder-pf">
+    <div class="a-con">
+        @Html.Action("AD", "Partial", new { AdvPositionId = 121, ViewName = "_IndexLeftAd" })
+    </div>
+    <div class="b-con">
+        <div class="pro-list clearfix">
+            <div class="pro-list-item">
+                <div class="row2">
+                    @if (Model != null && Model.Count > 0)
+                    {
+                        <div class="pro-item">
+                            <a href="@Model[0].SeoUrl">
+                                <p class="pro-name">@Model[0].ProductName</p>
+                                <div class="pro-price">
+                                    <span class="price-new"><i>¥</i>@Model[0].LowestSalePrice.ToString("F")</span>
+                                    <span class="activity-tag tag-hollow-btn">销量&nbsp;↑</span>
+                                </div>
+                                <div class="pro-pic">
+                                    <img src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(Model[0].ThumbnailUrl1, "T115X115_")" alt="@Model[0].ProductName">
+                                </div>
+                            </a>
+                        </div>
+                        if (Model.Count > 1)
+                        {
+                            <div class="pro-item">
+                                <a href="@Model[1].SeoUrl">
+                                    <p class="pro-name">@Model[1].ProductName</p>
+                                    <div class="pro-price">
+                                        <span class="price-new"><i>¥</i>@Model[1].LowestSalePrice.ToString("F")</span>
+                                        <span class="activity-tag tag-hollow-btn">销量&nbsp;↑</span>
+                                    </div>
+                                    <div class="pro-pic">
+                                        <img src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(Model[1].ThumbnailUrl1, "T115X115_")" alt="@Model[1].ProductName">
+                                    </div>
+                                </a>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="c-con">
+        <div class="big-ad">
+            @Html.Action("AD", "Partial", new { AdvPositionId = 122, ViewName = "_AD" })
+        </div>
+    </div>
+    <div class="d-con">
+        <div class="pro-list clearfix">
+            <div class="pro-list-item">
+                <div class="row2">
+                    @if (Model != null)
+                    {
+                        for (int i = 2; i < Model.Count; i++)
+                        {
+                            <div class="pro-item">
+                                <a href="@Model[i].SeoUrl">
+                                    <p class="pro-name">@Model[i].ProductName</p>
+                                    <div class="pro-price">
+                                        <span class="price-new"><i>¥</i>@Model[i].LowestSalePrice.ToString("F")</span>
+                                        <span class="activity-tag tag-hollow-btn">销量&nbsp;↑</span>
+                                    </div>
+                                    <div class="pro-pic">
+                                        <img src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(Model[i].ThumbnailUrl1, "T115X115_")">
+                                    </div>
+                                </a>
+                            </div>
+                            if (i == 3)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="e-con">
+        <div class="goods-list">
+            <div class="pro-list pro-item-border clearfix">
+                <div class="pro-list-item">
+                    @if (Model != null)
+                    {
+                        for (int i = 4; i < Model.Count; i++)
+                        {
+                            <div class="pro-item">
+                                <a href="@Model[i].SeoUrl">
+                                    <div class="pro-pic">
+                                        <img src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(Model[i].ThumbnailUrl1, "T81X81_")">
+                                    </div>
+                                    <div class="r-info">
+                                        <p class="pro-name">@Model[i].ProductName</p>
+                                        <div class="pro-price">
+                                            <span class="price-new"><i>¥</i>@Model[i].LowestSalePrice.ToString("F")</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                            if (i == 8)
+                            {
+                                break;
+                            }
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,26 @@
+﻿@model List<YSWL.MALL.Model.Settings.Advertisement>
+<div class="slidegroup" name="__DTE2">
+    @if (Model != null)
+    {     
+        <div class="j-sw-clip" style="position: relative;">
+            <ul class="j-sw-c" style="position: absolute; top: -1011px;">
+                @foreach (var item in Model)
+                {
+                    <li style="display: block;"><a href="@item.NavigateUrl"
+                                           title="@item.AdvertisementName" target="_blank" name="__MDT006E">
+                                                    <img alt="@item.AdvertisementName" src="@item.FileUrl"  /></a></li>
+                }
+            </ul>
+        </div>
+        <!--<ul class="j-sw-nav">-->
+        <!--Need To Check Start-->
+    
+        <ul class="j-sw-nav" style="width: 760px;">
+            @foreach (var item in Model)
+            {
+                <li class=""><a target="_blank" href="@item.NavigateUrl"
+                              name="__MDT006E">@item.AdvertisementName</a></li>
+            }
+        </ul>
+    }
+</div>

@@ -1,0 +1,13 @@
+﻿@model List<YSWL.MALL.Model.Shop.Supplier.SuppAreas>
+  @if (Model != null)
+  {
+      for (int i = 0; i < Model.Count; i++)
+      {
+        <div class="floor-line">
+            <div class="floor-num fc@((i + 1)%6)" onclick="window.location.href = '@(ViewBag.BasePath)store/sl/@Model[i].AreaId/sales'" >@Model[i].Name</div>
+            <div class="pro-sort">
+                @Html.Action("SuppAreasList", "Partial", new { AreaId = Model[i].AreaId, Top = 0, viewName = "/Areas/MB/Themes/MB02/Views/Home/_SuppAreasThreeList.cshtml" })
+            </div>
+        </div>
+      }
+  }

@@ -1,0 +1,43 @@
+﻿@model List<YSWL.MALL.Model.Shop.Products.CategoryInfo>
+
+<div class="topall-idx" id="cate_all_idx">
+		        	<h1 id="js-navall"  >全部商品分类</h1>
+		            <div class="product-lists" style="display:none;">
+                       @if (Model != null && Model.Count > 0)
+                       {
+                        <!---大分类-->
+		            	<div class="product-listsA">
+                            @for (int i = 0; i < Model.Count; i++)
+                            {
+                         <dl class="ie6" cid="@(Model[i].CategoryId)">
+                        <dt > 
+                        <img  src="@(@Model[i].ImageUrl)" onerror="this.onerror='';this.src='/Content/themes/base/Shop/images/none.png'" />
+                        <a href="@(ViewBag.BasePath)product/@Model[i].CategoryId"   target="_blank"  style="vertical-align: middle;">@Model[i].Name</a></dt>
+                        <dd>
+                           @Html.Action("CategoryList", "Partial", new { Cid = Model[i].CategoryId, Top = 6, viewName = "_CateSecond2" })
+                           </dd>
+                         </dl>
+                   
+                            }
+                                <div class="product-lists-bmbg" id="d_cate_bmbg">
+                                <a href="javascript:;" class="aimg1"></a>
+                                <a href="javascript:;" class="aimg2"></a> 
+                                </div>
+                                </div>
+		                  <!--子分类-->
+                      
+                            foreach (var item in Model)
+                            { 
+                                <div class="productalls" style="display: none;"  id="product_cate_@(item.CategoryId)"> 
+                                 @Html.Action("CategoryList", "Partial", new { Cid = item.CategoryId, Top = 0, viewName = "_CateSecond" })
+                                     <div class="productalls-right"></div>
+		                      </div>
+                            }
+
+                       }
+                     
+
+		            </div>
+		        </div>
+
+<script src="/Areas/Shop/Themes/PC05/Content/Scripts/cate.js?v=1.0" type="text/javascript"></script>

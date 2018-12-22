@@ -1,0 +1,266 @@
+﻿@model YSWL.MALL.ViewModel.Shop.ShoppingCartModel
+
+<script type="text/javascript">
+    $(function () {
+        var selectItem = new Array();
+        $(".SalePrice").each(function () {
+            var sellprice = $(this).attr("toalSellPrice");
+            var adjustedprice = $(this).attr('toalAdjustedPrice');
+            var p = parseFloat(sellprice) - parseFloat(adjustedprice);
+            if (p > 0) {
+                  $(this).text(p.toFixed(2));
+                $(this).parent().show();
+            }
+        });
+        //填充数组
+        $(".btnCheck").each(function () {
+            var itemId = $(this).attr("ItemId");
+            //判断选中数组中是否已存在该项
+            var index = $.inArray(itemId, selectItem);
+            if (index > -1) {
+                selectItem.splice(index, 1);
+            } else {
+                selectItem.push(itemId);
+            }
+        });
+        $("#btnRemoveAll").click(function () {
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                url: $YSWL.BasePath +"ShoppingCart/ClearShopCart",
+                data: {},
+                success: function (data) {
+                    if (data != "No") {
+                        $("#LoadCartList").load($YSWL.BasePath +"ShoppingCart/CartList?s=" + new Date().format('yyyyMMddhhmmssS'));
+                    } else {
+                        AlertWarning("服务器繁忙，请稍候再试！");
+                    }
+                }
+            });
+        });
+ 
+        //全选
+        $("#btnCheckAll").click(function () {
+            var IsCheck = !$(this).hasClass("select_all_active");
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                url: $YSWL.BasePath + "ShoppingCart/SelectedItemAll",
+                async: false,
+                data: { option: (IsCheck ? "check" : "remove") },
+                success: function (data) {
+                    if (data == "OK") {
+                        $("#LoadCartList").load($YSWL.BasePath + "ShoppingCart/CartList?s=" + new Date().format('yyyyMMddhhmmssS'));
+                    } else {
+                        AlertWarning("操作失败~");
+                    }
+                }
+            });
+        });
+        $(".btnCheck").click(function () {
+            var IsCheck = !$(this).hasClass("cart_checkbox_active");
+            var itemId = $(this).attr('itemId');
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                url: $YSWL.BasePath + "ShoppingCart/SelectedItem",
+                async: false,
+                data: { itemId: itemId, option: (IsCheck ? "check" : "remove") },
+                success: function (data) {
+                    if (data == "OK") {
+                        $("#LoadCartList").load($YSWL.BasePath + "ShoppingCart/CartList?s=" + new Date().format('yyyyMMddhhmmssS'));
+                    } else {
+                        AlertWarning("操作失败~");
+                    }
+                }
+            });
+            //var itemId = $(this).attr("ItemId");
+            ////判断选中数组中是否已存在该项
+            //// jQuery.inArray
+            //var index = $.inArray(itemId, selectItem);
+            //if (index > -1) {
+            //    selectItem.splice(index, 1);
+            //} else {
+            //    selectItem.push(itemId);
+            //}
+        });
+        $("#btnRemoveSelect").click(function () {
+            alert(selectItem);
+            var itemIds = selectItem.join(",");
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                url: $YSWL.BasePath +"ShoppingCart/RemoveItem",
+                data: { ItemIds: itemIds },
+                success: function (data) {
+                    if (data != "No") {
+                        $("#LoadCartList").load($YSWL.BasePath +"ShoppingCart/CartList?s=" + new Date().format('yyyyMMddhhmmssS'));
+                    } else {
+                        AlertWarning("服务器繁忙，请稍候再试！");
+                    }
+                }
+            });
+        });
+        $(".btnDelete").click(function () {
+            var itemId = $(this).attr("ItemId");
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                url: $YSWL.BasePath +"ShoppingCart/RemoveItem",
+                data: { ItemIds: itemId },
+                success: function (data) {
+                    if (data != "No") {
+                        $("#LoadCartList").load($YSWL.BasePath +"ShoppingCart/CartList?s=" + new Date().format('yyyyMMddhhmmssS'));
+                    } else {
+                        AlertWarning("服务器繁忙，请稍候再试！");
+                    }
+                }
+            });
+        });
+ 
+        if (parseInt($('#SelectedQuantity').val()) < 1) {
+            $('#toSettlement').css('cursor', ' not-allowed').removeAttr('onclick');
+            $('#toSettlement').click(function () {
+                return false;
+            });
+        }
+    })
+</script>
+
+@if (Model != null && Model.AllCartInfo.Quantity > 0)
+{
+        <div class="shp_cart_wrap mt44 mb50">
+            @foreach (var item in Model.AllCartInfo.Items)
+            {
+                <div class="shp_cart_prod wrap  gouwuchelist   @( (item.Stock < item.Quantity || item.SaleStatus != 1)?"set_grey":"")   ">
+                    <div class="icon @(item.Selected ? "cart_checkbox_active" : "cart_checkbox")   btnCheck" itemId="@item.ItemId" >
+                        <span></span>
+                    </div>
+                    
+                     <div class="cart_photo_wrap prod_select"> 
+                        <a href="@(ViewBag.BasePath)p/d/@item.ProductId" class="cart_photo_cell">
+                            <img class="shp_cart_img" src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.ThumbnailsUrl, "T81X81_")">
+                        </a>
+                    </div>
+                    <div class="shp_cart_introduction" style="min-height:100px;">
+                        @*<span>@item.SKU</span>*@
+                        <p>@YSWL.Common.StringPlus.SubString(item.Name, 20, "...") &#12288;</p>@if (item.SkuValues != null && item.SkuValues.Length > 0)
+                    {
+                        foreach (string val in item.SkuValues)
+                        {
+                                <span class="shop_cart_sku">@val</span>
+                            }
+                        }
+                        <p>
+                            ￥@item.AdjustedPrice.ToString("F")
+                        </p>
+                        @if (!string.IsNullOrWhiteSpace(item.SaleDes))
+                      {
+                     <em style="font-style: normal;color: red;">优惠: @item.SaleDes</em>
+                        }
+
+                    </div>
+                    <div class="shp_cart_opt icon">
+                        <span class="btnDelete" ItemId="@item.ItemId"></span>
+
+                        <div class="shp_quantity_wrap" ItemId="@item.ItemId" stock="@item.Stock">
+                            <em style="font-style: normal;color: red;">
+                                @if (item.SaleStatus != 1)
+                    {
+                                    @:失效
+                    }
+                    else
+                    {
+                        if (item.Stock <= 0)
+                        {
+                                        @:无货
+                    }
+                        else if (item.Stock < item.Quantity)
+                        {
+                                        @:库存不足
+                    }
+                                    @* else {
+                                            @:有货
+                                        }*@
+                                }
+                            </em>
+                            <input type="text" size="4" value="@item.Quantity" name="num" class="shp_quantity txtQuantity">件
+                        </div>
+                    </div>
+                </div>
+            }
+            @if (Model.SelectedCartInfo.TotalRate > 0)
+            {
+            <div class="sum-wrap" style="    padding: 10px 0 10px 5px;">
+                <span class="sum-number"></span>总价优惠：<span class="sum-totals">¥<strong class="sum-total" id="finalPrice" data-bind="@Model.SelectedCartInfo.TotalRate.ToString("F")">@Model.SelectedCartInfo.TotalRate.ToString("F")</strong></span>元<br>
+            </div>
+            }
+        </div>
+
+
+        <!--底部悬浮导航-->
+        <div class="shp_cart_bottom">
+            <nav class="navbar-fixed-bottom navbar_bottom_wrap">
+                <div class="payment_total navbar_bottom_select_all bg_transparent font_white">
+                    <div class="select_all_wrap">
+                        <a href="javascript:;" class="font_white">
+                            <div class="@(Model.SelectedCartInfo.Quantity == Model.AllCartInfo.Quantity ? "select_all_active" : "select_all") icon" id="btnCheckAll">
+                                <span></span>全选
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <input type="hidden" value="@Model.SelectedCartInfo.Quantity" id="SelectedQuantity" />
+                <div class="payment_total navbar_bottom_payment bg_transparent font_white">
+                    <div class="total">
+                        <span>
+                            合计：
+                        </span>
+                        <span class="amount_money">
+                            ￥@Model.SelectedCartInfo.TotalAdjustedPrice.ToString("F")
+                        </span>
+                    </div>
+                </div>
+                <div class="btn_right">
+                    <a href="javascript:;" id="toSettlement" onclick="GoSubmit();" class="shp_cart_settlement navbar_bottom bg_red">
+                        <span class="font_white">下单</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
+}
+else
+{
+        <div class="shp_cart_wrap mt44 mb50">
+            <div class="emptycart" style="display:block">
+                <div class="shp_cart_empty">
+                    <div class="cart_empty_pic"></div>
+                    <div class="empty_warning_text">
+                        购物车还是空的，去挑几件中意的商品吧！
+                    </div>
+                    <div class="shpcart_empty_btn_wrap">
+                        <a href="@(ViewBag.BasePath)p" class="btn btn-danger">
+                            去逛逛
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

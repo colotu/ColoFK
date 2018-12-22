@@ -1,0 +1,52 @@
+﻿@model List<YSWL.MALL.Model.SNS.AlbumType>
+@{
+    Layout = "~/Areas/SNS/Themes/TufenXiang/Views/Shared/_BaseLayout.cshtml";
+}
+<script type="text/javascript" src="/Areas/SNS/Themes/TufenXiang/Content/Scripts/show.js"></script>
+<script src="/Areas/SNS/Themes/TufenXiang/Content/Scripts/FellowAlbum.js" type="text/javascript"></script>
+<script src="/Scripts/jquery/maticsoft.img.min.js" type="text/javascript"></script>
+<script type="text/javascript">    $(function () { $.lazyFixedLoadImg('.AlbumPart', 62, 62); });</script>
+<!------banner-------->
+
+  <div class="main_top_a">
+         <p class="thead">图友们的专辑<span>/POPULAR ALBUMS</span></p>
+      <div class="clear"></div>
+    </div>
+<!------banner结束----->
+<!-----main----->
+<!-----album------->
+<div class="clear">
+</div>
+@foreach (var item in Model)
+{
+    <!--专辑分类-->
+    <div class="main_album">
+        <p class="album_sort">
+            <a href="@(ViewBag.BasePath)Album/TypeIndex?AlbumType=@item.ID">@item.TypeName</a></p>
+        <div class="main_album_bl">
+            @Html.Action("AlbumPart", new { AlbumType = item.ID })
+            <div class="clear">
+            </div>
+        </div>
+        <div class="album_more">
+            <div class="album_more_an">
+                <a href="@(ViewBag.BasePath)Album/TypeIndex?AlbumType=@item.ID">查看全部@(item.TypeName)专辑</a></div>
+            <p class="album_more_nn">@item.AlbumsCount.ToString() 个</p>
+            <div class="clear">
+            </div>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+    <div class="clear">
+    </div>
+    <!--专辑分类end-->
+
+}
+<!-----album end----->
+<div class="album_ad">
+    @*<a href="javascript:;">
+       <img src="/Areas/SNS/Themes/TufenXiang/Content/images/album_04.jpg" /></a>*@
+     @Html.Action("AdDetail", "Partial", new { id =18, ViewName = "_ImageAd" })  
+</div>
+<!-----main end---->

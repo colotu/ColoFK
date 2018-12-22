@@ -1,0 +1,55 @@
+﻿@model YSWL.MALL.Model.Shop.Shipping.ShippingAddress
+@if (Model != null)
+{
+    
+    <h1>收货人信息  
+    <input id="txtAddressCount" type="hidden" value="1"/>
+    <span   id="consignee_edit_action"> 
+    <a href="javascript:;"  class="clor-blue1 js-xgaddress"   onclick="Edit_Consignee(this, @Model.ShippingId)">[修改]</a> </span>
+        </h1>
+        <div class="xianx confirmAddress step-content"  addressId="@Model.ShippingId">
+            <p>@Model.ShipName &nbsp; @Model.CelPhone &nbsp; &nbsp; @Model.EmailAddress
+                        </p>
+            <p>@Model.RegionFullName&nbsp;@Model.Address  <span id="GroupRegion_Tip"  class="red" style="font-weight: bold;"></span></p>
+        </div>
+  
+
+}
+else
+{
+    
+    <h1>收货人信息  
+    <input id="txtAddressCount" type="hidden" value="0" />
+    <span   id="consignee_edit_action"> 
+    <a href="javascript:;"  class="clor-blue1 js-xgaddress"   onclick="Edit_Consignee(this, -1)">[修改]</a> </span>
+        </h1>
+        <div class="xianx confirmAddress"  >
+            <p> 未设置收货信息</p>
+        </div>
+}
+<input id="hidIsGroupRegionId" type="hidden" value="@ViewBag.IsGroupRegionId"/><script type="text/javascript">
+                                                                                   $(function () {
+
+                                                                                       //开启了分仓  切换地区时调取分仓库存
+                                                                                       if ($('#hdIsMultiDepot').val().toLocaleLowerCase() == 'true') {
+                                                                                           GetBuyProdStock();
+                                                                                       }
+
+
+                                                                                       if ($('#GroupRegion_Tip').length > 0) {
+                                                                                           //收货地区不是团购地区
+                                                                                           if ($('#hidIsGroupRegionId').val().toLocaleLowerCase() == 'false') {
+                                                                                               $('#GroupRegion_Tip').text('该地区不是团购地区,请修改收货地区');
+                                                                                           } else {
+                                                                                               $('#GroupRegion_Tip').text('');
+                                                                                           }
+                                                                                       }
+
+                                                                                       //计算运费  并获取促销活动
+                                                                                       $('#freightPriceId').attr('freightPrice','@(ViewBag.Freight.ToString("F"))').text('￥@(ViewBag.Freight.ToString("F"))');
+                                                                                       var totalprice = (parseFloat($('#payPriceId').attr('BasePrice')) + @(ViewBag.Freight)).toFixed(2);
+                                                                                       $('#payPriceId').text('￥' + totalprice);
+                                                                                       GetActivList(parseFloat($("#couponPriceId").attr('couponPrice'))); //优惠券优惠金额
+                                                                                   });
+    </script>
+

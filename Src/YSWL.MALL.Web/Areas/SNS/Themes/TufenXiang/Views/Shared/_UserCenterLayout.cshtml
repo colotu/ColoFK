@@ -1,0 +1,22 @@
+﻿@{
+    Layout = "~/Areas/SNS/Themes/TufenXiang/Views/Shared/_SiteLayout.cshtml";
+}
+@section head{
+    @RenderSection("head", false)
+}
+<div class="header" id="headers">
+@*@Html.Partial("~/Areas/SNS/Themes/TufenXiang/Views/Partial/_Header.cshtml")*@
+@Html.Action("Header", "Partial")
+</div>
+@Html.Action("Navigation", "Partial", new { navType = YSWL.MALL.Model.SNS.EnumHelper.NavigationType.TufenXiang })@*导航*@
+<!------usercenter-------->
+<div class="clear">
+</div>
+<div class="material">
+    @Html.Action("LeftMenu", "Partial") @*菜单*@
+    @RenderBody() @*页面内容*@
+    <div class="clear">
+    </div>
+    @Html.Action("Footer", "Partial", new { area = "SNS" }) @*底部*@
+</div>
+<!------usercenter end----->

@@ -1,0 +1,210 @@
+﻿ @{
+     Layout = "/Areas/MShop/Themes/F1/Views/Shared/_BaseLayout.cshtml";
+     ViewBag.Title = "个人中心-修改信息";
+ }
+ @model YSWL.MALL.Model.Members.UsersExpModel  
+@section head{
+<script src="/Areas/MShop/Themes/F1/Content/Scripts/UserCenter/updateuserinfo.js" type="text/javascript"></script>
+}
+<!--日期控件开始-->
+<link href="/Scripts/mobiscroll-2.6.2/css/mobiscroll.custom-2.6.2.min.css"  rel="stylesheet" type="text/css" />
+<script src="/Scripts/mobiscroll-2.6.2/js/mobiscroll.custom-2.6.2.min.js"type="text/javascript"></script>
+ <!--日期控件结束-->
+<script type="text/javascript">
+    $(function () {
+       
+        //初始化日期控件
+        var opt = {
+            preset: 'date', //日期
+            theme: 'jqm', //皮肤样式
+            display: 'modal', //显示方式 
+            mode: 'clickpick', //日期选择模式
+            dateFormat: 'yy-mm-dd', // 日期格式
+            setText: '确定', //确认按钮名称
+            cancelText: '取消', //取消按钮名籍我
+            dateOrder: 'yymmdd', //面板中日期排列格式
+            dayText: '日', monthText: '月', yearText: '年', //面板中年月日文字
+            endYear: new Date().getFullYear() + 5 //结束年份  当前年份+5 
+        };
+        $("[id$='txtBirthday']").mobiscroll(opt);
+ 
+        var constellation = $("#hfConstellation").val();
+        var personalstatus = $("#hfPersonalStatus").val();
+        var sex = $("#hfSex").val();
+
+        if (sex == "1") {
+            $("#radman").attr("checked", true).checkboxradio("refresh");
+            $("#radwoman").attr("checked", false);
+        }
+        if (sex == "0") {
+            $("#radman").attr("checked", false);
+            $("#radwoman").attr("checked", true).checkboxradio("refresh");
+        }
+
+        if ($("#radman").click(function () {
+            $("#radwoman").attr("checked", false);
+        }));
+
+        if ($("#radwoman").click(function () {
+            $("#radman").attr("checked", false);
+        }));
+        if (!constellation) {
+            constellation = 0;
+        }
+
+        if (!personalstatus) {
+            personalstatus = 0;
+        }
+        $("#dropConstellation").selectmenu('enable');
+        $("#dropConstellation").val(constellation);
+        $("#dropPersonalStatus").selectmenu('enable');
+        $("#dropPersonalStatus").val(personalstatus);
+        $('select').selectmenu('refresh', true);
+
+    });
+    </script> 
+<div data-role="content" class="ui-content text_width_100" role="main"  >
+    
+           @if (Model != null)
+           { 
+               <input id="hfConstellation" type="hidden" value="@Model.Constellation"   />
+                            <input id="hfPersonalStatus" type="hidden" value="@Model.PersonalStatus"  />
+                    <input id="hfSex" type="hidden" value="@Model.Sex"  />
+                 <div>
+                        <span title="用户名">用户名： @Model.UserName</span>
+           
+                        <div   class="txterror tipClass" >
+                            &nbsp;
+                        </div>
+               </div>
+            
+               <div data-role="fieldcontain" class="ui-field-contain ui-body ui-br">
+                 
+                       <input type="text"  placeholder = "昵称" value="@Model.NickName"   id="txtNickName" name="txtNickName" class="ui-input-text ui-body-c">  
+                  
+                   <div id="nciknameTip"  class="txterror tipClass" >
+                       &nbsp;
+                   </div>
+               </div>
+	
+               <div data-role="fieldcontain" class="ui-field-contain ui-body ui-br">
+                 
+                       <input id="txtEmail" placeholder = "邮箱" name="txtEmail" type="text" value="@Model.Email"  placeholder = "Email"  class="ui-input-text ui-body-c">  
+                   
+                    <div id="emailTip"  class="txterror tipClass" >
+             &nbsp; 
+        </div>
+               </div>
+               
+               <div data-role="fieldcontain" class="ui-field-contain ui-body ui-br">
+                       <input type="radio" name="radman" value="1" id="radman"  /><label for="radman">男</label>
+                       <input type="radio" name="radman" value="0" id="radwoman"  /><label for="radwoman">女</label>  
+                  
+                     <div id="sexTip"  class="txterror tipClass" >
+                                               &nbsp; 
+                                        </div>
+               </div>
+               
+               <div data-role="fieldcontain" class="ui-field-contain ui-body ui-br">
+                  
+                       <input id="txtPhone" placeholder = "手机号码" name="txtPhone" type="text" value="@Model.Phone"  class="ui-input-text ui-body-c">  
+                 
+                   <div id="phoneTip"  class="txterror tipClass" >
+                &nbsp; 
+            </div>
+               </div>
+               <div data-role="fieldcontain" class="ui-field-contain ui-body ui-br">
+                  
+                       <input id="txtTelPhone" placeholder = "固定电话" name="txtTelPhone" type="text" value="@Model.TelPhone"     class="ui-input-text ui-body-c">  
+                   
+                   <div id="telphoneTip"  class="txterror tipClass" >
+                       &nbsp;
+                   </div>
+               </div>
+               <div data-role="fieldcontain">
+                   <span id="divaddressselect"  >
+                  
+                       <script src="/Scripts/jquery/jquery.guid.js" type="text/javascript"></script>
+                       <input type="hidden" id="hfSelectedNode" value="@(YSWL.Common.Globals.SafeInt(Model.Address, 0))" />
+                       <script src="/Scripts/jquery/maticsoft.selectregion.js" handle="/RegionHandle.aspx" isnull="true" type="text/javascript"></script>
+                   </span>
+               
+                   <div id="addressTip" class="txterror tipClass">
+                       &nbsp;
+                   </div>
+               </div>
+               
+              
+               <div data-role="fieldcontain" class="ui-field-contain ui-body ui-br">
+ 
+                   @if (Model.Birthday.HasValue)
+                   {  
+                       <input id="txtBirthday" placeholder = "生日"  name="txtBirthday"  role="datebox" value="@Model.Birthday.Value.ToString("yyyy-MM-dd")"   class="ui-input-text ui-body-c"/>
+                   }
+                   else
+                   { 
+                       <input id="txtBirthday" placeholder = "生日" name="txtBirthday"   role="datebox"    class="ui-input-text ui-body-c"/>
+                   }  
+                   <div id="birthdayTip"  class="txterror tipClass" >
+                       &nbsp;
+                   </div>
+                  
+               </div>
+ 
+               <div   data-role="fieldcontain"  >
+                  
+                        <select name="dropConstellation" id="dropConstellation" placeholder = "星座" >
+                            <option value="0">请选择</option>
+                            <option value="1">水瓶座</option>
+                            <option value="2">双鱼座</option>
+                            <option value="3">白羊座</option>
+                            <option value="4">金牛座</option>
+                            <option value="5">双子座</option>
+                            <option value="6">巨蟹座</option>
+                            <option value="7">狮子座</option>
+                            <option value="8">处女座</option>
+                            <option value="9">天秤座</option>
+                            <option value="10">天蝎座</option>
+                            <option value="11">射手座</option>
+                            <option value="12">魔羯座</option>
+                        </select>
+                    
+                   <div id="dropconstellTip"  class="txterror tipClass" >
+                       &nbsp;
+                   </div>
+               </div> 
+                                <div    data-role="fieldcontain" >
+                                  
+                                        <select name="dropPersonalStatus" id="dropPersonalStatus" placeholder = "职业"  >
+                                            <option value="0">请选择</option>
+                                            <option value="1">白领</option>
+                                            <option value="2">学生</option>
+                                        </select> 
+                                   
+                                         <div id="droppersonalstatesTip"  class="txterror tipClass" >
+               &nbsp;
+            </div>
+                                </div>
+                                <div  data-role="fieldcontain" class="ui-field-contain ui-body ui-br">
+                                          
+                                   
+                                        <textarea placeholder = "个性签名" id="txtSingature" name="txtSingature"  class="ui-input-text ui-body-c"
+                                                  rows="5" cols="20" style="height:80px;">@Model.Singature</textarea>
+             
+                                
+                                    <div id="remarkTip" class="txterror tipClass">
+                                             
+                                        </div>        
+                                </div>                     
+           
+    <a   data-role="button" href="javascript:;" onclick="submit();"  rel="external" id="submit-btn" data-theme="b" data-corners="true" data-shadow="true" data-iconshadow="true" data-wrapperels="span" class="ui-btn ui-shadow ui-btn-corner-all ui-btn-up-b">
+        <span class="ui-btn-inner"><span class="ui-btn-text">保存信息</span></span>
+    </a>
+
+           }
+ 
+    
+</div>
+
+ 
+

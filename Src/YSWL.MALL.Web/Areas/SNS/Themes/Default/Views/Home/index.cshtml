@@ -1,0 +1,61 @@
+﻿@model  List<YSWL.MALL.Model.SNS.Categories>
+@{
+    //ViewBag.Title = "热卖购-专业社会化分享导购社区，淘宝客网站，SNS社区，云商社会化电商方案";
+    Layout = "~/Areas/SNS/Themes/Default/Views/Shared/_BaseLayOut.cshtml";
+}
+@section head{
+    <script src="/Scripts/jquery/maticsoft.img.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function () {
+            resizeImg('.CategoryDetailPart', 150, 170);
+            $.lazyFixedLoadImg('.AlbumPart', 62, 62);
+            resizeImg('.PhotoPart', 150, 170);
+        });
+    </script>
+    <script src="/Areas/SNS/Themes/Default/Content/Scripts/weibo.js" type="text/javascript"></script>
+}
+<div class="clear">
+</div>
+<!------banner-------->
+<div class="banner">
+    <div class="banner_pic">
+        <div class="banner_pic_tu">
+                @Html.Action("AdDetail", "Partial", new { id = 1, ViewName = "_IndexAd" })
+        </div>
+        @Html.Action("ScrollPost", "Home")
+    </div>
+    <div class="banner_shadow">
+    </div>
+</div>
+<!------banner结束----->
+<!-----main----->
+<div class="main_share">
+    <div class="main_share_bre">
+        <div class="main_share_bre_s">
+        </div>
+        <div class="main_share_bre_l">
+        </div>
+        <div class="main_share_bre_y">
+            <a href="@(ViewBag.BasePath)Collocation">全部搭配</a> | <a href="@(ViewBag.BasePath)ShareGoods">
+                晒货</a> | <a href="@(ViewBag.BasePath)Star/Apply">申请达人</a> | <a href="@(ViewBag.BasePath)ShareGoods">
+                    <img src="/Areas/SNS/Themes/Default/Content/images/style.jpg" /></a><a href="@(ViewBag.BasePath)ShareGoods">搭配精选</a>
+        </div>
+        <div class="clear">
+        </div>
+    </div>
+    @Html.Action("PhotoPart", new { Top = 18, ViewName = "PhotoPart" })
+</div>
+    @Html.Action("MenuCategory", "Home")
+<!-----album------->
+<div class="main_album">
+    @Html.Action("AlbumPart", "Home",new{ Top=8})
+</div>
+<!-----album end----->
+<!------more------>
+<div class="main_more">
+    @Html.Action("MoreProductPart", "Home")
+    <div class="clear">
+    </div>
+</div>
+<!------more end----->
+<!-----main end---->

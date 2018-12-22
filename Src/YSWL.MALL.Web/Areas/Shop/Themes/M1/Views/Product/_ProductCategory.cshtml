@@ -1,0 +1,40 @@
+﻿      @model List<YSWL.MALL.Model.Shop.Products.CategoryInfo>
+            @{
+    string cid = Request.RequestContext.RouteData.Values["cid"] != null ? Request.RequestContext.RouteData.Values["cid"].ToString() : "0";
+    string brandid = Request.RequestContext.RouteData.Values["brandid"] != null ? Request.RequestContext.RouteData.Values["brandid"].ToString() : "0";
+    string attrvalues = Request.RequestContext.RouteData.Values["attrvalues"] != null ? Request.RequestContext.RouteData.Values["attrvalues"].ToString() : "0";
+    string mod = Request.RequestContext.RouteData.Values["mod"] != null ? Request.RequestContext.RouteData.Values["mod"].ToString() : "default";
+    string price = Request.RequestContext.RouteData.Values["price"] != null ? Request.RequestContext.RouteData.Values["price"].ToString() : "";
+
+            }
+<script type="text/javascript">
+    $(function () {
+        var currentcid = '@cid';
+        $(".catelist").each(function() {
+            var cateId = $(this).attr("cateId");
+            if (cateId == currentcid) {
+                $(this).addClass("cur");
+            }
+        });
+    })
+</script>
+      @if (Model != null && Model.Count > 0)
+      {
+          <div class="hd">
+                <h2>
+                    <a href="@(ViewBag.BasePath)product/@ViewBag.Cid/@brandid/@attrvalues/@mod/@price">@ViewBag.CateName</a></h2>
+            </div>
+            <div class="bd">
+                <ul class="submenu">
+                    @foreach (var item in Model)
+                    {
+                        <li><a title="@item.Name" class="catelist"  cateId="@item.CategoryId" href="@(ViewBag.BasePath)product/@item.CategoryId/@brandid/@attrvalues/@mod/@price">
+                                <span>
+                                          @YSWL.Common.StringPlus.SubString(item.Name,12,"...") </span>
+                            </a> </li>
+                    }
+                </ul>
+            </div>
+      }
+       
+

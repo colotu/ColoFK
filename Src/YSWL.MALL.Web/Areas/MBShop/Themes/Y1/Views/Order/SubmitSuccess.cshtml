@@ -1,0 +1,45 @@
+﻿@{
+    Layout = "~/Areas/MBShop/Themes/Y1/Views/Shared/_NoFootLayout.cshtml";
+}
+<!--START HEADER-->
+<header class="m_header">
+    <div class="navbar-fixed-top">
+        <div class="m_header_bar">
+            <div class="m_icon_goback icon" onclick="location.replace(document.referrer);">
+                <span></span>
+            </div>
+            <p class="m_header_title">提交成功</p>
+        </div>
+    </div>
+</header>
+<!-- END HEADER -->
+<div class="mt44 mb50">
+    <div class="wrap" style="display:block">
+        <div class="order_complete_pic"></div>
+        <div class="prompt_text">
+            订单提交成功，请您尽快付款！
+        </div>
+        <div class="empty_warning_text">
+            订单号：@ViewBag.OrderCode
+        </div>
+        <div class="empty_warning_text">
+            应付金额：@(ViewBag.OrderAmount.ToString("F"))元
+        </div>
+        </div>
+</div>
+
+<!--底部悬浮导航-->
+<a href="javascript:;" >
+    <nav class="navbar-fixed-bottom nav_bottom_focus bg_red btn-impay" >
+        <span class="font_white">付款</span>
+    </nav>
+</a>
+<script type="text/javascript">
+    $('.btn-impay').click(function(){
+         window.location.replace("/pay/certification@(ViewBag.OrderId)/@(ViewBag.CurrentArea)");
+        return;
+    });
+   
+</script>
+ 
+

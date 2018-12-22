@@ -1,0 +1,105 @@
+﻿@{
+    Layout = "~/Areas/MShop/Themes/YX/Views/Shared/_SiteLayout.cshtml";
+}
+@model YSWL.MALL.Model.Shop.Shipping.ShippingAddress
+<link href="/Areas/MShop/Themes/YX/Content/css/gb.css" rel="stylesheet" type="text/css"/>
+<link href="/Areas/MShop/Themes/YX/Content/css/order.css" rel="stylesheet" type="text/css"/>
+<script src="/Scripts/jquery/jquery.guid.js" type="text/javascript"></script>
+<div class="top"> <span><a href="@(ViewBag.BasePath)u">&lt;返回</a></span>
+    @Html.Partial("/Areas/MShop/Themes/YX/Views/Partial/_HeadRight.cshtml")  
+</div>
+ @using (Html.BeginForm("SubmitAddressInfo", "Order", FormMethod.Post, new {id = "FormSubmitAddress", area = "MShop"}))
+ {
+      @Html.HiddenFor(m => m.ShippingId)
+      @Html.HiddenFor(m => m.UserId)
+     
+    <section class="section_4">
+        <div class="m_input m_input_5">
+            <label for="name">
+                收货人</label>
+            <div class="input">
+                 @Html.TextBoxFor(m => m.ShipName, new { maxlength = "20", placeholder = "请填写收货人姓名",@class="J_ytag" })
+            </div>
+        </div>
+        <div class="m_input m_input_5">
+            <label for="mobile">
+                手机号码</label>
+            <div class="input">
+                @Html.TextBoxFor(m => m.CelPhone, new { maxlength = "11", placeholder = "请填写手机号码", @class = "J_ytag" })
+            </div>
+        </div>
+        <div class="m_input m_input_5">
+            <label for="mobile">
+                详细地址</label>
+            <div class="input">
+                @Html.TextBoxFor(m => m.Address, new { maxlength = "11", placeholder = "请填写详细地址", @class = "J_ytag" })
+            </div>
+        </div>
+        <div class="m_input m_input_5">
+            <label for="mobile">
+                邮箱</label>
+            <div class="input">
+                @Html.TextBoxFor(m => m.EmailAddress, new { maxlength = "11", placeholder = "请填写邮箱", @class = "J_ytag" })
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="m_input m_input_4">
+            <label for="iv_type_check">
+                选择地区</label>
+            <div class="select">
+                 @Html.HiddenFor(m => m.RegionId, new { id = "hfSelectedNode" })
+                            <script src="/Scripts/jquery/maticsoft.selectregion.js" handle="/RegionHandle.aspx"
+                                isnull="true" type="text/javascript"></script>
+            </div>
+        </div>
+    </section>
+ }
+
+<section class="section_5">
+    <div class="m_input" style="">
+        <a    id="J_submit_address" href="javascript:Save_Consignee(this);" style="width: 100%;" class="btn_order btn_order_1 J_ytag">确定</a>
+        <div class="loading loading-1" style="display: none">
+            <b></b>正在提交信息，请等待！</div>
+    </div>
+</section>
+<script type="text/javascript">
+    function Save_Consignee(sender) {
+        var shipName = $("#ShipName").val();
+        if (shipName == "") {
+            ShowFailTip("请填写收货人");
+            return;
+        }
+        var regionId = parseInt($("#hfSelectedNode").val());
+        if (regionId == 0 || $("#hfSelectedNode").val() == "") {
+            ShowFailTip("请选择所在地区");
+            return;
+        }
+        var address = $("#Address").val();
+        if (address == "") {
+            ShowFailTip("请填写详细地址");
+            return;
+        }
+        var celPhone = $("#CelPhone").val();
+        if (celPhone == "") {
+            ShowFailTip("请填写手机号码");
+            return;
+        }
+        $(sender).hide();
+        $(sender).next().show();
+        var form = $('#FormSubmitAddress');
+        $.post(
+            form.get(0).action,
+            form.serialize(),
+            function (data) {
+                if (data == "True") {
+                    window.location.href = $YSWL.BasePath + "Order/SubmitOrder";
+                } else {
+                    ShowFailTip("服务器繁忙，请稍候再试！");
+                }
+                //window.location.hash = "consigneeFocus";
+                // Edit_Payment(null, true);
+            }
+        );
+    }
+</script>

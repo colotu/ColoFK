@@ -1,0 +1,12 @@
+﻿@model List<YSWL.MALL.Model.Ms.Regions>
+           
+ @if (Model != null && Model.Count > 0)
+    {
+<div class="small">
+    @foreach (var item in Model)
+    {
+        <p>
+            <a href="@(ViewBag.BasePath)Photo/Index/0/0/@item.RegionName/hot">@item.RegionName</a></p>
+    }
+</div>
+}

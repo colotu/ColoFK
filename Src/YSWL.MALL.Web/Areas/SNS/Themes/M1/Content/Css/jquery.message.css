@@ -1,0 +1,15 @@
+#message
+{
+	position: absolute;
+	z-index: 9999;
+    min-width: 240px;
+	height: 40px;
+	text-align: center;
+    background-color: #F69;
+    border-radius: 5px;
+	/*background-image: url('../Images/message_bg.png');*/
+	/*background-repeat: no-repeat;*/
+	color: #FFFFFF;
+	font-size: 20px;
+	line-height: 40px;
+}

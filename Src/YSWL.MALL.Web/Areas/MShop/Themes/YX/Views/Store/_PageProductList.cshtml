@@ -1,0 +1,48 @@
+﻿@using Webdiyer.WebControls.Mvc
+ @model PagedList<YSWL.MALL.Model.Shop.Products.ProductInfo>
+ @if (Model != null)
+ {
+    <div class="list J_searchList" id="ProductListDiv">
+        <div style="overflow: hidden;">
+            @foreach (var item in Model)
+            {
+                <a href="@(ViewBag.BasePath)p/d/@item.ProductId" class="J_datainfo T_ytag" data-type="1" ytag="32001" data-pid="712354">
+                    <div class="img_wrap">
+                        <img src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.ThumbnailUrl1, "T115X115_")" width="80">
+                    </div>
+                    <div class="text_wrap">
+                        <p class="name" >
+                            @item.ProductName</p>
+                        <p class="promo">
+                            @YSWL.Common.StringPlus.SubString(YSWL.Common.InjectionFilter.HtmlFilter(item.Description ?? ""), 16, "...")</p>
+                        <p class="price">
+                            <span class="y_pf">¥ @item.LowestSalePrice.ToString("F")</span>
+                        </p>
+                    </div>
+                </a>
+            }
+        </div>
+        <div>
+            @Ajax.Pager(Model, new PagerOptions
+       {
+           ShowDisabledPagerItems = false,
+           AlwaysShowFirstLastPageNumber = false,
+           PageIndexParameterName = "pageIndex",
+           NumericPagerItemCount = 5,
+           CurrentPagerItemTemplate = "<p class=\"in_s\">{0}</p>",
+           NumericPagerItemTemplate = "<p>{0}</p>",
+           NavigationPagerItemTemplate = "<p>{0}</p>",
+           CssClass = "in_pages",
+            
+       }).AjaxOptions(a => a.SetUpdateTargetId("ProductListDiv"))
+        </div>
+    </div>
+
+ }
+ else
+ {
+    <div class="result_empty" style="">
+            <p class="txt">抱歉，暂时没有符合条件的商品 :-(</p>
+            <a href="@(ViewBag.BasePath)" class="btn_research J_ytag" >回首页</a>
+        </div>
+ }

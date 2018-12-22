@@ -1,0 +1,22 @@
+﻿
+@model List<YSWL.MALL.Model.CMS.Content>
+
+      <ul data-role="listview" data-inset="true" class="ui-listview ui-listview-inset ui-corner-all ui-shadow">
+          
+          <li data-role="list-divider" role="heading" class="ui-li ui-li-divider ui-bar-b ui-first-child">@ViewBag.ContentClassName</li>
+          @if (Model != null && Model.Count > 0)
+  {
+      int count = Model.Count;
+          for(int i=0;i<count;i++ )
+           {
+               <li class="ui-li ui-li-static ui-btn-up-c @if (i == count - 1)
+                                                                                                                        {
+                                                                                                                            @:ui-last-child
+                                                                                                                        } ">
+                       @YSWL.Common.StringPlus.SubString(Model[i].Title, 20, "...")
+                 
+               </li>	
+           }
+
+  } 
+      </ul>

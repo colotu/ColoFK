@@ -1,0 +1,18 @@
+﻿@model List<YSWL.MALL.Model.Shop.Products.ProductInfo>
+
+		    <ul> 
+
+@if (Model != null && Model.Count > 0)
+{
+     foreach (var item in Model)
+    {
+   <li>
+			      <a href="@item.SeoUrl">
+			      		 <img src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.ThumbnailUrl1, "T158X158_")"  /></a>
+	                   <a href="@item.SeoUrl"  >@item.ProductName</a>
+			           <span>¥@item.LowestSalePrice.ToString("F")</span>                 			
+			     </li>
+    }
+}
+</ul>		
+    

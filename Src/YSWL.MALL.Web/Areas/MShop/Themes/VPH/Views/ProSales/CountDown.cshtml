@@ -1,0 +1,28 @@
+﻿@model YSWL.MALL.ViewModel.Shop.ProductListModel
+@{
+    Layout = "/Areas/MShop/Themes/VPH/Views/Shared/_BaseLayout.cshtml";
+    ViewBag.Title = "限时抢购";
+}
+<script type="text/javascript" src="@Url.Content("/Scripts/jquery.unobtrusive-ajax.min.js")"></script>
+<script src="/Scripts/jquery/maticsoft.img.min.js" type="text/javascript"></script>
+<script src="/Areas/MShop/Themes/VPH/Content/Scripts/timeCountDown.js" type="text/javascript"></script>
+ <header id="header" class="header clearfix">
+    <div class="head_left fl">
+        <a href="javascript:;" onclick="history.go(-1)"><span class="h_back"></span></a>
+    </div>
+    <span class="headtit">限时抢购</span>
+    <div class="head_right fr">
+        <a href="@(ViewBag.BasePath)"><span class="h_home"></span></a>
+    </div>
+</header>
+ <div id="w_container" style="overflow: inherit; position: relative;margin-top: 8px;">
+ <div class="gridItem" id="ProductListDiv" style="min-height: 686px;">
+    @{Html.RenderPartial("_CountDownList", Model);}
+    </div>
+    <div class="space15">
+    </div>
+</div>
+<div class="clearfix"></div>
+
+
+

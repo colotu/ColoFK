@@ -1,0 +1,13 @@
+﻿@{
+     Layout = "/Areas/MShop/Themes/F1/Views/Shared/_BaseLayout.cshtml";
+     ViewBag.Title = "个人中心-我的收藏";
+}
+ 
+  <script type="text/javascript" src="/Scripts/jquery.unobtrusive-ajax.min.js"></script> 
+ <div data-role="content"  id="divmyfavorlist" class="ui-content orderlist-layout" role="main">
+	 @Html.Action("FavorList", "UserCenter","MShop") 
+	</div>
+
+   
+   
+ 

@@ -1,0 +1,71 @@
+﻿@using YSWL.MALL.Model.Shop.Products
+@{
+    Layout = "~/Areas/MShop/Themes/YX/Views/Shared/_BaseLayout.cshtml";
+}
+<link href="/Areas/MShop/Themes/YX/Content/css/index.css" type="text/css" rel="stylesheet" />
+<link href="/Areas/MShop/Themes/YX/Content/css/list.css" type="text/css" rel="stylesheet" />
+<div class="y_index">
+    <!--导航-->
+    <header>
+        <dl>
+            <dt class="logo"><img src="@ViewBag.MShopLogo" alt="@ViewBag.MShopName" style="width: 75px;height: 23px;"/></dt>
+            <dd class="slogan">
+                正品低价 闪电送货</dd>
+        </dl>
+    
+    </header>
+    <!--/导航-->
+    <!--轮播-->
+    @Html.Action("AdDetail", "Partial", new { id = 64, ViewName = "_IndexAd" })
+    <!--/轮播-->
+    <!--三个快捷入口-->
+    <div class="mod_easyport">
+        <div  style="width:25%;float: right;"><a href="@(ViewBag.BasePath)p/c" class="J_ytag" > <i class="cateico"></i>商品分类</a> </div>
+        <div style="width:25%;float: right;"><a href="@(ViewBag.BasePath)u " class="J_ytag" ><i class="orderico"></i>个人中心</a></div>
+         <div style="width:25%;float: right;"><a href="@(ViewBag.BasePath)sc/ci" class="J_chong J_ytag" ><i class=" infoico"></i>我的购物车</a></div>
+         <div style="width:25%;float: right;"><a href="@(ViewBag.BasePath)u/Orders" class="J_appDownload" id="showClientId"><i class="cartico"></i>我的订单</a></div>
+    </div>
+
+    <!--/三个快捷入口-->
+    <!--频道入口-->
+    <div class="mod_channelport" style="height: auto;">
+       @Html.Action("ProductList", new { Cid = 47, Top = 1, RecType = ProductRecType.Latest, viewName = "_ProductList" })@*最新商品*@
+       @Html.Action("ProductList", new { Cid = 47, Top = 1, RecType = ProductRecType.Hot, viewName = "_ProductListHot" })@*热卖商品*@
+    </div>
+    <div class="mod_channelport" style="height: auto;">
+        @Html.Action("ProductList", new { Cid = 47, Top = 1, RecType = ProductRecType.Recommend, viewName = "_ProductListRec" })@*推荐商品*@
+        @Html.Action("ProductList", new { Cid = 47, Top = 1, RecType = ProductRecType.Cheap, viewName = "_ProductListChe" })@*特价商品*@
+    </div>
+    <!--/频道入口-->
+    <!--分类引流-->
+    @Html.Action("CategoryList", new { cid = 0, top = 5, viewName = "_CategoryList" })
+
+    <div style="min-height: 46px;" >
+     <a href="@(ViewBag.BasePath)ProSales/CountDown" class="index_prolm" style="margin-left: 3px;">限时抢购</a>
+     <a href="@(ViewBag.BasePath)ProSales/GroupBuy" class="index_prolm" >团购</a>
+    </div>
+
+    <!--/分类引流-->
+    <!--slogan-->
+      <div  style="padding: 12px 0 0 12px;" >
+    <span  style="font-weight: bold;font-size: 1.1428571em;">      
+          精品店铺
+        </span>
+     </div>
+    @Html.Action("RecStore", "Partial", new { top = 6 })
+
+ <div class="mod_slogan">
+     <a href="@(ViewBag.BasePath)Article/Index?type=price"><i class="dot J_ytag" ></i>价格保护</a> 
+     <a href="@(ViewBag.BasePath)Article/Index?type=gui"><i class="dot dot_gui J_ytag"></i>贵就赔</a>
+    </div>
+    <!--/slogan-->
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $(".img_wrap img").click(function () {
+            var href = $(this).attr("href");
+            window.location = href;
+        });
+    });
+</script>

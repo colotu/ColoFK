@@ -1,0 +1,48 @@
+﻿            <input  type="hidden" id="hfcoupon" value="@ViewBag.CouponCode"/>
+  <input type="hidden" id="hidCouponPrice" value="@ViewBag.CouponPrice"/>
+     <div  id="div_coupon_use" style="padding: .7em 15px;display:none;">
+        <span class="coupon_show ui-input-text " style="font-weight: 100;">优惠劵</span>
+        <span class="coupon_show order_coupon_shiyong"><a href="@(ViewBag.BasePath)Order/Coupon" style="color: #7aad33;">使用优惠劵</a> <a>&nbsp;</a></span>
+     </div>  
+     <div id="div_coupon_cancel"  style="padding: .7em 15px;display:none;">
+        <span class="ui-input-text coupon_show" style="font-weight: 100;">已使用@(ViewBag.CouponPrice)元优惠劵</span>
+        <span class="ui-input-text coupon_show order_coupon_shiyong" id="span_cancel" style="color: #7aad33;">取消</span> 
+     </div>
+ 
+     <script type="text/javascript">
+         $(function () {
+             var couponPrice = parseFloat($("#hidCouponPrice").val());
+             var hfcoupon = $("#hfcoupon").val();
+                      
+             //显示哪一个
+             if (couponPrice > 0 && hfcoupon != '') {
+                 $('#div_coupon_cancel').show();
+                 $("#couponPriceId").attr('couponPrice', couponPrice).text("￥" + couponPrice);
+                 GetActivList(couponPrice);
+             } else {
+                 $('#div_coupon_use').show();
+                 $("#couponPriceId").attr('couponPrice', "0.00").text("￥0.00");
+                 GetActivList(0);
+             }
+
+             //取消优惠劵使用
+             $('#span_cancel').click(function () {
+                 cancelCoupon();
+             });
+         });
+
+         //取消优惠劵使用
+         function cancelCoupon() {
+             $.cookie('m_so_code', "", { expires: 1, path: '/' });
+             $('#div_coupon_cancel').hide();
+             $('#div_coupon_use').show();
+             var basePrice = $("#payPriceId").attr("BasePrice");
+             var freightPrice = parseFloat($('#freightPriceId').attr('freightPrice')); //运费
+             $('#hfcoupon').val('');
+             $("#couponPriceId").attr('couponPrice', 0).text("-￥0.00");
+             $("#payPriceId").text("￥" + (parseFloat(basePrice) + freightPrice).toFixed(2));
+             GetActivList(0);
+         }
+     </script>
+
+

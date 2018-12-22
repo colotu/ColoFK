@@ -1,0 +1,167 @@
+﻿ @using YSWL.MALL.Model.Shop.Products
+@using Webdiyer.WebControls.Mvc
+ @model Webdiyer.WebControls.Mvc.PagedList<YSWL.MALL.ViewModel.Shop.FavoProdModel> 
+
+ @if (Model != null)
+ {
+     foreach (var item in Model)
+     {
+         if (item.SaleStatus == (int)ProductSaleStatus.OnSale)
+         {
+            <div class="list_box2">
+                <div class="">
+                    <div class="list_thumb">
+                        <a href="@(ViewBag.BasePath)p/d/@item.ProductId" class="">
+                            <img class="" src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.ThumbnailUrl1, "T115X115_")" alt="">
+                            @switch ((int)item.ruleType)
+                            {
+                                case 0:
+                                    <div class="prod_tip bg_red">
+                                        打折
+                                    </div>
+                                    break;
+                                case 1:
+                                    <div class="prod_tip bg_blue">
+                                        减价
+                                    </div>
+                                    break;
+                                case 2:
+                                    <div class="prod_tip bg_green">
+                                        直降
+                                    </div>
+                                    break;
+                                default:
+                                    break;
+                            }
+                        </a>
+                    </div>
+                    <div class="list_descriptions">
+                        <div class="product_name">@item.ProductName</div>
+                        <span class="price_red">￥@item.LowestSalePrice.ToString("f")</span>
+                    </div>
+                </div>
+                @{
+                    if ( item.SaleStatus == 1 && ViewBag.IsMultiDepot)
+                    {
+                        <div class="cart icon" onclick="dialogShow(@item.ProductId, @item.SupplierId, '@item.ThumbnailUrl1',@item.SupplierId,@item.ProductId)">
+                            <span></span>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="cart icon" onclick="dialogShow(@item.ProductId,@item.SupplierId,'@item.ThumbnailUrl1')">
+                            <span></span>
+                        </div>
+                    }
+                }
+                    <div class="delete_favor icon btnDelete" itemid="@item.FavoriteId" style="display:none">
+                        <span></span>
+                    </div>
+                
+            </div>
+         }
+         else
+         {     
+
+            <div class="list_box2">
+                <div class="">
+                    <div class="list_thumb">
+                        <a href="@(ViewBag.BasePath)p/d/@item.ProductId" class="">
+                            <img class="" src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.ThumbnailUrl1, "T115X115_")" alt="">
+                            @switch ((int)item.ruleType)
+                            {
+                                case 0:
+                                    <div class="prod_tip bg_red">
+                                        打折
+                                    </div>
+                                    break;
+                                case 1:
+                                    <div class="prod_tip bg_blue">
+                                        减价
+                                    </div>
+                                    break;
+                                case 2:
+                                    <div class="prod_tip bg_green">
+                                        直降
+                                    </div>
+                                    break;
+                                default:
+                                    break;
+                            }
+                            <span class="nogoods"></span>
+                        </a>
+                    </div>
+                    <div class="list_descriptions" nogoods_text>
+                        <div class="product_name">@item.ProductName</div>
+                        <span class="price_red">￥@item.LowestSalePrice.ToString("f")</span>
+                    </div>
+                </div>
+
+                @*<div class="cart icon" onclick="dialogShow(@item.ProductId,0,'@item.ThumbnailUrl1');">
+                    <span></span>
+                </div>*@
+                <div class="delete_favor icon btnDelete" itemid="@item.FavoriteId" style="display:none">
+                    <span></span>
+                </div>
+
+            </div>
+
+
+         }
+     }
+     <script type="text/javascript">
+
+         $(".btnDelete").click(function () {
+                 var itemId = $(this).attr("itemid");
+                 $.ajax({
+                     type: "POST",
+                     dataType: "text",
+                     url: $YSWL.BasePath +"u/RemoveFavorItem",
+                     data: { ItemId: itemId },
+                     success: function(data) {
+                         if (data == "Ok") {
+                             editCancel();
+                             $("#divmyfavorlist").load($YSWL.BasePath + "u/FavorList");
+                             
+                         } else {
+                             AlertWarning("服务器繁忙，请稍候再试！");
+                         }
+                     }
+                 });
+         });
+         
+     </script>
+      @Ajax.Pager(Model, new PagerOptions
+ {
+     PageIndexParameterName = "pageIndex",
+     NumericPagerItemCount = 3,
+     NumericPagerItemTemplate = "<p>{0}</p>",
+     NavigationPagerItemTemplate = "<p>{0}</p>",
+     CssClass = "in_pages_m",
+      
+ }).AjaxOptions(a => a.SetUpdateTargetId("divmyfavorlist"))
+ }
+ else
+ {
+    <div class="shp_cart_wrap mt44 mb50">
+        <div class="emptycart wrap" style="display:block">
+            <div class="shp_cart_empty">
+                <div class="order_empty">
+                    <div class="search_empty_pic icon">
+                        <span></span>
+                    </div>
+                    <div class="empty_warning_text">
+                        亲,您未收藏任何商品<br>去<a href="javascript:;" id="a_shop_p" target="_blank">商品频道</a>挑选喜欢的商品
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+    <script type="text/javascript">
+
+        $('#a_shop_p').attr('href', $YSWL.BasePath + 'p');
+
+    </script>
+ } 
+  

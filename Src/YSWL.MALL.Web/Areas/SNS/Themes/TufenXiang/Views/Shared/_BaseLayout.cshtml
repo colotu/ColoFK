@@ -1,0 +1,22 @@
+﻿@using System.Web.Mvc.Html
+@{
+    Layout = "~/Areas/SNS/Themes/TufenXiang/Views/Shared/_SiteLayout.cshtml";
+}
+@section head{
+    @RenderSection("head", false)
+}
+
+
+<div class="header" id="headers">
+@*@Html.Partial("~/Areas/SNS/Themes/TufenXiang/Views/Partial/_Header.cshtml")*@
+@Html.Action("Header", "Partial")
+</div>
+
+
+@Html.Action("Navigation", "Partial", new { navType = YSWL.MALL.Model.SNS.EnumHelper.NavigationType.TufenXiang })@*导航*@
+<div class="main">
+@RenderBody()
+@Html.Action("Footer", "Partial")@*底部*@
+</div>@*页面内容*@
+
+

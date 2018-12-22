@@ -1,0 +1,49 @@
+﻿@model YSWL.MALL.ViewModel.Shop.PayAndShip
+           <a name="payAndShipFocus"  href="@(ViewBag.BasePath)Order/PayAndShipInfo?payId=@Model.CurrentPaymentMode.ModeId&shipId=@Model.CurrentShippingType.ModeId">
+           <div class="userdiv" id="choice_times" data-cartforms="time">
+               <div class="checktit font14"><span class="receive_time"></span>支付及配送方式</div>
+               <div class="in_pay clearfix">
+                   <ul>
+                   @if (Model.CurrentPaymentMode != null)
+                   {
+                       <li>
+                       <div class="payment-selected">
+                           @Model.CurrentPaymentMode.Name <span class="easyPayWarning"></span>
+                       </div>
+                       <input type="hidden" id="PaymentModeId" value="@Model.CurrentPaymentMode.ModeId" />
+                       </li>
+                   }
+                   @if (Model.CurrentShippingType != null)
+                   {
+                       <li>
+                       <div class="way-list">
+                           <div class="way-item">
+                               @Model.CurrentShippingType.Name 
+                           </div>
+                       </div>
+                       <input type="hidden" id="ShippingTypeId" value="@Model.CurrentShippingType.ModeId" />
+                       </li>
+                   }
+                   </ul>
+               </div>
+        @*<div class="in_pay clearfix">
+            <ul>
+                <li mars_sead="checkout_receive_anytime_btn"><span class="radio-box"></span><input name="transport_day" value="1" type="radio" class="hide">送货时间不限</li>
+                <li mars_sead="checkout_receive_weekend_btn"><span class="radio-box"></span><input name="transport_day" value="2" type="radio" class="hide">只双休日/节假日送货(工作日不用送)</li>
+                <li mars_sead="checkout_receive_workday_btn"><span class="radio-box"></span><input name="transport_day" value="3" type="radio" class="hide">只工作日(双休日/节假日不用送)</li>
+            </ul>
+        </div>*@
+           </div></a>
+
+
+
+
+<script type="text/javascript">
+    $(function () {
+       $('#freightPriceId').attr('freightPrice','@(ViewBag.Freight.ToString("F"))').text('￥@(ViewBag.Freight.ToString("F"))');
+                 var totalprice = (parseFloat($('#payPriceId').attr('BasePrice')) + @(ViewBag.Freight)).toFixed(2);
+                 $('#payPriceId').text('￥' + totalprice);
+                 $('#span_payPriceId').text('￥' + totalprice);
+//              GetActivList(parseFloat($("#couponPriceId").attr('couponPrice'))); //优惠券优惠金额
+    });
+</script>

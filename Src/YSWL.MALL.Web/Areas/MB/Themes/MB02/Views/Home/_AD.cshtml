@@ -1,0 +1,11 @@
+﻿@model  YSWL.MALL.Model.Settings.Advertisement
+@if (Model != null)
+{
+    <div class="floor">
+        <div class="ad">
+            <a href="@Model.NavigateUrl" title="@Model.AdvertisementName" >
+                <img src="@Model.FileUrl" alt="@Model.AdvertisementName" />
+            </a>
+        </div>
+    </div>
+}

@@ -1,0 +1,105 @@
+﻿@{
+    Layout = "~/Areas/MShop/Themes/F1/Views/Shared/_BaseLayout.cshtml";
+    ViewBag.Title = "购物车";
+}
+<script type="text/javascript">
+    
+
+    $(function() {
+        $(".redu").die("click").live("click", function() {
+            var count = parseInt($(this).next().text());
+            if (count == 1) {
+                if (confirm("您确定要删除该商品吗？")) {
+                    $(this).parents('.gouwuchelist').find('.btnDelete').click();
+                }
+            } else {
+                $(this).next().text(count - 1);
+                var itemId = $(this).parent().attr("ItemId");
+                $.ajax({
+                    type: "POST",
+                    dataType: "text",
+                    async: false,
+                    url: $YSWL.BasePath + "ShoppingCart/UpdateItemCount?s=" + new Date().format('yyyyMMddhhmmssS'),
+                    data: { ItemId: itemId, Count: count - 1 },
+                    success: function(data) {
+                        if (data != "No") {
+                            window.location = $YSWL.BasePath + "sc/ci";
+                            //$("#cartlist").load($YSWL.BasePath + "ShoppingCart/CartList?s=" + new Date().format('yyyyMMddhhmmssS'));
+                        } else {
+                            ShowFailTip("服务器繁忙，请稍候再试！");
+                        }
+                    }
+                });
+            }
+        });
+
+        $(".add").die("click").live("click", function() {
+            var count = parseInt($(this).prev().text());
+            $(this).prev().text(count + 1);
+            var itemId = $(this).parent().attr("ItemId");
+ var stock = $(this).parent().attr("stock");
+            if (stock <= 0) {
+                ShowFailTip("无货");
+                return;
+            }
+            if (stock < (count + 1)) {
+                ShowFailTip("库存不足！");
+                return;
+            }
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                async: false,
+                url: $YSWL.BasePath + "ShoppingCart/UpdateItemCount?s=" + new Date().format('yyyyMMddhhmmssS'),
+                data: { ItemId: itemId, Count: count + 1 },
+                success: function(data) {
+                    if (data != "No") {
+                        window.location = $YSWL.BasePath + "sc/ci";
+                    } else {
+                        ShowFailTip("服务器繁忙，请稍候再试！");
+                    }
+                }
+            });
+        });
+
+    });
+</script>
+ 
+	<style>		
+		@@media ( max-height: 320px ) {
+			.ui-footer-fixed {
+				position: absolute;
+			}
+		}
+		@@media ( min-height: 320px ) {
+			.ui-header-fixed {
+				position: fixed;
+			}	
+			.ui-footer-fixed {
+				position: fixed;
+			}
+		}
+	</style>
+
+<div data-role="content" id="cart-layout" class="ui-content" role="main">
+    <div id="cartlist">
+ 
+    @Html.Action("CartList", "ShoppingCart")
+</div>		
+
+ 
+			
+
+		
+   
+				
+    @*<div id="sorryx" style="z-index: 10000; text-align:center; position:fixed; top:150px; width:100%; color:#fff; display:none" class="cart-attention">
+        <p id="attention-content" class="cart-attentiontext"></p>
+    </div>*@
+</div>
+ 
+
+
+
+
+

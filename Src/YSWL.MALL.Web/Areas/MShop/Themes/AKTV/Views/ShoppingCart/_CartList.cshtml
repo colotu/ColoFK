@@ -1,0 +1,205 @@
+﻿@model YSWL.MALL.Model.Shop.Products.ShoppingCartInfo
+<script type="text/javascript">
+    $(function () {
+        var selectItem = new Array();
+        $(".SalePrice").each(function () {
+            var sellprice = $(this).attr("toalSellPrice");
+            var adjustedprice = $(this).attr('toalAdjustedPrice');
+            var p = parseFloat(sellprice) - parseFloat(adjustedprice);
+            if (p > 0) {
+                  $(this).text(p.toFixed(2));
+                $(this).parent().show();
+            }
+        });
+        //填充数组
+        $(".btnCheck").each(function () {
+            var itemId = $(this).attr("ItemId");
+            //判断选中数组中是否已存在该项
+            var index = $.inArray(itemId, selectItem);
+            if (index > -1) {
+                selectItem.splice(index, 1);
+            } else {
+                selectItem.push(itemId);
+            }
+        });
+        $("#btnRemoveAll").click(function () {
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                url: $YSWL.BasePath +"ShoppingCart/ClearShopCart",
+                data: {},
+                success: function (data) {
+                    if (data != "No") {
+                        $("#LoadCartList").load($YSWL.BasePath +"ShoppingCart/CartList?s=" + new Date().format('yyyyMMddhhmmssS'));
+                    } else {
+                        ShowFailTip("服务器繁忙，请稍候再试！");
+                    }
+                }
+            });
+        });
+        $("#btnCheckAll").click(function () {
+            if ($(this).attr("checked") == "checked") {
+                $(".btnCheck").each(function () {
+                    $(this).attr("checked", "checked");
+                });
+            } else {
+                $(".btnCheck").each(function () {
+                    $(this).removeAttr("checked");
+                });
+            }
+        });
+        $(".btnCheck").click(function () {
+            var itemId = $(this).attr("ItemId");
+            //判断选中数组中是否已存在该项
+            // jQuery.inArray
+            var index = $.inArray(itemId, selectItem);
+            if (index > -1) {
+                selectItem.splice(index, 1);
+            } else {
+                selectItem.push(itemId);
+            }
+        });
+        $("#btnRemoveSelect").click(function () {
+            alert(selectItem);
+            var itemIds = selectItem.join(",");
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                url: $YSWL.BasePath +"ShoppingCart/RemoveItem",
+                data: { ItemIds: itemIds },
+                success: function (data) {
+                    if (data != "No") {
+                        $("#LoadCartList").load($YSWL.BasePath +"ShoppingCart/CartList?s=" + new Date().format('yyyyMMddhhmmssS'));
+                    } else {
+                        ShowFailTip("服务器繁忙，请稍候再试！");
+                    }
+                }
+            });
+        });
+        $(".btnDelete").click(function () {
+            var itemId = $(this).attr("ItemId");
+            $.ajax({
+                type: "POST",
+                dataType: "text",
+                url: $YSWL.BasePath +"ShoppingCart/RemoveItem",
+                data: { ItemIds: itemId },
+                success: function (data) {
+                    if (data != "No") {
+                        $("#LoadCartList").load($YSWL.BasePath +"ShoppingCart/CartList?s=" + new Date().format('yyyyMMddhhmmssS'));
+                    } else {
+                        ShowFailTip("服务器繁忙，请稍候再试！");
+                    }
+                }
+            });
+        });
+    })
+</script>
+@if (Model != null && Model.Items.Count > 0)
+{
+    <div class="gou_he">
+        <div class="checkbox" style="display: none">
+            <input name="CheckboxGroup1" type="checkbox" id="CheckboxGroup1_0" value="复选框" checked="checked" />
+        </div>
+        <div class="gou_zj">
+            <span>总计：<strong>¥@Model.TotalAdjustedPrice.ToString("F")</strong></span> 
+             商品总额：¥@Model.TotalSellPrice.ToString("F")<br/>
+            总价优惠：¥@((Model.TotalSellPrice - Model.TotalAdjustedPrice).ToString("F"))
+            @*  返现￥0.00*@</div>
+        <div class="gou_js">
+            <a href="@(ViewBag.BasePath)Order/SubmitOrder" id="toSettlement">
+               <img src="/Areas/MShop/Themes/AKTV/Content/images/js.gif"/>
+            </a>
+        </div>
+        <div class="gou_js" style="margin-top: 6px;">
+            <a href="@(ViewBag.BasePath)p" class="link ft15">继续购买 |</a></div>
+    </div>
+    <div class="gou_list" style="padding: 4px;">
+        @foreach (var item in Model.Items)
+        {
+            <ul  @if (item.Stock < item.Quantity || item.SaleStatus != 1)
+                                                                                   { @: class="set_grey"
+                                                                                   } >
+                <div class="checkbox" style="display: none">
+                    <input name="CheckboxGroup1" type="checkbox" id="CheckboxGroup1_0" value="复选框" checked="checked" />
+                </div>
+                <em style="width: 65px;text-align: center;"><a href="@(ViewBag.BasePath)p/d/@item.ProductId" target="_blank">
+                    <img src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(item.ThumbnailsUrl, "T50X65_")" width="50" height="50" /></a>
+		     <span style="font-style: normal;color: red;">
+                 @if (item.SaleStatus != 1)
+                 {
+                        @:失效
+                    }
+                 else { 
+                  if (item.Stock <= 0)
+                  {
+                        @:无货
+                    }
+                  else if (item.Stock < item.Quantity)
+                  {
+                        @:库存不足
+                    }
+               @* else { 
+                    @:有货
+                }*@
+                 }
+               
+               </span>     
+		    
+		    
+		    </em>
+                <div class="goulist_x">
+                    <p class="p-name">
+                        <a href='@(ViewBag.BasePath)p/d/@item.ProductId' target="_blank">@item.Name</a></p>
+                    <p class="p-num">
+                        编号：@item.SKU</p>
+                            @if (item.SkuValues != null && item.SkuValues.Length > 0)
+                            {
+                        <div class="sizeOptions mt10 cf sku-size-div">
+                            <ul class="sku-size-select AttrItems">
+                                @foreach (string val in item.SkuValues)
+                                {
+                                    <li class="SkuItems"><a href="javascript:;">@val</a> </li>
+                                }
+                            </ul>
+                        </div>
+                            }
+                    <p class="p-price">
+                        小计：<span class="red">￥@((item.AdjustedPrice * item.Quantity).ToString("F"))</span></p>
+                    @if (!string.IsNullOrWhiteSpace(item.SaleDes))
+                    {
+                        <p class="p-name">
+                            优惠: @item.SaleDes</p>
+                    }
+                    <p class="p-amount gouwuchelist" ItemId="@item.ItemId" stock="@item.Stock">
+                        数量： 
+                        <a href="javascript:;" class="redu">-</a>
+                        <input type="text" size="4" value="@item.Quantity" name="num"  class="common-input txtQuantity" />
+                        <a href="javascript:;" class="add">+</a> 
+                        <a href="javascript:;" class="  btnDelete"  ItemId="@item.ItemId" style="float: right;">
+                            <img src="/Areas/MShop/Themes/AKTV/Content/images/del.gif"/> 
+                        </a>
+                    </p>
+                </div>
+            </ul>
+        }
+        <div class="gou_js" style="margin-top: 6px; float: left;margin-left: 20px;">
+            <a href="javascript:void()" id="btnRemoveAll" class="link ft15">
+                <img src="/Areas/MShop/Themes/AKTV/Content/images/clearcart.png" style="width: 40px;height: 40px;" title="清空购物车"/>
+          
+            </a></div>
+    </div>
+}
+else
+{
+    <script type="text/javascript">
+        $(function () {
+            $("#body").addClass("gou_bg");
+        })
+    </script>
+    <div class="gou_wu">
+        <a href="@(ViewBag.BasePath)p?pageSize=16">
+            <img src="/Areas/MShop/Themes/AKTV/Content/images/cart.png" /><br/>
+        </a>
+       <span style=" text-align: center;padding: 20px;color: #bbb;font-size: 16px;font-weight: bold;">购物车空的，赶快去逛逛吧！</span>
+    </div>
+}

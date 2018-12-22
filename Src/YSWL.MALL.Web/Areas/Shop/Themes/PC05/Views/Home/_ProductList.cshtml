@@ -1,0 +1,32 @@
+﻿  @model List<YSWL.MALL.Model.Shop.Products.ProductInfo> 
+            
+  <div class="rig-list">
+		                      <ul class="e-cms" e_cms="goods"  e_cdata="mygGoods" style="width: 1034px; height: 330px;">
+                             @if (Model != null && Model.Count > 0)
+              {                
+                      for (int i = 0; i < Model.Count; i++)
+                      {
+                          <li  @if((i+1)%4==0){   
+                                   @: class="proLast"  
+                                   }   
+                                    > 
+									        		<a target="_blank" href="@Model[i].SeoUrl" title="@Model[i].ProductName" class="mod">
+									        			<img    src="@YSWL.MALL.Web.Components.FileHelper.GeThumbImage(Model[i].ThumbnailUrl1, "T350X350_")">
+									        		</a>							        			
+									        		 <div class="mod-wrap">
+					                                       <p class="mod-des">
+						                                      <a target="_blank" href="@Model[i].SeoUrl">
+						                                       	@Model[i].ProductName
+						                                      </a>
+					                                      </p>
+					                                      <p class="mod-abs" title="@Model[i].ProductName"><a href="@Model[i].SeoUrl"></a> </p>
+					                                      <p class="mod-bd">
+					                                          <span class="mod-price">¥<strong><i>@Model[i].LowestSalePrice.ToString("F")</i></strong></span></p></div>
+                                                      </li> 
+
+									   
+                      }
+              }
+									        	
+                                               </ul>
+                          </div>

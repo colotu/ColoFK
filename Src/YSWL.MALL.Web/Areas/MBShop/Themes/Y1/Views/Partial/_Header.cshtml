@@ -1,0 +1,34 @@
+﻿<header>
+    @*<div class="container navbar-fixed-top bg_blue">*@
+    <div class="container navbar-fixed-top topbar_bg home_topnav">
+        <div class="row">
+            <div class="top_bar_logo col-xs-2 col-sm-2" >
+                <a class="" href="javascript:;">
+                @if (String.IsNullOrWhiteSpace(ViewBag.MShopLogo))
+                {
+                    @:<img src="/Areas/MBShop/Themes/Y1/Content/images/logo.png" alt="" >
+                }
+                else
+                {
+                    @:<img src="@ViewBag.MShopLogo" alt="" >
+                }
+                    </a>
+            </div>
+            <div id="top_bar_search" class=" col-xs-10 col-sm-10" >
+                <form class="top_navbar_search">
+                    <div class="form-group" onclick='location.href = $YSWL.BasePath + "search/SearchPage";'>
+                        <input type="text" class="form-control top_search" id="exampleInputEmail1"  disabled="disabled" placeholder="搜索商品">
+                        <div class="search icon">
+                            <span></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            @*<div id="" class="top_bar_sys icon col-xs-2 col-sm-2">
+                <a class="" href="#" data-target="#" data-toggle="" onclick="">
+                    <span class="top_sys_icon"></span>
+                </a>
+            </div>*@
+        </div>
+    </div>
+</header>

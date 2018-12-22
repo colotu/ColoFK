@@ -1,0 +1,13 @@
+﻿@model List<YSWL.MALL.Model.Shop.Products.HotKeyword>
+ @if (Model != null && Model.Count > 0)
+ {
+    <div class="search-hotwords">
+        <span class="txt">热门搜索：</span>
+        @foreach (var item in Model)
+        {
+            <a href="@(ViewBag.BasePath)search/@item.CategoryId/0/default/0-0/@item.Keywords" target="_blank" class="hotword">@item.Keywords</a>
+        }
+    </div>    
+ }
+   
+                  

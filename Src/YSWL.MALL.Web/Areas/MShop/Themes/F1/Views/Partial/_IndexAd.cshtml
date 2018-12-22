@@ -1,0 +1,48 @@
+﻿@model List<YSWL.MALL.Model.Settings.Advertisement>
+@if (Model != null)
+{
+  <div class="m-center" >
+         <!--图片轮换开始-->
+   <div class="sitead">
+        <div id="sitead_index" class="detail" style="overflow: hidden;">
+            @if (Model != null)
+            {
+                for (int i = 0; i < Model.Count;i++ )
+                {   
+                    <a style="width: 100%; height: 100%; float: left;"  href="@Model[i].NavigateUrl" rel="external" target="_blank" >
+                    <img   class="foodimage" src="@Model[i].FileUrl" alt="@Model[i].AdvertisementName"/>
+                    </a> 
+                }
+            }
+        </div>
+        <div id="sitead_indexdots" class="dots" style="height: 25px;display:none;">
+        </div>
+        <script type="text/javascript"  src="/Areas/MShop/Themes/F1/Content/Scripts/jq.mobi.js"></script>
+        <script type="text/javascript"  src="/Areas/MShop/Themes/F1/Content/Scripts/jq.web.js"></script>
+        <script type="text/javascript">
+            var sitead;
+            function sitead_carouselindex() {
+                sitead = $$("#sitead_index").carousel({
+                    pagingDiv: "sitead_indexdots",
+                    pagingCssName: "sitead_paging",
+                    pagingCssNameSelected: "sitead_paging_selected",
+                    preventDefaults: false
+                });
+            }
+            if ($('#sitead_index').children('a').length > 0) {//判断一下 有广告内容时 才执行
+                window.setTimeout(function () {
+                    sitead_carouselindex();
+                }, 200);
+            }
+        </script>
+    </div> 
+        <!--图片轮换结束--->
+        
+
+
+        @*<a href="@Model.NavigateUrl"  target="_blank"  rel="external">
+            <img class="logo" alt="" src="@Model.FileUrl" alt="@Model.AdvertisementName">
+        </a>	*@
+    </div>
+}
+	

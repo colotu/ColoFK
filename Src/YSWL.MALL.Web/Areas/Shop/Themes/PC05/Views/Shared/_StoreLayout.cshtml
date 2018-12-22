@@ -1,0 +1,22 @@
+﻿@{
+    Layout = "~/Areas/Shop/Themes/PC05/Views/Shared/_SiteLayout.cshtml";
+@*店铺模版*@
+}
+@section head{
+ <link rel="stylesheet" href="/Areas/Shop/Themes/PC05/Content/css/storestyle.css" type="text/css" />
+    @RenderSection("head", false)
+}
+<div class="top-bg" >
+  @Html.Action("Header", "Partial", new { area = "Shop" }) 
+  @Html.Action("Search", "Partial", new { area = "Shop" })
+   <div class="top-nav clearfix" id="div_top_nav">
+                @Html.Action("Navigation", "Partial", new { area = "Shop", Theme ="PC05"}) 
+  </div>
+</div>
+		<div class="clear"></div>
+        @Html.Action("Header", "Store", new { area = "Shop" })
+@RenderBody()
+@Html.Action("Footer", "Partial", new { area = "Shop" })
+@section foot{
+    @RenderSection("foot", false)
+}

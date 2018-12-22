@@ -1,0 +1,29 @@
+﻿@{
+    Layout = "~/Areas/BShop/Themes/PB02/Views/Shared/_SiteLayout.cshtml";
+@*商家申请环节模版*@
+}
+@section head{
+    <link href="/Areas/BShop/Themes/PB02/Content/Css/shopc2.css" rel="stylesheet" type="text/css" />
+    @RenderSection("head", false)
+}
+@Html.Action("Header", "Partial", new { area = "BShop" })
+<header>
+    <div class="wrap">
+        <div class="headerLayout clearfix">
+            <!-- logo -->
+            <div class="headerLogo">
+                <span class="headerLogo-bg">
+                    <!-- logo -->
+                    @Html.Action("Header", "Partial", new { area = "BShop", ViewName = "_HeaderLogo" })
+                </span>
+            </div>
+            @RenderSection("step", false)
+        </div>
+    </div>
+</header>
+@RenderBody()
+@Html.Action("Footer", "Partial", new { area = "BShop" })
+@Html.Action("SelectRegion", "Partial", new { area = "BShop" })
+@section foot{
+    @RenderSection("foot", false)
+}

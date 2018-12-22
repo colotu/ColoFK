@@ -1,0 +1,45 @@
+﻿@{
+    Layout = null;
+}
+@using YSWL.Common;
+@using Webdiyer.WebControls.Mvc
+@model PagedList<YSWL.MALL.Model.Members.SiteMessage>
+@if (null != Model)
+{
+    foreach (var item in Model)
+    {
+    <div class="letters_bs">
+        <div class="letters_bs_a">
+            <a href="@(ViewBag.BasePath)User/Posts/@item.ReceiverID">
+                <img src="/@(YSWL.Components.MvcApplication.UploadFolder)/User/Gravatar/@(@item.ReceiverID).jpg" width="48px" height="48px" /></a></div>
+        <div class="letters_bs_b">
+            <p class="letters_bs_b1">
+                <span style=" font-size:12px; font-weight:normal">发给</span>&nbsp;<a href="@(ViewBag.BasePath)User/Posts/@item.ReceiverID">@item.ReceiverUserName</a></p>
+            <p class="letters_bs_b2">
+                @(string.IsNullOrEmpty(item.Title)?"":item.Title+":") @item.Content<a href="javascript:;"></a></p>
+            <div class="letters_bs_b3">
+                <p class="letters_bs_b31">
+                  @(item.SendTime.HasValue?item.SendTime.Value.ToString("yyyy-MM-dd HH:mm:ss"):"")</p>
+        @*        <p class="letters_bs_b32">
+                    <a href="javascript:;">回复</a></p>*@
+                <div class="clear">
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+}
+<!-- FansList BEGIN -->
+   <div class="pages" style="background-image: none;">
+    <!--jQuery Ajax Paging Start-->
+    @Ajax.Pager(Model, new PagerOptions()
+{
+    CssClass = "in_pages",
+    PageIndexParameterName = "page",
+    NumericPagerItemCount = 5,
+    CurrentPagerItemTemplate = "<p class=\"in_s\">{0}</p>",
+    NumericPagerItemTemplate = "<p>{0}</p>",
+    NavigationPagerItemTemplate = "<p>{0}</p>",
+}.AjaxOptions(a => a.SetUpdateTargetId("OutBoxList"))
+    <!--jQuery Ajax Paging End-->
+ </div>

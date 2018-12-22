@@ -1,0 +1,61 @@
+﻿@{
+    //ViewBag.Title = "热卖购-专业社会化分享导购社区，淘宝客网站，SNS社区，云商社会化电商方案";
+    Layout = "~/Areas/SNS/Themes/TufenXiang/Views/Shared/_BaseLayOut.cshtml";
+}
+@section head{
+    <script src="/Scripts/jquery/maticsoft.img.min.js" type="text/javascript"></script>
+    <script src="/Areas/SNS/Themes/TufenXiang/Content/Scripts/FellowAlbum.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(function () {
+            $.lazyFixedLoadImg('.AlbumPart', 62, 62);
+            resizeImg('.PhotoPart', 220, 340);
+        });
+    </script>
+    <script src="/Areas/SNS/Themes/TufenXiang/Content/Scripts/weibo.js" type="text/javascript"></script>
+}
+<div class="banner">
+     @Html.Action("AdDetail", "Partial", new { id = 17, ViewName = "_IndexAd" })  
+</div>
+<div class="main_920">
+    <div class="main_920_a">
+        <div class="pic">
+            <img src="/Areas/SNS/Themes/TufenXiang/Content/images/main1.jpg" /></div>
+        <div class="wen">
+            <a href="@(ViewBag.BasePath)Profile/Posts">秀秀你的图片<br />
+                <span>批量上传你的图片</span></a></div>
+    </div>
+    <div class="main_920_a">
+        <div class="pic">
+            <img src="/Areas/SNS/Themes/TufenXiang/Content/images/main2.jpg" /></div>
+        <div class="wen">
+            <a href="@(ViewBag.BasePath)Profile/Posts">与好友一起品头论足<br />
+                <span>关注好友最新动态</span></a></div>
+    </div>
+</div>
+<div class="main_sort">
+    <ul>
+        <li>
+            <h2>
+                国内</h2>
+            @Html.Action("Province", "Partial")
+        </li>
+        <li>
+            <h2>
+                城市</h2>
+            @Html.Action("HotCity", "Partial")
+        </li>
+    </ul>
+    <div class="clear">
+    </div>
+</div>
+<div class="main_top">
+    @Html.Action("PhotoPart", new { Top = 12 })
+    <div class="clear">
+    </div>
+</div>
+<div class="main_con">
+    @Html.Action("AlbumPart")
+    <div class="clear">
+    </div>
+</div>
+  @Html.Action("FLink", "Partial", new { FLinkTop = 10 })

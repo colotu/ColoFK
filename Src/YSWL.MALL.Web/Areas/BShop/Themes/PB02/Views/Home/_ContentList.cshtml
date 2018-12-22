@@ -1,0 +1,41 @@
+﻿@model List<YSWL.MALL.Model.CMS.Content>
+<div class="title">
+    @ViewBag.contentclassName
+    <a href="@(ViewBag.BasePath)Article/List?cid=21" class="more">更多<em class="character">&gt;&gt;</em></a>
+</div>    
+<div class="data-content">
+    @if (Model != null && Model.Count > 0)
+    {
+        <div class="swiper-wrapper">
+            @for (int i = 0; i < Math.Ceiling(Model.Count * 1.0 / 3) ; i++)
+            {
+                <div class="swiper-slide">
+                    <div class="roll-data">
+                        @for (int j = i * 3; j <( j + 3 > Model.Count? Model.Count: (j + 3)); j++)
+                        {
+                            <a href="@(ViewBag.BasePath)Article/Details/@Model[j].ContentID?vName=ArtiDetail" class="roll-line">
+                                <div class="text news">
+                                    [@Model[j].ClassName] @Model[j].Title
+                                </div>
+                            </a>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+        <script>
+        var contentListSwiper = new Swiper('#contentList .data-content', {
+            autoplay: 3000,//可选选项，自动滑动
+            loop: true,//可选选项，开启循环
+            mode: 'vertical'
+        })
+        </script>
+    }
+    else
+    {
+        <div class="roll-data home_right_list_empty">
+             暂无数据
+        </div>
+            }
+        </div>
+

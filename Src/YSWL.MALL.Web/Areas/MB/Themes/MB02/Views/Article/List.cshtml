@@ -1,0 +1,104 @@
+﻿@{
+    Layout = "/Areas/MB/Themes/MB02/Views/Shared/_BaseLayout.cshtml";
+}
+@section head{
+    <link href="/Areas/MB/Themes/MB02/Content/Css/main.css?v=1.2" rel="stylesheet" />
+}
+@using Webdiyer.WebControls.Mvc
+@model  PagedList<YSWL.MALL.Model.CMS.Content>
+<input type="hidden" id="hidCid" value="" />
+<!--START MAIN-WRAPPER-->
+<div class="main_wrapper">
+    <div class="news_wrap">
+        <header>
+            <div class="top_navbar fixed_header">
+                <a class="si icon_goback" href="@(ViewBag.BasePath)">
+                </a>
+                <p class="header_title" id="h-page-title"></p>
+                <div class="si icon_search topbar_mess" id="search_btn"></div>
+            </div>
+            <div class="top_navbar fixed_header searchNews">
+                <div class="top_search search_pr">
+                    <div  class="searchInput">
+                        <i class="si icon_search"></i>
+                        <input type="text" placeholder="请输入您要搜索的文章" class="search_ipt f14" id="txtKeyWord">
+                    </div>
+                </div> 
+                <a href="javascript:;" class="topbar_word" id="cancelBtn">取消</a>
+            </div>
+        </header>
+
+        <!-- start tab切换 -->
+        <div class="tab-nav" id="tab_a">
+            <!-- start 表单切换按钮 -->
+            @Html.Action("ClassList", "Article", new { Top=4, pId = ViewBag.PCid, viewName = "_ClassList" })
+            <!-- end 表单切换按钮 -->
+            <!-- start tab切换主体 -->
+            <div id="articleMainList">
+                @{Html.RenderPartial("_List", Model);}
+            </div>        
+            <!-- end tab切换主体 -->
+        </div>
+        <!-- end tab切换 -->
+    </div>
+    <!--加载提示信息--->
+    @Html.Partial("/Areas/MB/Themes/MB02/Views/Partial/_LoadTip.cshtml")
+</div>
+<script type="text/javascript">
+    $('#body').addClass('m_home');
+    $('#classList a[cid=' + $.getUrlParam('cid') + ']').addClass('sort_a');
+    $('#hidCid').val($.getUrlParam('cid'));
+
+    $("#search_btn").click(function () {
+        $(".searchNews").addClass("open");
+    });
+    $("#cancelBtn").click(function () {
+        $(".searchNews").removeClass("open");
+        $("#noMoreProduct").hide();
+        $('#txtKeyWord').val('');
+        $('#articleMainList').load(getUrl());
+    });
+
+  //默认光标定位到搜索框
+  window.onload = function () {
+      if (document.readyState == "complete") {
+          document.getElementById("txtKeyWord").focus();
+      }
+  }
+
+  var getUrl = function () {
+      var url = $YSWL.BasePath + "Article/List?cid=" + $('#classList a.sort_a').attr('cid') + '&ajaxVName=_List';
+      var ky = '';
+      if ($('#txtKeyWord').val()) {
+          ky = '&ky=' + $('#txtKeyWord').val();
+      }
+      url += ky;
+      return url;
+  }
+    //点击栏目
+  $('#classList a').click(function () {
+      $('#classList a').removeClass('sort_a');
+      $(this).addClass('sort_a');
+      $("#noMoreProduct").hide();
+      $('#articleMainList').load(getUrl());
+  });
+
+  //手机键盘确认键
+  $("#txtKeyWord").keydown(function (event) {
+      if (event.keyCode === 13) {
+          event.stopPropagation();//阻止事件冒泡
+          var keyword = $("#txtKeyWord").val();
+          if (keyword === "") {
+              ShowFailTip('请输入关键字！');
+              return false;
+          }
+          $("#noMoreProduct").hide();
+          $('#articleMainList').load(getUrl());
+          return false;
+      }
+  });
+    
+</script>
+@section foot{
+    <script src="/Scripts/jquery/pullUp.js"></script>
+}

@@ -1,0 +1,36 @@
+﻿  @{
+    Layout = "~/Areas/Shop/Themes/PC05/Views/Shared/_BaseLayout.cshtml";
+}
+@section head{
+<link rel="stylesheet" type="text/css" href="/Areas/Shop/Themes/PC05/Content/Css/msg,btn,form,login.css" /> 
+    <style type="text/css">
+    .xxts {
+width: 650px;
+font-size: 14px;
+color: #333;
+}
+</style>
+}
+
+<script type="text/javascript">
+    $(function () {
+        var msgvalue = $('#hidmsg').val();
+        if (msgvalue == "Success") {
+            $('#hyanzheng').css({ 'color': 'rgb(104, 223, 66)' }).text('恭喜，' + $('#hidemail').val() + '邮箱已通过验证');
+        } else {
+            $('#hyanzheng').text(msgvalue);
+        }
+    });
+
+</script>
+<input type="hidden" value="@ViewBag.Msg" id="hidmsg" />
+<input type="hidden" value="@ViewBag.email" id="hidemail"/>
+
+<div class="log-cent clearfix"> 
+        <div class="box box-pwd">
+            <div class="hd" style="height:100px;margin-top:50px;">
+                <h2 style=" text-align: center;font-size:large;  color:Red;font-family: '微软雅黑';" id="hyanzheng">
+                   </h2>
+            </div>
+        </div>
+    </div>

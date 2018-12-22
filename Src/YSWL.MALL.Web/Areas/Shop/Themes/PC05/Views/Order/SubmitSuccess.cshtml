@@ -1,0 +1,61 @@
+﻿@{
+    Layout = "~/Areas/Shop/Themes/PC05/Views/Shared/_ShoppingLayout.cshtml";
+}
+@section step{
+   <div class="lc1 lc3"></div>
+}
+@section head{
+  <link href="/Areas/Shop/Themes/PC05/Content/Css/goods.css" rel="stylesheet"/>
+   }
+<div class="os">订单提交成功，请您尽快付款！</div>
+    
+    <table class="otab">
+    	<tbody><tr class="tr1">
+        	<td width="149">订单号</td>
+            <td width="149">应付金额</td>
+        </tr>
+        <tr>
+        	<td>@ViewBag.OrderCode</td>
+            <td><b style="color:red">@(ViewBag.OrderAmount.ToString("F"))</b>元</td>
+        </tr>
+    </tbody></table>
+
+@if (ViewBag.PaymentGateway == "alipaybank") { 
+
+    <div style=" width: 810px;margin: 30px auto 0px;">
+        @Html.Action("BankList", "Order")
+    </div>
+    <div class="o-ok" style="margin: 20px auto;">
+        <a target="_blank" href="@(ViewBag.BasePath)UserCenter/OrderInfo/@(ViewBag.OrderId)">查看详情</a><a href="@(ViewBag.BasePath)Product">继续购物</a>
+       </div>
+         }
+        else
+        {
+        <div class="o-ok">
+            <a class="oka btn-impay" style="cursor: pointer;"></a>
+            <a target="_blank" href="@(ViewBag.BasePath)UserCenter/OrderInfo/@(ViewBag.OrderId)">查看详情</a><a href="@(ViewBag.BasePath)Product">继续购物</a>
+        </div>
+        }
+
+
+
+
+
+
+
+
+        <script type="text/javascript">
+            $('.btn-impay').unbind('click').bind('click', function () {
+                window.location.replace('/pay/certification@(ViewBag.OrderId)/@(ViewBag.CurrentArea)');
+                return;
+            });
+            $("#ebankPaymentListDiv .pl-item").unbind('click').bind('click', function () {
+                var bankCode = $(this).attr("code"); //用户选择的银行编码
+                var url = '/pay/certification@(ViewBag.OrderId)/@(ViewBag.CurrentArea)';
+                if (bankCode) {
+                    url = url + '?BankCode=' + bankCode;
+                }
+                window.location.replace(url);
+                return;
+            });
+        </script>

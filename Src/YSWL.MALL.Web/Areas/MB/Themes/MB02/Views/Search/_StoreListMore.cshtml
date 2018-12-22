@@ -1,0 +1,24 @@
+﻿@using Webdiyer.WebControls.Mvc
+@model  List<YSWL.MALL.Model.Shop.Supplier.SupplierInfo>
+@if (Model != null && Model.Count > 0)
+{
+        foreach (var item in Model)
+                {
+            <li>
+                <div class="list_item">
+                    <div class="shop_info">
+                        <a href="@(ViewBag.BasePath)store/@item.SupplierId">
+                            <div class="shop_name"><span class="word_shop">铺</span>@item.ShopName</div>
+                            <div class="shop_txt">收藏数：<span class="c_3">@item.FavoritesCount</span></div>
+                            <div class="pro-quantity">销量<span class="quantity-num">@(item.SalesCount)</span>件&nbsp;|&nbsp;共<span class="quantity-num">@item.ProductCount</span>件商品</div>
+                            <div class="shop_txt"><span class="interval">经营年限：@(item.EstablishedDate.HasValue ? (DateTime.Now.Year - item.EstablishedDate.Value.Year) + "年" : "")</span><span>@item.Address</span></div>
+                        </a>
+                    </div>
+                    <div class="shoppro_list" suppId="@(item.SupplierId)">
+                        @Html.Action("RecProd", "Store", new { suppid = item.SupplierId, top = 3, viewName = "_SeachStoreRecProd" })
+                    </div>
+                    <a href="@(ViewBag.BasePath)store/@item.SupplierId"><span class="gointo_btn btn_default">进店</span></a>
+                </div>
+            </li>
+        }
+}
